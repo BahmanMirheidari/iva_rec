@@ -1,0 +1,3 @@
+2020-06-12 20:43:30 info: https server (143.167.1.32) is running on port: 8082
+2020-06-12 21:04:08 info: received ip: ::ffff:172.16.240.42 - msg: token
+2020-06-12 21:04:08 info: token: user-2-2020-6-12-21-4-8-f2b0dc87-00b3-4828-81c1-c6cb12e9779d----

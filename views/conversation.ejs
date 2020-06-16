@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>IVA</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src="js/sdk.js"></script> 
+  <style>
+    .disabledButton { color: silver; }
+  </style>
+ 
+</head>
+<body>   
+
+   <script>
+    var userID = "<%= user.userID %>";
+    var socket_uri = "<%= socket_uri %>"; 
+   </script>
+
+   <script type='text/javascript' src="js/main_video.js"></script>  
+   <script src="js/jquery-1.11.0.min.js"></script> 
+   <script type="text/javascript" src="js/getUserMedia.js"></script>
+
+   
+<div id="stopRecordingModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirm stop recording</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to stop recording?</p>
+                <p class="text-warning"><small>If you press 'Stop recording', all the recording will be lost.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="stopRecordingButton" name="stopRecordingButton">Stop recording</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+
+<div class="container col-xs-6 pull-right" id="divContainer">  
+
+  <div id="divWebcam" class="container col-xs-3 pull-right"> 
+    <video id="video" muted="true" class="img-responsive">
+    </video> 
+    <canvas id="mycanvas" class="img-responsive"></canvas>
+    <div id="mylog"></div> 
+  </div>
+
+  <h2>
+    <div class="alert alert-info" id="divAlert">
+    Press "Start" button to start recording 
+    </div>
+    
+  </h2>
+     
+  <h3>
+    <div id="divQuestionNo" class="alert alert-info hidden"> 
+    </div>
+  </h3> 
+  <div id="divShowCookieTheftImage" class="hidden"> 
+    <img src="Images/cookietheft.gif" alt="Cookie Theft" class="col-xs-12 img-responsive">
+  </div> 
+  <button type="button" class="btn-lg btn-primary" id="startAvatarButton" name="startAvatarButton">Start</button> 
+  <button type="button" class="btn-lg btn-primary hidden" id="stopButton" name="stopButton">Stop recording</button>
+  <button type="button" class="btn-lg btn-primary hidden" id="repeatMessageButton" name="repeatMessageButton">Repeat</button>
+  <button type="button" class="btn-lg btn-primary hidden" id="nextMessageButton" name="nextMessageButton">Next</button>
+  
+  <h1 style="font-size: 400%;">
+    <div id="divStopWatch" class="alert alert-warning hidden"> 
+    </div> 
+  </h1>   
+  <h1 style="font-size: 400%;"> 
+    <div id="divOptions" class="alert alert-info hidden"> 
+      <ul style="list-style-type: none;"> 
+        <li>A)much better</li>
+        <li>B)slightly better</li>
+        <li>C)the same</li>
+        <li>D)slightly worse</li>
+        <li>E)much worse</li> 
+      </ul>
+    </div>
+  </h1>   
+  
+</div>
+
+<div class="container col-xs-6 pull-right hidden" id="divEnding">  
+  <h3>
+    <div class="alert alert-success" id="divEndingMessage"> 
+    </div>
+  </h3> 
+</div>
+<div id="webcam" >
+      </div>
+      
+<div id="divVideo" class="container col-xs-6 hidden pull-left">
+      <video id="videoMp4" class="img-responsive">
+       <source src="mp4/q_0.mp4" type="video/mp4" />
+       HTML5 Video is required for this example. 
+    </video> 
+</div>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+<% include partials/header.ejs %>
+    <div class="table-wrapper">
+        <% if (user === undefined) { %>
+                <div class="text-center"><a class="btn btn-primary btn-lg" href="/login">log in</a></div>
+        <% } else if (role === undefined) { %>
+        	<h3>Hello, <%= user.displayName %>.</h3>  
+        <% } else if (role === "clinician") { %>
+        		<h3>Hello, <%= user.displayName %>.</h3> 
+                <h4><a href="/participant">Participants</a></h4>
+        <% } else  if (role === "admin"){ %>
+                <h3>Hello, <%= user.displayName %>.</h3>
+                <h4><a href="/clinician">Clinicians</a></h4>
+                <h4><a href="/participant">Participants</a></h4>
+        <% } %> 
+    </div>
+<% include partials/footer.ejs %>

@@ -1,0 +1,7 @@
+<% include partials/header.ejs %>
+    <% if (message != '') { %>
+        <p class="text-center text-danger"><%= message %></p>
+    <% } else {%>
+    	<p class="text-center text-danger">Sorry, there was an error!</p>
+    <% }%>
+<% include partials/footer.ejs %>

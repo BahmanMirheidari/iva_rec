@@ -1,0 +1,42 @@
+<% include partials/header.ejs %>
+<% include partials/header-clinician.ejs %>
+<div class="container">
+    <% if (message) { %>
+        <p class="text-center text-danger"><%= message %></p>
+    <% } %>
+
+    <% if (clinician) { %>
+        <form class="add-form" action="" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="first-name">First Name</label>
+                    <input type="text" class="form-control" name="first_name" id="first-name" value="<%= clinician.first_name %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" id="last-name" value="<%= clinician.last_name %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Email" value="<%= clinician.email %>" required>
+                </div>  
+                <div class="form-group col-md-4">
+                    <label for="admin">Admin</label>
+                    <% if (clinician.admin) { %>
+                        <input type="checkbox" class="form-control" name="admin" id="admin" checked>
+                    <% } else { %>
+                        <input type="checkbox" class="form-control" name="admin" id="admin">
+                    <% } %> 
+                </div>
+            </div>
+
+            <div class="form-row float-right">
+                <a href="#" onclick="history.go(-1)" class="btn btn-warning">Cancel</a>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-success">Update clinician</button>  
+            </div>
+        </form>
+    <% } else { %>
+        <p class="text-center">clinician Not Found. Go <a href="/addclinician">here</a> to add clinicians.</p>
+    <% } %>
+</div>
+<% include partials/footer.ejs %>

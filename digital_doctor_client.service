@@ -1,0 +1,14 @@
+[Unit]
+Description=digital-doctor serivice
+Documentation=https://digital-doctor.shef.ac.uk:8082
+After=network.target
+
+[Service]
+Environment=NODE_PORT=8082
+Type=simple
+User=sa_ac1bm
+ExecStart=/usr/bin/node /home/sa_ac1bm/iva_rec/app_client.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

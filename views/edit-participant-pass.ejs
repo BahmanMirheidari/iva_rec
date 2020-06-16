@@ -1,0 +1,38 @@
+<% include partials/header.ejs %>
+<% include partials/header-participant.ejs %>
+
+<div class="container">
+    <% if (message) { %>
+        <p class="text-center text-danger"><%= message %></p>
+    <% } %>
+
+    <% if (participant) { %>
+        <form class="add-form" action="" method="post" enctype="multipart/form-data">
+            <div class="form-row"> 
+                <div class="form-group col-md-4">
+                    <label for="user_name">Username</label>
+                    <input type="text" class="form-control" name="user_name" id="user_name" value="<%= participant.user_name %>">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email" id="email" value="<%= participant.email %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="password">Password</label>
+                    <input type="text" class="form-control" name="password" id="password" value="<%= participant.password %>" required>
+                </div>
+ 
+            </div> 
+
+            <input type="hidden" id="hidpass" name="hidpass" value="<%= hidpass %>">
+
+            <div class="form-row float-right">
+                <a href="#" onclick="history.go(-1)" class="btn btn-primary">Cancel</a>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-success">Update participant</button>  
+            </div> 
+        </form>
+    <% } else { %>
+        <p class="text-center">participant Not Found. Go <a href="/addparticipant">here</a> to add participants.</p>
+    <% } %>
+</div>
+<% include partials/footer.ejs %>

@@ -1,0 +1,94 @@
+// let password = bcrypt.hashSync(req.body.password, config.pass_hash_rounds); 
+// if(bcrypt.compareSync('somePassword', hash)) {} 
+
+module.exports = {
+    auth: (req, res) => {
+    try{  
+        
+        //let password = bcrypt.hashSync(req.body.password, config.pass_hash_rounds);
+        let username = req.body.username; 
+        let query = "SELECT id,password FROM `participants` WHERE `active` = 1 AND ( `user_name` = '" + username + "' OR `email` = '" + username+ "' )"; 
+        // execute query
+        db.query(query, (err, result) => { 
+          try{  
+              v = bcrypt.compareSync(req.body.password, result[0].password); 
+              if(v) {
+                req.session.role = 'user'; 
+                req.session.authorised = true;  
+                req.user = {role:'user', userID: 'user-' + result[0].id };  
+                res.render('conversation.ejs', {
+                    title: 'Conversation'
+                        ,user: req.user
+                        ,message: ''
+                    });
+              } 
+              else{
+                //res.redirect('/logout');
+                res.render('login', { message: 'Invalid username/password!' });
+              }
+          } 
+          catch(err){
+            //res.redirect('/logout');
+            res.render('login', { message: 'Invalid username/password!' });
+          }  
+        }); 
+      }
+      catch(err){
+        //res.redirect('/logout');
+        res.render('error', { message: err });
+      }  
+    },
+    getrole: (req, res) => {
+    try{ 
+        let query = "SELECT id,admin FROM `clinicians` WHERE `active` = 1 AND `email` = '" + req.user.email + "' ";  
+        req.session.role = '';
+        req.session.authorised = false;  
+        req.user.role = '';
+
+        // execute query
+        db.query(query, (err, result) => { 
+            try{
+                req.session.authorised = true;  
+                if (result[0].admin === 1){
+                  req.session.role = 'admin';
+                  req.user.role = 'admin';
+                  req.user.userID = 'admin-' + result[0].id; 
+                  res.redirect('/clinician'); 
+                }
+                else {
+                  req.session.role = 'clinician';
+                  req.user.role = 'clinician';
+                  req.user.userID = 'clinician-' + result[0].id;
+                  res.redirect('/participant');
+                }  
+            }
+            catch(err){ 
+                let query = "SELECT id FROM `participants` WHERE `active` = 1 AND `email` = '" + req.user.email + "' ";  
+                req.session.role = '';
+                req.session.authorised = false;  
+                req.user.role = '';
+
+                // execute query
+                db.query(query, (err, result) => { 
+                    try{
+                        req.session.authorised = true;   
+                        req.session.role = 'user';
+                        req.user.role = 'user';
+                        req.user.userID = 'participant-' + result[0].id;
+                          
+                        res.redirect('/conversation'); 
+                    }
+                    catch(err){ 
+                        res.render('login', { message: 'Cannot perform oAUTH using email:' + req.user.email });
+
+                    }
+                }); 
+            }
+        }); 
+      }
+      catch(err){
+        //res.redirect('/logout');
+        res.render('error', { message: err });
+      }  
+    } 
+};

@@ -1,0 +1,54 @@
+<% include partials/header.ejs %>
+<% include partials/header-participant.ejs %>
+
+<div class="container">
+    <% if (message) { %>
+        <p class="text-center text-danger"><%= message %></p>
+    <% } %>
+
+    <% if (participant) { %>
+        <form class="add-form" action="" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="first-name">First Name</label>
+                    <input type="text" class="form-control" name="first_name" id="first-name" value="<%= participant.first_name %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" id="last-name" value="<%= participant.last_name %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="male">Male</label>
+                    <% if (participant.male) { %>
+                        <input type="checkbox" class="form-control" name="male" id="male" checked>
+                    <% } else { %>
+                        <input type="checkbox" class="form-control" name="male" id="male">
+                    <% } %> 
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="dob">DOB</label> 
+                    <input type="text" class="form-control" name="dob" id="dob" value="<%= new Date(String(participant.dob)).toJSON().slice(0, 10) %>" placeholder="YYYY-MM-DD" required  pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" title="Enter a date in this format YYYY-MM-DD"/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="diagnosis">Diagnosis</label>
+                    <input type="text" class="form-control" name="diagnosis" id="diagnosis" placeholder="Diagnosis" value="<%= participant.diagnosis %>">
+                </div>  
+                <div class="form-group col-md-4">
+                    <label for="comment">Comment</label>
+                    <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment" value="<%= participant.comment %>">
+                </div>  
+ 
+            </div> 
+
+            
+
+            <div class="form-row float-right">
+                <a href="#" onclick="history.go(-1)" class="btn btn-primary">Cancel</a>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-success">Update participant</button>  
+            </div> 
+        </form>
+    <% } else { %>
+        <p class="text-center">participant Not Found. Go <a href="/addparticipant">here</a> to add participants.</p>
+    <% } %>
+</div>
+<% include partials/footer.ejs %>

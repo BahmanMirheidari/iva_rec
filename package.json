@@ -1,0 +1,28 @@
+{
+  "name": "passport-google-oauth2-example",
+  "version": "0.0.0",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "connect-redis": "^3.4.0",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.5",
+    "express-session": "^1.16.2",
+    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "mp4-convert": "^1.0.2",
+    "mysql": "^2.17.1",
+    "package.json": "^2.0.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth2": "file:..",
+    "passport-oauth2": "^1.5.0",
+    "util": "^0.12.1",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.10.0",
+    "ws": "^7.1.1"
+  }
+}
