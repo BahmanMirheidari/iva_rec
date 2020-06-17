@@ -1,9 +1,12 @@
 // config/config.js
 iva3           = require( './iva3.js' );
-ivastroke1    = require( './ivastroke1.js' );
+ivamc1         = require( './ivamc1.js' );
+ivastroke1     = require( './ivastroke1.js' );
+
 const PORT     = 8081; 
 const PORT2    = 8082;
 const WEB_URI  = 'https://digital-doctor.shef.ac.uk:';
+
 module.exports = {
     'welcome_message'      : 'Welcome to Digital-Doctor',
     'mount_dir'            : '/home/sa_ac1bm/mnt/Blackburn/Avatar/CognoSpeak',
@@ -42,6 +45,7 @@ module.exports = {
 
     'iva_configs':{
         'iva3' : iva3,
+        'ivamc1' : ivamc1,
         'ivastroke1' : ivastroke1
     }    
 }; 
