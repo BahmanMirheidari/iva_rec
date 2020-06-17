@@ -1,6 +1,6 @@
 // config/config.js
 iva3           = require( './iva3.js' );
-ivastroake1    = require( './ivastroake1.js' );
+ivastroke1    = require( './ivastroke1.js' );
 const PORT     = 8081; 
 const PORT2    = 8082;
 const WEB_URI  = 'https://digital-doctor.shef.ac.uk:';
@@ -42,6 +42,6 @@ module.exports = {
 
     'iva_configs':{
         'iva3' : iva3,
-        'ivastroake1' : ivastroake1
+        'ivastroke1' : ivastroke1
     }    
 }; 
