@@ -302,6 +302,8 @@ var httpsServer = ( config.ssl ) ? https.createServer({key: fs.readFileSync(conf
 //*********** listen to port ************** //
 httpsServer.listen(config.port);
 
+logger.info('iva3.config ' + config.iva_configs.iva3.questions[0].text)
+
 ( config.ssl ) ? logger.info('https server (' + ip_address + ') is running on port: ' + config.port): logger.info('http server (' + ip_address + ') is running on port: ' + config.port);
   
 var wss = new WebSocketServer({

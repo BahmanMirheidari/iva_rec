@@ -1,4 +1,6 @@
 // config/config.js
+iva3           = require( './config/iva3.js' );
+ivastroake1    = require( './config/ivastroake1.js' );
 const PORT     = 8081; 
 const PORT2    = 8082;
 const WEB_URI  = 'https://digital-doctor.shef.ac.uk:';
@@ -36,5 +38,10 @@ module.exports = {
         'cert_file_path'   : '/etc/pki/tls/certs/digital-doctor_shef_ac_uk.crt', 
         'key_file_path'    : '/etc/pki/tls/private/digital-doctor.key',
 	    'ffmpeg_path'      : '/usr/bin/ffmpeg'   //'/usr/bin/ffmpeg'    '/Applications/ffmpeg/bin/ffmpeg'
+    },
+
+    'iva_configs':{
+        'iva3' : iva3,
+        'ivastroake1' : ivastroake1
     }    
 }; 

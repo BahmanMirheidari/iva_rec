@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
   `modified_at` TIMESTAMP NULL,
   `dob` DATE NULL,
   `auto_link` varchar(255) DEFAULT '',
+  `configuration` varchar(100) DEFAULT 'iva3',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
