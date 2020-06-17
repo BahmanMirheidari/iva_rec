@@ -6,7 +6,7 @@ module.exports = {
         'title' : 'Informed Consent Form',
         'participants': 'Individual with Memory Complaints',
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
-        'reference': 'Study Reference: STH20818'
+        'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
         'mandatory' :{
             'statement' : 'Please tick the box for each statement to indicate that you agree:',
@@ -83,7 +83,7 @@ module.exports = {
         'title' : 'Informed Consent Form',
         'participants': 'Healthy Volunteer',
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
-        'reference': 'Study Reference: STH20818'
+        'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
         'mandatory' :{
             'statement' : 'Please tick the box for each statement to indicate that you agree:',
@@ -156,7 +156,7 @@ module.exports = {
         'title' : 'Informed Consent Form',
         'participants': 'Individual with suspected movement disorder',
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
-        'reference': 'Study Reference: STH20818'
+        'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
         'mandatory' :{
             'statement' : 'Please tick the box for each statement to indicate that you agree:',
@@ -229,7 +229,7 @@ module.exports = {
         'title' : 'Informed Consent Form',
         'participants': 'Individual who have suffered a Stroke',
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
-        'reference': 'Study Reference: STH20818'
+        'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
         'mandatory' :{
             'statement' : 'Please tick the box for each statement to indicate that you agree:',
