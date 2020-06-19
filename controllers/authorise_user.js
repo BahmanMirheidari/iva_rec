@@ -81,7 +81,8 @@ module.exports = {
                         req.session.role = 'user';
                         req.user.role = 'user';
                         req.user.userID = 'participant-' + result[0].id;
-                        req.user.configuration = result[0].configuration;
+                        if (result[0].configuration)
+                          req.user.configuration = result[0].configuration;
                           
                         res.redirect('/conversation'); 
                     }
