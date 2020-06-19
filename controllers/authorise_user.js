@@ -53,18 +53,19 @@ module.exports = {
         db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
             try{
                 req.session.authorised = true;  
+                req.user.configuration = config.iva_default;
                 if (result[0].admin === 1){
                   req.session.role = 'admin';
                   req.user.role = 'admin';
-                  req.user.userID = 'admin-' + result[0].id; 
-                  req.user.configuration = 'iva3';
+                  req.user.userID = 'admin-' + result[0].id;  
+
                   res.redirect('/clinician'); 
                 }
                 else {
                   req.session.role = 'clinician';
                   req.user.role = 'clinician';
-                  req.user.userID = 'clinician-' + result[0].id;
-                  req.user.configuration = 'iva3';
+                  req.user.userID = 'clinician-' + result[0].id; 
+                  
                   res.redirect('/participant');
                 }  
             }
