@@ -57,12 +57,14 @@ module.exports = {
                   req.session.role = 'admin';
                   req.user.role = 'admin';
                   req.user.userID = 'admin-' + result[0].id; 
+                  req.user.configuration = 'iva3';
                   res.redirect('/clinician'); 
                 }
                 else {
                   req.session.role = 'clinician';
                   req.user.role = 'clinician';
                   req.user.userID = 'clinician-' + result[0].id;
+                  req.user.configuration = 'iva3';
                   res.redirect('/participant');
                 }  
             }
@@ -80,9 +82,8 @@ module.exports = {
                         req.session.authorised = true;   
                         req.session.role = 'user';
                         req.user.role = 'user';
-                        req.user.userID = 'participant-' + result[0].id;
-                        if (result[0].configuration)
-                          req.user.configuration = result[0].configuration;
+                        req.user.userID = 'participant-' + result[0].id; 
+                        req.user.configuration = result[0].configuration;
                           
                         res.redirect('/conversation'); 
                     }
