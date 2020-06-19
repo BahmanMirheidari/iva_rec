@@ -19,7 +19,8 @@ var express          = require( 'express' )
   , GoogleStrategy   = require( './controllers/google_aouth2.js' ).Strategy //require( 'passport-google-oauth2' ).Strategy;
   , config           = require( './config/config.js' );
 
-const {auth,getrole} = require( './controllers/authorise' ); 
+/* change 18/6/20*/
+const {auth,getrole} = require( './controllers/authorise_user' ); 
 const {getclinicianHomePage,addclinicianPage, addclinician, editclinicianPage, editclinician, deleteclinician} = require( './controllers/clinician' ); 
 const {getparticipantHomePage,addparticipantPage, addparticipant, editparticipantPage, editparticipant, editparticipantpassPage, editparticipantpass, deleteparticipant} = require( './controllers/participant' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
@@ -236,11 +237,12 @@ app.post('/editparticipantpass/:id', ensureIsClinician, editparticipantpass);
 app.get('/conversations', ensureIsClinician, getconversationHomePage);
 app.get('/conversation_details/:id', ensureIsClinician, conversation_detailsPage);  
 
+/* change 18/6/20*/
 app.get('/conversation', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
       res.redirect('/login');
     else
-      res.render('conversation.ejs', {
+      res.render('talk2iva.ejs', {
           title: config.welcome_message + ' | Conversation'
           ,message: '', user :req.user 
       }); 

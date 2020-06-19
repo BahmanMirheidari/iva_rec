@@ -10,7 +10,7 @@ module.exports = {
         //let password = bcrypt.hashSync(req.body.password, config.pass_hash_rounds);
         let username = shared.safeString(req.body.username); 
         //let query = "SELECT id,password FROM `participants` WHERE `active` = 1 AND ( `user_name` = '" + username + "' OR `email` = '" + username+ "' )"; 
-        let query = "SELECT id,password FROM `participants` WHERE `active` = 1 AND ( `user_name` = ? OR `email` = ? )"; 
+        let query = "SELECT id,password,configuration FROM `participants` WHERE `active` = 1 AND ( `user_name` = ? OR `email` = ? )"; 
         // execute query
         db.query(query,[username, username], (err, result) => { 
           try{  
@@ -18,8 +18,8 @@ module.exports = {
               if(v) {
                 req.session.role = 'user'; 
                 req.session.authorised = true;  
-                req.user = {role:'user', userID: 'user-' + result[0].id };  
-                res.render('conversation.ejs', {
+                req.user = {role:'user', userID: 'user-' + result[0].id, configuration: result[0].configuration };  
+                res.render('talk2iva.ejs', {
                     title: 'Conversation'
                         ,user: req.user
                         ,message: ''
@@ -68,10 +68,11 @@ module.exports = {
             }
             catch(err){ 
                 //let query = "SELECT id FROM `participants` WHERE `active` = 1 AND `email` = '" + req.user.email + "' "; 
-                let query = "SELECT id FROM `participants` WHERE `active` = 1 AND `email` = ? "; 
+                let query = "SELECT id,configuration FROM `participants` WHERE `active` = 1 AND `email` = ? "; 
                 req.session.role = '';
                 req.session.authorised = false;  
                 req.user.role = '';
+                req.user.configuration = 'iva3';
 
                 // execute query
                 db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
@@ -80,8 +81,9 @@ module.exports = {
                         req.session.role = 'user';
                         req.user.role = 'user';
                         req.user.userID = 'participant-' + result[0].id;
+                        req.user.configuration = result[0].configuration;
                           
-                        res.redirect('/talk2iva'); 
+                        res.redirect('/conversation'); 
                     }
                     catch(err){ 
                         res.render('login', { message: 'Cannot perform oAUTH using email:' + shared.safeString(req.user.email) });
