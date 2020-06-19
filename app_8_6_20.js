@@ -302,9 +302,7 @@ var https = ( config.ssl ) ? require('https') : require('http');
 var httpsServer = ( config.ssl ) ? https.createServer({key: fs.readFileSync(config.paths.key_file_path, 'utf8'), cert: fs.readFileSync(config.paths.cert_file_path, 'utf8')}, app) : httpsServer = https.createServer(app);
  
 //*********** listen to port ************** //
-httpsServer.listen(config.port);
-
-logger.info('iva3.config ' + config.iva_configs.iva3.questions[0].text)
+httpsServer.listen(config.port); 
 
 ( config.ssl ) ? logger.info('https server (' + ip_address + ') is running on port: ' + config.port): logger.info('http server (' + ip_address + ') is running on port: ' + config.port);
   
