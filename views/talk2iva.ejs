@@ -20,10 +20,10 @@
     var userID = "<%= user.userID %>";
 
     var conf_name = "<%= user.configuration %>";
-    var configuration = "<%= config.iva_configs[user.configuration] %>";
+    var configuration = "<%= user.configuration%>";
     var socket_uri = "<%= socket_uri %>"; 
  
-    alert('configuration:' + JSON.stringify(config.iva_configs[conf_name]));
+    alert('configuration:' + JSON.stringify(configuration));
       
    </script>
 
