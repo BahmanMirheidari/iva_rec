@@ -573,6 +573,9 @@ $(function(){
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
+
+		$("#consent").addClass('hidden');
+		
 		currentQuestionIndex=0; 
 		$(this).hide();
 		//$('#startAvatarButton').text('Recording').button("refresh"); 
