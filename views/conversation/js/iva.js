@@ -656,7 +656,8 @@ $(function(){
     	if (Object.keys(configuration.consent).length === 0)
     		init_questions();
     	else {
-    		var html_header, html_title, html_body = '', '', ''; 
+    		var html_header='', html_title='', html_body = ''; 
+
     		html_header += '<H1>' + configuration.consent.title + '</H1>';
     		html_header += '<H2>' + configuration.consent.participants + '</H2>';
     		html_header += '<H3>' + configuration.consent.project + '</H3>';
@@ -676,6 +677,7 @@ $(function(){
     		$("#consent_body").append(html_body);  
 
     		$('#consent').removeClass('hidden').show();
+    		
     	} 
     }
 
