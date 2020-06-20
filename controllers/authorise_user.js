@@ -8,9 +8,9 @@ function get_from_config(conf_name){
   console.log(`reading conf_name ${conf_name} consent title: ${title}`);
 
   return {
-    'consent' : JSON.stringify(config.iva_configs[conf_name].consent),
-    'questions' : JSON.stringify(config.iva_configs[conf_name].questions),
-    'surveys' : JSON.stringify(config.iva_configs[conf_name].surveys)
+    'consent' : config.iva_configs[conf_name].consent,
+    'questions' : config.iva_configs[conf_name].questions,
+    'surveys' : config.iva_configs[conf_name].surveys
   } 
 }
 
