@@ -17,13 +17,9 @@
 <body>   
 
    <script>
-    var userID = "<%= user.userID %>"; 
-
+    var userID = "<%= user.userID %>";  
     var configuration = <%- JSON.stringify(user.configuration) %>
-    var socket_uri = "<%= socket_uri %>"; 
-    var consent=configuration.consent; 
-    alert('title:' + consent.title); 
-      
+    var socket_uri = "<%= socket_uri %>";  
    </script>
 
    <script type='text/javascript' src="js/iva.js"></script>  

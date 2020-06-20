@@ -680,7 +680,7 @@ $(function(){
     		$("#consent_title").append(html_title); 
     		$("#consent_body").append(html_body);  
 
-    		//$('#consent').removeClass('hidden').show();
+    		$('#consent').removeClass('hidden').show();
     		
     	} 
     }
