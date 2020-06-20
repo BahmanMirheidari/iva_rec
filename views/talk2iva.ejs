@@ -19,11 +19,11 @@
    <script>
     var userID = "<%= user.userID %>";
 
-    var conf_name = "<%= user.configuration %>";
-    var configuration = "<%= user.configuration%>";
-    var socket_uri = "<%= socket_uri %>";  
-
-    alert('configuration:' + socket_uri);
+    var conf_name = "<%= user.configuration %>"; 
+    var socket_uri = "<%= socket_uri %>"; 
+    var cnf = "<%= cnf %>"; 
+    var configuration = cnf[conf_name]
+    alert('title:' + configuration.consent.title);
       
    </script>
 
