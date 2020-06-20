@@ -4,14 +4,7 @@
 shared = require( './shared' );
 
 function get_from_config(conf_name){
-  title=config.iva_configs[conf_name].consent.title
-  console.log(`reading conf_name ${conf_name} consent title: ${title}`);
-
-  return {
-    'consent' : config.iva_configs[conf_name].consent,
-    'questions' : config.iva_configs[conf_name].questions,
-    'surveys' : config.iva_configs[conf_name].surveys
-  } 
+  return config.iva_configs[conf_name] 
 }
 
 module.exports = {
