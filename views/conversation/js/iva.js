@@ -670,6 +670,8 @@ $(function(){
     		$("#consent_header").prepend(html_header);
     		$("#consent_title").prepend(html_body); 
     		$("#consent_body").prepend(html_body);  
+
+    		$('#consent').removeClass('hidden').show();
     	} 
     }
 
