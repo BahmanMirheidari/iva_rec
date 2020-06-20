@@ -18,11 +18,12 @@
 
    <script>
     var userID = "<%= user.userID %>";
-    var configuration = "<%= config.iva_configs[user.configuration] %>";
-    var socket_uri = "<%= socket_uri %>"; 
 
-    alert('userID:' + userID);
-    alert('configuration:' + configuration);
+    var conf_name = "<%= user.configuration %>";
+    var configuration = "<%= config.iva_configs[conf_name] %>";
+    var socket_uri = "<%= socket_uri %>"; 
+ 
+    alert('conf_name:' + conf_name);
    </script>
 
    <script type='text/javascript' src="js/iva.js"></script>  
