@@ -667,9 +667,13 @@ $(function(){
 
     		html_body += '<nput type="checkbox" id="' + configuration.consent.mandatory.statement.agreements[0].a_no + '" > <label for="' + configuration.consent.mandatory.statement.agreements[0].a_no + '">' + configuration.consent.mandatory.statement.agreements[0].agreement + '</label>';
   
-    		$("#consent_header").text(html_header);
-    		$("#consent_title").text(html_body); 
-    		$("#consent_body").text(html_body);  
+  			alert(html_header);
+  			alert(html_title);
+  			alert(html_body);
+
+    		$("#consent_header").append(html_header);
+    		$("#consent_title").append(html_title); 
+    		$("#consent_body").append(html_body);  
 
     		$('#consent').removeClass('hidden').show();
     	} 
