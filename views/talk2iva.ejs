@@ -25,10 +25,11 @@
     var socket_uri = "<%= socket_uri %>"; 
     alert('conf_name:' + socket_uri);
 
-    var iva_configs = "<%= iva_configs %>"; 
-    alert('cnf:' + config.iva_configs);
+    var config = "<%= config %>"; 
+    var iva_configs = config.iva_configs;
+    alert('iva_configs:' + iva_configs);
 
-    var consent = config.iva_configs; 
+    var consent = iva_configs[conf_name.trim()].consent; 
     alert('title:' + consent); 
       
    </script>

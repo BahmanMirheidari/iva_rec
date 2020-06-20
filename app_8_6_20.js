@@ -161,7 +161,7 @@ app.use(function (req, res, next) {
      web_uri: (config.ssl) ? config.web_uri + '/' : 'http://localhost:' +String(config.port)+'/',
      socket_uri: (config.ssl) ? 'wss://digital-doctor.shef.ac.uk:' +String(config.port) : 'ws://localhost:' +String(config.port),
      /* changed 20/6/20 */
-     iva_configs:config.iva_configs 
+     config:config
    };
    next();
 });
