@@ -25,9 +25,29 @@
     alert('configuration:' + configuration);
    </script>
 
-   <script type='text/javascript' src="js/main_video.js"></script>  
+   <script type='text/javascript' src="js/iva.js"></script>  
    <script src="js/jquery-1.11.0.min.js"></script> 
    <script type="text/javascript" src="js/getUserMedia.js"></script>
+
+   <div id="consent" class="container hidden">
+      <div id="consent_header">
+     </div>
+
+     <div id="consent_title">
+     </div>
+
+     <div id="consent_body">
+     </div>
+   </div>
+
+   <div id="questions" >
+   </div>
+
+   <div id="survey" >
+   </div>
+
+
+
 
    
 <div id="stopRecordingModal" class="modal fade">
@@ -60,7 +80,7 @@
   </div>
 
   <h2>
-    <div class="alert alert-info" id="divAlert">
+    <div class="alert alert-info hidden" id="divAlert">
     Press "Start" button to start recording 
     </div>
     

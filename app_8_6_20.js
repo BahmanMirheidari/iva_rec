@@ -391,7 +391,8 @@ message = JSON.parse(message);
       logger.info('token: ' + data);
       splits = data.split("-");
       userID = splits[0] + '-' + splits[1];
-      updateconversation(userID, 'start');  
+      /* changed 20/6/20 */
+      //updateconversation(userID, 'start');  
 
     } else if (msg == 'mp3' || msg == 'webm') {
 
@@ -412,7 +413,8 @@ message = JSON.parse(message);
       var len  = blob.length; 
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
       logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
-      updateconversation(userID, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
+      /* changed 20/6/20 */
+      //updateconversation(userID, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
 
       //logger.info(util.inspect(blob, {showHidden: false, depth: null})) 
       if (!fs.existsSync(__dirname + "/uploads/" + token)) {

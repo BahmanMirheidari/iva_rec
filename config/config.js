@@ -42,7 +42,7 @@ module.exports = {
         'key_file_path'    : '/etc/pki/tls/private/digital-doctor.key',
 	    'ffmpeg_path'      : '/usr/bin/ffmpeg'   //'/usr/bin/ffmpeg'    '/Applications/ffmpeg/bin/ffmpeg'
     },
-    'iva_default': 'iva3',
+    'iva_default': 'ivamc1',
     'iva_configs':{
         'iva3' : iva3,
         'ivamc1' : ivamc1,
