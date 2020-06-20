@@ -667,9 +667,9 @@ $(function(){
 
     		html_body += '<nput type="checkbox" id="' + configuration.consent.mandatory.statement.agreements[0].a_no + '" > <label for="' + configuration.consent.mandatory.statement.agreements[0].a_no + '">' + configuration.consent.mandatory.statement.agreements[0].agreement + '</label>';
   
-    		$("#consent_header").prepend(html_header);
-    		$("#consent_title").prepend(html_body); 
-    		$("#consent_body").prepend(html_body);  
+    		$("#consent_header").text(html_header);
+    		$("#consent_title").text(html_body); 
+    		$("#consent_body").text(html_body);  
 
     		$('#consent').removeClass('hidden').show();
     	} 
