@@ -9,7 +9,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-  
+
   <script type='text/javascript' src="js/sdk.js"></script> 
   <style>
     .disabledButton { color: silver; }
@@ -72,19 +72,18 @@
 </div>  
 
 <div id="consent" class="container col-xs-12"> 
-  <div id="divVideo" class="container col-xs-4 hidden pull-left">
-        <video id="videoMp4" class="img-responsive">
-         <source src="mp4/q_0.mp4" type="video/mp4" />
-         HTML5 Video is required for this example. 
-      </video> 
-      <div class="container center-block col-xs-12" style="margin-top:5px">
-        <button type="button" class="btn-lg btn-primary col-xs-6 hidden" id="repeatMessageButton" name="repeatMessageButton">Repeat</button>
-        <button type="button" class="btn-lg btn-primary col-xs-6 hidden" id="nextMessageButton" name="nextMessageButton">Next</button> 
-      </div>
-
+  <div id="divVideo" class="container col-xs-5 hidden pull-left">
+    <video id="videoMp4" class="img-responsive">
+       <source src="mp4/q_0.mp4" type="video/mp4" />
+       HTML5 Video is required for this example. 
+    </video> 
+    <div class="container center-block col-xs-12" style="margin-top:5px">
+      <button type="button" class="btn-lg btn-primary col-xs-6 hidden" id="repeatMessageButton" name="repeatMessageButton">Repeat</button>
+      <button type="button" class="btn-lg btn-primary col-xs-6 hidden" style="margin-left:5px" id="nextMessageButton" name="nextMessageButton">Next</button> 
+    </div> 
   </div>
 
-  <div class="container col-xs-6 pull-right" id="divContainer">    
+  <div class="container col-xs-7 pull-right" id="divContainer">    
     <h2>
       <div class="alert alert-info hidden" id="divAlert">
       Press "Start" button to start recording 
@@ -101,9 +100,7 @@
 
     <div id="divShowCookieTheftImage" class="hidden"> 
       <img src="Images/cookietheft.gif" alt="Cookie Theft" class="col-xs-12 img-responsive">
-    </div> 
-
-    
+    </div>  
     
     <h1 style="font-size: 400%;">
       <div id="divStopWatch" class="alert alert-warning hidden"> 
