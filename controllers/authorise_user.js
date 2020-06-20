@@ -3,6 +3,17 @@
 
 shared = require( './shared' );
 
+function get_from_config(conf_name){
+  title=config.iva_configs[conf_name].consent.title
+  console.log(`reading conf_name ${conf_name} consent title: ${title}`);
+
+  return {
+    'consent' : JSON.stringify(config.iva_configs[conf_name].consent),
+    'questions' : JSON.stringify(config.iva_configs[conf_name].questions),
+    'surveys' : JSON.stringify(config.iva_configs[conf_name].surveys)
+  } 
+}
+
 module.exports = {
     auth: (req, res) => {
     try{  
@@ -20,10 +31,7 @@ module.exports = {
                 req.session.authorised = true;  
                 req.user = {role:'user', 
                   userID: 'user-' + result[0].id, 
-                  configuration: {
-                    'consent':JSON.stringify(config.iva_configs[result[0].configuration].consent), 
-                    'questions': JSON.stringify(config.iva_configs[result[0].configuration].questions), 
-                    'surveys':JSON.stringify(config.iva_configs[result[0].configuration].surveys) } 
+                  configuration: get_from_config(result[0].configuration) 
                   };  
                 res.render('talk2iva.ejs', {
                     title: 'Conversation'
@@ -59,10 +67,7 @@ module.exports = {
         db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
             try{
                 req.session.authorised = true;  
-                req.user.configuration = {
-                  'consent':JSON.stringify(config.iva_configs[config.iva_default].consent), 
-                  'questions': JSON.stringify(config.iva_configs[config.iva_default].questions), 
-                  'surveys':JSON.stringify(config.iva_configs[config.iva_default].surveys) };
+                req.user.configuration = get_from_config(config.iva_default);
 
                 if (result[0].admin === 1){
                   req.session.role = 'admin';
@@ -85,10 +90,7 @@ module.exports = {
                 req.session.role = '';
                 req.session.authorised = false;  
                 req.user.role = '';
-                req.user.configuration = {
-                  'consent':JSON.stringify(config.iva_configs[config.iva_default].consent), 
-                  'questions': JSON.stringify(config.iva_configs[config.iva_default].questions), 
-                  'surveys':JSON.stringify(config.iva_configs[config.iva_default].surveys)};
+                req.user.configuration = get_from_config(config.iva_default);
 
                 // execute query
                 db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
@@ -97,10 +99,7 @@ module.exports = {
                         req.session.role = 'user';
                         req.user.role = 'user';
                         req.user.userID = 'participant-' + result[0].id; 
-                        req.user.configuration = {
-                          'consent':JSON.stringify(config.iva_configs[result[0].configuration].consent), 
-                          'questions': JSON.stringify(config.iva_configs[result[0].configuration].questions), 
-                          'surveys':JSON.stringify(config.iva_configs[result[0].configuration].surveys) }; 
+                        req.user.configuration = get_from_config(result[0].configuration); 
                           
                         res.redirect('/conversation'); 
                     }

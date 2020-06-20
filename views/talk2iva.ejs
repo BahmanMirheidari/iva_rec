@@ -20,8 +20,9 @@
     var userID = "<%= user.userID %>";
 
     var configuration = "<%= user.configuration %>";   
-    var socket_uri = "<%= socket_uri %>";    
-    alert('title:' + configuration.consent); 
+    var socket_uri = "<%= socket_uri %>"; 
+    var consent=JSON.parse(configuration.consent)   
+    alert('title:' + consent.title); 
       
    </script>
 
