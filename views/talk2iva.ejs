@@ -25,6 +25,15 @@
    <script type='text/javascript' src="js/iva.js"></script>  
    <script src="js/jquery-1.11.0.min.js"></script> 
    <script type="text/javascript" src="js/getUserMedia.js"></script>
+   <div class="container" id="header">
+     <div id="divWebcam" class="container col-xs-3 pull-right"> 
+        <video id="video" muted="true" class="img-responsive">
+        </video> 
+        <canvas id="mycanvas" class="img-responsive"></canvas>
+        <div id="mylog"> 
+        </div> 
+      </div>
+    </div> 
 
    <div id="consent" class="container hidden">
       <div id="consent_header">
@@ -69,12 +78,7 @@
 
 <div class="container col-xs-6 pull-right" id="divContainer">  
 
-  <div id="divWebcam" class="container col-xs-3 pull-right"> 
-    <video id="video" muted="true" class="img-responsive">
-    </video> 
-    <canvas id="mycanvas" class="img-responsive"></canvas>
-    <div id="mylog"></div> 
-  </div>
+  
 
   <h2>
     <div class="alert alert-info hidden" id="divAlert">
