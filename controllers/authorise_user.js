@@ -94,7 +94,7 @@ module.exports = {
                         req.user.userID = 'participant-' + result[0].id; 
                         req.user.configuration = get_from_config(result[0].configuration); 
                           
-                        res.redirect('/conversation'); 
+                        res.redirect('/talk2iva'); 
                     }
                     catch(err){ 
                         res.render('login', { message: 'Cannot perform oAUTH using email:' + shared.safeString(req.user.email) });
