@@ -18,7 +18,7 @@ module.exports = {
               if(v) {
                 req.session.role = 'user'; 
                 req.session.authorised = true;  
-                req.user = {role:'user', userID: 'user-' + result[0].id, configuration: config.iva_configs[result[0].configuration] };  
+                req.user = {role:'user', userID: 'user-' + result[0].id, configuration: global.config.iva_configs[result[0].configuration] };  
                 res.render('talk2iva.ejs', {
                     title: 'Conversation'
                         ,user: req.user
@@ -53,7 +53,7 @@ module.exports = {
         db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
             try{
                 req.session.authorised = true;  
-                req.user.configuration = config.iva_configs[config.iva_default];
+                req.user.configuration = global.config.iva_configs[global.config.iva_default];
                 if (result[0].admin === 1){
                   req.session.role = 'admin';
                   req.user.role = 'admin';
@@ -75,7 +75,7 @@ module.exports = {
                 req.session.role = '';
                 req.session.authorised = false;  
                 req.user.role = '';
-                req.user.configuration = config.iva_configs[config.iva_default];
+                req.user.configuration = global.config.iva_configs[global.config.iva_default];
 
                 // execute query
                 db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
@@ -84,7 +84,7 @@ module.exports = {
                         req.session.role = 'user';
                         req.user.role = 'user';
                         req.user.userID = 'participant-' + result[0].id; 
-                        req.user.configuration = config.iva_configs[result[0].configuration];
+                        req.user.configuration = global.config.iva_configs[result[0].configuration];
                           
                         res.redirect('/conversation'); 
                     }
