@@ -26,7 +26,7 @@
    <script src="js/jquery-1.11.0.min.js"></script> 
    <script type="text/javascript" src="js/getUserMedia.js"></script>
    <div class="container" id="header">
-      <img src="Images/sitran_logo.png" alt="Sitran logo" class="col-xs-4 img-responsive">
+      <img src="Images/sitran_logo.png" alt="Sitran logo" class="col-xs-10 img-responsive">
 
      <div id="divWebcam" class="container col-xs-2 pull-right"> 
         <video id="video" muted="true" class="img-responsive">
@@ -47,15 +47,7 @@
      <div id="consent_body">
      </div>
    </div>
-
-   <div id="questions" >
-   </div>
-
-   <div id="survey" >
-   </div>
-
-
-
+  
 
    
 <div id="stopRecordingModal" class="modal fade">
@@ -77,63 +69,62 @@
     </div>
 </div>  
 
+<div id="consent" class="container col-xs-12"> 
+  <div id="divVideo" class="container col-xs-4 hidden pull-left">
+        <video id="videoMp4" class="img-responsive">
+         <source src="mp4/q_0.mp4" type="video/mp4" />
+         HTML5 Video is required for this example. 
+      </video> 
+  </div>
 
-<div class="container col-xs-6 pull-right" id="divContainer">  
-
-  
-
-  <h2>
-    <div class="alert alert-info hidden" id="divAlert">
-    Press "Start" button to start recording 
-    </div>
-    
-  </h2>
-     
-  <h3>
-    <div id="divQuestionNo" class="alert alert-info hidden"> 
-    </div>
-  </h3> 
-  <div id="divShowCookieTheftImage" class="hidden"> 
-    <img src="Images/cookietheft.gif" alt="Cookie Theft" class="col-xs-12 img-responsive">
-  </div> 
-  <button type="button" class="btn-lg btn-primary" id="startAvatarButton" name="startAvatarButton">Start</button> 
-  <button type="button" class="btn-lg btn-primary hidden" id="stopButton" name="stopButton">Stop recording</button>
-  <button type="button" class="btn-lg btn-primary hidden" id="repeatMessageButton" name="repeatMessageButton">Repeat</button>
-  <button type="button" class="btn-lg btn-primary hidden" id="nextMessageButton" name="nextMessageButton">Next</button>
-  
-  <h1 style="font-size: 400%;">
-    <div id="divStopWatch" class="alert alert-warning hidden"> 
-    </div> 
-  </h1>   
-  <h1 style="font-size: 400%;"> 
-    <div id="divOptions" class="alert alert-info hidden"> 
-      <ul style="list-style-type: none;"> 
-        <li>A)much better</li>
-        <li>B)slightly better</li>
-        <li>C)the same</li>
-        <li>D)slightly worse</li>
-        <li>E)much worse</li> 
-      </ul>
-    </div>
-  </h1>   
-  
-</div>
-
-<div class="container col-xs-6 pull-right hidden" id="divEnding">  
-  <h3>
-    <div class="alert alert-success" id="divEndingMessage"> 
-    </div>
-  </h3> 
-</div>
-<div id="webcam" >
+  <div class="container col-xs-6 pull-right" id="divContainer">    
+    <h2>
+      <div class="alert alert-info hidden" id="divAlert">
+      Press "Start" button to start recording 
+      </div> 
+    </h2>
+       
+    <h3>
+      <div id="divQuestionNo" class="alert alert-info hidden"> 
       </div>
-      
-<div id="divVideo" class="container col-xs-6 hidden pull-left">
-      <video id="videoMp4" class="img-responsive">
-       <source src="mp4/q_0.mp4" type="video/mp4" />
-       HTML5 Video is required for this example. 
-    </video> 
-</div>
+    </h3> 
+
+    <div id="divShowCookieTheftImage" class="hidden"> 
+      <img src="Images/cookietheft.gif" alt="Cookie Theft" class="col-xs-12 img-responsive">
+    </div> 
+
+    <button type="button" class="btn-lg btn-primary" id="startAvatarButton" name="startAvatarButton">Start</button> 
+    <button type="button" class="btn-lg btn-primary hidden" id="stopButton" name="stopButton">Stop recording</button>
+    <button type="button" class="btn-lg btn-primary hidden" id="repeatMessageButton" name="repeatMessageButton">Repeat</button>
+    <button type="button" class="btn-lg btn-primary hidden" id="nextMessageButton" name="nextMessageButton">Next</button>
+    
+    <h1 style="font-size: 400%;">
+      <div id="divStopWatch" class="alert alert-warning hidden"> 
+      </div> 
+    </h1>   
+    <h1 style="font-size: 400%;"> 
+      <div id="divOptions" class="alert alert-info hidden"> 
+        <ul style="list-style-type: none;"> 
+          <li>A)much better</li>
+          <li>B)slightly better</li>
+          <li>C)the same</li>
+          <li>D)slightly worse</li>
+          <li>E)much worse</li> 
+        </ul>
+      </div>
+    </h1>   
+  </div>
+
+  <div class="container col-xs-6 pull-right hidden" id="divEnding">  
+    <h3>
+      <div class="alert alert-success" id="divEndingMessage"> 
+      </div>
+    </h3> 
+  </div>
+
+  <div id="webcam" >
+  </div>
+ </div> 
 
 </body>
 </html>
