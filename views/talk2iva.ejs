@@ -19,7 +19,7 @@
    <script>
     var userID = "<%= user.userID %>";
 
-    var configuration = "<%= user.configuration %>";   
+    var configuration = JSON.partse("<%= user.configuration %>");   
     var socket_uri = "<%= socket_uri %>"; 
     var consent=configuration.consent; 
     alert('title:' + consent.title); 
