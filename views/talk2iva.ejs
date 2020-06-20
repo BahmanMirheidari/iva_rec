@@ -19,18 +19,17 @@
    <script>
     var userID = "<%= user.userID %>";
 
-    var conf_name = "<%= user.configuration %>"; 
+    var configuration = "<%= user.configuration %>"; 
     alert('conf_name:' + conf_name);
 
-    var socket_uri = "<%= socket_uri %>"; 
-    alert('conf_name:' + socket_uri);
+    var socket_uri = "<%= socket_uri %>";  
 
     var configs = "<%= configs %>";  
     alert('iconfigs:' + configs);
     alert('My object: ', configs);
 
-    var consent = configs[conf_name.trim()].consent; 
-    alert('title:' + consent); 
+    var consent = configuration.consent; 
+    alert('title:' + consent.title); 
       
    </script>
 

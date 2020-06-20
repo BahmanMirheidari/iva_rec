@@ -159,9 +159,7 @@ app.use( bodyParser.urlencoded({
 app.use(function (req, res, next) {
    res.locals = {
      web_uri: (config.ssl) ? config.web_uri + '/' : 'http://localhost:' +String(config.port)+'/',
-     socket_uri: (config.ssl) ? 'wss://digital-doctor.shef.ac.uk:' +String(config.port) : 'ws://localhost:' +String(config.port),
-     /* changed 20/6/20 */
-     configs:config.iva_configs
+     socket_uri: (config.ssl) ? 'wss://digital-doctor.shef.ac.uk:' +String(config.port) : 'ws://localhost:' +String(config.port) 
    };
    next();
 });
