@@ -670,7 +670,7 @@ $(function(){
 
     		html_title += '<p>' + configuration.consent.mandatory.statement + '</p>';
 
-    		html_body += '<nput type="checkbox" id="' + configuration.consent.mandatory.statement.agreements[0].a_no + '" > <label for="' + configuration.consent.mandatory.statement.agreements[0].a_no + '">' + configuration.consent.mandatory.statement.agreements[0].agreement + '</label>';
+    		html_body += '<nput type="checkbox" id="' + configuration.consent.mandatory.agreements[0].a_no + '" > <label for="' + configuration.consent.mandatory.agreements[0].a_no + '">' + configuration.consent.mandatory.agreements[0].agreement + '</label>';
   
   			alert(html_header);
   			alert(html_title);
