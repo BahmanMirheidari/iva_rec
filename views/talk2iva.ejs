@@ -20,7 +20,7 @@
     var userID = "<%= user.userID %>";
 
     var conf_name = "<%= user.configuration %>";
-    var configuration = "<%= config.iva_configs[conf_name] %>";
+    var configuration = "<%= config.iva_configs[user.configuration] %>";
     var socket_uri = "<%= socket_uri %>"; 
  
     alert('conf_name:' + conf_name);
