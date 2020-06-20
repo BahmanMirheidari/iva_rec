@@ -27,9 +27,9 @@
 
     var cnf = "<%= cnf %>"; 
     alert('cnf:' + cnf);
-    
-    var configuration = cnf.iva_configs[conf_name]; 
-    alert('title:' + configuration.consent.title);
+
+    var consent = cnf.iva_configs[config.iva_default].consent; 
+    alert('title:' + consent.title); 
       
    </script>
 
