@@ -653,8 +653,10 @@ $(function(){
 
 
     function init_consent(){ 
-    	if (Object.keys(configuration.consent).length === 0)
+    	if (Object.keys(configuration.consent).length === 0){
+    		alert('l:' + Object.keys(configuration.consent).length);
     		init_questions();
+    	}
     	else {
     		html_header='';
     		html_title='';
