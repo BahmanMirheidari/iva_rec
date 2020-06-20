@@ -20,10 +20,15 @@
     var userID = "<%= user.userID %>";
 
     var conf_name = "<%= user.configuration %>"; 
-    var socket_uri = "<%= socket_uri %>"; 
-    var cnf = "<%= cnf %>"; 
-    var configuration = cnf.iva_configs[conf_name];
     alert('conf_name:' + conf_name);
+
+    var socket_uri = "<%= socket_uri %>"; 
+    alert('conf_name:' + socket_uri);
+
+    var cnf = "<%= cnf %>"; 
+    alert('cnf:' + cnf);
+    
+    var configuration = cnf.iva_configs[conf_name]; 
     alert('title:' + configuration.consent.title);
       
    </script>
