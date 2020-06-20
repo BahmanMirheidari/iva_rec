@@ -20,19 +20,11 @@
     var userID = "<%= user.userID %>";
 
     var conf_name = "<%= user.configuration %>";
-    var configuration = "<%= config.iva_configs.ivamc1 %>";
+    var configuration = "<%= config.iva_configs[user.configuration] %>";
     var socket_uri = "<%= socket_uri %>"; 
  
-    alert('conf_name:' + conf_name);
-    
-    txt='';
-    for (x in configuration) {
-      txt += x + " - ";
-      };
-
-    alert('consent_x:' + txt);
-
-    
+    alert('configuration:' + JSON.stringify(configuration));
+      
    </script>
 
    <script type='text/javascript' src="js/iva.js"></script>  
