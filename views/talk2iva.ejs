@@ -3,11 +3,12 @@
 <head>
   <title>IVA</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
+
   <script type='text/javascript' src="js/sdk.js"></script> 
   <style>
     .disabledButton { color: silver; }
@@ -75,10 +76,9 @@
          <source src="mp4/q_0.mp4" type="video/mp4" />
          HTML5 Video is required for this example. 
       </video> 
-
-      <div class="container col-xs-4">
-        <button type="button" class="btn-lg btn-primary center-block hidden" id="repeatMessageButton" name="repeatMessageButton">Repeat</button>
-        <button type="button" class="btn-lg btn-primary center-block hidden" id="nextMessageButton" name="nextMessageButton">Next</button>
+      <div class="container center-block col-xs-12 mt-2">
+        <button type="button" class="btn-lg btn-primary col-xs-6 hidden" id="repeatMessageButton" name="repeatMessageButton">Repeat</button>
+        <button type="button" class="btn-lg btn-primary col-xs-6 hidden" id="nextMessageButton" name="nextMessageButton">Next</button> 
       </div>
 
   </div>
