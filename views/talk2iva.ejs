@@ -24,7 +24,14 @@
     var socket_uri = "<%= socket_uri %>"; 
  
     alert('conf_name:' + conf_name);
-    alert('cons_title:' + configuration.consent.title);
+    
+    txt='';
+    for (x in configuration.consent) {
+      txt += x + " ";
+      };
+
+    alert('consent_x:' + txt);
+
     
    </script>
 
