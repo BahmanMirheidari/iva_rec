@@ -238,7 +238,7 @@ app.get('/conversations', ensureIsClinician, getconversationHomePage);
 app.get('/conversation_details/:id', ensureIsClinician, conversation_detailsPage);  
 
 /* change 18/6/20*/
-app.get('/talk2iva', ensureAuthenticated, (req, res) => {
+app.get('/conversation', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
       res.redirect('/login');
     else
@@ -290,7 +290,7 @@ function ensureIsAdmin(req, res, next) {
 
 function ensureIsClinician(req, res, next) {
   if (req.isAuthenticated() && req.session.authorised && ( req.session.role === 'clinician' || req.session.role === 'admin' ) ) { return next(); }
-  res.redirect('/talk2iva'); 
+  res.redirect('/conversation'); 
 }
 
 function ensureAuthenticated(req, res, next) {
