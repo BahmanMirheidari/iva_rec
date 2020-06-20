@@ -670,12 +670,8 @@ $(function(){
 
     		html_title += '<p>' + configuration.consent.mandatory.statement + '</p>';
 
-    		html_body += '<nput type="checkbox" id="' + configuration.consent.mandatory.agreements[0].a_no + '" > <label for="' + configuration.consent.mandatory.agreements[0].a_no + '">' + configuration.consent.mandatory.agreements[0].agreement + '</label>';
-  
-  			alert(html_header);
-  			alert(html_title);
-  			alert(html_body);
-
+    		html_body += '<input type="checkbox" id="' + configuration.consent.mandatory.agreements[0].a_no + '" > <label for="' + configuration.consent.mandatory.agreements[0].a_no + '">' + configuration.consent.mandatory.agreements[0].agreement + '</label>';
+    
     		$("#consent_header").append(html_header);
     		$("#consent_title").append(html_title); 
     		$("#consent_body").append(html_body);  
