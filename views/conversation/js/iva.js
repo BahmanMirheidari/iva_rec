@@ -414,8 +414,8 @@ $(function(){
 		disableKeysNext(wait_repeat[currentQuestionIndex]); 
 	}
 
-    function html_header(h_no,text,cls="bg-info"){ 
-    	return '<' + h_no + ' class="' + cls + '" >' + text + '</' + h_no + '>'; 
+    function html_header(h_no,text){ 
+    	return '<' + h_no + '>' + text + '</' + h_no + '>'; 
     }
 
     function html_p(text){ 
@@ -529,7 +529,8 @@ $(function(){
     		$("#dynamic_header").append(html_header('H2', configuration.consent.participants)); 
     		$("#dynamic_header").append(html_header('H3', configuration.consent.project)); 
     		$("#dynamic_header").append(html_header('H3', configuration.consent.reference)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.consent.pi));  
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.pi)); 
+    		$('#dynamic').addClass('bg-info');  
     		
     		set_consent_agreement();
 
