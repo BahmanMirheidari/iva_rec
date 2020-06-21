@@ -490,16 +490,17 @@ $(function(){
     		$("#dynamic_title").empty();
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.agreement]));
-    		$("#dynamic_body").append(html_textbox(id,[cur_agreement.agreement]));
+    		$("#dynamic_body").append(html_textbox(id,configuration.consent.sign_statement));
 
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
 				    if(this.checked) {
-				    	if ($("#txt_" + id).text() === ''){
+				    	if ($("#txt_" + id).val() === ''){
 				    		alert('You should fill the sign textbox!');
 				    	}
 				    	else{ 
 				    		response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
+				    		response.consent.agreed.push("Yes, sign, " + $("#txt_" + id).val());
 					    	$("#dynamic_header").empty(); 
 					    	$("#dynamic_title").empty();
 					    	$("#dynamic_body").empty(); 
