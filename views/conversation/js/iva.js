@@ -471,9 +471,10 @@ $(function(){
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
-			    $("#" + id ).change(function() {   
-			    	alert("changed" + $("#" + id).val())
-					switch($("#" + id).val()) {
+			    $("#" + id ).change(function() {  
+			    	selected_value = $("input[name='" + id + "']:checked").val() 
+			    	alert("changed" + selected_value)
+					switch(selected_value) {
 					        case 'yes' :
 					            response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
 						    	response.consent.current_agreement ++;
