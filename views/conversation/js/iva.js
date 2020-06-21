@@ -1,18 +1,85 @@
 $(function(){ 
-// shared variables
+	// shared variables 
+	var ws = null;  
+	var token = null;
+	var currentQuestionIndex = 0;
+	var repeatIndex = 0;
+	var record = true;
+	var queueAudio = [], queueVideo = [];  
+	var today = new Date(); 
+	var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();  
+	var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();  
+	var dateTime = date+'-'+time;
+	var videoMimeType; 
+	var startTime=null; 
+	var killPreviousTimer=false; 
+	buzzers=true;
+	videoHidden=true;
+	var nextPressed=false;
+	var repeatPressed=false;
+	//recordconversation=convertToBool(getQueryString('recordconversation'));  // record conversation bool 
 
+	var wait_repeat = { 0:16000,
+		1:8000,
+		2:8000,
+		3:8000,
+		4:8000,
+		5:8000,
+		6:8000,
+		7:8000,
+		8:8000,
+		9:10000,
+		10:73000,
+		11:75000,
+		12:12000,
+		13:8000 };
 
-   var ws = null;  
-   var token = null;
-   var currentQuestionIndex = 0;
-   var repeatIndex = 0;
-   var record = true;
-   var queueAudio = [], queueVideo = [];  
-   var today = new Date(); 
-   var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();  
-   var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();  
-   var dateTime = date+'-'+time;
-   var videoMimeType;   
+	var wait_next = {   0:16000,
+		1:8000,
+		2:8000,
+		3:8000,
+		4:8000,
+		5:8000,
+		6:8000,
+		7:8000,
+		8:8000,
+		9:10000,
+		10:73000,
+		11:75000,
+		12:12000,
+		13:8000 };
+	//list of questions that avatar asks 
+	var questions={ 0:[{length:14500,delay:0,message:'Hello I am the Avatar consultant and I will be asking you questions today, This Avatar is designed to reproduce what happens in the memory clinic, Thank you for agreeing to take part, I will start to ask you questions shortly'}],
+	    1:[{length:5500,delay:0,message:'Why have you come today and what are your expectations?'}],
+	    2:[{length:5600,delay:0,message:'Tell me what problems you have noticed with your memory recently'}],
+	    3:[{length:6400,delay:0,message:'Who is most worried about your memory, you or somebody else?'}],
+	    4:[{length:6600,delay:0,message:'What did you do over last weekend, giving as much detail as you can?'}],
+	    5:[{length:4300,delay:0,message:'What has been in the news recently?'}],           
+	    6:[{length:6300,delay:0,message:'Tell me about the school you went to and how old were you when you left'}],
+	    7:[{length:6100,delay:0,message:'Tell me what you did when you left school- what jobs did you do?'}],
+	    8:[{length:5900,delay:0,message:'Tell me about your last job? Give as much detail as you can'}],
+	    9:[{length:7600,delay:0,message:'Who manages your finances?  you or somebody else? Has this changed recently?'}],
+	    10:[{length:10400,delay:0,message:'Please name as many animals as you can. You can name any type of animal, You will have one minute, please start after you hear the buzze'}],
+	    11:[{length:15100,delay:0,message:'Please name as many words as you can that begin with the letter P, It can be any word beginning with P except for names or people such as Peter or names of countries such as Portugal, Please start answering after you hear the buzzer'}],
+	    12:[{length:7500,delay:0,message:'Please describe this picture in as much detail as you can, When you have finished press forward'}],
+	    13:[{length:5400,delay:0,message:"Thank you taking part, The trial is now complete"}] 
+	};   
+
+	var bellsIndex=11;
+	var buzzerIndex=10;  
+	var cookieTheftIndex=12;
+	//var optionsIndex1=900;
+	//var optionsIndex2=100;
+	//index of the current question 
+
+	var maxQuestions=Object.keys(questions).length-1; 
+	var audio_context;
+	//var recorder;
+	var mediaRecorder;
+	var liveStream;
+	var chunks;
+
+ 
  
    function S4() {
       return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
@@ -54,8 +121,7 @@ $(function(){
 
 
 
-	var startTime=null; 
-	var killPreviousTimer=false;
+
 	//start stop watch
 	function startStopWatch(){
 		var date = new Date(); 
@@ -124,8 +190,7 @@ $(function(){
 
 			}, initDelay); 
 	}
-	var nextPressed=false;
-    var repeatPressed=false;
+	
     
 
     //listen to keys
@@ -189,38 +254,6 @@ $(function(){
 	speak=true;//convertToBool(getQueryString('speak'));  //speak TTS or play predefined audio files
     //buzzers=convertToBool(getQueryString('buzzers'));  // buzzers bool
     */
-    buzzers=true;
-    //recordconversation=convertToBool(getQueryString('recordconversation'));  // record conversation bool 
-
-    var wait_repeat = { 0:16000,
-    					1:8000,
-    					2:8000,
-    					3:8000,
-    					4:8000,
-    					5:8000,
-    					6:8000,
-    					7:8000,
-    					8:8000,
-    					9:10000,
-    					10:73000,
-    					11:75000,
-    					12:12000,
-    					13:8000 };
-
-    var wait_next = {   0:16000,
-    					1:8000,
-    					2:8000,
-    					3:8000,
-    					4:8000,
-    					5:8000,
-    					6:8000,
-    					7:8000,
-    					8:8000,
-    					9:10000,
-    					10:73000,
-    					11:75000,
-    					12:12000,
-    					13:8000 };
 
 
 /*
@@ -369,16 +402,18 @@ $(function(){
     	}, delay);
 	}
 
+	
+
 	function playMp4(){ 
 		if (videoHidden==true) {
 			$("#divVideo").removeClass('hidden');
 			videoHidden=false;
 		} 
-		
+		  
 		var video = document.getElementById("videoMp4");
 
-		video.width=w*0.45;
-		video.height = h*0.65;
+		video.width= window.innerWidth*0.45;
+		video.height = window.innerHeight*0.65;
 	
 	   video.src = 'mp4/q_'+currentQuestionIndex+'.mp4'; 
 	   video.play();
@@ -486,31 +521,7 @@ $(function(){
 		playAvatar(questions[currentQuestionIndex]);
 	} 
 
-	//list of questions that avatar asks 
-	var questions={ 0:[{length:14500,delay:0,message:'Hello I am the Avatar consultant and I will be asking you questions today, This Avatar is designed to reproduce what happens in the memory clinic, Thank you for agreeing to take part, I will start to ask you questions shortly'}],
-	                1:[{length:5500,delay:0,message:'Why have you come today and what are your expectations?'}],
-	                2:[{length:5600,delay:0,message:'Tell me what problems you have noticed with your memory recently'}],
-	                3:[{length:6400,delay:0,message:'Who is most worried about your memory, you or somebody else?'}],
-	                4:[{length:6600,delay:0,message:'What did you do over last weekend, giving as much detail as you can?'}],
-	                5:[{length:4300,delay:0,message:'What has been in the news recently?'}],           
-	                6:[{length:6300,delay:0,message:'Tell me about the school you went to and how old were you when you left'}],
-	                7:[{length:6100,delay:0,message:'Tell me what you did when you left school- what jobs did you do?'}],
-	                8:[{length:5900,delay:0,message:'Tell me about your last job? Give as much detail as you can'}],
-	                9:[{length:7600,delay:0,message:'Who manages your finances?  you or somebody else? Has this changed recently?'}],
-	                10:[{length:10400,delay:0,message:'Please name as many animals as you can. You can name any type of animal, You will have one minute, please start after you hear the buzze'}],
-	                11:[{length:15100,delay:0,message:'Please name as many words as you can that begin with the letter P, It can be any word beginning with P except for names or people such as Peter or names of countries such as Portugal, Please start answering after you hear the buzzer'}],
-	                12:[{length:7500,delay:0,message:'Please describe this picture in as much detail as you can, When you have finished press forward'}],
-	                13:[{length:5400,delay:0,message:"Thank you taking part, The trial is now complete"}] 
-	            };   
 
-	var bellsIndex=11;
-	var buzzerIndex=10;  
-	var cookieTheftIndex=12;
-	//var optionsIndex1=900;
-	//var optionsIndex2=100;
-	//index of the current question 
-	
-	var maxQuestions=Object.keys(questions).length-1; 
 
 	function playBuzzers(initialDelay,buzzerInterval){
 		var intervals=initialDelay+buzzerInterval; 
@@ -776,11 +787,7 @@ $(function(){
 	}    
 	 
 
-  var audio_context;
-  //var recorder;
-  var mediaRecorder;
-  var liveStream;
-  var chunks; 
+ 
 
   function startRecording() {  
   	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){
