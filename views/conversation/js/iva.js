@@ -470,7 +470,7 @@ $(function(){
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
-			    $("#" + id ).change(function() {  
+			    $('input[type=radio][name="' + id + '"]').change(function() {  
 			    	selected_value = this.value;
 			    	alert("changed:" + selected_value)
 					switch(selected_value) {
