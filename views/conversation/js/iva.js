@@ -421,16 +421,103 @@ $(function(){
     	return '<P>' + text + '</P>'; 
     }
 
-    function html_checkbox(id, text){ 
-    	return '<input type="checkbox" id="' + id + '" > <label for="' + id + '">' + text + '</label>';
+    function html_checkbox(id, text, sign=''){ 
+    	var script = document.createElement('script'); 
+		document.head.appendChild(script);    
+		script.type = 'text/javascript';
+		script.src = "//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js";
+		if (sign === ''){
+			script.onload = function(){
+			    $("#" + id).change(function() {
+				    if(this.checked) {
+				        move_consent()
+				    }
+				});
+			}  
+
+	    	return '<input type="checkbox" id="' + id + '" > <label for="' + id + '">' + text + '</label>'; 
+		}
+		else{ 
+			script.onload = function(){
+			    $("#" + id).change(function() {
+				    if(this.checked) { 
+				    	name = "#sign_agreement_" + (response.consent.agreements_length  + 1).toString();
+				    	if ($(name).text() !== ''){
+				    		$('#startAvatarButton').removeClass('hidden').show(); 
+				    	}
+				        else{
+				        	alert('You should put your name in the sign textbox!')
+				        }
+				    }
+				});
+			}  
+
+	    	return '<input type="checkbox" id="' + id + '" > <label for="' + id + '">' + text + '</label> <label for="sign_' + id + '" > Sign:</label> <input type="text" id="sign_' + id + '">';  
+		}
+		
     }
 
+    function move_consent(){
+    	$('#agreement_' + response.consent.current_agreement.toString()).addClass('hidden');
+		agrement=response.consent.agreed.pop();
+		response.consent.agreed.push('Yes,' + agrement); 
+
+    	if (response.consent.current_agreement <= response.consent.agreements_length){
+    		if (response.consent.agreement_type == 'mandatory'){ 
+	    		body = html_checkbox('agreement_' + configuration.consent.mandatory.agreements[response.consent.current_agreement].a_no.toString(), configuration.consent.mandatory.agreements[response.consent.current_agreement].agreement);
+	    		response.consent.agreed.push(configuration.consent.mandatory.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.mandatory.agreements[response.consent.current_agreement].agreement);
+	    		response.consent.current_agreement ++;  
+	    		$("#dynamic_body").append(body);   
+	    	}
+	    	else{
+	    		//optional agreements
+	    		cur_optional=response.consent.current_agreement-response.consent.mandatory_length;
+
+	    		body = html_checkbox('agreement_' + configuration.consent.mandatory.agreements[cur_optional].a_no.toString(), configuration.consent.mandatory.agreements[cur_optional].agreement);
+	    		response.consent.agreed.push(configuration.consent.mandatory.agreements[cur_optional].a_no.toString() + ',' + configuration.consent.mandatory.agreements[cur_optional].agreement);
+	    		response.consent.current_agreement ++;  
+	    		$("#dynamic_body").append(body);  
+
+	    	}
+    	}
+    	else 
+    		if (response.consent.agreement_type == 'mandatory'){
+    			//optional agreements
+    			response.consent.agreement_type == 'optional';
+    			response.consent.agreements_length += configuration.consent.optional.agreements.length;
+    			cur_optional=response.consent.current_agreement-response.consent.mandatory_length-1;
+
+    			body = html_checkbox('agreement_' + configuration.consent.optional.agreements[cur_optional].a_no.toString(), configuration.consent.optional.agreements[cur_optional].agreement);
+	    		response.consent.agreed.push(configuration.consent.mandatory.agreements[cur_optional].a_no.toString() + ',' + configuration.consent.mandatory.agreements[cur_optional].agreement);
+	    		response.consent.current_agreement ++;  
+	    		$("#dynamic_body").append(body);   
+
+    		}
+    		else{//last agreement  
+	    		body = html_checkbox('agreement_' + configuration.consent.last_a_no.toString(), configuration.consent.last_agreement, configuration.consent.sign);
+	    		response.consent.agreed.push(configuration.consent.last_a_no.toString() + ',' + configuration.consent.last_agreement); 
+	    		$("#dynamic_body").append(body);  
+
+    		}
+
+    }
+
+
+        'last_a_no':15,
+        'last_agreement':' I agree to take part in the study.',
+        'sign': 'Please type your name below to sign this consent form then click submit'
+
+
+
+
     function init_consent(){ 
+    	response.consent = {};
+
     	if (Object.keys(configuration.consent).length === 0){ 
     		init_questions();
     	}
     	else { 
-
+    		response.consent.agreed = [];
     		header='';
     		title='';
     		body = ''; 
@@ -444,13 +531,18 @@ $(function(){
     		title += html_p(configuration.consent.mandatory.statement);
 
     		body += html_checkbox('agreement_' + configuration.consent.mandatory.agreements[0].a_no.toString(), configuration.consent.mandatory.agreements[0].agreement);
+    		response.consent.agreed.push(configuration.consent.mandatory.agreements[0].a_no.toString() + ',' + configuration.consent.mandatory.agreements[0].agreement);
+    		response.consent.current_agreement = 1; 
+    		response.consent.agreement_type = 'mandatory'; 
+    		response.consent.agreements_length = configuration.consent.mandatory.agreements.length;
+    		response.consent.mandatory_length = configuration.consent.mandatory.agreements.length;
 
     		$("#dynamic_header").append(header);
     		$("#dynamic_title").append(title); 
     		$("#dynamic_body").append(body);  
 
     		$('#dynamic').removeClass('hidden').show(); 
-    		$('#startAvatarButton').addClass('hidden');
+    		$('#startAvatarButton').addClass('hidden'); 
     	} 
     } 
 
@@ -594,8 +686,7 @@ $(function(){
 
 	function getCanvas() {
 		return document.getElementById('mycanvas');
-	}	
-		  
+	}	   
 		
    	// Older browsers might not implement mediaDevices at all, so we set an empty object first
 	if (navigator.mediaDevices === undefined) {
