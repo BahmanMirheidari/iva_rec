@@ -685,11 +685,11 @@ $(function(){
 
     		html_body += html_checkbox('agreement_' + str(configuration.consent.mandatory.agreements[0].a_no), configuration.consent.mandatory.agreements[0].agreement);
 
-    		$("#consent_header").append(html_header);
-    		$("#consent_title").append(html_title); 
-    		$("#consent_body").append(html_body);  
+    		$("#dynamic_header").append(html_header);
+    		$("#dynamic_title").append(html_title); 
+    		$("#dynamic_body").append(html_body);  
 
-    		$('#consent').removeClass('hidden').show(); 
+    		$('#dynamic').removeClass('hidden').show(); 
     	} 
     }
 
