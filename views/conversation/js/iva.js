@@ -426,20 +426,20 @@ $(function(){
     	html = '';
     	for (i=0;i<text.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString();
-    		html += '<input type="checkbox" id="' + indexed_id + '" > <label id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H4", text[i]) + '</label>'; 
+    		html += '<input class="form-check-input" type="checkbox" id="' + indexed_id + '" > <label class="custom-control-label" id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H4", text[i]) + '</label>'; 
     	}
     	return html;
     }
 
     function html_textbox(id,text){
-    	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" >';  
+    	return html_header("H4", text) + '<input class="form-control" type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
     	html = html_header("H4", text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<input type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H4", options[i]) + '</label>';
+    		html += '<input class="radio-inline" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label class="custom-control-label" id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H4", options[i]) + '</label>';
     	}
     	return html; 
     } 
