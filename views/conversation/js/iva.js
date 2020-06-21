@@ -415,7 +415,7 @@ $(function(){
 	}
 
     function html_header(h_no,text){ 
-    	return '<' + h_no + ' class="display-1" >' + text + '</' + h_no + '>'; 
+    	return '<' + h_no + '>' + text + '</' + h_no + '>'; 
     }
 
     function html_p(text){ 
@@ -426,20 +426,20 @@ $(function(){
     	html = '';
     	for (i=0;i<text.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString();
-    		html += '<input type="checkbox" id="' + indexed_id + '" > <label id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + text[i] + '</label>'; 
+    		html += '<input type="checkbox" id="' + indexed_id + '" > <label id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_p(text[i]) + '</label>'; 
     	}
     	return html;
     }
 
     function html_textbox(id,text){
-    	return html_header("H3",text) + '<input type="textbox" id="txt_' + id + '" >';  
+    	return html_p(text) + '<input type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
     	html = html_p(text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<input type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + options[i] + '</label>';
+    		html += '<input type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_p(options[i]) + '</label>';
     	}
     	return html; 
     } 
@@ -527,9 +527,9 @@ $(function(){
     		
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title));
     		$("#dynamic_header").append(html_header('H2', configuration.consent.participants)); 
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.project)); 
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.reference)); 
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.pi));  
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.project)); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.reference)); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.pi));  
     		
     		set_consent_agreement();
 
