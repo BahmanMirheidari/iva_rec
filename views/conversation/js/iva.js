@@ -470,16 +470,14 @@ $(function(){
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
-			    $('input[type=radio][name="' + id + '"]').change(function() {  
-			    	selected_value = this.value;
-			    	alert("changed:" + selected_value)
-					switch(selected_value) {
-					        case 'yes' :
+			    $('input[type=radio][name="' + id + '"]').change(function() {   
+					switch(this.value) {
+					        case 'Yes' :
 					            response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
 						    	response.consent.current_agreement ++;
 						        set_consent_agreement();
 					            break;
-					        case 'no' :
+					        case 'No' :
 					            response.consent.agreed.push("No, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
 						    	response.consent.current_agreement ++;
 						        set_consent_agreement();
