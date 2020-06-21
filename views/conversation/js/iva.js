@@ -654,10 +654,20 @@ $(function(){
 	    });  
 
 
+    function html_header(h_no,text){ 
+    	return '<' + h_no + '>' + text + '</' + h_no + '>'; 
+    }
+
+    function html_p(text){ 
+    	return '<P>' + text + '</P>'; 
+    }
+
+    function html_checkbox(id, text){ 
+    	return '<input type="checkbox" id="' + id + '" > <label for="' + id + '">' + text + '</label>';
+    }
 
     function init_consent(){ 
-    	if (Object.keys(configuration.consent).length === 0){
-    		alert('l:' + Object.keys(configuration.consent).length);
+    	if (Object.keys(configuration.consent).length === 0){ 
     		init_questions();
     	}
     	else {
@@ -665,22 +675,21 @@ $(function(){
     		html_title='';
     		html_body = ''; 
 
-    		html_header += '<H1>' + configuration.consent.title + '</H1>';
-    		html_header += '<H2>' + configuration.consent.participants + '</H2>';
-    		html_header += '<H3>' + configuration.consent.project + '</H3>';
-    		html_header += '<H3>' + configuration.consent.reference + '</H3>';
-    		html_header += '<H3>' + configuration.consent.pi + '</H3>';
+    		html_header += html_header('H1', configuration.consent.title);
+    		html_header += html_header('H2', configuration.consent.participants); 
+    		html_header += html_header('H3', configuration.consent.project); 
+    		html_header += html_header('H3', configuration.consent.reference); 
+    		html_header += html_header('H3', configuration.consent.pi); 
 
-    		html_title += '<p>' + configuration.consent.mandatory.statement + '</p>';
+    		html_title += html_p(configuration.consent.mandatory.statement);
 
-    		html_body += '<input type="checkbox" id="' + configuration.consent.mandatory.agreements[0].a_no + '" > <label for="' + configuration.consent.mandatory.agreements[0].a_no + '">' + configuration.consent.mandatory.agreements[0].agreement + '</label>';
-    
+    		html_body += html_checkbox('agreement_' + str(configuration.consent.mandatory.agreements[0].a_no), configuration.consent.mandatory.agreements[0].agreement);
+
     		$("#consent_header").append(html_header);
     		$("#consent_title").append(html_title); 
     		$("#consent_body").append(html_body);  
 
-    		$('#consent').removeClass('hidden').show();
-    		
+    		$('#consent').removeClass('hidden').show(); 
     	} 
     }
 
