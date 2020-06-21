@@ -24,6 +24,7 @@ module.exports = {
                 req.session.authorised = true;  
                 req.user = {role:'user', 
                   userID: 'user-' + result[0].id, 
+                  jquery: config.jquery,
                   configuration: get_from_config(result[0].configuration) 
                   };  
                 res.render('talk2iva.ejs', {
@@ -61,6 +62,7 @@ module.exports = {
             try{
                 req.session.authorised = true;  
                 req.user.configuration = get_from_config(config.iva_default);
+                req.user.jquery: config.jquery;
 
                 if (result[0].admin === 1){
                   req.session.role = 'admin';
@@ -84,6 +86,7 @@ module.exports = {
                 req.session.authorised = false;  
                 req.user.role = '';
                 req.user.configuration = get_from_config(config.iva_default);
+                req.user.jquery: config.jquery;
 
                 // execute query
                 db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
