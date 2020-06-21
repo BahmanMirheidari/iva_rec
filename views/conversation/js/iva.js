@@ -490,7 +490,7 @@ $(function(){
     	else 
     		if (response.consent.agreement_type == 'mandatory'){
     			//optional agreements
-    			response.consent.agreement_type == 'optional';
+    			response.consent.agreement_type = 'optional';
     			title = html_p(configuration.consent.optional.statement);
 	    		$("#dynamic_title").empty().append(title); 
 
