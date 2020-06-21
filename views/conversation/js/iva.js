@@ -24,6 +24,7 @@ $(function(){
 	var mediaRecorder;
 	var liveStream;
 	var chunks;
+	var response = {};
 
 	var wait_repeat = { 0:16000,
 		1:8000,
