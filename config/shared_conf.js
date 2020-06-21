@@ -8,75 +8,86 @@ module.exports = {
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
         'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
-        'mandatory' :{
-            'statement' : 'Please tick the box for each statement to indicate that you agree:',
-            'agreements': [
-                {
-                    'a_no':1,
-                    'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
-                },
-                {
-                    'a_no':2,
-                    'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
-                },
-                {
-                    'a_no':3,
-                    'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
-                },
-                {
-                    'a_no':4,
-                    'agreement': "I understand that relevant sections of my medical notes and the data collected during the study may be looked at by individuals from regulatory authorities, Sheffield Teaching Hospitals NHS Foundation Trust, Sheffield Health and Social Care NHS Foundation Trust, the University of Sheffield, where it is relevant to my taking part in this research. I give permission for such individuals to have access to my records."
-                },
-                {
-                    'a_no':5,
-                    'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
-                },
-                {
-                    'a_no':6,
-                    'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
-                }
-            ] 
-        },
-        'optional' :{
-            'statement' : 'For the following statements, please respond with either YES or NO:',
-            'agreements': [
-                {
-                    'a_no':7,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
-                },
-                {
-                    'a_no':8,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
-                },
-                {
-                    'a_no':9,
-                    'agreement': "I understand that my capacity to consent will be assessed prior to research visits occurring at home, approximately 1 month prior to the research visits, as outlined in the Participant Information sheet. If the clinician deems that I have lost the capacity to consent during the study, I will be withdrawn from the study and my data will be kept for use in this study and relevant future research. No further data will be collected or any other research assessments will be carried out."
-                },
-                {
-                    'a_no':10,
-                    'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study"
-                },
-                {
-                    'a_no':11,
-                    'agreement': "I would like to be informed of the results of the study."
-                },
-                {
-                    'a_no':12,
-                    'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
-                },
-                {
-                    'a_no':13,
-                    'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
-                },
-                {
-                    'a_no':14,
-                    'agreement': "OPTIONAL (if participated in AAA-MC): I consent to data recorded from AAA-MC to be included in this study to allow the researchers to see how my memory has changed over time."
-                }
-            ] 
-        },
-        'last_a_no':15,
-        'last_agreement':' I agree to take part in the study.',
-        'sign': 'Please type your name below to sign this consent form then click submit'
+        'mandatory_statement': 'Please tick the box for each statement to indicate that you agree:',
+        'optional_statement': 'For the following statements, please respond with either YES or NO:',
+        'sign_statement': 'Please type your name below to sign this consent form then click submit',
+        'agreements': [
+            {
+                'a_no':1,
+                'a_type': 'mandatory',
+                'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
+            },
+            {
+                'a_no':2,
+                'a_type': 'mandatory',
+                'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
+            },
+            {
+                'a_no':3,
+                'a_type': 'mandatory',
+                'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
+            },
+            {
+                'a_no':4,
+                'a_type': 'mandatory',
+                'agreement': "I understand that relevant sections of my medical notes and the data collected during the study may be looked at by individuals from regulatory authorities, Sheffield Teaching Hospitals NHS Foundation Trust, Sheffield Health and Social Care NHS Foundation Trust, the University of Sheffield, where it is relevant to my taking part in this research. I give permission for such individuals to have access to my records."
+            },
+            {
+                'a_no':5,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
+            },
+            {
+                'a_no':6,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
+            }
+            {
+                'a_no':7,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
+            },
+            {
+                'a_no':8,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
+            },
+            {
+                'a_no':9,
+                'a_type': 'optional',
+                'agreement': "I understand that my capacity to consent will be assessed prior to research visits occurring at home, approximately 1 month prior to the research visits, as outlined in the Participant Information sheet. If the clinician deems that I have lost the capacity to consent during the study, I will be withdrawn from the study and my data will be kept for use in this study and relevant future research. No further data will be collected or any other research assessments will be carried out."
+            },
+            {
+                'a_no':10,
+                'a_type': 'optional',
+                'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study"
+            },
+            {
+                'a_no':11,
+                'a_type': 'optional',
+                'agreement': "I would like to be informed of the results of the study."
+            },
+            {
+                'a_no':12,
+                'a_type': 'optional',
+                'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
+            },
+            {
+                'a_no':13,
+                'a_type': 'optional',
+                'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
+            },
+            {
+                'a_no':14,
+                'a_type': 'optional',
+                'agreement': "OPTIONAL (if participated in AAA-MC): I consent to data recorded from AAA-MC to be included in this study to allow the researchers to see how my memory has changed over time."
+            },
+            {
+                'a_no':15,
+                'a_type': 'last',
+                'agreement': "I agree to take part in the study."
+            }
+        ]  
     },
     'consent_hc': {
         'image_url' :'Images/logo.png',
@@ -85,71 +96,81 @@ module.exports = {
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
         'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
-        'mandatory' :{
-            'statement' : 'Please tick the box for each statement to indicate that you agree:',
-            'agreements': [
-                {
-                    'a_no':1,
-                    'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
-                },
-                {
-                    'a_no':2,
-                    'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
-                },
-                {
-                    'a_no':3,
-                    'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
-                },
-                {
-                    'a_no':4,
-                    'agreement': "I understand that if I am not a STH patient and do not have STH medical notes, then I give permission that a participant file will be made up me and these files and any other data collected during the study may be looked at by individuals from the Sheffield Teaching Hospitals NHS Trust, Sheffield Health and Social Care NHS Trust, The University of Sheffield and the regulatory authorities where it is relevant to my taking part in this research. I give permission for these individuals to have access to my records."
-                },
-                {
-                    'a_no':5,
-                    'agreement': "I understand that if I am an STH patient and have STH medical notes, I agree that relevant sections of my medical notes may be looked at by members of the research team or individuals from the Sheffield Teaching Hospitals NHS Trust, Sheffield Health and Social Care NHS Trust, The University of Sheffield and the regulatory authorities where it is relevant to my taking part in this research. I give permission for these individuals to have access to my records."
-                },
-                {
-                    'a_no':6,
-                    'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
-                },
-                {
-                    'a_no':7,
-                    'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
-                }
-            ] 
-        },
-        'optional' :{
-            'statement' : 'For the following statements, please respond with either YES or NO:',
-            'agreements': [
-                {
-                    'a_no':8,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
-                },
-                {
-                    'a_no':9,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
-                },
-                {
-                    'a_no':10,
-                    'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study."
-                },
-                {
-                    'a_no':11,
-                    'agreement': "I would like to be informed of the results of the study."
-                },
-                {
-                    'a_no':12,
-                    'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
-                },
-                {
-                    'a_no':13,
-                    'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
-                }
-            ] 
-        },
-        'last_a_no':14,
-        'last_agreement':' I agree to take part in the study.',
-        'sign': 'Please type your name below to sign this consent form then click submit'
+        'mandatory_statement': 'Please tick the box for each statement to indicate that you agree:',
+        'optional_statement': 'For the following statements, please respond with either YES or NO:',
+        'sign_statement': 'Please type your name below to sign this consent form then click submit', 
+        'agreements': [
+            {
+                'a_no':1,
+                'a_type': 'mandatory',
+                'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
+            },
+            {
+                'a_no':2,
+                'a_type': 'mandatory',
+                'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
+            },
+            {
+                'a_no':3,
+                'a_type': 'mandatory',
+                'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
+            },
+            {
+                'a_no':4,
+                'a_type': 'mandatory',
+                'agreement': "I understand that if I am not a STH patient and do not have STH medical notes, then I give permission that a participant file will be made up me and these files and any other data collected during the study may be looked at by individuals from the Sheffield Teaching Hospitals NHS Trust, Sheffield Health and Social Care NHS Trust, The University of Sheffield and the regulatory authorities where it is relevant to my taking part in this research. I give permission for these individuals to have access to my records."
+            },
+            {
+                'a_no':5,
+                'a_type': 'mandatory',
+                'agreement': "I understand that if I am an STH patient and have STH medical notes, I agree that relevant sections of my medical notes may be looked at by members of the research team or individuals from the Sheffield Teaching Hospitals NHS Trust, Sheffield Health and Social Care NHS Trust, The University of Sheffield and the regulatory authorities where it is relevant to my taking part in this research. I give permission for these individuals to have access to my records."
+            },
+            {
+                'a_no':6,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
+            },
+            {
+                'a_no':7,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
+            },
+            {
+                'a_no':8,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
+            },
+            {
+                'a_no':9,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
+            },
+            {
+                'a_no':10,
+                'a_type': 'optional',
+                'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study."
+            },
+            {
+                'a_no':11,
+                'a_type': 'optional',
+                'agreement': "I would like to be informed of the results of the study."
+            },
+            {
+                'a_no':12,
+                'a_type': 'optional',
+                'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
+            },
+            {
+                'a_no':13,
+                'a_type': 'optional',
+                'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
+            },
+            {
+                'a_no':14,
+                'a_type': 'last',
+                'agreement': "I agree to take part in the study."
+            }
+        ] 
     },
     'consent_md': {
         'image_url' :'Images/logo.png',
@@ -158,71 +179,81 @@ module.exports = {
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
         'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
-        'mandatory' :{
-            'statement' : 'Please tick the box for each statement to indicate that you agree:',
-            'agreements': [
-                {
-                    'a_no':1,
-                    'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
-                },
-                {
-                    'a_no':2,
-                    'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
-                },
-                {
-                    'a_no':3,
-                    'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
-                },
-                {
-                    'a_no':4,
-                    'agreement': "I understand that relevant sections of my medical notes and the data collected during the study may be looked at by individuals from regulatory authorities, Sheffield Teaching Hospitals NHS Foundation Trust, Sheffield Health and Social Care NHS Foundation Trust, the University of Sheffield, where it is relevant to my taking part in this research. I give permission for such individuals to have access to my records."
-                },
-                {
-                    'a_no':5,
-                    'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
-                },
-                {
-                    'a_no':6,
-                    'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
-                }
-            ] 
-        },
-        'optional' :{
-            'statement' : 'For the following statements, please respond with either YES or NO:',
-            'agreements': [
-                {
-                    'a_no':7,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
-                },
-                {
-                    'a_no':8,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
-                },
-                {
-                    'a_no':9,
-                    'agreement': "I understand that my capacity to consent will be assessed prior to research visits occurring at home, approximately 1 month prior to the research visits, as outlined in the Participant Information sheet. If the clinician deems that I have lost the capacity to consent during the study, I will be withdrawn from the study and my data will be kept for use in this study and relevant future research. No further data will be collected or any other research assessments will be carried out."
-                },
-                {
-                    'a_no':10,
-                    'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study."
-                },
-                {
-                    'a_no':11,
-                    'agreement': "I would like to be informed of the results of the study."
-                },
-                {
-                    'a_no':12,
-                    'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
-                },
-                {
-                    'a_no':13,
-                    'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
-                } 
-            ] 
-        },
-        'last_a_no':14,
-        'last_agreement':' I agree to take part in the study.',
-        'sign': 'Please type your name below to sign this consent form then click submit'
+        'mandatory_statement': 'Please tick the box for each statement to indicate that you agree:',
+        'optional_statement': 'For the following statements, please respond with either YES or NO:',
+        'sign_statement': 'Please type your name below to sign this consent form then click submit', 
+        'agreements': [
+            {
+                'a_no':1,
+                'a_type': 'mandatory',
+                'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
+            },
+            {
+                'a_no':2,
+                'a_type': 'mandatory',
+                'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
+            },
+            {
+                'a_no':3,
+                'a_type': 'mandatory',
+                'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
+            },
+            {
+                'a_no':4,
+                'a_type': 'mandatory',
+                'agreement': "I understand that relevant sections of my medical notes and the data collected during the study may be looked at by individuals from regulatory authorities, Sheffield Teaching Hospitals NHS Foundation Trust, Sheffield Health and Social Care NHS Foundation Trust, the University of Sheffield, where it is relevant to my taking part in this research. I give permission for such individuals to have access to my records."
+            },
+            {
+                'a_no':5,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
+            },
+            {
+                'a_no':6,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
+            },
+            {
+                'a_no':7,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
+            },
+            {
+                'a_no':8,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
+            },
+            {
+                'a_no':9,
+                'a_type': 'optional',
+                'agreement': "I understand that my capacity to consent will be assessed prior to research visits occurring at home, approximately 1 month prior to the research visits, as outlined in the Participant Information sheet. If the clinician deems that I have lost the capacity to consent during the study, I will be withdrawn from the study and my data will be kept for use in this study and relevant future research. No further data will be collected or any other research assessments will be carried out."
+            },
+            {
+                'a_no':10,
+                'a_type': 'optional',
+                'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study."
+            },
+            {
+                'a_no':11,
+                'a_type': 'optional',
+                'agreement': "I would like to be informed of the results of the study."
+            },
+            {
+                'a_no':12,
+                'a_type': 'optional',
+                'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
+            },
+            {
+                'a_no':13,
+                'a_type': 'optional',
+                'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
+            },
+            {
+                'a_no':14,
+                'a_type': 'last',
+                'agreement': "I agree to take part in the study."
+            }
+        ]  
     },
     'consent_stroke': {
         'image_url' :'Images/logo.png',
@@ -231,71 +262,81 @@ module.exports = {
         'project': 'CognoSpeak: An automated cognitive assessment tool based on language (utilising automated speech recognition and Machine Learning)',
         'reference': 'Study Reference: STH20818',
         'pi': 'Principal Investigator: Dr Daniel Blackburn',
-        'mandatory' :{
-            'statement' : 'Please tick the box for each statement to indicate that you agree:',
-            'agreements': [
-                {
-                    'a_no':1,
-                    'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
-                },
-                {
-                    'a_no':2,
-                    'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
-                },
-                {
-                    'a_no':3,
-                    'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
-                },
-                {
-                    'a_no':4,
-                    'agreement': "I understand that relevant sections of my medical notes and the data collected during the study may be looked at by individuals from regulatory authorities, Sheffield Teaching Hospitals NHS Foundation Trust, Sheffield Health and Social Care NHS Foundation Trust, the University of Sheffield, where it is relevant to my taking part in this research. I give permission for such individuals to have access to my records."
-                },
-                {
-                    'a_no':5,
-                    'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
-                },
-                {
-                    'a_no':6,
-                    'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
-                }
-            ] 
-        },
-        'optional' :{
-            'statement' : 'For the following statements, please respond with either YES or NO:',
-            'agreements': [
-                {
-                    'a_no':7,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
-                },
-                {
-                    'a_no':8,
-                    'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
-                },
-                {
-                    'a_no':9,
-                    'agreement': "I understand that my capacity to consent will be assessed prior to research visits occurring at home, approximately 1 month prior to the research visits, as outlined in the Participant Information sheet. If the clinician deems that I have lost the capacity to consent during the study, I will be withdrawn from the study and my data will be kept for use in this study and relevant future research. No further data will be collected or any other research assessments will be carried out."
-                },
-                {
-                    'a_no':10,
-                    'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study."
-                },
-                {
-                    'a_no':11,
-                    'agreement': "I would like to be informed of the results of the study."
-                },
-                {
-                    'a_no':12,
-                    'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
-                },
-                {
-                    'a_no':13,
-                    'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
-                }
-            ] 
-        },
-        'last_a_no':14,
-        'last_agreement':' I agree to take part in the study.',
-        'sign': 'Please type your name below to sign this consent form then click submit'
+        'mandatory_statement': 'Please tick the box for each statement to indicate that you agree:',
+        'optional_statement': 'For the following statements, please respond with either YES or NO:',
+        'sign_statement': 'Please type your name below to sign this consent form then click submit', 
+        'agreements': [
+            {
+                'a_no':1,
+                'a_type': 'mandatory',
+                'agreement': "I confirm that I have read and understand the Information Sheet (V1, Date: ) for the above study and had an opportunity to ask questions."
+            },
+            {
+                'a_no':2,
+                'a_type': 'mandatory',
+                'agreement': "I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily."
+            },
+            {
+                'a_no':3,
+                'a_type': 'mandatory',
+                'agreement': "I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, without my medical care or rights being affected."
+            },
+            {
+                'a_no':4,
+                'a_type': 'mandatory',
+                'agreement': "I understand that relevant sections of my medical notes and the data collected during the study may be looked at by individuals from regulatory authorities, Sheffield Teaching Hospitals NHS Foundation Trust, Sheffield Health and Social Care NHS Foundation Trust, the University of Sheffield, where it is relevant to my taking part in this research. I give permission for such individuals to have access to my records."
+            },
+            {
+                'a_no':5,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultations between me and CognoSpeak can be audio-recorded."
+            },
+            {
+                'a_no':6,
+                'a_type': 'mandatory',
+                'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
+            },
+            {
+                'a_no':7,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material collected in this study, without any additional information that could identify me, for future ethically approved studies."
+            },
+            {
+                'a_no':8,
+                'a_type': 'optional',
+                'agreement': "I agree that the researchers can use extracts of the written, video and sound material in scientific publications about the findings of this study and to teach healthcare students and professionals, without any additional information that could identify me. This may include short quotes from the audio and/or video recorded data."
+            },
+            {
+                'a_no':9,
+                'a_type': 'optional',
+                'agreement': "I understand that my capacity to consent will be assessed prior to research visits occurring at home, approximately 1 month prior to the research visits, as outlined in the Participant Information sheet. If the clinician deems that I have lost the capacity to consent during the study, I will be withdrawn from the study and my data will be kept for use in this study and relevant future research. No further data will be collected or any other research assessments will be carried out."
+            },
+            {
+                'a_no':10,
+                'a_type': 'optional',
+                'agreement': "I agree for my data (without any additional information that could identify me) to be stored for 10 years, following the end of the study."
+            },
+            {
+                'a_no':11,
+                'a_type': 'optional',
+                'agreement': "I would like to be informed of the results of the study."
+            },
+            {
+                'a_no':12,
+                'a_type': 'optional',
+                'agreement': "I agree that I may be contacted with details of future research projects, and that there will be no obligation for me to participate."
+            },
+            {
+                'a_no':13,
+                'a_type': 'optional',
+                'agreement': "I consent to my GP to be contacted to inform him/her that I am taking part in this study."
+            },
+            {
+                'a_no':14,
+                'a_type': 'last',
+                'agreement': "I agree to take part in the study."
+            }
+        ] 
     },
     'questions_ivastroke1':[
         {
