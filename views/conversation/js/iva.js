@@ -432,7 +432,7 @@ $(function(){
     }
 
     function html_textbox(id,text){
-    	return html_header("H4", text) + '<div class="form-group"> <input class="form-control" type="textbox" id="txt_' + id + '" > </div>';  
+    	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
