@@ -456,7 +456,7 @@ $(function(){
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.agreement]));
     		script.onload = function(){
-			    $("#" + id).change(function() {
+			    $("#" + id + "_1").change(function() {
 				    if(this.checked) {
 				    	response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
 				    	response.consent.current_agreement ++;
@@ -494,7 +494,7 @@ $(function(){
     		$("#dynamic_body").append(html_textbox(id,[cur_agreement.agreement]));
 
     		script.onload = function(){
-			    $("#" + id).change(function() {
+			    $("#" + id + "_1").change(function() {
 				    if(this.checked) {
 				    	if ($("#txt_" + id).text() === ''){
 				    		alert('You should fill the sign textbox!');
