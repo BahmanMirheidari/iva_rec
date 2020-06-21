@@ -419,27 +419,27 @@ $(function(){
     }
 
     function html_p(text){ 
-    	return '<P class="form-control-lg">' + text + '</P>'; 
+    	return '<P>' + text + '</P>'; 
     }
 
     function html_checkbox(id,text){
     	html = '';
     	for (i=0;i<text.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString();
-    		html += '<input type="checkbox" id="' + indexed_id + '" > <label id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_p(text[i]) + '</label>'; 
+    		html += '<input type="checkbox" id="' + indexed_id + '" > <label id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H4", text[i]) + '</label>'; 
     	}
     	return html;
     }
 
     function html_textbox(id,text){
-    	return html_p(text) + '<input class="form-control-lg" type="textbox" id="txt_' + id + '" >';  
+    	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
-    	html = html_p(text);  
+    	html = html_header("H4", text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<input type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + options[i] + '</label>';
+    		html += '<input type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H4", options[i]) + '</label>';
     	}
     	return html; 
     } 
@@ -452,7 +452,7 @@ $(function(){
 
     	cur_agreement = configuration.consent.agreements[response.consent.current_agreement]
     	if (cur_agreement.a_type === 'mandatory'){
-    		$("#dynamic_title").empty().append(html_header("H4", configuration.consent.mandatory_statement)); 
+    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.mandatory_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.agreement]));
     		script.onload = function(){
@@ -466,7 +466,7 @@ $(function(){
 			}   
     	}
     	else if (cur_agreement.a_type === 'optional'){
-    		$("#dynamic_title").empty().append(html_header("H4", configuration.consent.optional_statement)); 
+    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.optional_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
@@ -526,10 +526,10 @@ $(function(){
     		response.consent.agreements_length = configuration.consent.agreements.length; 
     		
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title));
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.participants)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.consent.project)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.consent.reference)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.consent.pi));  
+    		$("#dynamic_header").append(html_header('H1', configuration.consent.participants)); 
+    		$("#dynamic_header").append(html_header('H2', configuration.consent.project)); 
+    		$("#dynamic_header").append(html_header('H2', configuration.consent.reference)); 
+    		$("#dynamic_header").append(html_header('H2', configuration.consent.pi));  
     		
     		set_consent_agreement();
 
