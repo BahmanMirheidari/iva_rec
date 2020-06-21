@@ -423,25 +423,25 @@ $(function(){
     }
 
     function html_checkbox(id,text){
-    	html = '<div class="form-check">';
+    	html = '';
     	for (i=0;i<text.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString();
-    		html += '<input class="checkbox checkbox-primary" type="checkbox" id="' + indexed_id + '" > <label class="custom-control-label" id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H3", text[i]) + '</label>'; 
+    		html += '<input class="checkbox checkbox-primary" type="checkbox" id="' + indexed_id + '" > <label class="custom-control-label" id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H4", text[i]) + '</label>'; 
     	}
-    	return html + "</div>";
+    	return html;
     }
 
     function html_textbox(id,text){
-    	return html_header("H3", text) + '<input type="textbox" id="txt_' + id + '" >';  
+    	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
-    	html = html_header("H4", text) + '<div class="radio radio-info">';;  
+    	html = html_header("H4", text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<input class="form-check-input" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label class="custom-control-label" id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H3", options[i]) + '</label>';
+    		html += '<input class="form-check-input" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label class="custom-control-label" id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H4", options[i]) + '</label>';
     	}
-    	return html + "</div>"; 
+    	return html; 
     } 
 
     function set_consent_agreement(){
