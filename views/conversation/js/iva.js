@@ -155,7 +155,6 @@ $(function(){
 		return value;
 	}
 
-
 	/*
 
     //get value from query string
@@ -184,11 +183,12 @@ $(function(){
 	directValues=convertToBool(getQueryString('directvalues')); //values are direct or no
 	googlevoice=convertToBool(getQueryString('googlevoice')); //use google male voice
 
-*/
+
 
 
 	speak=true;//convertToBool(getQueryString('speak'));  //speak TTS or play predefined audio files
     //buzzers=convertToBool(getQueryString('buzzers'));  // buzzers bool
+    */
     buzzers=true;
     //recordconversation=convertToBool(getQueryString('recordconversation'));  // record conversation bool 
 
@@ -349,6 +349,10 @@ $(function(){
 		avatarSet=true;
 	}
 */
+
+
+
+
 	function pause(milliseconds) {
 		var dt = new Date();
 		while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
@@ -384,11 +388,8 @@ $(function(){
 	//play avatar
 	function playAvatar(messages)  
 	{  
-		var mlen=messages.length; 
-		if (offline==true)
-			playMp4();
-		else
-    		timedPlayAvt(messages, mlen, messages[0].delay); 
+		var mlen=messages.length;  
+		playMp4(); 
 
 		var delay=0
 		for(var j=0;j<mlen;j++)
