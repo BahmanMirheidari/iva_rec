@@ -489,8 +489,8 @@ $(function(){
     	else{//last agreement
     		$("#dynamic_title").empty();
     		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.agreement]));
-    		$("#dynamic_body").append(html_textbox(id,configuration.consent.sign_statement));
+    		$("#dynamic_body").empty().append(html_textbox(id,configuration.consent.sign_statement));
+    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.agreement]));
 
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
