@@ -22,6 +22,7 @@
     var userID = "<%= user.userID %>";  
     var configuration = <%- JSON.stringify(user.configuration) %>
     var socket_uri = "<%= socket_uri %>";  
+    var responses = {};
    </script>
 
    <script type='text/javascript' src="js/iva.js"></script>  
@@ -39,7 +40,7 @@
       </div>
     </div> 
 
-   <div id="dynamic" class="container col-xs-12 hidden">
+   <div id="dynamic" class="container hidden">
       <div id="dynamic_header">
      </div>
 

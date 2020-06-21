@@ -147,10 +147,16 @@ $(function(){
 	    } 
    });
 
+
+
+
     function convertToBool(value){
 		value= value==='true' ? true:false;
 		return value;
 	}
+
+
+	/*
 
     //get value from query string
 	var getQueryString = function ( field, url ) {
@@ -177,6 +183,10 @@ $(function(){
 	quickMode=convertToBool(getQueryString('quickmode'));//quick mode with a few questions
 	directValues=convertToBool(getQueryString('directvalues')); //values are direct or no
 	googlevoice=convertToBool(getQueryString('googlevoice')); //use google male voice
+
+*/
+
+
 	speak=true;//convertToBool(getQueryString('speak'));  //speak TTS or play predefined audio files
     //buzzers=convertToBool(getQueryString('buzzers'));  // buzzers bool
     buzzers=true;
@@ -213,6 +223,7 @@ $(function(){
     					13:8000 };
 
 
+/*
 	function setAvatar(){ 
 		//default avatar
 		web.avatar = "792824";      //Logan no emotion
@@ -337,11 +348,12 @@ $(function(){
 		web.createBox(); 
 		avatarSet=true;
 	}
-
+*/
 	function pause(milliseconds) {
 		var dt = new Date();
 		while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
-	} 
+	}  
+
 
 	function timedPlayAvt(messages, reps, delay) {
 		index=messages.length-reps
