@@ -452,7 +452,7 @@ $(function(){
 
     	cur_agreement = configuration.consent.agreements[response.consent.current_agreement]
     	if (cur_agreement.a_type === 'mandatory'){
-    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.mandatory_statement)); 
+    		$("#dynamic_title").empty().append(html_header("H4", configuration.consent.mandatory_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.agreement]));
     		script.onload = function(){
@@ -466,7 +466,7 @@ $(function(){
 			}   
     	}
     	else if (cur_agreement.a_type === 'optional'){
-    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.optional_statement)); 
+    		$("#dynamic_title").empty().append(html_header("H4", configuration.consent.optional_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
