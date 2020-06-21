@@ -495,7 +495,7 @@ $(function(){
 	    		$("#dynamic_title").empty().append(title); 
 
     			response.consent.agreements_length += configuration.consent.optional.agreements.length;
-    			cur_optional=response.consent.current_agreement-response.consent.mandatory_length-1;
+    			cur_optional=response.consent.current_agreement-response.consent.mandatory_length;
 
     			body = html_checkbox('agreement_' + configuration.consent.optional.agreements[cur_optional].a_no.toString(), configuration.consent.optional.agreements[cur_optional].agreement);
 	    		response.consent.agreed.push(configuration.consent.mandatory.agreements[cur_optional].a_no.toString() + ',' + configuration.consent.mandatory.agreements[cur_optional].agreement);
