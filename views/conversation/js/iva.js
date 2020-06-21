@@ -414,8 +414,8 @@ $(function(){
 		disableKeysNext(wait_repeat[currentQuestionIndex]); 
 	}
 
-    function html_header(h_no,text){ 
-    	return '<' + h_no + '>' + text + '</' + h_no + '>'; 
+    function html_header(h_no,text,cls="bg-info"){ 
+    	return '<' + h_no + ' class="' + cls + '" >' + text + '</' + h_no + '>'; 
     }
 
     function html_p(text){ 
@@ -431,8 +431,8 @@ $(function(){
     	return html;
     }
 
-    function html_textbox(id,text,cls="bg-info"){
-    	return html_header("H4", text) + '<input class="' + cls + '" type="textbox" id="txt_' + id + '" >';  
+    function html_textbox(id,text){
+    	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
