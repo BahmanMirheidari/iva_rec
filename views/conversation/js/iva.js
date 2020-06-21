@@ -469,7 +469,7 @@ $(function(){
 		agrement=response.consent.agreed.pop();
 		response.consent.agreed.push('Yes,' + agrement); 
 
-    	if (response.consent.current_agreement <= response.consent.agreements_length){
+    	if (response.consent.current_agreement < response.consent.agreements_length){
     		if (response.consent.agreement_type == 'mandatory'){ 
 	    		body = html_checkbox('agreement_' + configuration.consent.mandatory.agreements[response.consent.current_agreement].a_no.toString(), configuration.consent.mandatory.agreements[response.consent.current_agreement].agreement);
 	    		response.consent.agreed.push(configuration.consent.mandatory.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.mandatory.agreements[response.consent.current_agreement].agreement);
@@ -493,7 +493,7 @@ $(function(){
     			response.consent.agreement_type == 'optional';
     			title = html_p(configuration.consent.optional.statement);
 	    		$("#dynamic_title").empty().append(title); 
-	    		
+
     			response.consent.agreements_length += configuration.consent.optional.agreements.length;
     			cur_optional=response.consent.current_agreement-response.consent.mandatory_length-1;
 
