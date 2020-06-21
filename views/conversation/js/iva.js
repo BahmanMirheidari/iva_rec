@@ -426,7 +426,7 @@ $(function(){
     	html = '<div class="form-check">';
     	for (i=0;i<text.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString();
-    		html += '<input type="checkbox" id="' + indexed_id + '" > <label class="custom-control-label" id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H3", text[i]) + '</label>'; 
+    		html += '<input class="form-check-input" type="checkbox" id="' + indexed_id + '" > <label class="custom-control-label" id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H3", text[i]) + '</label>'; 
     	}
     	return html + "</div>";
     }
@@ -439,7 +439,7 @@ $(function(){
     	html = html_header("H4", text) + '<div class="form-check">';;  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<input type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label class="custom-control-label" id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H3", options[i]) + '</label>';
+    		html += '<input class="form-check-input" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label class="custom-control-label" id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H3", options[i]) + '</label>';
     	}
     	return html + "</div>"; 
     } 
