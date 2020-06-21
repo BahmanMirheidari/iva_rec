@@ -496,7 +496,8 @@ $(function(){
 			    $("#" + id + "_1").change(function() {
 				    if(this.checked) {
 				    	if ($("#txt_" + id).val() === ''){
-				    		alert('You should fill the sign textbox!');
+				    		$("#" + id + "_1").prop("checked", false);
+				    		alert('You should fill the sign textbox!');  
 				    	}
 				    	else{ 
 				    		response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
