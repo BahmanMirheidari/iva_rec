@@ -472,7 +472,8 @@ $(function(){
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
 			    $("#" + id ).change(function() {  
-					switch($(this).val().trim()) {
+			    	alert("changed")
+					switch(this.val().trim()) {
 					        case 'yes' :
 					            response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
 						    	response.consent.current_agreement ++;
