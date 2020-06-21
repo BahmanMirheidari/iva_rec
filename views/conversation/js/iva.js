@@ -501,14 +501,7 @@ $(function(){
     		}
 
     }
-
-
-        'last_a_no':15,
-        'last_agreement':' I agree to take part in the study.',
-        'sign': 'Please type your name below to sign this consent form then click submit'
-
-
-
+ 
 
     function init_consent(){ 
     	response.consent = {};
