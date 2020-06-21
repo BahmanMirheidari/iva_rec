@@ -419,7 +419,7 @@ $(function(){
     }
 
     function html_p(text){ 
-    	return '<P>' + text + '</P>'; 
+    	return '<P class="form-control-lg">' + text + '</P>'; 
     }
 
     function html_checkbox(id,text){
@@ -432,7 +432,7 @@ $(function(){
     }
 
     function html_textbox(id,text){
-    	return html_p(text) + '<input type="textbox" id="txt_' + id + '" >';  
+    	return html_p(text) + '<input class="form-control-lg" type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
