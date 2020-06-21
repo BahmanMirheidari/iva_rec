@@ -426,7 +426,7 @@ $(function(){
     	html = '';
     	for (i=0;i<text.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString();
-    		html += '<label class="container">' + html_header("H4", text[i]) + '<input class="checkmark"" type="checkbox" id="' + indexed_id + '"> <span class="checkmark"></span> </label>' ; 
+    		html += '<label class="cust_container">' + html_header("H4", text[i]) + '<input class="checkmark"" type="checkbox" id="' + indexed_id + '"> <span class="checkmark"></span> </label>' ; 
     	}
     	return html;
     }
@@ -439,7 +439,7 @@ $(function(){
     	html = html_header("H4", text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<label class="container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '"> <span class="checkmark"></span> </label>';
+    		html += '<label class="cust_container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '"> <span class="checkmark"></span> </label>';
     	}
     	return html; 
     } 
