@@ -436,30 +436,36 @@ $(function(){
 				});
 			}  
 
-	    	return '<input type="checkbox" id="' + id + '" > <label for="' + id + '">' + text + '</label>'; 
+	    	return '<input type="checkbox" id="' + id + '" > <label id="lbl_' + id + '" for="' + id + '">' + text + '</label>'; 
 		}
 		else{ 
 			script.onload = function(){
 			    $("#" + id).change(function() {
 				    if(this.checked) { 
-				    	name = "#sign_agreement_" + (response.consent.agreements_length  + 1).toString();
-				    	if ($(name).text() !== ''){
+				    	name = "agreement_" + (response.consent.agreements_length  + 1).toString();
+				    	if ($("#sign_"+name).text() !== ''){
+				    		$('#' + name).addClass('hidden');
+    						$('#lbl_' + name).addClass('hidden');
+    						$('#sign_' + name).addClass('hidden');
+    						$('#lbl_sign_' + name).addClass('hidden'); 
+
 				    		$('#startAvatarButton').removeClass('hidden').show(); 
 				    	}
 				        else{
-				        	alert('You should put your name in the sign textbox!')
+				        	alert('You should fill the sign textbox!')
 				        }
 				    }
 				});
 			}  
 
-	    	return '<input type="checkbox" id="' + id + '" > <label for="' + id + '">' + text + '</label> <label for="sign_' + id + '" > Sign:</label> <input type="text" id="sign_' + id + '">';  
+	    	return '<input type="checkbox" id="' + id + '" > <label id="lbl_' + id + '" for="' + id + '">' + text + '</label> <label id="lbl_sign_' + id + '" for="sign_' + id + '" > Sign:</label> <input type="text" id="sign_' + id + '">';  
 		}
 		
     }
 
     function move_consent(){
     	$('#agreement_' + response.consent.current_agreement.toString()).addClass('hidden');
+    	$('#lbl_agreement_' + response.consent.current_agreement.toString()).addClass('hidden');
 		agrement=response.consent.agreed.pop();
 		response.consent.agreed.push('Yes,' + agrement); 
 
@@ -477,8 +483,7 @@ $(function(){
 	    		body = html_checkbox('agreement_' + configuration.consent.mandatory.agreements[cur_optional].a_no.toString(), configuration.consent.mandatory.agreements[cur_optional].agreement);
 	    		response.consent.agreed.push(configuration.consent.mandatory.agreements[cur_optional].a_no.toString() + ',' + configuration.consent.mandatory.agreements[cur_optional].agreement);
 	    		response.consent.current_agreement ++;  
-	    		$("#dynamic_body").append(body);  
-
+	    		$("#dynamic_body").append(body);   
 	    	}
     	}
     	else 
@@ -499,10 +504,8 @@ $(function(){
 	    		response.consent.agreed.push(configuration.consent.last_a_no.toString() + ',' + configuration.consent.last_agreement); 
 	    		$("#dynamic_body").append(body);  
 
-    		}
-
-    }
- 
+    		} 
+    } 
 
     function init_consent(){ 
     	response.consent = {};
