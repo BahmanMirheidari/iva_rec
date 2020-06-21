@@ -530,7 +530,8 @@ $(function(){
     		$("#dynamic_header").append(html_header('H3', configuration.consent.project)); 
     		$("#dynamic_header").append(html_header('H3', configuration.consent.reference)); 
     		$("#dynamic_header").append(html_header('H3', configuration.consent.pi)); 
-    		$('#dynamic').addClass('bg-info');  
+    		$('#dynamic_header').addClass('bg-info'); 
+    		$('#dynamic_title').addClass('bg-success');  
     		
     		set_consent_agreement();
 
