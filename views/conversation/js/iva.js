@@ -429,7 +429,8 @@ $(function(){
     	if (Object.keys(configuration.consent).length === 0){ 
     		init_questions();
     	}
-    	else {
+    	else { 
+
     		header='';
     		title='';
     		body = ''; 
@@ -449,6 +450,7 @@ $(function(){
     		$("#dynamic_body").append(body);  
 
     		$('#dynamic').removeClass('hidden').show(); 
+    		$('#startAvatarButton').addClass('hidden');
     	} 
     } 
 
