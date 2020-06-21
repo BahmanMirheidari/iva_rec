@@ -19,8 +19,7 @@ $(function(){
 	var repeatPressed=false; 
 	var bellsIndex=11;
 	var buzzerIndex=10;  
-	var cookieTheftIndex=12;  
-	var maxQuestions=Object.keys(questions).length-1; 
+	var cookieTheftIndex=12;   
 	var audio_context; 
 	var mediaRecorder;
 	var liveStream;
@@ -71,6 +70,7 @@ $(function(){
 	    12:[{length:7500,delay:0,message:'Please describe this picture in as much detail as you can, When you have finished press forward'}],
 	    13:[{length:5400,delay:0,message:"Thank you taking part, The trial is now complete"}] 
 	};  
+	var maxQuestions=Object.keys(questions).length-1; 
 
 	// stop Button
 	$("#stopButton").click(function(){  
