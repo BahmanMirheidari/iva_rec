@@ -264,8 +264,8 @@ $(function(){
 		  
 		var video = document.getElementById("videoMp4");
 
-		video.width= window.innerWidth*0.45;
-		video.height = window.innerHeight*0.65;
+		//video.width= window.innerWidth*0.45;
+		//video.height = window.innerHeight*0.65;
 	
 	   video.src = 'mp4/q_'+currentQuestionIndex+'.mp4'; 
 	   video.play();
