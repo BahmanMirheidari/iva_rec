@@ -437,11 +437,12 @@ $(function(){
 
     function html_radio(id,text,options){
     	html = html_p(text); 
+    	html += '<form id=" + id + ">';
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
     		html += '<input type="radio" id="rd_' + indexed_id + ' value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + options[i] + '</label>';
     	}
-    	return html; 
+    	return html + '</form>'; 
     } 
 
     function set_consent_agreement(){
@@ -470,7 +471,7 @@ $(function(){
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
-			    $("#" + id ).change(function() {
+			    $("#" + id ).change(function() {  
 					switch($(this).val().trim()) {
 					        case 'yes' :
 					            response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement);
