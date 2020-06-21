@@ -426,7 +426,7 @@ $(function(){
     	html = '';
     	for (i=0;i<text.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString();
-    		html += '<input class="checkbox checkbox-primary" type="checkbox" id="' + indexed_id + '" > <label class="custom-control-label" id="lbl_' + indexed_id + '" for="' + indexed_id + '">' + html_header("H4", text[i]) + '</label>'; 
+    		html += '<label class="container">' + html_header("H4", text[i]) + '<input class="checkmark"" type="checkbox" id="' + indexed_id + '"> <span class="checkmark"></span> </label>' ; 
     	}
     	return html;
     }
@@ -439,7 +439,7 @@ $(function(){
     	html = html_header("H4", text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<input class="form-check-input" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label class="custom-control-label" id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + html_header("H4", options[i]) + '</label>';
+    		html += '<label class="container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '"> <span class="checkmark"></span> </label>';
     	}
     	return html; 
     } 
