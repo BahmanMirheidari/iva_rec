@@ -472,7 +472,7 @@ $(function(){
     		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
 			    $("#" + id ).change(function() {  
-			    	selected_value = $("input[name='" + id + "']:checked").val() 
+			    	selected_value = $("input[name='" + id + "']").val() 
 			    	alert("changed" + selected_value)
 					switch(selected_value) {
 					        case 'yes' :
