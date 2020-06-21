@@ -683,7 +683,7 @@ $(function(){
 
     		title += html_p(configuration.consent.mandatory.statement);
 
-    		body += html_checkbox('agreement_' + str(configuration.consent.mandatory.agreements[0].a_no), configuration.consent.mandatory.agreements[0].agreement);
+    		body += html_checkbox('agreement_' + configuration.consent.mandatory.agreements[0].a_no.toString(), configuration.consent.mandatory.agreements[0].agreement);
 
     		$("#dynamic_header").append(header);
     		$("#dynamic_title").append(title); 
