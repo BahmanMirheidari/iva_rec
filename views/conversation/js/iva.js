@@ -439,7 +439,7 @@ $(function(){
     	html = html_p(text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<input type="radio" id="rd_' + indexed_id + ' value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + options[i] + '</label>';
+    		html += '<input type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" > <label id="lbl_rd_' + indexed_id + '" for="rd_' + indexed_id + '">' + options[i] + '</label>';
     	}
     	return html; 
     } 
