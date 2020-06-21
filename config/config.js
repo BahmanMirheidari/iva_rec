@@ -42,7 +42,7 @@ module.exports = {
         'key_file_path'    : '/etc/pki/tls/private/digital-doctor.key',
 	    'ffmpeg_path'      : '/usr/bin/ffmpeg'   //'/usr/bin/ffmpeg'    '/Applications/ffmpeg/bin/ffmpeg'
     },
-    'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
+    'jquery': 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
     'iva_default': 'ivamc1',
     'iva_configs':{
         'iva3' : iva3,
