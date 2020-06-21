@@ -507,6 +507,7 @@ $(function(){
 					    	$("#dynamic_body").empty(); 
 					    	$('#dynamic').addClass('hidden');
 					    	$('#startAvatarButton').removeClass('hidden').show();
+					    	$('#divAlert').removeClass('hidden').show();
 				    	} 
 				    }
 				});
