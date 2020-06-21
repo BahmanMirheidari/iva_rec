@@ -415,7 +415,7 @@ $(function(){
 	}
 
     function html_header(h_no,text){ 
-    	return '<' + h_no + '>' + text + '</' + h_no + '>'; 
+    	return '<' + h_no + ' class="display-1" >' + text + '</' + h_no + '>'; 
     }
 
     function html_p(text){ 
@@ -432,7 +432,7 @@ $(function(){
     }
 
     function html_textbox(id,text){
-    	return html_p(text) + '<input type="textbox" id="txt_' + id + '" >';  
+    	return html_header("H3",text) + '<input type="textbox" id="txt_' + id + '" >';  
     }
 
     function html_radio(id,text,options){
