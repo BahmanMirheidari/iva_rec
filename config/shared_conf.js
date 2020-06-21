@@ -41,7 +41,7 @@ module.exports = {
                 'a_no':6,
                 'a_type': 'mandatory',
                 'agreement': "I agree that the consultation between me and CognoSpeak can be video-recorded."
-            }
+            },
             {
                 'a_no':7,
                 'a_type': 'optional',
