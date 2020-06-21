@@ -671,23 +671,23 @@ $(function(){
     		init_questions();
     	}
     	else {
-    		html_header='';
-    		html_title='';
-    		html_body = ''; 
+    		header='';
+    		title='';
+    		body = ''; 
 
-    		html_header += html_header('H1', configuration.consent.title);
-    		html_header += html_header('H2', configuration.consent.participants); 
-    		html_header += html_header('H3', configuration.consent.project); 
-    		html_header += html_header('H3', configuration.consent.reference); 
-    		html_header += html_header('H3', configuration.consent.pi); 
+    		header += html_header('H1', configuration.consent.title);
+    		header += html_header('H2', configuration.consent.participants); 
+    		header += html_header('H3', configuration.consent.project); 
+    		header += html_header('H3', configuration.consent.reference); 
+    		header += html_header('H3', configuration.consent.pi); 
 
-    		html_title += html_p(configuration.consent.mandatory.statement);
+    		title += html_p(configuration.consent.mandatory.statement);
 
-    		html_body += html_checkbox('agreement_' + str(configuration.consent.mandatory.agreements[0].a_no), configuration.consent.mandatory.agreements[0].agreement);
+    		body += html_checkbox('agreement_' + str(configuration.consent.mandatory.agreements[0].a_no), configuration.consent.mandatory.agreements[0].agreement);
 
-    		$("#dynamic_header").append(html_header);
-    		$("#dynamic_title").append(html_title); 
-    		$("#dynamic_body").append(html_body);  
+    		$("#dynamic_header").append(header);
+    		$("#dynamic_title").append(title); 
+    		$("#dynamic_body").append(body);  
 
     		$('#dynamic').removeClass('hidden').show(); 
     	} 
