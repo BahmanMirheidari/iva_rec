@@ -526,10 +526,10 @@ $(function(){
     		response.consent.agreements_length = configuration.consent.agreements.length; 
     		
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title));
-    		$("#dynamic_header").append(html_header('H1', configuration.consent.participants)); 
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.project)); 
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.reference)); 
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.pi));  
+    		$("#dynamic_header").append(html_header('H2', configuration.consent.participants)); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.project)); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.reference)); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.pi));  
     		
     		set_consent_agreement();
 
