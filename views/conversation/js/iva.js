@@ -424,7 +424,7 @@ $(function(){
     	if (cur_agreement.a_type === 'mandatory'){
     		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.mandatory_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.a_no.toString() +") "+ cur_agreement.agreement]));
+    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
 				    if(this.checked) {
@@ -438,7 +438,7 @@ $(function(){
     	else if (cur_agreement.a_type === 'optional'){
     		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.optional_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.a_no.toString() +") "+ cur_agreement.agreement,["Yes", "No"]));
+    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
 			    $('input[type=radio][name="' + id + '"]').change(function() {   
 					switch(this.value) {
@@ -460,7 +460,7 @@ $(function(){
     		$("#dynamic_title").empty();
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_textbox(id,configuration.consent.sign_statement));
-    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.a_no.toString() +") "+ cur_agreement.agreement]));
+    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
 
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
