@@ -24,52 +24,22 @@ $(function(){
 	var mediaRecorder;
 	var liveStream;
 	var chunks;
-	var response = {};
-
-	var wait_repeat = { 0:16000,
-		1:8000,
-		2:8000,
-		3:8000,
-		4:8000,
-		5:8000,
-		6:8000,
-		7:8000,
-		8:8000,
-		9:10000,
-		10:73000,
-		11:75000,
-		12:12000,
-		13:8000 };
-
-	var wait_next = {   0:16000,
-		1:8000,
-		2:8000,
-		3:8000,
-		4:8000,
-		5:8000,
-		6:8000,
-		7:8000,
-		8:8000,
-		9:10000,
-		10:73000,
-		11:75000,
-		12:12000,
-		13:8000 };
-	 
-	var questions={ 0:[{length:14500,delay:0,message:'Hello I am the Avatar consultant and I will be asking you questions today, This Avatar is designed to reproduce what happens in the memory clinic, Thank you for agreeing to take part, I will start to ask you questions shortly'}],
-	    1:[{length:5500,delay:0,message:'Why have you come today and what are your expectations?'}],
-	    2:[{length:5600,delay:0,message:'Tell me what problems you have noticed with your memory recently'}],
-	    3:[{length:6400,delay:0,message:'Who is most worried about your memory, you or somebody else?'}],
-	    4:[{length:6600,delay:0,message:'What did you do over last weekend, giving as much detail as you can?'}],
-	    5:[{length:4300,delay:0,message:'What has been in the news recently?'}],           
-	    6:[{length:6300,delay:0,message:'Tell me about the school you went to and how old were you when you left'}],
-	    7:[{length:6100,delay:0,message:'Tell me what you did when you left school- what jobs did you do?'}],
-	    8:[{length:5900,delay:0,message:'Tell me about your last job? Give as much detail as you can'}],
-	    9:[{length:7600,delay:0,message:'Who manages your finances?  you or somebody else? Has this changed recently?'}],
-	    10:[{length:10400,delay:0,message:'Please name as many animals as you can. You can name any type of animal, You will have one minute, please start after you hear the buzze'}],
-	    11:[{length:15100,delay:0,message:'Please name as many words as you can that begin with the letter P, It can be any word beginning with P except for names or people such as Peter or names of countries such as Portugal, Please start answering after you hear the buzzer'}],
-	    12:[{length:7500,delay:0,message:'Please describe this picture in as much detail as you can, When you have finished press forward'}],
-	    13:[{length:5400,delay:0,message:"Thank you taking part, The trial is now complete"}] 
+	var response = {};  
+	var questions={ 
+		0:[{length:16000,delay:0,message:'Hello I am the Avatar consultant and I will be asking you questions today, This Avatar is designed to reproduce what happens in the memory clinic, Thank you for agreeing to take part, I will start to ask you questions shortly'}],
+	    1:[{length:8000,delay:0,message:'Why have you come today and what are your expectations?'}],
+	    2:[{length:8000,delay:0,message:'Tell me what problems you have noticed with your memory recently'}],
+	    3:[{length:8000,delay:0,message:'Who is most worried about your memory, you or somebody else?'}],
+	    4:[{length:8000,delay:0,message:'What did you do over last weekend, giving as much detail as you can?'}],
+	    5:[{length:8000,delay:0,message:'What has been in the news recently?'}],           
+	    6:[{length:8000,delay:0,message:'Tell me about the school you went to and how old were you when you left'}],
+	    7:[{length:8000,delay:0,message:'Tell me what you did when you left school- what jobs did you do?'}],
+	    8:[{length:8000,delay:0,message:'Tell me about your last job? Give as much detail as you can'}],
+	    9:[{length:10000,delay:0,message:'Who manages your finances?  you or somebody else? Has this changed recently?'}],
+	    10:[{length:73000,delay:0,message:'Please name as many animals as you can. You can name any type of animal, You will have one minute, please start after you hear the buzze'}],
+	    11:[{length:75000,delay:0,message:'Please name as many words as you can that begin with the letter P, It can be any word beginning with P except for names or people such as Peter or names of countries such as Portugal, Please start answering after you hear the buzzer'}],
+	    12:[{length:12000,delay:0,message:'Please describe this picture in as much detail as you can, When you have finished press forward'}],
+	    13:[{length:8000,delay:0,message:"Thank you taking part, The trial is now complete"}] 
 	};  
 	var maxQuestions=Object.keys(questions).length-1; 
 
@@ -408,10 +378,10 @@ $(function(){
 
     function disableButtonRN(){
 		killTimer(3);
-		disableButton($("#repeatMessageButton"), wait_repeat[currentQuestionIndex]);
-   		disableButton($("#nextMessageButton"), wait_repeat[currentQuestionIndex]);
-   		disableKeysRepeat(wait_repeat[currentQuestionIndex]); 
-		disableKeysNext(wait_repeat[currentQuestionIndex]); 
+		disableButton($("#repeatMessageButton"), questions[currentQuestionIndex][0].length);
+   		disableButton($("#nextMessageButton"), questions[currentQuestionIndex][0].length);
+   		disableKeysRepeat(questions[currentQuestionIndex][0].length); 
+		disableKeysNext(questions[currentQuestionIndex][0].length); 
 	}
 
     function html_header(h_no,text){ 
@@ -454,7 +424,7 @@ $(function(){
     	if (cur_agreement.a_type === 'mandatory'){
     		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.mandatory_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.agreement]));
+    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.a_no.toString() +") "+ cur_agreement.agreement]));
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
 				    if(this.checked) {
@@ -468,7 +438,7 @@ $(function(){
     	else if (cur_agreement.a_type === 'optional'){
     		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.optional_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.agreement,["Yes", "No"]));
+    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.a_no.toString() +") "+ cur_agreement.agreement,["Yes", "No"]));
     		script.onload = function(){
 			    $('input[type=radio][name="' + id + '"]').change(function() {   
 					switch(this.value) {
@@ -490,7 +460,7 @@ $(function(){
     		$("#dynamic_title").empty();
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_textbox(id,configuration.consent.sign_statement));
-    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.agreement]));
+    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.a_no.toString() +") "+ cur_agreement.agreement]));
 
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
