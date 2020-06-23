@@ -231,7 +231,7 @@ $(function(){
 		  
 		var video = document.getElementById("videoMp4"); 
 	
-	   	video.src = questions.video_url; 
+	   	video.src = questions[currentQuestionIndex].video_url; 
 	   	video.play();  
 
 		var delay=0;
@@ -247,9 +247,11 @@ $(function(){
 		}   
 
 		if (questions[currentQuestionIndex].image_url === '') 
-			$("#divShowCookieTheftImage").removeClass('hidden').addClass('hidden');
-		else 
- 			$("#divShowCookieTheftImage").removeClass('hidden');  
+			$("#divDescriptionImage").addClass('hidden');
+		else {
+			$("#imgDescription").src = questions[currentQuestionIndex].image_url;
+ 			$("#divDescriptionImage").removeClass('hidden');  
+		}
 	}
 
 	//disable enter and space keys for a while
