@@ -428,7 +428,7 @@ $(function(){
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
 				    if(this.checked) {
-				    	response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
+				    	response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
 				    	response.consent.current_agreement ++;
 				        set_consent_agreement();
 				    }
@@ -443,12 +443,12 @@ $(function(){
 			    $('input[type=radio][name="' + id + '"]').change(function() {   
 					switch(this.value) {
 					        case 'Yes' :
-					            response.consent.agreed.push('Yes, "' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
+					            response.consent.agreed.push('Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
 						    	response.consent.current_agreement ++;
 						        set_consent_agreement();
 					            break;
 					        case 'No' :
-					            response.consent.agreed.push('No, "' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
+					            response.consent.agreed.push('No, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
 						    	response.consent.current_agreement ++;
 						        set_consent_agreement();
 					            break;
@@ -470,7 +470,7 @@ $(function(){
 				    		alert('You should fill the sign textbox!');  
 				    	}
 				    	else{ 
-				    		response.consent.agreed.push('Yes, "' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',' + configuration.consent.agreements[response.consent.current_agreement].agreement+ '"');
+				    		response.consent.agreed.push('Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
 				    		response.consent.agreed.push('Yes, sign, "' + $("#txt_" + id).val() + '"');
 					    	$("#dynamic_header").empty(); 
 					    	$("#dynamic_title").empty();
@@ -479,7 +479,7 @@ $(function(){
 					    	$('#startAvatarButton').removeClass('hidden').show();
 					    	$('#divAlert').removeClass('hidden').show();
 
-					    	ws.send(JSON.stringify({msg:'consent',data:response.consent.agreed})); 
+					    	ws.send(JSON.stringify({msg:'consent',data:{token:token, agreements:response.consent.agreed}})); 
 				    	} 
 				    }
 				});
