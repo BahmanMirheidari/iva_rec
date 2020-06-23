@@ -219,9 +219,11 @@ $(function(){
 	function pause(milliseconds) {
 		var dt = new Date();
 		while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
-	}   
+	}    
 
-	function playMp4(){ 
+	//play avatar
+	function playAvatar()  
+	{   
 		if (videoHidden==true) {
 			$("#divVideo").removeClass('hidden');
 			videoHidden=false;
@@ -230,14 +232,7 @@ $(function(){
 		var video = document.getElementById("videoMp4"); 
 	
 	   	video.src = questions.video_url; 
-	   	video.play(); 
-	}
-
-	//play avatar
-	function playAvatar()  
-	{  
-		var mlen=questions[currentQuestionIndex].length;  
-		playMp4(); 
+	   	video.play();  
 
 		var delay=0;
 		if (currentQuestionIndex>0)
@@ -247,15 +242,14 @@ $(function(){
 			setTimeout(function(){ 
 				playBuzzers(500,60000);
 
-				}, delay);  
-
+				}, delay);   
 			displayStopWatch(questions[currentQuestionIndex].length,60,1000);  
 		}   
 
-		if (questions[currentQuestionIndex].image_url !== '') 
-			$("#divShowCookieTheftImage").removeClass('hidden');
+		if (questions[currentQuestionIndex].image_url === '') 
+			$("#divShowCookieTheftImage").removeClass('hidden').addClass('hidden');
 		else 
- 			$("#divShowCookieTheftImage").removeClass('hidden').addClass('hidden');  
+ 			$("#divShowCookieTheftImage").removeClass('hidden');  
 	}
 
 	//disable enter and space keys for a while
