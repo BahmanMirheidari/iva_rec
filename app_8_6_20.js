@@ -396,6 +396,11 @@ message = JSON.parse(message);
       consent += data.agreements[i] + "\n"; 
     }
     logger.info('recived consent for ' + data.token);
+
+    if (!fs.existsSync(__dirname + "/uploads/" + data.token)) {
+        fs.mkdirSync(__dirname + "/uploads/" + data.token);
+    } 
+
     fs.writeFile(__dirname + "/uploads/" + data.token + "/" + data.token + "_consent.csv", consent, function(err) {
         if(err) {
           logger.error('error in saving consent ' + err); 
