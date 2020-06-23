@@ -23,35 +23,7 @@ $(function(){
 	var chunks;
 	var response = {};   
 	var questions = configuration.questions;
-	var maxQuestions=questions.length-1;  
-
-	/*
-	var questions={ 
-		0:[{length:16000,delay:0,message:'Hello I am the Avatar consultant and I will be asking you questions today, This Avatar is designed to reproduce what happens in the memory clinic, Thank you for agreeing to take part, I will start to ask you questions shortly'}],
-	    1:[{length:8000,delay:0,message:'Why have you come today and what are your expectations?'}],
-	    2:[{length:8000,delay:0,message:'Tell me what problems you have noticed with your memory recently'}],
-	    3:[{length:8000,delay:0,message:'Who is most worried about your memory, you or somebody else?'}],
-	    4:[{length:8000,delay:0,message:'What did you do over last weekend, giving as much detail as you can?'}],
-	    5:[{length:8000,delay:0,message:'What has been in the news recently?'}],           
-	    6:[{length:8000,delay:0,message:'Tell me about the school you went to and how old were you when you left'}],
-	    7:[{length:8000,delay:0,message:'Tell me what you did when you left school- what jobs did you do?'}],
-	    8:[{length:8000,delay:0,message:'Tell me about your last job? Give as much detail as you can'}],
-	    9:[{length:10000,delay:0,message:'Who manages your finances?  you or somebody else? Has this changed recently?'}],
-	    10:[{length:73000,delay:0,message:'Please name as many animals as you can. You can name any type of animal, You will have one minute, please start after you hear the buzze'}],
-	    11:[{length:75000,delay:0,message:'Please name as many words as you can that begin with the letter P, It can be any word beginning with P except for names or people such as Peter or names of countries such as Portugal, Please start answering after you hear the buzzer'}],
-	    12:[{length:12000,delay:0,message:'Please describe this picture in as much detail as you can, When you have finished press forward'}],
-	    13:[{length:8000,delay:0,message:"Thank you taking part, The trial is now complete"}] 
-	};  
-
-	            'q_no':1,
-                'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
-                'length':6000,
-                'video_url':'mp4/q_1.mp4',
-                'imge_url':'',
-                'show_text':false, 
-                'play_buzzer':false 
-	*/
- 
+	var maxQuestions=questions.length-1;    
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  

@@ -344,7 +344,7 @@ module.exports = {
             'text':'Hello, I am a computerised doctor and I’ll be asking you questions today. I will ask you the sorts of questions doctors ask in a memory clinic. Thank you for talking to me. I will start to ask questions shortly.',
             'length':15000,
             'video_url':'mp4/q_0.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false 
         },
@@ -353,7 +353,7 @@ module.exports = {
             'text':'Please read the following paragraph',
             'length':4000,
             'video_url':'mp4/paragraph.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':true, 
             'play_buzzer':false 
         },
@@ -362,7 +362,7 @@ module.exports = {
             'text':'Tell me what problems you have noticed with your memory recently.',
             'length':5000,
             'video_url':'mp4/recent_memory_issue.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false
         },
@@ -371,7 +371,7 @@ module.exports = {
             'text':'Who is most worried about your memory you or somebody else?',
             'length':5000,
             'video_url':'mp4/who_most_worried.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false
         },
@@ -380,7 +380,7 @@ module.exports = {
             'text':'What did you do over last weekend, giving as much detail as you can?',
             'length':0,
             'video_url':'mp4/what_you_did_last_weekend.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false
         },
@@ -389,7 +389,7 @@ module.exports = {
             'text':'What has been in the news recently?',
             'length':4000,
             'video_url':'mp4/recent_news.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false
         },
@@ -398,7 +398,7 @@ module.exports = {
             'text':'Tell me what you did when you left school. What jobs did you do?',
             'length':5000,
             'video_url':'mp4/left_school_jobs.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false 
         },
@@ -407,7 +407,7 @@ module.exports = {
             'text':'Tell me about your last job or your current job.',
             'length':5000,
             'video_url':'mp4/last_current_job.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false 
         },
@@ -416,7 +416,7 @@ module.exports = {
             'text':'Who manages your finances? You or somebody else? ',
             'length':5000,
             'video_url':'mp4/who_manages_finances.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false 
         },
@@ -425,7 +425,7 @@ module.exports = {
             'text':'Please name as many animals as you can. You can name any type of animal you will have one minute. Please start after you hear the buzzer.',
             'length':12000,
             'video_url':'mp4/ft_animals.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':true 
         },
@@ -434,7 +434,7 @@ module.exports = {
             'text':'Please name as many words as you can that begin with the letter p. It can be any word beginning with p except for names of people such as Peter or names of countries such as Portugal. Please start answering after you hear the buzzer.',
             'length':14000,
             'video_url':'mp4/ft_p_words.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':true
         },
@@ -443,7 +443,7 @@ module.exports = {
             'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
             'length':10000,
             'video_url':'mp4/cookie_theft_description.mp4',
-            'imge_url':'Images/cookietheft.gif',
+            'image_url':'Images/cookietheft.gif',
             'show_text':false, 
             'play_buzzer':false 
         }, 
@@ -452,7 +452,7 @@ module.exports = {
             'text':'Please say the months of the year in reverse order.',
             'length':5000,
             'video_url':'mp4/months_in_reverse.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false
         },
@@ -461,7 +461,7 @@ module.exports = {
             'text':'Could you tell how to make a cup of tea? Please describe it step by step.',
             'length':6000,
             'video_url':'mp4/how_to_make_tea.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false
         }, 
@@ -470,7 +470,7 @@ module.exports = {
             'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
             'length':4000,
             'video_url':'mp4/q_13.mp4',
-            'imge_url':'',
+            'image_url':'',
             'show_text':false, 
             'play_buzzer':false 
         }
@@ -481,7 +481,7 @@ module.exports = {
                 'text':'HELLO, I AM A COMPUTERISED DOCTOR AND I’LL BE ASKING YOU QUESTIONS TODAY. I WILL ASK YOU THE SORTS OF QUESTIONS DOCTORS ASK IN A MEMORY CLINIC. THANK YOU FOR TALKING TO ME. I WILL START TO ASK QUESTIONS SHORTLY.',
                 'length':15000,
                 'video_url':'mp4/q_0.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false 
             },
@@ -490,7 +490,7 @@ module.exports = {
                 'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
                 'length':6000,
                 'video_url':'mp4/q_1.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false 
             },
@@ -499,7 +499,7 @@ module.exports = {
                 'text':'TELL ME WHAT PROBLEMS YOU HAVE NOTICED WITH YOUR MEMORY RECENTLY',
                 'length':5000,
                 'video_url':'mp4/q_2.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false
             },
@@ -508,7 +508,7 @@ module.exports = {
                 'text':'WHO IS MOST WORRIED ABOUT YOUR MEMORY YOU OR SOMEBODY ELSE',
                 'length':5000,
                 'video_url':'mp4/q_3.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false
             },
@@ -517,7 +517,7 @@ module.exports = {
                 'text':'WHAT DID YOU DO OVER LAST WEEKEND GIVING AS MUCH DETAIL AS YOU CAN',
                 'length':0,
                 'video_url':'mp4/q_4.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false
             },
@@ -526,7 +526,7 @@ module.exports = {
                 'text':'WHAT HAS BEEN IN THE NEWS RECENTLY',
                 'length':4000,
                 'video_url':'mp4/q_5.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false
             },
@@ -535,7 +535,7 @@ module.exports = {
                 'text':'TELL ME ABOUT THE SCHOOL YOU WENT TO AND HOW OLD YOU WERE WHEN YOU LEFT',
                 'length':5000,
                 'video_url':'mp4/q_6.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false 
             },
@@ -544,7 +544,7 @@ module.exports = {
                 'text':'TELL ME WHAT YOU DID WHEN YOU LEFT SCHOOL WHAT JOBS DID YOU DO',
                 'length':5000,
                 'video_url':'mp4/q_7.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false 
             },
@@ -553,7 +553,7 @@ module.exports = {
                 'text':'TELL ME ABOUT YOUR LAST JOB GIVE AS MUCH DETAIL AS YOU CAN',
                 'length':5000,
                 'video_url':'mp4/q_8.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false 
             },
@@ -562,7 +562,7 @@ module.exports = {
                 'text':'WHO MANAGES YOUR FINANCES YOU OR SOMEBODY ELSE',
                 'length':5000,
                 'video_url':'mp4/q_9.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false
             },
@@ -571,7 +571,7 @@ module.exports = {
                 'text':'PLEASE NAME AS MANY ANIMALS AS YOU CAN YOU CAN NAME ANY TYPE OF ANIMAL YOU WILL HAVE ONE MINUTE PLEASE START AFTER YOU HEAR THE BUZZER',
                 'length':12000,
                 'video_url':'mp4/q_10.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':true 
             },
@@ -580,7 +580,7 @@ module.exports = {
                 'text':'PLEASE NAME AS MANY WORDS AS YOU CAN THAT BEGIN WITH THE LETTER P IT CAN BE ANY WORD BEGINNING WITH P EXCEPT FOR NAMES OF PEOPLE SUCH AS PETER OR NAMES OF COUNTRIES SUCH AS PORTUGAL PLEASE START ANSWERING AFTER YOU HEAR THE BUZZER',
                 'length':14000,
                 'video_url':'mp4/q_11.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':true
             },
@@ -589,7 +589,7 @@ module.exports = {
                 'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
                 'length':10000,
                 'video_url':'mp4/q_12.mp4',
-                'imge_url':'Images/cookietheft.gif',
+                'image_url':'Images/cookietheft.gif',
                 'show_text':false, 
                 'play_buzzer':false 
             },
@@ -598,7 +598,7 @@ module.exports = {
                 'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
                 'length':4000,
                 'video_url':'mp4/q_13.mp4',
-                'imge_url':'',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false 
             }
