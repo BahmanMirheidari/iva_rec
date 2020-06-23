@@ -343,150 +343,135 @@ module.exports = {
             'q_no':0,
             'text':'Hello, I am a computerised doctor and I’ll be asking you questions today. I will ask you the sorts of questions doctors ask in a memory clinic. Thank you for talking to me. I will start to ask questions shortly.',
             'length':15000,
-            'video_url':'',
+            'video_url':'mp4/q_0.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false 
         },
         {
             'q_no':1,
             'text':'Please read the following paragraph',
             'length':4000,
-            'video_url':'',
+            'video_url':'mp4/paragraph.mp4',
             'imge_url':'',
-            'show_text':true,
-            'show_image':false,
+            'show_text':true, 
             'play_buzzer':false 
         },
         {
             'q_no':2,
             'text':'Tell me what problems you have noticed with your memory recently.',
             'length':5000,
-            'video_url':'',
+            'video_url':'mp4/recent_memory_issue.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false
         },
         {
             'q_no':3,
             'text':'Who is most worried about your memory you or somebody else?',
             'length':5000,
-            'video_url':'',
+            'video_url':'mp4/who_most_worried.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false
         },
         {
             'q_no':4,
             'text':'What did you do over last weekend, giving as much detail as you can?',
             'length':0,
-            'video_url':'',
+            'video_url':'mp4/what_you_did_last_weekend.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false
         },
         {
             'q_no':5,
             'text':'What has been in the news recently?',
             'length':4000,
-            'video_url':'',
+            'video_url':'mp4/recent_news.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false
         },
         {
             'q_no':6,
             'text':'Tell me what you did when you left school. What jobs did you do?',
             'length':5000,
-            'video_url':'',
+            'video_url':'mp4/left_school_jobs.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false 
         },
         {
             'q_no':7,
             'text':'Tell me about your last job or your current job.',
             'length':5000,
-            'video_url':'',
+            'video_url':'mp4/last_current_job.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false 
         },
         {
             'q_no':8,
             'text':'Who manages your finances? You or somebody else? ',
             'length':5000,
-            'video_url':'',
+            'video_url':'mp4/who_manages_finances.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false 
         },
         {
             'q_no':9,
             'text':'Please name as many animals as you can. You can name any type of animal you will have one minute. Please start after you hear the buzzer.',
             'length':12000,
-            'video_url':'',
+            'video_url':'mp4/ft_animals.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':true 
         },
         {
             'q_no':10,
             'text':'Please name as many words as you can that begin with the letter p. It can be any word beginning with p except for names of people such as Peter or names of countries such as Portugal. Please start answering after you hear the buzzer.',
             'length':14000,
-            'video_url':'',
+            'video_url':'mp4/ft_p_words.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':true
         },
         {
             'q_no':11,
             'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
             'length':10000,
-            'video_url':'',
-            'imge_url':'',
-            'show_text':false,
-            'show_image':true,
+            'video_url':'mp4/cookie_theft_description.mp4',
+            'imge_url':'Images/cookietheft.gif',
+            'show_text':false, 
             'play_buzzer':false 
         }, 
         {
             'q_no':12,
             'text':'Please say the months of the year in reverse order.',
             'length':5000,
-            'video_url':'',
+            'video_url':'mp4/months_in_reverse.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false
         },
         {
             'q_no':13,
             'text':'Could you tell how to make a cup of tea? Please describe it step by step.',
             'length':6000,
-            'video_url':'',
+            'video_url':'mp4/how_to_make_tea.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':false,
+            'show_text':false, 
             'play_buzzer':false
         }, 
         {
             'q_no':14,
             'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
             'length':4000,
-            'video_url':'',
+            'video_url':'mp4/q_13.mp4',
             'imge_url':'',
-            'show_text':false,
-            'show_image':true,
+            'show_text':false, 
             'play_buzzer':false 
         }
 	],
@@ -497,8 +482,7 @@ module.exports = {
                 'length':15000,
                 'video_url':'mp4/q_0.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false 
             },
             {
@@ -507,8 +491,7 @@ module.exports = {
                 'length':6000,
                 'video_url':'mp4/q_1.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false 
             },
             {
@@ -517,8 +500,7 @@ module.exports = {
                 'length':5000,
                 'video_url':'mp4/q_2.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false
             },
             {
@@ -527,8 +509,7 @@ module.exports = {
                 'length':5000,
                 'video_url':'mp4/q_3.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false
             },
             {
@@ -537,8 +518,7 @@ module.exports = {
                 'length':0,
                 'video_url':'mp4/q_4.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false
             },
             {
@@ -547,8 +527,7 @@ module.exports = {
                 'length':4000,
                 'video_url':'mp4/q_5.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false
             },
             {
@@ -557,8 +536,7 @@ module.exports = {
                 'length':5000,
                 'video_url':'mp4/q_6.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false 
             },
             {
@@ -567,8 +545,7 @@ module.exports = {
                 'length':5000,
                 'video_url':'mp4/q_7.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false 
             },
             {
@@ -577,8 +554,7 @@ module.exports = {
                 'length':5000,
                 'video_url':'mp4/q_8.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false 
             },
             {
@@ -587,8 +563,7 @@ module.exports = {
                 'length':5000,
                 'video_url':'mp4/q_9.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':false
             },
             {
@@ -597,8 +572,7 @@ module.exports = {
                 'length':12000,
                 'video_url':'mp4/q_10.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':true 
             },
             {
@@ -607,8 +581,7 @@ module.exports = {
                 'length':14000,
                 'video_url':'mp4/q_11.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':false,
+                'show_text':false, 
                 'play_buzzer':true
             },
             {
@@ -617,8 +590,7 @@ module.exports = {
                 'length':10000,
                 'video_url':'mp4/q_12.mp4',
                 'imge_url':'Images/cookietheft.gif',
-                'show_text':false,
-                'show_image':true,
+                'show_text':false, 
                 'play_buzzer':false 
             },
             {
@@ -627,8 +599,7 @@ module.exports = {
                 'length':4000,
                 'video_url':'mp4/q_13.mp4',
                 'imge_url':'',
-                'show_text':false,
-                'show_image':true,
+                'show_text':false, 
                 'play_buzzer':false 
             }
 	],

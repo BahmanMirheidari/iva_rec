@@ -16,15 +16,16 @@ $(function(){
 	var buzzers=true;
 	var videoHidden=true;
 	var nextPressed=false;
-	var repeatPressed=false; 
-	var bellsIndex=11;
-	var buzzerIndex=10;  
-	var cookieTheftIndex=12;   
+	var repeatPressed=false;  
 	var audio_context; 
 	var mediaRecorder;
 	var liveStream;
 	var chunks;
-	var response = {};  
+	var response = {};   
+	var questions = configuration.questions;
+	var maxQuestions=questions.length-1;  
+
+	/*
 	var questions={ 
 		0:[{length:16000,delay:0,message:'Hello I am the Avatar consultant and I will be asking you questions today, This Avatar is designed to reproduce what happens in the memory clinic, Thank you for agreeing to take part, I will start to ask you questions shortly'}],
 	    1:[{length:8000,delay:0,message:'Why have you come today and what are your expectations?'}],
@@ -41,22 +42,16 @@ $(function(){
 	    12:[{length:12000,delay:0,message:'Please describe this picture in as much detail as you can, When you have finished press forward'}],
 	    13:[{length:8000,delay:0,message:"Thank you taking part, The trial is now complete"}] 
 	};  
-	var maxQuestions=Object.keys(questions).length-1; 
 
-	// stop Button
-	$("#stopButton").click(function(){  
-    	$("#stopRecordingModal").modal('show');
-		
-		return false;
-    });
-
-    // stop  recording Button
-	$("#stopRecordingButton").click(function(){  
-		//recorder.clear();
-		initialise2();
-	    $("#stopRecordingModal").modal('hide'); 
-		return false;
-    });  
+	            'q_no':1,
+                'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
+                'length':6000,
+                'video_url':'mp4/q_1.mp4',
+                'imge_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+	*/
+ 
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -99,7 +94,7 @@ $(function(){
 
 			$('#divEnding').removeClass('hidden'); 
 
-			$('#divEndingMessage').text(questions[currentQuestionIndex][0].message);   
+			$('#divEndingMessage').text(questions[currentQuestionIndex].text);   
 			//play ending question 
 			playQuestion();
 
@@ -232,46 +227,32 @@ $(function(){
 			videoHidden=false;
 		} 
 		  
-		var video = document.getElementById("videoMp4");
-
-		//video.width= window.innerWidth*0.45;
-		//video.height = window.innerHeight*0.65;
+		var video = document.getElementById("videoMp4"); 
 	
-	   video.src = 'mp4/q_'+currentQuestionIndex+'.mp4'; 
-	   video.play();
-
+	   	video.src = questions.video_url; 
+	   	video.play(); 
 	}
 
 	//play avatar
-	function playAvatar(messages)  
+	function playAvatar()  
 	{  
-		var mlen=messages.length;  
+		var mlen=questions[currentQuestionIndex].length;  
 		playMp4(); 
 
 		var delay=0
 		for(var j=0;j<mlen;j++)
 			delay+=messages[j].length;
-		if(buzzers==true){ 
-			if (currentQuestionIndex==buzzerIndex) 
-				setTimeout(function(){ 
-					playBuzzers(500,60000);
 
-    				}, delay); 	
+		if (questions[currentQuestionIndex].play_buzzer){  
+			setTimeout(function(){ 
+				playBuzzers(500,60000);
 
-			if (currentQuestionIndex==bellsIndex) 
-				setTimeout(function(){ 
-					playBuzzers(500,60000);
+				}, delay);  
 
-    				}, delay); 	
-		}
-		
-		if (currentQuestionIndex==buzzerIndex) 
-			displayStopWatch(11500,60,1000); 
-		else
-			if (currentQuestionIndex==bellsIndex) 
-			displayStopWatch(16000,60,1000); 
+			displayStopWatch(questions[currentQuestionIndex].length,60,1000);  
+		}   
 
-		if (currentQuestionIndex==cookieTheftIndex) 
+		if (questions[currentQuestionIndex].image_url !== '') 
 			$("#divShowCookieTheftImage").removeClass('hidden');
 		else 
  			$("#divShowCookieTheftImage").removeClass('hidden').addClass('hidden');  
@@ -284,27 +265,12 @@ $(function(){
 			nextPressed=false;
 			}, intervals); 
 	}
+
 	function disableKeysRepeat(intervals){
 		repeatPressed=true;
 		setTimeout(function(){
 			repeatPressed=false;
 			}, intervals); 
-	}
-
-	function playAVT(message,index,intervals)  
-	{    
-		if(avatarSet==false)
-			setAvatar();  
-		web.addMessage(message, "", "", "");
-		web.processMessages(); 	
-
-		if(index>=0){ 
-			var i=parseInt(currentQuestionIndex)+0;
-			var post= index==0 ?'':'_'+index
-			var questionPath="Questions/Q_"+i+post+".mp3"; 
-			playSound(questionPath);
-			//} 
-		}
 	} 
 	
 	//play audio
@@ -321,7 +287,7 @@ $(function(){
 		}
 		stopStopWatch();
 
-		playAvatar(questions[currentQuestionIndex]);
+		playAvatar();
 	}  
 
 	function playBuzzers(initialDelay,buzzerInterval){
@@ -378,10 +344,10 @@ $(function(){
 
     function disableButtonRN(){
 		killTimer(3);
-		disableButton($("#repeatMessageButton"), questions[currentQuestionIndex][0].length);
-   		disableButton($("#nextMessageButton"), questions[currentQuestionIndex][0].length);
-   		disableKeysRepeat(questions[currentQuestionIndex][0].length); 
-		disableKeysNext(questions[currentQuestionIndex][0].length); 
+		disableButton($("#repeatMessageButton"), questions[currentQuestionIndex].length);
+   		disableButton($("#nextMessageButton"), questions[currentQuestionIndex].length);
+   		disableKeysRepeat(questions[currentQuestionIndex].length); 
+		disableKeysNext(questions[currentQuestionIndex].length); 
 	}
 
     function html_header(h_no,text){ 
@@ -494,7 +460,7 @@ $(function(){
     		init_questions();
     	}
     	else { 
-    		response.consent.agreed = [];
+    		response.consent.agreed = ['Agreed, Agreement_No, Agreement'];
     		response.consent.current_agreement = 0;  
     		response.consent.agreements_length = configuration.consent.agreements.length; 
     		
@@ -522,22 +488,7 @@ $(function(){
  
 		$('#startAvatarButton').removeClass('hidden').show(); 
 		currentQuestionIndex=1;   
-	}   
-
-	function initialise2(){
-
-		$('#divAlert').removeClass('alert-danger').addClass('alert-info');
-	 	$('#divAlert').text('Press "Start" button to start recording ');
-
-		$('#divQuestionNo').addClass('hidden');
-		$('#divQuestionNo').text('');
-
-		$('#repeatMessageButton').addClass('hidden').button("refresh");
-		$('#startAvatarButton').removeClass('hidden').show(); 
-		currentQuestionIndex=1;  
-		('#divContainer').removeClass('hidden').show();
-		
-	}     
+	}    
 
   function startRecording() {  
   	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){
@@ -550,12 +501,8 @@ $(function(){
 
 		mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		videoMimeType = mediaRecorder.mimeType;
-	  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);
-	  	//mediaRecorder.addEventListener('stop', onMediaStop);  
-
-	  	setTimeout(function(){
-				mediaRecorder.start(); 
-			},100); 
+	  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+	  	mediaRecorder.start();  
 	  } 
   } 
 
