@@ -391,10 +391,18 @@ message = JSON.parse(message);
     /* changed 23/6/20 */
   if (msg == 'consent') {
     length = data.length;
-    logger.info('received consent: ' + length.toString()); 
+    consent = ''; 
     for (i=0;i<length;i++){
-      logger.info(data[i]); 
+      consent += data[i] + "\n"; 
     }
+
+    fs.writeFile(__dirname + "/uploads/" + token + "/" + token + "_consent.csv", consent, function(err) {
+        if(err) {
+          logger.error('error in saving consent ' + err); 
+        } 
+        logger.info('consent was saved.'); 
+    });  
+    
   }
   else if (msg == 'token') {
       logger.info('token: ' + data);
