@@ -478,6 +478,8 @@ $(function(){
 					    	$('#dynamic').addClass('hidden');
 					    	$('#startAvatarButton').removeClass('hidden').show();
 					    	$('#divAlert').removeClass('hidden').show();
+
+					    	ws.send(JSON.stringify({msg:'consent',data:response.consent.agreed})); 
 				    	} 
 				    }
 				});
@@ -714,7 +716,7 @@ $(function(){
          ws.onopen = function() { 
              // make a token
             token = userID + '-'+ dateTime + '-' + (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();  
-            ws.send(JSON.stringify({msg:'token',data:token+'----'}));  
+            ws.send(JSON.stringify({msg:'token',data:token}));  
          };
          ws.onerror = function (evt) {  
             $('#divAlert').removeClass('alert-danger').addClass('alert-info').text("WebSocket error:" + evt.data).removeClass("hidden");

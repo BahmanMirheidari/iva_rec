@@ -388,8 +388,15 @@ message = JSON.parse(message);
 
   if ( msg != null ) {
     logger.info('received ip: ' + received_ip + ' - msg: ' + msg); 
-    
-  if (msg == 'token') {
+    /* changed 23/6/20 */
+  if (msg == 'consent') {
+    length = data.length;
+    logger.info('received consent: ' + length.toString()); 
+    for (i=0;i<length;i++){
+      logger.info(data[i]); 
+    }
+  }
+  else if (msg == 'token') {
       logger.info('token: ' + data);
       splits = data.split("-");
       userID = splits[0] + '-' + splits[1];
