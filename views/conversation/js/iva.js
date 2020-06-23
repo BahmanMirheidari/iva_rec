@@ -239,9 +239,9 @@ $(function(){
 		var mlen=questions[currentQuestionIndex].length;  
 		playMp4(); 
 
-		var delay=0
-		for(var j=0;j<mlen;j++)
-			delay+=questions[j].length;
+		var delay=0;
+		if (currentQuestionIndex>0)
+			delay += questions[currentQuestionIndex-1].length; 
 
 		if (questions[currentQuestionIndex].play_buzzer){  
 			setTimeout(function(){ 
