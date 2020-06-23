@@ -241,7 +241,7 @@ $(function(){
 
 		var delay=0
 		for(var j=0;j<mlen;j++)
-			delay+=messages[j].length;
+			delay+=questions[j].length;
 
 		if (questions[currentQuestionIndex].play_buzzer){  
 			setTimeout(function(){ 
