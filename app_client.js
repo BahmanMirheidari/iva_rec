@@ -327,14 +327,14 @@ function mount(callback){
   //logger.info('Child Process command: '+command);
   const ls = exec(command, function (error, stdout, stderr) {
     if (error) {
-      logger.error(error.stack);
-      logger.error('Error code: '+error.code);
-      logger.error('Signal received: '+error.signal);
+      //logger.error(error.stack);
+      //logger.error('Error code: '+error.code);
+      //logger.error('Signal received: '+error.signal);
       callback('error');
     }
     else{
-      logger.info('Child Process STDOUT: '+stdout);
-      logger.info('Child Process STDERR: '+stderr);
+      //logger.info('Child Process STDOUT: '+stdout);
+      //logger.info('Child Process STDERR: '+stderr);
       callback('done');
     } 
   });  
