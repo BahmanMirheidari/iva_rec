@@ -287,7 +287,19 @@ var deleteFimeNames = setInterval(function () {
 }, 1000000);
 
 function merge_files(token,extension,file_names){ 
-    return
+  if (extension == 'mp4'){
+    src = __dirname + "/uploads/" + token;
+    dst = __dirname + "/dane/" + token;
+    fs.rename(src, dst, function (err) {
+      if (err) {
+        logger.error('error in renaming: '+err);
+      }
+      else
+        logger.info('renamed to ' + dst);
+    })
+  }
+  
+  return
     /*destination = __dirname + "/uploads/" + token + "." + extension;
     var mergedVideo = new fluentffmpeg(); 
     mergedVideo.setFfmpegPath(config.paths.ffmpeg_path);
