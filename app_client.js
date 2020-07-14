@@ -20,7 +20,7 @@ var express          = require( 'express' )
   , config           = require( './config/config.js' )
 
   , pass             = require( '/home/sa_ac1bm/upload_files/config.js' )
-  , exec             = require( 'child_process' ),
+  , exec             = require( 'child_process' )
   , scp_client       = require( 'scp2' ); 
 
 const {auth,getrole} = require( './controllers/authorise' ); 
