@@ -313,7 +313,7 @@ function merge_files(token,extension,file_names){
 } 
 
 function mount(mnt, callback){
-  var command = 'echo ' + pass.SAMBA.pwd + ' | sudo -s mount -t cifs ' + pass.SAMBA.address + ' ' + pass.SAMBA.mnt + ' -o username=' + pass.SAMBA.username + ',password='+ pass.SAMBA.password + ',rw,file_mode=0750,dir_mode=0750,uid=' + pass.SAMBA.uid;
+  var command = 'echo ' + pass.SAMBA.pwd + ' | sudo -S mount -t cifs ' + pass.SAMBA.address + ' ' + pass.SAMBA.mnt + ' -o username=' + pass.SAMBA.username + ',password='+ pass.SAMBA.password + ',rw,file_mode=0750,dir_mode=0750,uid=' + pass.SAMBA.uid;
   logger.info('Child Process command: '+command);
   const ls = exec(command, function (error, stdout, stderr) {
     if (error) {
