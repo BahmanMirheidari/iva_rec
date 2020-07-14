@@ -423,7 +423,7 @@ module.exports = {
         {
             'q_no':9,
             'text':'Please name as many animals as you can. You can name any type of animal you will have one minute. Please start after you hear the buzzer.',
-            'length':12000,
+            'length':16000,
             'video_url':'mp4/ft_animals.mp4',
             'image_url':'',
             'show_text':false, 
@@ -432,7 +432,7 @@ module.exports = {
         {
             'q_no':10,
             'text':'Please name as many words as you can that begin with the letter p. It can be any word beginning with p except for names of people such as Peter or names of countries such as Portugal. Please start answering after you hear the buzzer.',
-            'length':14000,
+            'length':16000,
             'video_url':'mp4/ft_p_words.mp4',
             'image_url':'',
             'show_text':false, 
@@ -569,7 +569,7 @@ module.exports = {
             {
                 'q_no':10,
                 'text':'PLEASE NAME AS MANY ANIMALS AS YOU CAN YOU CAN NAME ANY TYPE OF ANIMAL YOU WILL HAVE ONE MINUTE PLEASE START AFTER YOU HEAR THE BUZZER',
-                'length':12000,
+                'length':16000,
                 'video_url':'mp4/q_10.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -578,7 +578,7 @@ module.exports = {
             {
                 'q_no':11,
                 'text':'PLEASE NAME AS MANY WORDS AS YOU CAN THAT BEGIN WITH THE LETTER P IT CAN BE ANY WORD BEGINNING WITH P EXCEPT FOR NAMES OF PEOPLE SUCH AS PETER OR NAMES OF COUNTRIES SUCH AS PORTUGAL PLEASE START ANSWERING AFTER YOU HEAR THE BUZZER',
-                'length':14000,
+                'length':16000,
                 'video_url':'mp4/q_11.mp4',
                 'image_url':'',
                 'show_text':false, 

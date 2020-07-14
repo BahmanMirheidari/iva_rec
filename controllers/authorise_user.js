@@ -14,7 +14,7 @@ module.exports = {
         //let password = bcrypt.hashSync(req.body.password, config.pass_hash_rounds);
         let username = shared.safeString(req.body.username); 
         //let query = "SELECT id,password FROM `participants` WHERE `active` = 1 AND ( `user_name` = '" + username + "' OR `email` = '" + username+ "' )"; 
-        let query = "SELECT id,password,configuration FROM `participants` WHERE `active` = 1 AND ( `user_name` = ? OR `email` = ? )"; 
+        let query = "SELECT id,password,configuration,diagnosis,comments FROM `participants` WHERE `active` = 1 AND ( `user_name` = ? OR `email` = ? )"; 
         // execute query
         db.query(query,[username, username], (err, result) => { 
           try{  
@@ -23,7 +23,7 @@ module.exports = {
                 req.session.role = 'user'; 
                 req.session.authorised = true;  
                 req.user = {role:'user', 
-                  userID: 'user-' + result[0].id, 
+                  userID: result[0].diagnosis + '-' + result[0].comments, 
                   jquery: config.jquery,
                   configuration: get_from_config(result[0].configuration) 
                   };  
