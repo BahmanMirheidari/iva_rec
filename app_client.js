@@ -355,7 +355,7 @@ function copy_mount(mnt,file_name,token,dest){
   fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
     if (!err){
       logger.info('copied ' + file_name + ' to ' + mnt + "/" + token);
-      scp(mnt + "/" + token + "/" + dest, token );
+      scp(mnt + "/" + token + "/" + dest, token + "/" + dest);
     }  
   });
 }
