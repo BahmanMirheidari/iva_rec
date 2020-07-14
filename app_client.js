@@ -364,7 +364,7 @@ function copy_to_mount(mnt,file_name,token,dest){
       if (msg == 'done'){
         copy_mount(mnt,file_name,token,dest);
       }
-    }
+    });
   } 
   else
     copy_mount(mnt,file_name,token,dest);
