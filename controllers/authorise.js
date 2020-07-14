@@ -18,7 +18,7 @@ module.exports = {
               if(v) {
                 req.session.role = 'user'; 
                 req.session.authorised = true;  
-                req.user = {role:'user', userID: result[0].diagnosis + '-' + result[0].comments  };  
+                req.user = {role:'user', userID: result[0].diagnosis };  
                 res.render('conversation.ejs', {
                     title: 'Conversation'
                         ,user: req.user
