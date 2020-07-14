@@ -17,10 +17,8 @@ var express          = require( 'express' )
   , Mp4Convert       = require( 'mp4-convert' )
   , fluentffmpeg     = require( 'fluent-ffmpeg' )
   , GoogleStrategy   = require( './controllers/google_aouth2.js' ).Strategy //require( 'passport-google-oauth2' ).Strategy;
-  , config           = require( './config/config.js' )
-
-  , pass             = require( '/home/sa_ac1bm/upload_files/config.js' ) 
-  , scp_client       = require( 'scp2' ); 
+  , config           = require( './config/config.js' ) 
+  , pass             = require( '/home/sa_ac1bm/upload_files/config.js' ); 
 
 const { exec }       = require('child_process');
 
@@ -328,23 +326,7 @@ function mount(callback){
       callback('done');
     } 
   });  
-}
-
-function scp(path, org_name){
-  scp_client.scp(path, {
-  host: pass.DANE.host,
-  username: pass.DANE.username,
-  password: pass.DANE.password,
-  path: pass.DANE.destination + org_name
-    },  function(err) {
-    if (err){ 
-      logger.error("error:" + err) 
-    }
-    else{ 
-      logger.info("sent "+ path);  
-    }
-  });
-}  
+} 
 
 function copy_mount(mnt,file_name,token,dest){
   if (! fs.existsSync(mnt + "/" + token)) {
@@ -353,8 +335,7 @@ function copy_mount(mnt,file_name,token,dest){
 
   fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
     if (!err){
-      logger.info('copied ' + file_name + ' to ' + mnt + "/" + token);
-      scp(mnt + "/" + token , token );
+      logger.info('copied ' + file_name + ' to ' + mnt + "/" + token); 
     }  
   });
 }
