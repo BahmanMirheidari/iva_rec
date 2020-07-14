@@ -17,7 +17,11 @@ var express          = require( 'express' )
   , Mp4Convert       = require( 'mp4-convert' )
   , fluentffmpeg     = require( 'fluent-ffmpeg' )
   , GoogleStrategy   = require( './controllers/google_aouth2.js' ).Strategy //require( 'passport-google-oauth2' ).Strategy;
-  , config           = require( './config/config.js' );
+  , config           = require( './config/config.js' )
+
+  , pass             = require( '/home/sa_ac1bm/upload_files/config.js' )
+  , exec             = require( 'child_process' ),
+  , scp_client       = require( 'scp2' ); 
 
 const {auth,getrole} = require( './controllers/authorise' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
@@ -307,17 +311,63 @@ function merge_files(token,extension,file_names){
     });*/  
 } 
 
-function copy_to_mount(mnt,file_name,token,dest){
-    if (fs.existsSync(mnt)) {
-        if (! fs.existsSync(mnt + "/" + token)) {
-            fs.mkdirSync(mnt + "/" + token);}
-        fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
-            if (!err)
-                logger.info('copied ' + file_name + ' to ' + mnt + "/" + token);
-        });
+function mount(mnt, callback){
+  var command = 'echo ' + pass.SAMBA.pwd + '| sudo -s mount -t cifs ' + pass.SAMBA.address + ' ' + mnt + ' -o username=' + pass.SAMBA.username + ',password='+ + pass.SAMBA.password + ',password=,rw,file_mode=0750,dir_mode=0750,uid=' + pass.SAMBA.uid;
+  const ls = exec(command, function (error, stdout, stderr) {
+    if (error) {
+      logger.error(error.stack);
+      logger.error('Error code: '+error.code);
+      logger.error('Signal received: '+error.signal);
+      callback('error');
     }
-    else
-        logger.error('dir does not exist - ' + mnt);
+    else{
+      logger.info('Child Process STDOUT: '+stdout);
+      logger.info('Child Process STDERR: '+stderr);
+      callback('done');
+    } 
+  });  
+}
+
+function scp(path, org_name){
+  scp_client.scp(path, {
+  host: config.DANE.host,
+  username: config.DANE.username,
+  password: config.DANE.password,
+  path: config.DANE.destination + org_name
+    },  function(err) {
+    if (err){ 
+      logger.error("error:" + err) 
+    }
+    else{ 
+      logger.info("sent "+ path);  
+    }
+  });
+}  
+
+function copy_mount(mnt,file_name,token,dest){
+  if (! fs.existsSync(mnt + "/" + token)) {
+    fs.mkdirSync(mnt + "/" + token);
+    scp(mnt + "/" + token, token);
+  }
+
+  fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
+    if (!err){
+      logger.info('copied ' + file_name + ' to ' + mnt + "/" + token);
+      scp(mnt + "/" + token + "/" + dest, token + "/" + dest);
+    }  
+  });
+}
+
+function copy_to_mount(mnt,file_name,token,dest){
+  if (!fs.existsSync(mnt)){
+    mount(mnt, function(msg){
+      if (msg == 'done'){
+        copy_mount(mnt,file_name,token,dest);
+      }
+    }
+  } 
+  else
+    copy_mount(mnt,file_name,token,dest);
 }
 
 wss.on('connection', function connection(ws) {
