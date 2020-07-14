@@ -19,9 +19,10 @@ var express          = require( 'express' )
   , GoogleStrategy   = require( './controllers/google_aouth2.js' ).Strategy //require( 'passport-google-oauth2' ).Strategy;
   , config           = require( './config/config.js' )
 
-  , pass             = require( '/home/sa_ac1bm/upload_files/config.js' )
-  , exec             = require( 'child_process' )
+  , pass             = require( '/home/sa_ac1bm/upload_files/config.js' ) 
   , scp_client       = require( 'scp2' ); 
+
+const { exec }       = require('child_process');
 
 const {auth,getrole} = require( './controllers/authorise' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
