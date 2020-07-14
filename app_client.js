@@ -312,7 +312,7 @@ function merge_files(token,extension,file_names){
     });*/  
 } 
 
-function mount(mnt, callback){
+function mount(callback){
   var command = 'echo ' + pass.SAMBA.pwd + ' | sudo -S mount -t cifs ' + pass.SAMBA.address + ' ' + pass.SAMBA.mnt + ' -o username=' + pass.SAMBA.username + ',password='+ pass.SAMBA.password + ',rw,file_mode=0750,dir_mode=0750,uid=' + pass.SAMBA.uid;
   //logger.info('Child Process command: '+command);
   const ls = exec(command, function (error, stdout, stderr) {
@@ -361,8 +361,8 @@ function copy_mount(mnt,file_name,token,dest){
 }
 
 function copy_to_mount(mnt,file_name,token,dest){
-  if (!fs.existsSync(pass.SAMBA.mnt)){
-    mount(mnt, function(msg){
+  if (!fs.existsSync(pass.SAMBA.destination)){
+    mount(function(msg){
       if (msg == 'done'){
         copy_mount(mnt,file_name,token,dest);
       }
