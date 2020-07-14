@@ -348,14 +348,13 @@ function scp(path, org_name){
 
 function copy_mount(mnt,file_name,token,dest){
   if (! fs.existsSync(mnt + "/" + token)) {
-    fs.mkdirSync(mnt + "/" + token);
-    scp(mnt + "/" + token, token);
+    fs.mkdirSync(mnt + "/" + token); 
   }
 
   fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
     if (!err){
       logger.info('copied ' + file_name + ' to ' + mnt + "/" + token);
-      scp(mnt + "/" + token + "/" + dest, token + "/" + dest);
+      scp(mnt + "/" + token , token );
     }  
   });
 }
