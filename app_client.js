@@ -330,10 +330,10 @@ function mount(mnt, callback){
 
 function scp(path, org_name){
   scp_client.scp(path, {
-  host: config.DANE.host,
-  username: config.DANE.username,
-  password: config.DANE.password,
-  path: config.DANE.destination + org_name
+  host: pass.DANE.host,
+  username: pass.DANE.username,
+  password: pass.DANE.password,
+  path: pass.DANE.destination + org_name
     },  function(err) {
     if (err){ 
       logger.error("error:" + err) 
