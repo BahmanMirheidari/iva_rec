@@ -61,14 +61,21 @@ $(function(){
 		startRecording();
 
 		if (currentQuestionIndex==maxQuestions){  
-			stopRecording(); 
-			$('#divContainer').addClass('hidden');
+			stopRecording();   
+			//$('#divEnding').removeClass('hidden'); 
 
-			$('#divEnding').removeClass('hidden'); 
-
-			$('#divEndingMessage').text(questions[currentQuestionIndex].text);   
+			//$('#divEndingMessage').text(questions[currentQuestionIndex].text);   
 			//play ending question 
 			playQuestion();
+
+			setTimeout(function() {  
+         		$("#divVideo").hide();
+
+         		$('#startSurveyButton').removeClass('hidden').show();
+         		$('#divAlert').text('Please complete the survey by clicking the button');
+				$('#divAlert').removeClass('hidden').show();
+
+    			}, questions[currentQuestionIndex].length); 
 
 			return false;
 		} 
@@ -251,7 +258,9 @@ $(function(){
 	function playQuestion(){
 		if (currentQuestionIndex == maxQuestions){
 			$('#divQuestionNo').hide();
-			
+
+			$('#divQuestionNo').hide();
+
 		}
 		else if (currentQuestionIndex>0){
 			$('#divQuestionNo').removeClass('hidden');
