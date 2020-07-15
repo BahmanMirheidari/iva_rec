@@ -20,6 +20,7 @@ $(function(){
 	var audio_context; 
 	var mediaRecorder;
 	var liveStream;
+	var video;
 	var chunks;
 	var response = {};   
 	var questions = configuration.questions;
@@ -38,6 +39,34 @@ $(function(){
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
+		navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+			.then(function(stream) {
+			  //webcam
+			  video =  document.querySelector('video'); 
+
+			  // Older browsers may not have srcObject
+			  if ("srcObject" in video) {
+			    video.srcObject = stream;
+
+			  } else {
+			    // Avoid using this in new browsers, as it is going away.
+			    video.src = window.URL.createObjectURL(stream);
+
+			  }
+
+			  //video
+			  liveStream = stream;
+			  video.onloadedmetadata = function(e) {
+			    video.play(); 
+			  }; 
+
+			  //for wave form
+			  onSuccess(stream);
+
+			})
+			.catch(function(err) {
+			  console.log(err.name + ": " + err.message);
+			}); 
 
 		$("#consent").addClass('hidden');
 		
@@ -86,6 +115,8 @@ $(function(){
          		$('#divAlert').text('Please click the following button to complete the survey');
          		$('#divAlert').removeClass('alert-danger').addClass('alert-info');
          		$('#divWebcam').hide(); 
+         		video.pause();
+    			video.src = "";
          		liveStream.getTracks()[0].stop();
 
     			}, questions[currentQuestionIndex].length); 
@@ -601,36 +632,7 @@ $(function(){
 		      getUserMedia.call(navigator, constraints, resolve, reject);
 		    });
 	  	}
-	}
-
-	navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-		.then(function(stream) {
-		  //webcam
-		  var video =  document.querySelector('video'); 
-
-		  // Older browsers may not have srcObject
-		  if ("srcObject" in video) {
-		    video.srcObject = stream;
-
-		  } else {
-		    // Avoid using this in new browsers, as it is going away.
-		    video.src = window.URL.createObjectURL(stream);
-
-		  }
-
-		  //video
-		  liveStream = stream;
-		  video.onloadedmetadata = function(e) {
-		    video.play(); 
-		  }; 
-
-		  //for wave form
-		  onSuccess(stream);
-
-		})
-		.catch(function(err) {
-		  console.log(err.name + ": " + err.message);
-		}); 
+	} 
 
 	/* initialise */
 	if ("WebSocket" in window) { 
