@@ -309,11 +309,11 @@ function merge_files(token,extension,file_names){
         else{
           logger.info('renamed to ' + dst);
 
-          fs.copy(dst, config.mount_dir + token, function (err) {
+          fs.copy(dst, config.mount_dir + "/" +token, function (err) {
             if (err) {
-              console.error(err);
+              logger.error(err);
             } else {
-              console.log("success!");
+              logger.info("copied to " + config.mount_dir + "/" +token);
             }
           }); 
 
