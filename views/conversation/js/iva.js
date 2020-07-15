@@ -117,7 +117,8 @@ $(function(){
          		//$('#divWebcam').hide(); 
          		video.pause();
     			video.src = "";
-         		liveStream.stop();
+         		liveStream.getTracks()[0].stop();
+         		liveStream.getTracks()[1].stop();
 
     			}, questions[currentQuestionIndex].length); 
 
