@@ -604,6 +604,7 @@ module.exports = {
             }
 	],
     'survey_iqcode':{
+        'id':0,
         'comment':'The questionnaire must be completed by the carer.',
         'title':'Informant Questionnaire on Cognitive Decline in the Elderly (IQCODE)',
         'main_q':'Compared with 10 years ago how is this person at:',
@@ -739,6 +740,7 @@ module.exports = {
         ]
     },
     'survey_anosognosia_pat':{
+        'id':1,
         'comment':'The questionnaire must be completed by the patient.',
         'title':'Measurement of anosognosia A (patient)',
         'main_q':'Compared with 10 years ago how is this person at:',
@@ -866,6 +868,7 @@ module.exports = {
         ] 
     },
     'survey_anosognosia_carer':{
+        'id':2,
         'comment':'The questionnaire must be completed by the carer.',
         'title':'Measurement of anosognosia B (carer)',
         'main_q':'Compared with 10 years ago how is this person at:',

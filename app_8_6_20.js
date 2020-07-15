@@ -345,7 +345,7 @@ message = JSON.parse(message);
   }
   else if (msg == 'survey') {
     length = data.questions.length;
-    index =  data.index;
+    index =  data.id;
     survey = ''; 
     for (i=0;i<length;i++){
       survey += data.questions[i] + "\n"; 
