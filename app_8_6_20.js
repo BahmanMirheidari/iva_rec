@@ -343,6 +343,27 @@ message = JSON.parse(message);
     });  
     
   }
+  else if (msg == 'survey') {
+    length = data.questions.length;
+    index =  data.index;
+    survey = ''; 
+    for (i=0;i<length;i++){
+      survey += data.questions[i] + "\n"; 
+    }
+    logger.info('recived servey ' + index.toString() + ' for ' + data.token);
+
+    if (!fs.existsSync(__dirname + "/uploads/" + data.token)) {
+        fs.mkdirSync(__dirname + "/uploads/" + data.token);
+    } 
+
+    fs.writeFile(__dirname + "/uploads/" + data.token + "/" + data.token + "_survey" + index.toString() + ".csv", survey, function(err) {
+        if(err) {
+          logger.error('error in saving survey' + index.toString() + ' ' + err); 
+        } 
+        logger.info('survey' + index.toString() + ' was saved.'); 
+    });  
+    
+  }
   else if (msg == 'token') {
       logger.info('token: ' + data);
       splits = data.split("-");

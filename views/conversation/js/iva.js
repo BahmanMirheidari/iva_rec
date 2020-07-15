@@ -25,11 +25,13 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=11;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=12;    // ****** CHANGE THIS TO 0
+	var surveyIndex=0;
+	var endingMessage="Thank you. The END.";
  
  	// start survey Button 
 	$("#startSurveyButton").click(function(){   
-		init_servey();
+		init_survey();
 
 	 	$('#divAlert').hide();
 		$("#startSurveyButton").hide();
@@ -102,18 +104,11 @@ $(function(){
 
 		if (currentQuestionIndex==maxQuestions){  
 			stopRecording();   
-			//$('#divEnding').removeClass('hidden'); 
 
-			//$('#divEndingMessage').text(questions[currentQuestionIndex].text);   
-			//play ending question 
 			playQuestion();
 
 			setTimeout(function() {  
-         		$("#divVideo").hide();
-
-         		$('#startSurveyButton').removeClass('hidden').show();
-         		$('#divAlert').text('Please click the following button to complete the survey');
-         		$('#divAlert').removeClass('alert-danger').addClass('alert-info');
+         		$("#divVideo").hide(); 
          		$('#mycanvas').hide();  
          		video.pause();
     			video.src = "";
@@ -246,8 +241,7 @@ $(function(){
 	}    
 
 	//play avatar
-	function playAvatar()  
-	{   
+	function playAvatar(){   
 		if (videoHidden==true) {
 			$("#divVideo").removeClass('hidden');
 			videoHidden=false;
@@ -268,7 +262,15 @@ $(function(){
 
 				}, delay);   
 			displayStopWatch(delay,60,1000);  
-		}   
+		} 
+		if (questions[currentQuestionIndex].show_text){ 
+			$('#divPar').removeClass('hidden');  
+			$('#divMessage').text(questions[currentQuestionIndex].text);   
+		}  
+		else{
+			$('#divPar').hide();
+			$('#divMessage').hide();
+		}
 
 		if (questions[currentQuestionIndex].image_url === '') 
 			$("#divDescriptionImage").addClass('hidden');
@@ -460,8 +462,73 @@ $(function(){
     	}   
     }
 
+    function set_survey(){
+    	var script = document.createElement('script'); 
+		document.head.appendChild(script);    
+		script.type = 'text/javascript';
+		script.src = jquery;
+
+		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];
+		id = "question_" + cur_question.q_no.toString(); 
+		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values));
+
+		if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length){ 
+    		script.onload = function(){
+			    $('input[type=radio][name="' + id + '"]').change(function() { 
+			    	for(var j=0;j<cur_question.answers.values.length;j++){
+			    		if (this.value === cur_question.answers.values[j]){
+			    			response.surveys[surveyIndex].question.push(cur_question.answers.values[j] + ', ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
+					    	response.surveys[surveyIndex].current_question ++;
+					        set_consent_agreement();
+					        break;
+			    		}
+			    	}  
+				}); 
+			}   
+		}
+		else{//last question
+			script.onload = function(){
+			    $('input[type=radio][name="' + id + '"]').change(function() { 
+			    	for(var j=0;j<cur_question.answers.values.length;j++){
+			    		if (this.value === cur_question.answers.values[j]){
+			    			response.surveys[surveyIndex].question.push(cur_question.answers.values[j] + ', ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
+					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, index:surveyIndex, questions:response.surveys[surveyIndex].question}}));
+
+					    	surveyIndex ++;
+					        
+					        init_survey();
+					        break;
+			    		}
+			    	}  
+				}); 
+			}    
+		} 
+    }
+
+    function init_survey(){
+    	if (configuration.surveys.length == 0 || surveyIndex >= configuration.surveys.length){
+    		$('#divPar').removeClass('hidden');  
+			$('#divMessage').text(endingMessage);   
+    	}
+    	else{
+    		response.surveys[surveyIndex] = {};
+    		response.surveys[surveyIndex].question = ['Answer, Question_No, Question'];
+    		response.surveys[surveyIndex].current_question = 0;  
+    		response.surveys[surveyIndex].questions_length = configuration.surveys[surveyIndex].questions.length; 
+
+    		set_survey();
+
+    		("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].comment));
+    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title)); 
+    		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q)); 
+    		$('#dynamic_header').addClass('bg-info text-white');  
+    		$('#dynamic').removeClass('hidden').show(); 
+    	}
+    }
+
     function init_consent(){ 
     	response.consent = {};
+    	response.surveys = [];
 
     	if (Object.keys(configuration.consent).length === 0){ 
     		init_questions();
@@ -485,16 +552,20 @@ $(function(){
     	} 
     } 
 
-	function init_questions(){
-
-		$('#divAlert').removeClass('alert-danger').addClass('alert-info');
+	function init_questions(){ 
+		if (configuration.questions.length == 0){
+			init_survey();
+		}
+		else{
+			$('#divAlert').removeClass('alert-danger').addClass('alert-info');
 	 	$('#divAlert').text('Press "Start" button to start recording ');
 
 		$('#divQuestionNo').addClass('hidden');
 		$('#divQuestionNo').text('');
  
 		$('#startAvatarButton').removeClass('hidden').show(); 
-		currentQuestionIndex=1;   
+		//currentQuestionIndex=1;  
+		} 
 	}    
 
   function startRecording() {  
