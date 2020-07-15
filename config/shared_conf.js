@@ -569,7 +569,7 @@ module.exports = {
             {
                 'q_no':10,
                 'text':'PLEASE NAME AS MANY ANIMALS AS YOU CAN YOU CAN NAME ANY TYPE OF ANIMAL YOU WILL HAVE ONE MINUTE PLEASE START AFTER YOU HEAR THE BUZZER',
-                'length':76000,
+                'length':73000,
                 'video_url':'mp4/q_10.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -578,7 +578,7 @@ module.exports = {
             {
                 'q_no':11,
                 'text':'PLEASE NAME AS MANY WORDS AS YOU CAN THAT BEGIN WITH THE LETTER P IT CAN BE ANY WORD BEGINNING WITH P EXCEPT FOR NAMES OF PEOPLE SUCH AS PETER OR NAMES OF COUNTRIES SUCH AS PORTUGAL PLEASE START ANSWERING AFTER YOU HEAR THE BUZZER',
-                'length':80000,
+                'length':78000,
                 'video_url':'mp4/q_11.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -596,7 +596,7 @@ module.exports = {
             {
                 'q_no':13,
                 'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
-                'length':4000,
+                'length':6000,
                 'video_url':'mp4/q_13.mp4',
                 'image_url':'',
                 'show_text':false, 
