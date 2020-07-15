@@ -311,13 +311,22 @@ function merge_files(token,extension,file_names){
         else{
           logger.info('renamed to ' + dst1); 
 
-          fs.copy(dst1, cdst2, function (err) {
+          fs.copyFile(dst1 + "/Q1-12.mp3", dst2 + "/Q1-12.mp3", function (err) {
             if (err) {
               logger.error(err);
             } else {
-              logger.info("copied to " + dst2);  
+              logger.info("copied " + dst2 + "/Q1-12.mp3");  
             }
-          });  
+          }); 
+
+          fs.copyFile(dst1 + "/Q1-12.mp4", dst2 + "/Q1-12.mp4", function (err) {
+            if (err) {
+              logger.error(err);
+            } else {
+              logger.info("copied " + dst2 + "/Q1-12.mp4");  
+            }
+          }); 
+
         }
       });  
     } 
