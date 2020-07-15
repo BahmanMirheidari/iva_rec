@@ -208,14 +208,14 @@ $(function(){
 
 		var delay=0;
 		if (currentQuestionIndex>0)
-			delay += questions[currentQuestionIndex-1].length; 
+			delay += (questions[currentQuestionIndex].length - 60000); 
 
 		if (questions[currentQuestionIndex].play_buzzer){  
 			setTimeout(function(){ 
-				playBuzzers(500,60000);
+				playBuzzers(100,60000);
 
 				}, delay);   
-			displayStopWatch(questions[currentQuestionIndex].length,60,1000);  
+			displayStopWatch(delay,60,1000);  
 		}   
 
 		if (questions[currentQuestionIndex].image_url === '') 
@@ -249,7 +249,11 @@ $(function(){
 
 	//plays the current question 
 	function playQuestion(){
-		if (currentQuestionIndex>0){
+		if (currentQuestionIndex == maxQuestions){
+			$('#divQuestionNo').hide();
+			
+		}
+		else if (currentQuestionIndex>0){
 			$('#divQuestionNo').removeClass('hidden');
 		 	$('#divQuestionNo').text('Question '+(currentQuestionIndex).toString()+ '/' +(maxQuestions-1).toString());
 		}
@@ -275,25 +279,6 @@ $(function(){
 		setTimeout(function(){
 			$('#nextMessageButton').trigger('click');
 			}, interval); 
-	}
-
-	function playBuzzerBells(initialDelay,bell1Interval,bell2Interval){
-		var intervals=initialDelay+bell1Interval+bell2Interval; 
-		setTimeout(function(){
-        playSound('Buzzer/Buzzer1.mp3');
-
-        setTimeout(function(){
-	    playSound('Buzzer/Bell1.mp3');
-
-	    setTimeout(function(){
-			playSound('Buzzer/Bell2.mp3');
-    		//click next after 1 second
-    		//autoClickNext(1000);
-			}, bell2Interval);
-
-	    	}, bell1Interval);
-
-    	}, initialDelay); 
 	} 
 
     //disable the button for a while

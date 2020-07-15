@@ -515,7 +515,7 @@ module.exports = {
             {
                 'q_no':4,
                 'text':'WHAT DID YOU DO OVER LAST WEEKEND GIVING AS MUCH DETAIL AS YOU CAN',
-                'length':0,
+                'length':5000,
                 'video_url':'mp4/q_4.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -569,7 +569,7 @@ module.exports = {
             {
                 'q_no':10,
                 'text':'PLEASE NAME AS MANY ANIMALS AS YOU CAN YOU CAN NAME ANY TYPE OF ANIMAL YOU WILL HAVE ONE MINUTE PLEASE START AFTER YOU HEAR THE BUZZER',
-                'length':16000,
+                'length':76000,
                 'video_url':'mp4/q_10.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -578,7 +578,7 @@ module.exports = {
             {
                 'q_no':11,
                 'text':'PLEASE NAME AS MANY WORDS AS YOU CAN THAT BEGIN WITH THE LETTER P IT CAN BE ANY WORD BEGINNING WITH P EXCEPT FOR NAMES OF PEOPLE SUCH AS PETER OR NAMES OF COUNTRIES SUCH AS PORTUGAL PLEASE START ANSWERING AFTER YOU HEAR THE BUZZER',
-                'length':16000,
+                'length':80000,
                 'video_url':'mp4/q_11.mp4',
                 'image_url':'',
                 'show_text':false, 

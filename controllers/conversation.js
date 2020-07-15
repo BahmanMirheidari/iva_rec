@@ -43,8 +43,8 @@ module.exports = {
                 if (err) {
                     console.log(`conversations queryInsert error: ${err}`);
                 }  
-                else
-                    console.log(`conversations queryInsert done: ${queryInsert}`); 
+                //else
+                //    console.log(`conversations queryInsert done: ${queryInsert}`); 
             });  
 
         else
@@ -53,7 +53,7 @@ module.exports = {
                     console.log(`conversations query error: ${err}`); 
                 }  
                 else{
-                    console.log(`conversations query done: ${query}`); 
+                    //console.log(`conversations query done: ${query}`); 
                     //et queryUpdate = 'UPDATE `conversations` set `last_question` = "' + last_question + '", `last_modified_at` = now() WHERE `id` = "' + result[0].id + '"';
                     let queryUpdate = 'UPDATE `conversations` set `last_question` = ?, `last_modified_at` = now() WHERE `id` = ?';
                  
@@ -62,8 +62,8 @@ module.exports = {
                         if (err) {
                             console.log(`conversations queryUpdate error: ${err}`);  
                         }   
-                        else
-                            console.log(`conversations queryUpdate done: ${queryUpdate}`); 
+                        //else
+                        //    console.log(`conversations queryUpdate done: ${queryUpdate}`); 
                     });   
                 } 
             }); 
