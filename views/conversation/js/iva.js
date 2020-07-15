@@ -26,6 +26,15 @@ $(function(){
 	var maxQuestions=questions.length-1; 
 	var startQuestionIndex=12;    // ****** CHANGE THIS TO 0
  
+ 	// start survey Button 
+	$("#startSurveyButton").click(function(){   
+		init_servey();
+
+	 	$('#divAlert').hide();
+		$("#startSurveyButton").hide();
+		
+		return false;
+    });  
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -74,8 +83,10 @@ $(function(){
          		$("#divVideo").hide();
 
          		$('#startSurveyButton').removeClass('hidden').show();
-         		$('#divAlert').text('Please complete the survey by clicking the button');
+         		$('#divAlert').text('Please click the following button to complete the survey');
          		$('#divAlert').removeClass('alert-danger').addClass('alert-info');
+         		$('#divWebcam').hide(); 
+         		liveStream.getTracks()[0].stop();
 
     			}, questions[currentQuestionIndex].length); 
 
