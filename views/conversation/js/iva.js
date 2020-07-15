@@ -479,6 +479,7 @@ $(function(){
 					    else{ 
 					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, index:surveyIndex, questions:response.surveys[surveyIndex].question}})); 
 					    	surveyIndex ++; 
+					    	$('#dynamic').hide();
 					        init_survey(); 
 					    }
 				        break;
