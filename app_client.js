@@ -289,7 +289,7 @@ var deleteFimeNames = setInterval(function () {
 
 function merge_files(token,extension,file_names){ 
   if (extension == 'mp4'){
-    const ls = exec(command, function (error, stdout, stderr) {
+    const ls = exec(merge_command + " " + __dirname + "/uploads/" + token , function (error, stdout, stderr) {
     if (error) {
       logger.error(error.stack);
       //logger.error('Error code: '+error.code);
