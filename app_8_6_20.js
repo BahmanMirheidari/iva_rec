@@ -394,16 +394,14 @@ message = JSON.parse(message);
                   video.fnExtractSoundToMP3(file_name+ ".mp3", function (error, file) {
                   if (!error){
                       logger.info('converted to mp3 as ' + file_name + ".mp3" );
-                    common.copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3");
-                    if (q_no == config.last_q -1) 
-                      common.merge_files(__dirname,token,"mp3");
+                    common.copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3"); 
         
                     var convert = new Mp4Convert(file_name +'.webm', file_name +".mp4");
                     convert.on('done',function(){
                     logger.info('converted to mp4 as ' + file_name + ".mp4" );
                     common.copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
                        if (q_no == config.last_q -1) 
-                          common.merge_files(__dirname,token,"mp4");
+                          common.merge_files(__dirname,token);
                        fs.unlink(file_name + ".webm", function(err){
                           if (err){
                        logger.error('Deleting '+file_name + '.webm error: ' + err); 

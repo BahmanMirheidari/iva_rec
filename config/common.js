@@ -4,8 +4,7 @@ pass           = require( '/home/sa_ac1bm/upload_files/config.js' );
 const { exec } = require('child_process');
 merge_command  = "/home/sa_ac1bm/upload_files/upload.sh";
   
-function merge_files(dirname,token,extension){ 
-  if (extension == 'mp4'){
+function merge_files(dirname,token){  
     const ls = exec(merge_command + " " + dirname + "/uploads/" + token , function (error, stdout, stderr) {
     if (error) {
       logger.error(error.stack); 
@@ -43,7 +42,6 @@ function merge_files(dirname,token,extension){
     } 
     });  
   }  
-} 
 
 function mount(callback){
   var command = 'echo ' + pass.SAMBA.pwd + ' | sudo -S mount -t cifs ' + pass.SAMBA.address + ' ' + pass.SAMBA.mnt + ' -o username=' + pass.SAMBA.username + ',password='+ pass.SAMBA.password + ',rw,file_mode=0750,dir_mode=0750,uid=' + pass.SAMBA.uid;
@@ -89,8 +87,8 @@ function copy_to_mount(mnt,file_name,token,dest){
  
 
 module.exports = { 
-    merge_files     : function (token,extension){
-    	merge_files(token,extension);
+    merge_files     : function (dirname,token){
+    	merge_files(dirname,token);
     }, 
     copy_to_mount     : function (mnt,file_name,token,dest){
     	copy_to_mount(mnt,file_name,token,dest);
