@@ -361,6 +361,7 @@ message = JSON.parse(message);
 
       var blob = data.data;
       var len  = blob.length; 
+      var dest = 'Q'+ q_no.toString() + '-R' + r_no.toString();
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
       logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
       /* changed 20/6/20 */
