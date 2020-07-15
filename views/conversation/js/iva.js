@@ -473,7 +473,7 @@ $(function(){
 			    		if (this.value === cur_question.answers.values[j]){
 			    			response.surveys[surveyIndex].question.push(cur_question.answers.values[j] + ', ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
 					    	response.surveys[surveyIndex].current_question ++;
-					        set_consent_agreement();
+					        set_survey();
 					        break;
 			    		}
 			    	}  
