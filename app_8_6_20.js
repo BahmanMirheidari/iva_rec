@@ -373,7 +373,7 @@ message = JSON.parse(message);
       var max_file_size; 
       (msg == 'mp3') ? max_file_size = config.max_mp3_file : max_file_size = config.max_mp4_file;
  
-      iif (len < max_file_size && len > 200){ 
+      if (len < max_file_size && len > 200){ 
         //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
           var base64Data = blob.split(';base64,').pop();
     
