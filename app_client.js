@@ -300,25 +300,26 @@ function merge_files(token,extension,file_names){
       //logger.info('Child Process STDOUT: '+stdout);
       //logger.info('Child Process STDERR: '+stderr);
       //callback('done');
-      src = __dirname + "/uploads/" + token;
-      dst = __dirname + "/dane/" + token;
-      fs.rename(src, dst, function (err) {
+      src  = __dirname + "/uploads/" + token;
+      dst1 = __dirname + "/dane/" + token;
+      dst2 = config.mount_dir  + token;
+
+      fs.rename(src, dst1, function (err) {
         if (err) {
           logger.error('error in renaming: '+err);
         }
         else{
-          logger.info('renamed to ' + dst);
+          logger.info('renamed to ' + dst1); 
 
-          fs.copy(dst, config.mount_dir + "/" +token, function (err) {
+          fs.copy(dst1, cdst2, function (err) {
             if (err) {
               logger.error(err);
             } else {
-              logger.info("copied to " + config.mount_dir + "/" +token);
+              logger.info("copied to " + dst2);  
             }
-          }); 
-
+          });  
         }
-      });
+      });  
     } 
     });  
   } 
