@@ -114,7 +114,8 @@ $(function(){
          		$('#startSurveyButton').removeClass('hidden').show();
          		$('#divAlert').text('Please click the following button to complete the survey');
          		$('#divAlert').removeClass('alert-danger').addClass('alert-info');
-         		$('#divWebcam').hide(); 
+         		$('#mycanvas').hide(); 
+         		$('#video').hide(); 
          		video.pause();
     			video.src = "";
          		liveStream.getTracks()[0].stop();
