@@ -75,8 +75,7 @@ $(function(){
 
          		$('#startSurveyButton').removeClass('hidden').show();
          		$('#divAlert').text('Please complete the survey by clicking the button');
-         		$('#divAlert').addClass('alert-info');
-				$('#divAlert').removeClass('hidden').show();
+         		$('#divAlert').addClass('alert-info').removeClass('hidden').show();
 
     			}, questions[currentQuestionIndex].length); 
 
