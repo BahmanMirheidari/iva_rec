@@ -285,7 +285,7 @@ function merge_files(token,extension){
       //callback('done');
       src  = __dirname + "/uploads/" + token;
       dst1 = __dirname + "/dane/" + token;
-      dst2 = config.mount_dir  + token;
+      dst2 = config.mount_dir  + "/"+ token;
 
       fs.rename(src, dst1, function (err) {
         if (err) {
