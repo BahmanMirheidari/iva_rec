@@ -3,35 +3,16 @@ pass           = require( '/home/sa_ac1bm/upload_files/config.js' );
 
 const { exec } = require('child_process');
 merge_command  = "/home/sa_ac1bm/upload_files/upload.sh";
- 
-
-function file_copy(f1, f2, remove){
-  fs.copyFile(f1, f2, (err) => {
-      if (err)  
-        logger.error('An error occurred while copying '+ f1 + ' to' + f2 + ':' + err.message);
-      else{
-        logger.info('Copied '+ f1 + ' to' + f2);
-        if (remove){
-          fs.unlink(f1, function (err) {
-          if (err)  
-              logger.error('An error occurred while deleting: ' + f1 + ' - ' + err.message); 
-          else 
-              logger.info('File ' + f1 +' deleted!');
-          });  
-        } 
-      } 
-    }); 
-}
-
-function merge_files(token,extension){ 
+  
+function merge_files(dirname,token,extension){ 
   if (extension == 'mp4'){
-    const ls = exec(merge_command + " " + __dirname + "/uploads/" + token , function (error, stdout, stderr) {
+    const ls = exec(merge_command + " " + dirname + "/uploads/" + token , function (error, stdout, stderr) {
     if (error) {
       logger.error(error.stack); 
     }
     else{ 
-      src  = __dirname + "/uploads/" + token;
-      dst1 = __dirname + "/dane/" + token;
+      src  = dirname + "/uploads/" + token;
+      dst1 = dirname + "/dane/" + token;
       dst2 = config.mount_dir  + "/"+ token;
 
       fs.rename(src, dst1, function (err) {
