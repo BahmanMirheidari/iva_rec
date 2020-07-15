@@ -490,7 +490,7 @@ $(function(){
     }
 
     function init_survey(){
-    	if (configuration.surveys.length == 0 || surveyIndex >= configuration.surveys.length){
+    	if (configuration.surveys.length == 0 || surveyIndex >= configuration.surveys.length){  
     		$('#divPar').removeClass('hidden');  
 			$('#divMessage').text(endingMessage);   
     	}
