@@ -466,37 +466,26 @@ $(function(){
 		id = "question_" + cur_question.q_no.toString(); 
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values));
 
-		if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length){ 
-    		script.onload = function(){
-			    $('input[type=radio][name="' + id + '"]').change(function() { 
-			    	for(var j=0;j<cur_question.answers.values.length;j++){
-			    		if (this.value === cur_question.answers.values[j]){
-			    			response.surveys[surveyIndex].question.push(cur_question.answers.values[j] + ', ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
-					    	response.surveys[surveyIndex].current_question ++;
+		script.onload = function(){
+		    $('input[type=radio][name="' + id + '"]').change(function() { 
+		    	for(var j=0;j<cur_question.answers.values.length;j++){
+		    		if (this.value === cur_question.answers.values[j]){
+		    			response.surveys[surveyIndex].question.push(cur_question.answers.values[j] + ', ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
+					    
+		    			if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length -1){  
+			    			response.surveys[surveyIndex].current_question ++;
 					        set_survey();
-					        break;
-			    		}
-			    	}  
-				}); 
-			}   
-		}
-		else{//last question
-			script.onload = function(){
-			    $('input[type=radio][name="' + id + '"]').change(function() { 
-			    	for(var j=0;j<cur_question.answers.values.length;j++){
-			    		if (this.value === cur_question.answers.values[j]){
-			    			response.surveys[surveyIndex].question.push(cur_question.answers.values[j] + ', ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
-					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, index:surveyIndex, questions:response.surveys[surveyIndex].question}}));
-
-					    	surveyIndex ++;
-					        
-					        init_survey();
-					        break;
-			    		}
-			    	}  
-				}); 
-			}    
-		} 
+					    }
+					    else{ 
+					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, index:surveyIndex, questions:response.surveys[surveyIndex].question}})); 
+					    	surveyIndex ++; 
+					        init_survey(); 
+					    }
+				        break;
+		    		}
+		    	}  
+			}); 
+		}  
     }
 
     function init_survey(){
