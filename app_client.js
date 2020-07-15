@@ -322,8 +322,7 @@ function merge_files(token,extension,file_names){
     } 
     });  
   } 
-    
-  }
+   
   
   return
     /*destination = __dirname + "/uploads/" + token + "." + extension;
