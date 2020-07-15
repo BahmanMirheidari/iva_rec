@@ -27,17 +27,7 @@ $(function(){
 	var maxQuestions=questions.length-1; 
 	var startQuestionIndex=12;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
-	var endingMessage="Thank you. The END.";
- 
- 	// start survey Button 
-	$("#startSurveyButton").click(function(){   
-		init_survey();
-
-	 	$('#divAlert').hide();
-		$("#startSurveyButton").hide();
-		
-		return false;
-    });  
+	var endingMessage="Thank you. The END."; 
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -114,6 +104,10 @@ $(function(){
     			video.src = "";
          		liveStream.getTracks()[0].stop();
          		liveStream.getTracks()[1].stop();
+
+         		init_survey();
+
+			 	$('#divAlert').hide(); 
 
     			}, questions[currentQuestionIndex].length); 
 
