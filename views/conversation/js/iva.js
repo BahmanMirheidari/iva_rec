@@ -512,7 +512,7 @@ $(function(){
 
     		set_survey();
 
-    		("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].comment));
+    		$("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].comment));
     		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title)); 
     		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q)); 
     		$('#dynamic_header').addClass('bg-info text-white');  
