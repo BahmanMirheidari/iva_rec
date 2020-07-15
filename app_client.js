@@ -21,6 +21,7 @@ var express          = require( 'express' )
   , pass             = require( '/home/sa_ac1bm/upload_files/config.js' ); 
 
 const { exec }       = require('child_process');
+merge_command = "/home/sa_ac1bm/upload_files/upload.sh"
 
 const {auth,getrole} = require( './controllers/authorise' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
@@ -288,15 +289,40 @@ var deleteFimeNames = setInterval(function () {
 
 function merge_files(token,extension,file_names){ 
   if (extension == 'mp4'){
-    src = __dirname + "/uploads/" + token;
-    dst = __dirname + "/dane/" + token;
-    fs.rename(src, dst, function (err) {
-      if (err) {
-        logger.error('error in renaming: '+err);
-      }
-      else
-        logger.info('renamed to ' + dst);
-    })
+    const ls = exec(command, function (error, stdout, stderr) {
+    if (error) {
+      logger.error(error.stack);
+      //logger.error('Error code: '+error.code);
+      //logger.error('Signal received: '+error.signal);
+      //callback('error');
+    }
+    else{
+      //logger.info('Child Process STDOUT: '+stdout);
+      //logger.info('Child Process STDERR: '+stderr);
+      //callback('done');
+      src = __dirname + "/uploads/" + token;
+      dst = __dirname + "/dane/" + token;
+      fs.rename(src, dst, function (err) {
+        if (err) {
+          logger.error('error in renaming: '+err);
+        }
+        else{
+          logger.info('renamed to ' + dst);
+
+          fs.copy(dst, config.mount_dir + token, function (err) {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log("success!");
+            }
+          }); 
+
+        }
+      });
+    } 
+    });  
+  } 
+    
   }
   
   return
