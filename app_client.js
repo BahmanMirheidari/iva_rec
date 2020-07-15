@@ -274,15 +274,9 @@ function merge_files(token,extension){
   if (extension == 'mp4'){
     const ls = exec(merge_command + " " + __dirname + "/uploads/" + token , function (error, stdout, stderr) {
     if (error) {
-      logger.error(error.stack);
-      //logger.error('Error code: '+error.code);
-      //logger.error('Signal received: '+error.signal);
-      //callback('error');
+      logger.error(error.stack); 
     }
-    else{
-      //logger.info('Child Process STDOUT: '+stdout);
-      //logger.info('Child Process STDERR: '+stderr);
-      //callback('done');
+    else{ 
       src  = __dirname + "/uploads/" + token;
       dst1 = __dirname + "/dane/" + token;
       dst2 = config.mount_dir  + "/"+ token;
@@ -382,13 +376,7 @@ message = JSON.parse(message);
       var r_no = data.r_no; 
 
       splits = token.split("-");
-      userID = splits[0] + '-' + splits[1]; 
-
-      //if (r_no == 0 && q_no == config.last_q -1 )
-      //  return
-
-      //if (q_no == config.last_q)
-      //  q_no--;
+      userID = splits[0] + '-' + splits[1];  
 
 	var blob = data.data;
       var len  = blob.length; 
