@@ -537,7 +537,7 @@ $(function(){
     } 
 
 	function init_questions(){ 
-		if (configuration.questions.length == 0){
+		if (Object.keys(configuration.questions).length == 0){
 			init_survey();
 		}
 		else{
