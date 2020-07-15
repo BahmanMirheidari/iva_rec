@@ -17,7 +17,11 @@ var express          = require( 'express' )
   , Mp4Convert       = require( 'mp4-convert' )
   , fluentffmpeg     = require( 'fluent-ffmpeg' )
   , GoogleStrategy   = require( './controllers/google_aouth2.js' ).Strategy //require( 'passport-google-oauth2' ).Strategy;
-  , config           = require( './config/config.js' );
+  , config           = require( './config/config.js' )
+  , pass             = require( '/home/sa_ac1bm/upload_files/config.js' ); 
+
+const { exec }       = require('child_process');
+merge_command = "/home/sa_ac1bm/upload_files/upload.sh"
 
 /* change 18/6/20*/
 const {auth,getrole} = require( './controllers/authorise_user' ); 
@@ -101,8 +105,7 @@ db.connect((err) => {
 global.db = db;
 global.config = config;
 global.bcrypt = bcrypt;
-global.fs = fs;
-var file_names  = {};
+global.fs = fs; 
  
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -338,46 +341,88 @@ function file_copy(f1, f2, remove){
     }); 
 }
 
-// delete file names bigger than 100 mins
-var deleteFimeNames = setInterval(function () {
-  datenow = new Date(); 
+function merge_files(token,extension){ 
+  if (extension == 'mp4'){
+    const ls = exec(merge_command + " " + __dirname + "/uploads/" + token , function (error, stdout, stderr) {
+    if (error) {
+      logger.error(error.stack); 
+    }
+    else{ 
+      src  = __dirname + "/uploads/" + token;
+      dst1 = __dirname + "/dane/" + token;
+      dst2 = config.mount_dir  + "/"+ token;
 
-  for(var token in file_names) {
-    splits = token.split('-'); 
+      fs.rename(src, dst1, function (err) {
+        if (err) {
+          logger.error('error in renaming: '+err);
+        }
+        else{
+          logger.info('renamed to ' + dst1); 
 
-    date = new Date(splits[3],splits[4],splits[5],splits[6],splits[7],0);
+          fs.copyFile(dst1 + "/Q1-12.mp3", dst2 + "/Q1-12.mp3", function (err) {
+            if (err) {
+              logger.error(err);
+            } else {
+              logger.info("copied " + dst2 + "/Q1-12.mp3");  
+            }
+          }); 
 
-    var diff = Math.abs(Math.round((datenow.getTime() - date.getTime()) / 60000)); 
-    if (dif > 100)
-      delete file_names[token];
+          fs.copyFile(dst1 + "/Q1-12.mp4", dst2 + "/Q1-12.mp4", function (err) {
+            if (err) {
+              logger.error(err);
+            } else {
+              logger.info("copied " + dst2 + "/Q1-12.mp4");  
+            }
+          }); 
 
-  }   
-}, 1000000);
-
-function merge_files(token,extension,file_names){ 
-    return
-    
-    /*destination = __dirname + "/uploads/" + token + "." + extension;
-    var mergedVideo = new fluentffmpeg(); 
-    mergedVideo.setFfmpegPath(config.paths.ffmpeg_path);
- 
-    file_names[token].forEach(function(element) { 
-      mergedVideo = mergedVideo.addInput(__dirname + "/uploads/" + token + "/"+element + "." + extension);
-    }); 
-
-    mergedVideo.mergeToFile(destination, __dirname + '/uploads/tmp/')
-    .on('error', function(err) { 
-        logger.error('Merging error ('+token+'):' + err.message); 
-    })
-    .on('end', function() {
-        logger.info('Finished merging ('+token +'.' + extension +')' );
-        if (extension == 'mp4'){
-          splits = token.split("-");
-          userID = splits[0] + '-' + splits[1];
-          updateconversation(userID, token +'.' + extension);  
-        } 
-    });*/  
+        }
+      });  
+    } 
+    });  
+  }  
 } 
+
+function mount(callback){
+  var command = 'echo ' + pass.SAMBA.pwd + ' | sudo -S mount -t cifs ' + pass.SAMBA.address + ' ' + pass.SAMBA.mnt + ' -o username=' + pass.SAMBA.username + ',password='+ pass.SAMBA.password + ',rw,file_mode=0750,dir_mode=0750,uid=' + pass.SAMBA.uid;
+  //logger.info('Child Process command: '+command);
+  const ls = exec(command, function (error, stdout, stderr) {
+    if (error) {
+      //logger.error(error.stack);
+      //logger.error('Error code: '+error.code);
+      //logger.error('Signal received: '+error.signal);
+      callback('error');
+    }
+    else{
+      //logger.info('Child Process STDOUT: '+stdout);
+      //logger.info('Child Process STDERR: '+stderr);
+      callback('done');
+    } 
+  });  
+} 
+
+function copy_mount(mnt,file_name,token,dest){
+  if (! fs.existsSync(mnt + "/" + token)) {
+    fs.mkdirSync(mnt + "/" + token); 
+  }
+
+  fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
+    if (!err){
+      logger.info('copied ' + file_name + ' to ' + mnt + "/" + token); 
+    }  
+  });
+}
+
+function copy_to_mount(mnt,file_name,token,dest){
+  if (!fs.existsSync(pass.SAMBA.destination)){
+    mount(function(msg){
+      if (msg == 'done'){
+        copy_mount(mnt,file_name,token,dest);
+      }
+    });
+  } 
+  else
+    copy_mount(mnt,file_name,token,dest);
+}
 
 wss.on('connection', function connection(ws) {
 ws.on('message', function incoming(message) {
@@ -423,13 +468,7 @@ message = JSON.parse(message);
       var r_no = data.r_no; 
 
       splits = token.split("-");
-      userID = splits[0] + '-' + splits[1]; 
-
-      //if (r_no == 0 && q_no == config.last_q -1 )
-      //  return
-
-      //if (q_no == config.last_q)
-      //  q_no--;
+      userID = splits[0] + '-' + splits[1];  
 
       var blob = data.data;
       var len  = blob.length; 
@@ -446,8 +485,9 @@ message = JSON.parse(message);
       (msg == 'mp3') ? max_file_size = config.max_mp3_file : max_file_size = config.max_mp4_file;
  
       if (len < max_file_size && len > 200){ 
-        var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
-            
+        //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
+          var base64Data = blob.split(';base64,').pop();
+    
         fs.writeFile(file_name + "." + msg, base64Data, 'base64', function(err) {
         if(err) {
                 logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg+ " - " + err);
@@ -455,12 +495,7 @@ message = JSON.parse(message);
 
            logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
 
-           if (msg == 'webm'){
-              if (file_names[token] === undefined) 
-                file_names[token]=[]; 
-
-              file_names[token].push('Q' + q_no.toString() + '-R' + r_no.toString());
-              
+           if (msg == 'webm'){  
               try {
                   var process = new ffmpeg(file_name + "." + msg);  
                   process.then(function (video) {
@@ -469,13 +504,13 @@ message = JSON.parse(message);
                   if (!error){
                     logger.info('converted to mp3 as ' + file_name + ".mp3" );
                     if (q_no == config.last_q -1) 
-                      merge_files(token,"mp3",file_names);
+                      merge_files(token,"mp3");
         
                     var convert = new Mp4Convert(file_name +'.webm', file_name +".mp4");
                     convert.on('done',function(){
                        logger.info('converted to mp4 as ' + file_name + ".mp4" );
                        if (q_no == config.last_q -1) 
-                          merge_files(token,"mp4",file_names);
+                          merge_files(token,"mp4");
                        fs.unlink(file_name + ".webm", function(err){
                           if (err){
                        logger.error('Deleting '+file_name + '.webm error: ' + err); 
