@@ -25,7 +25,7 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=12;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=0;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var endingMessage="Thank you. The END."; 
    
@@ -470,7 +470,7 @@ $(function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() { 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
-		    			response.surveys[surveyIndex].question.push(cur_question.answers.values[j] + ', ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
+		    			response.surveys[surveyIndex].question.push('"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
 					    
 		    			if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length -1){  
 			    			response.surveys[surveyIndex].current_question ++;
