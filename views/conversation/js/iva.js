@@ -23,14 +23,16 @@ $(function(){
 	var chunks;
 	var response = {};   
 	var questions = configuration.questions;
-	var maxQuestions=questions.length-1;    
+	var maxQuestions=questions.length-1; 
+	var startQuestionIndex=12;    // ****** CHANGE THIS TO 0
+ 
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
 
 		$("#consent").addClass('hidden');
 		
-		currentQuestionIndex=0; 
+		currentQuestionIndex=startQuestionIndex; 
 		$(this).hide(); 
 		$("#repeatMessageButton").removeClass("hidden"); 
 		$("#repeatMessageButton").show(); 
@@ -73,6 +75,7 @@ $(function(){
 
          		$('#startSurveyButton').removeClass('hidden').show();
          		$('#divAlert').text('Please complete the survey by clicking the button');
+         		$('#divAlert').addClass('alert-info');
 				$('#divAlert').removeClass('hidden').show();
 
     			}, questions[currentQuestionIndex].length); 
