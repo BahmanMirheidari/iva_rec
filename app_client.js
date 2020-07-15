@@ -102,8 +102,7 @@ db.connect((err) => {
 global.db = db;
 global.config = config;
 global.bcrypt = bcrypt;
-global.fs = fs;
-var file_names  = {};
+global.fs = fs; 
  
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -270,24 +269,8 @@ function file_copy(f1, f2, remove){
       } 
     }); 
 }
-
-// delete file names bigger than 100 mins
-var deleteFimeNames = setInterval(function () {
-  datenow = new Date(); 
-
-  for(var token in file_names) {
-    splits = token.split('-'); 
-
-    date = new Date(splits[3],splits[4],splits[5],splits[6],splits[7],0);
-
-    var diff = Math.abs(Math.round((datenow.getTime() - date.getTime()) / 60000)); 
-    if (dif > 100)
-      delete file_names[token];
-
-  }   
-}, 1000000);
-
-function merge_files(token,extension,file_names){ 
+ 
+function merge_files(token,extension){ 
   if (extension == 'mp4'){
     const ls = exec(merge_command + " " + __dirname + "/uploads/" + token , function (error, stdout, stderr) {
     if (error) {
@@ -331,30 +314,7 @@ function merge_files(token,extension,file_names){
       });  
     } 
     });  
-  } 
-   
-  
-  return
-    /*destination = __dirname + "/uploads/" + token + "." + extension;
-    var mergedVideo = new fluentffmpeg(); 
-    mergedVideo.setFfmpegPath(config.paths.ffmpeg_path);
- 
-    file_names[token].forEach(function(element) { 
-      mergedVideo = mergedVideo.addInput(__dirname + "/uploads/" + token + "/"+element + "." + extension);
-    }); 
-
-    mergedVideo.mergeToFile(destination, __dirname + '/uploads/tmp/')
-    .on('error', function(err) { 
-        logger.error('Merging error ('+token+'):' + err.message); 
-    })
-    .on('end', function() {
-        logger.info('Finished merging ('+token +'.' + extension +')' );
-        if (extension == 'mp4'){
-          splits = token.split("-");
-          userID = splits[0] + '-' + splits[1];
-          updateconversation(userID, token +'.' + extension);  
-        } 
-    });*/  
+  }  
 } 
 
 function mount(callback){
@@ -455,12 +415,7 @@ message = JSON.parse(message);
 
            logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
 
-           if (msg == 'webm'){
-              if (file_names[token] === undefined) 
-                file_names[token]=[]; 
-
-              file_names[token].push('Q' + q_no.toString() + '-R' + r_no.toString());
-              
+           if (msg == 'webm'){  
               try {
                   var process = new ffmpeg(file_name + "." + msg);  
                   process.then(function (video) {
@@ -468,16 +423,16 @@ message = JSON.parse(message);
                   video.fnExtractSoundToMP3(file_name+ ".mp3", function (error, file) {
                   if (!error){
                     logger.info('converted to mp3 as ' + file_name + ".mp3" );
-		      copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3");
-		      if (q_no == config.last_q -1) 
-                      merge_files(token,"mp3",file_names);
+        		      copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3");
+        		      if (q_no == config.last_q -1) 
+                              merge_files(token,"mp3");
         
                     var convert = new Mp4Convert(file_name +'.webm', file_name +".mp4");
                     convert.on('done',function(){
-			logger.info('converted to mp4 as ' + file_name + ".mp4" );
-			copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
+              			logger.info('converted to mp4 as ' + file_name + ".mp4" );
+              			copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
                        if (q_no == config.last_q -1) 
-                          merge_files(token,"mp4",file_names);
+                          merge_files(token,"mp4");
                        fs.unlink(file_name + ".webm", function(err){
                           if (err){
                        logger.error('Deleting '+file_name + '.webm error: ' + err); 
