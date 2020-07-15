@@ -25,7 +25,7 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=12;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=11;    // ****** CHANGE THIS TO 0
  
  	// start survey Button 
 	$("#startSurveyButton").click(function(){   
@@ -114,8 +114,7 @@ $(function(){
          		$('#startSurveyButton').removeClass('hidden').show();
          		$('#divAlert').text('Please click the following button to complete the survey');
          		$('#divAlert').removeClass('alert-danger').addClass('alert-info');
-         		$('#mycanvas').hide(); 
-         		$('#video').hide(); 
+         		$('#mycanvas').hide();  
          		video.pause();
     			video.src = "";
          		liveStream.getTracks()[0].stop();
