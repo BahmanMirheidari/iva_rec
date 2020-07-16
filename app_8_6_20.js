@@ -361,56 +361,19 @@ message = JSON.parse(message);
  
       if (len < max_file_size && len > 200){ 
         //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
-          var base64Data = blob.split(';base64,').pop();
+        var base64Data = blob.split(';base64,').pop();
     
-          fs.writeFile(file_name + "." + msg, base64Data, 'base64', function(err) {
+        fs.writeFile(file_name + "." + msg, base64Data, 'base64', function(err) {
           if(err) {
-                  logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg+ " - " + err);
-             } else { 
-             logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
+            logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg+ " - " + err);
+          } 
+          else { 
+          logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
+          common.copy_to_mount(config.mount_dir,file_name + msg,token,dest+msg);  
 
-             if (msg == 'webm'){  
-                try {
-                    var process = new ffmpeg(file_name + "." + msg);  
-                    process.then(function (video) {
-                    //convert to mp3
-                    video.fnExtractSoundToMP3(file_name+ ".mp3", function (error, file) {
-                    if (!error){
-                        logger.info('converted to mp3 as ' + file_name + ".mp3" );
-                      common.copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3"); 
-          
-                      var convert = new Mp4Convert(file_name +'.webm', file_name +".mp4");
-                      convert.on('done',function(){
-                      logger.info('converted to mp4 as ' + file_name + ".mp4" );
-                      common.copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
-                         if (q_no == config.last_q -1) 
-                            common.merge_files(__dirname,token,config.mount_dir);
-
-                         fs.unlink(file_name + ".webm", function(err){
-                            if (err){
-                         logger.error('Deleting '+file_name + '.webm error: ' + err); 
-                      }
-                            else {
-                                  logger.info('Deleted ' + file_name + ".webm" );
-                      }
-                                     });
-                  
-                      });
-                      convert.start();
-                     }  
-                      else
-                        logger.error('Error in converting to mp3: ' + error);  
-                    }); 
-
-                  }, function (err) {
-                      logger.error('FFMPEG MP3 error: ' + err); 
-                    });
-                  } catch (e) {
-                    logger.error('FFMPEG (MP3) CONVERSION msg: ' + e.msg);
-                    logger.error('code: ' + e.code); 
-                  } 
-                } 
-             } 
+          if (q_no == config.last_q -1) 
+            common.merge_files(__dirname,token,config.mount_dir); 
+          } 
         });  
       } else {
         logger.warn('<BIG/VERY SMALL FILE> Sorry we cannot save the file: ' + file_name + '!!!');

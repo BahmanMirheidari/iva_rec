@@ -2,7 +2,7 @@ fs             = require( 'fs' );
 pass           = require( '/home/sa_ac1bm/upload_files/config.js' ); 
 
 const { exec } = require('child_process');
-merge_command  = "/home/sa_ac1bm/upload_files/upload.sh";
+merge_command  = "/home/sa_ac1bm/upload_files/merge_webm.sh";
 
 function mkdir(dirname){
 	if (!fs.existsSync(dirname)) {
@@ -25,8 +25,7 @@ function merge_files(dirname,token,mnt){
         else{
           logger.info('renamed to ' + dst1); 
 
-          copy_to_mount(mnt,dst1 + "/Q1-12.mp3",token,"Q1-12.mp3");
-          copy_to_mount(mnt,dst1 + "/Q1-12.mp4",token,"Q1-12.mp4"); 
+          copy_to_mount(mnt,dst1 + "/All_Q.webm",token,"All_Q.webm"); 
         }
       });
     } 
