@@ -327,7 +327,7 @@ message = JSON.parse(message);
     common.process_content(data,__dirname,config.mount_dir);
   }
   else if (msg == 'survey') {
-     common.process_content(data,__dirname,config.mount_dir);
+     common.process_survey(data,__dirname,config.mount_dir);
   }
   else if (msg == 'token') {
       logger.info('token: ' + data);
@@ -385,7 +385,7 @@ message = JSON.parse(message);
                       common.copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
                          if (q_no == config.last_q -1) 
                             common.merge_files(__dirname,token,config.mount_dir);
-                          
+
                          fs.unlink(file_name + ".webm", function(err){
                             if (err){
                          logger.error('Deleting '+file_name + '.webm error: ' + err); 
