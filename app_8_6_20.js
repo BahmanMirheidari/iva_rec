@@ -369,7 +369,7 @@ message = JSON.parse(message);
           } 
           else { 
           logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
-          common.copy_to_mount(config.mount_dir,file_name + msg,token,dest+msg);  
+          common.copy_to_mount(config.mount_dir,file_name + "."+ msg,token,dest + "." + msg);  
 
           if (q_no == config.last_q -1) 
             common.merge_files(__dirname,token,config.mount_dir); 
