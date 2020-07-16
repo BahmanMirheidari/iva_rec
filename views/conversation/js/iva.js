@@ -25,7 +25,7 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=11;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=0;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var endingMessage="Thank you. The END."; 
    
