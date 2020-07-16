@@ -3,8 +3,14 @@ pass           = require( '/home/sa_ac1bm/upload_files/config.js' );
 
 const { exec } = require('child_process');
 merge_command  = "/home/sa_ac1bm/upload_files/upload.sh";
+
+function mkdir(dirname){
+	if (!fs.existsSync(dirname) {
+        fs.mkdirSync(dirname);
+    } 
+} 
   
-function merge_files(dirname,token){  
+function merge_files(dirname,token,mnt){  
     const ls = exec(merge_command + " " + dirname + "/uploads/" + token , function (error, stdout, stderr) {
     if (error) {
       logger.error(error.stack); 
@@ -12,7 +18,7 @@ function merge_files(dirname,token){
     else{ 
       src  = dirname + "/uploads/" + token;
       dst1 = dirname + "/dane/" + token;
-      dst2 = config.mount_dir  + "/"+ token;
+      dst2 = mnt  + "/"+ token;
 
       fs.rename(src, dst1, function (err) {
         if (err) {
@@ -21,22 +27,8 @@ function merge_files(dirname,token){
         else{
           logger.info('renamed to ' + dst1); 
 
-          fs.copyFile(dst1 + "/Q1-12.mp3", dst2 + "/Q1-12.mp3", function (err) {
-            if (err) {
-              logger.error(err);
-            } else {
-              logger.info("copied " + dst2 + "/Q1-12.mp3");  
-            }
-          }); 
-
-          fs.copyFile(dst1 + "/Q1-12.mp4", dst2 + "/Q1-12.mp4", function (err) {
-            if (err) {
-              logger.error(err);
-            } else {
-              logger.info("copied " + dst2 + "/Q1-12.mp4");  
-            }
-          }); 
-
+          copy_to_mount(mnt,dst1 + "/Q1-12.mp3",token,"Q1-12.mp3");
+          copy_to_mount(mnt,dst1 + "/Q1-12.mp4",token,"Q1-12.mp4"); 
         }
       });  
     } 
@@ -61,17 +53,18 @@ function mount(callback){
   });  
 } 
 
-function copy_mount(mnt,file_name,token,dest){
-  if (! fs.existsSync(mnt + "/" + token)) {
-    fs.mkdirSync(mnt + "/" + token); 
-  }
+function copy_mount(mnt,file_name,token,dest){ 
+  mkdir(mnt + "/" + token);
 
   fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
     if (!err){
       logger.info('copied ' + file_name + ' to ' + mnt + "/" + token); 
     }  
+    else{
+    	logger.error('Error in copying '+ file_name + ' to ' + mnt + "/" + token)
+    }
   });
-}
+} 
 
 function copy_to_mount(mnt,file_name,token,dest){
   if (!fs.existsSync(pass.SAMBA.destination)){
@@ -81,16 +74,88 @@ function copy_to_mount(mnt,file_name,token,dest){
       }
     });
   } 
-  else
-    copy_mount(mnt,file_name,token,dest);
-}
+  else{
+  	copy_mount(mnt,file_name,token,dest);
+  } 
+} 
  
+function process_content(data,dirname,mnt){
+	length = data.agreements.length;
+	csv_file = "consent.csv";
+	sub_folder = dirname + "/uploads/" + data.token;
+    consent = ''; 
+    for (i=0;i<length;i++){
+      consent += data.agreements[i] + "\n"; 
+    }
+
+    logger.info('recived consent for ' + data.token);  
+    mkdir(sub_folder); 
+
+    fs.writeFile(sub_folder + "/" + csv_file, consent, function(err) {
+        if(err) {
+          logger.error('error in saving consent file (' + sub_folder + "/" + csv_file + ')' +err); 
+        } 
+        else{
+        	logger.info('consent file (' + sub_folder + "/" + csv_file + ') was saved.'); 
+        } 
+    });  
+}
+
+function process_survey(data,dirname,mnt){
+	length = data.questions.length;
+    index =  data.id; 
+    csv_file = "survey" + index.toString() + ".csv";
+    sub_folder1 = dirname + "/uploads/" + data.token;
+    sub_folder2 = dirname + "/dane/" + data.token;
+    survey = ''; 
+    for (i=0;i<length;i++){
+      survey += data.questions[i] + "\n"; 
+    }
+    logger.info('recived servey ' + index.toString() + ' for ' + data.token);
+
+    // check uploads first then dane (archive)
+    if (fs.existsSync(sub_folder1)) {
+        fs.writeFile(sub_folder1 + "/" + csv_file, survey, function(err) {
+          if(err) {
+            logger.error('error in saving survey' + index.toString() + ' (' + sub_folder1 + "/" + csv_file + ') - ' + err); 
+          } 
+          else{
+            logger.info('survey' + index.toString() + ' (' + sub_folder1 + "/" + csv_file + ') - was saved.'); 
+            copy_to_mount(mnt,sub_folder1 + "/" + csv_file,data.token,csv_file);
+          } 
+      });  
+    } 
+    else{
+    	// else if .copied exists remove it
+      if (fs.existsSync(sub_folder2 + '.copied')) {
+        fs.unlinkSync(sub_folder2 + '.copied');}
+
+        fs.writeFile(sub_folder2 + "/" + csv_file, survey, function(err) {
+          if(err) {
+            logger.error('error in saving survey' + index.toString() + ' (' + sub_folder2 + "/" +csv_file + ') - ' + err); 
+          } 
+          else{
+            logger.info('survey' + index.toString() + ' (' + sub_folder2 + "/" + csv_file + ') - was saved.');
+			copy_to_mount(mnt,sub_folder2 + "/" + csv_file,data.token,csv_file);
+          } 
+        }); 
+    }  
+} 
 
 module.exports = { 
-    merge_files     : function (dirname,token){
-    	merge_files(dirname,token);
+	mkdir           : function(dirname){
+		mkdir(dirname);
+	},
+    merge_files     : function (dirname,token,mnt){
+    	merge_files(dirname,token,mnt);
     }, 
-    copy_to_mount     : function (mnt,file_name,token,dest){
+    copy_to_mount   : function (mnt,file_name,token,dest){
     	copy_to_mount(mnt,file_name,token,dest);
+    },
+    process_content   : function (data,dirname,mnt){
+    	process_content(data,dirname,mnt);
+    },
+    process_survey   : function (data,dirname,mnt){
+    	process_survey(data,dirname,mnt);
     }
 }; 
