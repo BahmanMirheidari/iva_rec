@@ -97,6 +97,7 @@ function process_content(data,dirname,mnt){
         } 
         else{
         	logger.info('consent file (' + sub_folder + "/" + csv_file + ') was saved.'); 
+        	copy_to_mount(mnt,sub_folder + "/" + csv_file,data.token,csv_file);
         } 
     });  
 }
