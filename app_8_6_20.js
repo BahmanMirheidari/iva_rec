@@ -1,4 +1,3 @@
-
 var express          = require( 'express' )
   , app              = express()
   , server           = require( 'http' ).createServer( app ) 
@@ -18,10 +17,12 @@ var express          = require( 'express' )
   , fluentffmpeg     = require( 'fluent-ffmpeg' )
   , GoogleStrategy   = require( './controllers/google_aouth2.js' ).Strategy //require( 'passport-google-oauth2' ).Strategy;
   , config           = require( './config/config.js' )
-  , common           = require( './config/common.js' );  
+  , pass             = require( '/home/sa_ac1bm/upload_files/config.js' ); 
 
-/* change 18/6/20*/
-const {auth,getrole} = require( './controllers/authorise_user' ); 
+const { exec }       = require('child_process');
+merge_command = "/home/sa_ac1bm/upload_files/upload.sh"
+
+const {auth,getrole} = require( './controllers/authorise' ); 
 const {getclinicianHomePage,addclinicianPage, addclinician, editclinicianPage, editclinician, deleteclinician} = require( './controllers/clinician' ); 
 const {getparticipantHomePage,addparticipantPage, addparticipant, editparticipantPage, editparticipant, editparticipantpassPage, editparticipantpass, deleteparticipant} = require( './controllers/participant' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
@@ -103,7 +104,6 @@ global.db = db;
 global.config = config;
 global.bcrypt = bcrypt;
 global.fs = fs; 
-global.logger = logger; 
  
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -153,7 +153,7 @@ app.use( fileUpload()); // configure fileupload
 app.use( cookieParser()); 
 app.use( bodyParser.json());
 app.use( bodyParser.urlencoded({
-	extended: true
+  extended: true
 }));
 
 // global variables
@@ -193,9 +193,9 @@ app.get('/auth/google', passport.authenticate('google', { scope: [
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 app.get( '/callback', 
-    	passport.authenticate( 'google', { 
-    		successRedirect: '/verifyrole',
-    		failureRedirect: '/login'
+      passport.authenticate( 'google', { 
+        successRedirect: '/verifyrole',
+        failureRedirect: '/login'
 }));
 
 app.get('/verifyrole', getrole); 
@@ -238,12 +238,11 @@ app.post('/editparticipantpass/:id', ensureIsClinician, editparticipantpass);
 app.get('/conversations', ensureIsClinician, getconversationHomePage);
 app.get('/conversation_details/:id', ensureIsClinician, conversation_detailsPage);  
 
-/* change 18/6/20*/
 app.get('/conversation', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
       res.redirect('/login');
     else
-      res.render('talk2iva.ejs', {
+      res.render('conversation.ejs', {
           title: config.welcome_message + ' | Conversation'
           ,message: '', user :req.user 
       }); 
@@ -303,16 +302,123 @@ var https = ( config.ssl ) ? require('https') : require('http');
 var httpsServer = ( config.ssl ) ? https.createServer({key: fs.readFileSync(config.paths.key_file_path, 'utf8'), cert: fs.readFileSync(config.paths.cert_file_path, 'utf8')}, app) : httpsServer = https.createServer(app);
  
 //*********** listen to port ************** //
-httpsServer.listen(config.port); 
+httpsServer.listen(config.port);
 
 ( config.ssl ) ? logger.info('https server (' + ip_address + ') is running on port: ' + config.port): logger.info('http server (' + ip_address + ') is running on port: ' + config.port);
-
-logger.info(config.iva_configs[config.iva_default].consent.title)
-
+  
 var wss = new WebSocketServer({
 server: httpsServer
-}); 
-  
+});
+
+function blobToFile(theBlob, fileName){
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    theBlob.lastModifiedDate = new Date();
+    theBlob.name = fileName;
+    theBlob.type = 'audio/mp3';
+    return theBlob;
+}
+
+function file_copy(f1, f2, remove){
+  fs.copyFile(f1, f2, (err) => {
+      if (err)  
+        logger.error('An error occurred while copying '+ f1 + ' to' + f2 + ':' + err.message);
+      else{
+        logger.info('Copied '+ f1 + ' to' + f2);
+        if (remove){
+          fs.unlink(f1, function (err) {
+          if (err)  
+              logger.error('An error occurred while deleting: ' + f1 + ' - ' + err.message); 
+          else 
+              logger.info('File ' + f1 +' deleted!');
+          });  
+        } 
+      } 
+    }); 
+}
+
+function merge_files(token,extension){ 
+  if (extension == 'mp4'){
+    const ls = exec(merge_command + " " + __dirname + "/uploads/" + token , function (error, stdout, stderr) {
+    if (error) {
+      logger.error(error.stack); 
+    }
+    else{ 
+      src  = __dirname + "/uploads/" + token;
+      dst1 = __dirname + "/dane/" + token;
+      dst2 = config.mount_dir  + "/"+ token;
+
+      fs.rename(src, dst1, function (err) {
+        if (err) {
+          logger.error('error in renaming: '+err);
+        }
+        else{
+          logger.info('renamed to ' + dst1); 
+
+          fs.copyFile(dst1 + "/Q1-12.mp3", dst2 + "/Q1-12.mp3", function (err) {
+            if (err) {
+              logger.error(err);
+            } else {
+              logger.info("copied " + dst2 + "/Q1-12.mp3");  
+            }
+          }); 
+
+          fs.copyFile(dst1 + "/Q1-12.mp4", dst2 + "/Q1-12.mp4", function (err) {
+            if (err) {
+              logger.error(err);
+            } else {
+              logger.info("copied " + dst2 + "/Q1-12.mp4");  
+            }
+          }); 
+
+        }
+      });  
+    } 
+    });  
+  }  
+} 
+
+function mount(callback){
+  var command = 'echo ' + pass.SAMBA.pwd + ' | sudo -S mount -t cifs ' + pass.SAMBA.address + ' ' + pass.SAMBA.mnt + ' -o username=' + pass.SAMBA.username + ',password='+ pass.SAMBA.password + ',rw,file_mode=0750,dir_mode=0750,uid=' + pass.SAMBA.uid;
+  //logger.info('Child Process command: '+command);
+  const ls = exec(command, function (error, stdout, stderr) {
+    if (error) {
+      //logger.error(error.stack);
+      //logger.error('Error code: '+error.code);
+      //logger.error('Signal received: '+error.signal);
+      callback('error');
+    }
+    else{
+      //logger.info('Child Process STDOUT: '+stdout);
+      //logger.info('Child Process STDERR: '+stderr);
+      callback('done');
+    } 
+  });  
+} 
+
+function copy_mount(mnt,file_name,token,dest){
+  if (! fs.existsSync(mnt + "/" + token)) {
+    fs.mkdirSync(mnt + "/" + token); 
+  }
+
+  fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
+    if (!err){
+      logger.info('copied ' + file_name + ' to ' + mnt + "/" + token); 
+    }  
+  });
+}
+
+function copy_to_mount(mnt,file_name,token,dest){
+  if (!fs.existsSync(pass.SAMBA.destination)){
+    mount(function(msg){
+      if (msg == 'done'){
+        copy_mount(mnt,file_name,token,dest);
+      }
+    });
+  } 
+  else
+    copy_mount(mnt,file_name,token,dest);
+}
+
 wss.on('connection', function connection(ws) {
 ws.on('message', function incoming(message) {
 message = JSON.parse(message); 
@@ -322,19 +428,12 @@ message = JSON.parse(message);
 
   if ( msg != null ) {
     logger.info('received ip: ' + received_ip + ' - msg: ' + msg); 
-    /* changed 23/6/20 */
-  if (msg == 'consent') {
-    common.process_content(data,__dirname,config.mount_dir);
-  }
-  else if (msg == 'survey') {
-     common.process_survey(data,__dirname,config.mount_dir);
-  }
-  else if (msg == 'token') {
+    
+  if (msg == 'token') {
       logger.info('token: ' + data);
       splits = data.split("-");
       userID = splits[0] + '-' + splits[1];
-      /* changed 20/6/20 */
-      //updateconversation(userID, 'start');  
+      updateconversation(userID, 'start');  
 
     } else if (msg == 'mp3' || msg == 'webm') {
 
@@ -343,41 +442,84 @@ message = JSON.parse(message);
       var r_no = data.r_no; 
 
       splits = token.split("-");
-      userID = splits[0] + '-' + splits[1];  
+      userID = splits[0] + '-' + splits[1]; 
+ 
 
       var blob = data.data;
-      var len  = blob.length; 
+      var len  = blob.length;
       var dest = 'Q'+ q_no.toString() + '-R' + r_no.toString();
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
       logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
-      /* changed 20/6/20 */
-      //updateconversation(userID, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
+      updateconversation(userID, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
 
-      //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
-      common.mkdir(__dirname + "/uploads/" + token);
-
+      //logger.info(util.inspect(blob, {showHidden: false, depth: null})) 
+      if (!fs.existsSync(__dirname + "/uploads/" + token)) {
+        fs.mkdirSync(__dirname + "/uploads/" + token);
+      } 
       var max_file_size; 
       (msg == 'mp3') ? max_file_size = config.max_mp3_file : max_file_size = config.max_mp4_file;
  
       if (len < max_file_size && len > 200){ 
         //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
-        var base64Data = blob.split(';base64,').pop();
+          var base64Data = blob.split(';base64,').pop();
     
         fs.writeFile(file_name + "." + msg, base64Data, 'base64', function(err) {
-          if(err) {
-            logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg+ " - " + err);
-          } 
-          else { 
-          logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
-          common.copy_to_mount(config.mount_dir,file_name + "."+ msg,token,dest + "." + msg);  
+        if(err) {
+                logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg+ " - " + err);
+           } else {
 
-          if (q_no == config.last_q -1) 
-            common.merge_files(__dirname,token,config.mount_dir); 
-          } 
+           logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
+
+           if (msg == 'webm'){ 
+              
+              try {
+                  var process = new ffmpeg(file_name + "." + msg);  
+                  process.then(function (video) {
+                  //convert to mp3
+                  video.fnExtractSoundToMP3(file_name+ ".mp3", function (error, file) {
+                  if (!error){
+                      logger.info('converted to mp3 as ' + file_name + ".mp3" );
+                    copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3");
+                    if (q_no == config.last_q -1) 
+                      merge_files(token,"mp3");
+        
+                    var convert = new Mp4Convert(file_name +'.webm', file_name +".mp4");
+                    convert.on('done',function(){
+                    logger.info('converted to mp4 as ' + file_name + ".mp4" );
+                    copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
+                       if (q_no == config.last_q -1) 
+                          merge_files(token,"mp4");
+                       fs.unlink(file_name + ".webm", function(err){
+                          if (err){
+                       logger.error('Deleting '+file_name + '.webm error: ' + err); 
+                    }
+                          else {
+                                logger.info('Deleted ' + file_name + ".webm" );
+                    }
+                                   });
+                
+                    });
+                    convert.start();
+                   }  
+                    else
+                      logger.error('Error in converting to mp3: ' + error);  
+                  }); 
+
+                }, function (err) {
+                    logger.error('FFMPEG MP3 error: ' + err); 
+                  });
+                } catch (e) {
+                  logger.error('FFMPEG (MP3) CONVERSION msg: ' + e.msg);
+                  logger.error('code: ' + e.code); 
+                } 
+              } 
+           }
+           
         });  
       } else {
         logger.warn('<BIG/VERY SMALL FILE> Sorry we cannot save the file: ' + file_name + '!!!');
-      } 
+      }
+      
     } 
   }
 }); 
@@ -385,3 +527,4 @@ message = JSON.parse(message);
 // say welcome to the client
 //ws.send('Hello from the IVA recording service ...');
 });
+

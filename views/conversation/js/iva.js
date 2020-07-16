@@ -479,8 +479,10 @@ $(function(){
 					    else{ 
 					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.surveys[surveyIndex].id, questions:response.surveys[surveyIndex].question}})); 
 					    	surveyIndex ++; 
-					    	$('#dynamic').hide();
-					        init_survey(); 
+					    	if(surveyIndex >= configuration.surveys.length)
+					    		end_message();
+					    	else
+					        	init_survey(); 
 					    }
 				        break;
 		    		}
@@ -489,10 +491,15 @@ $(function(){
 		}  
     }
 
+    function end_message(){
+    	$('#dynamic').hide();
+    	$('#divPar').removeClass('hidden');  
+		$('#divMessage').text(endingMessage); 
+    }
+
     function init_survey(){
-    	if (configuration.surveys.length == 0 || surveyIndex >= configuration.surveys.length){  
-    		$('#divPar').removeClass('hidden');  
-			$('#divMessage').text(endingMessage);   
+    	if (configuration.surveys.length == 0){  
+    		end_message();
     	}
     	else{
     		response.surveys[surveyIndex] = {};
