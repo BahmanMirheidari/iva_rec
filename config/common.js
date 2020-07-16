@@ -25,7 +25,8 @@ function merge_files(dirname,token,mnt){
         else{
           logger.info('renamed to ' + dst1); 
 
-          copy_to_mount(mnt,dst1 + "/All_Q.webm",token,"All_Q.webm"); 
+          copy_to_mount(mnt,dst1 + "/All_Q.webm",token,"All_Q.webm");  
+          copy_to_mount(mnt,dst1 + "/All_Q.mp4",token,"All_Q.mp4"); 
         }
       });
     } 
