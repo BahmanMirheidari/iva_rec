@@ -17,9 +17,7 @@ function merge_files(dirname,token,mnt){
     }
     else{ 
       src  = dirname + "/uploads/" + token;
-      dst1 = dirname + "/dane/" + token;
-      dst2 = mnt  + "/"+ token;
-
+      dst1 = dirname + "/dane/" + token; 
       fs.rename(src, dst1, function (err) {
         if (err) {
           logger.error('error in renaming: '+err);
@@ -30,7 +28,7 @@ function merge_files(dirname,token,mnt){
           copy_to_mount(mnt,dst1 + "/Q1-12.mp3",token,"Q1-12.mp3");
           copy_to_mount(mnt,dst1 + "/Q1-12.mp4",token,"Q1-12.mp4"); 
         }
-      });  
+      });
     } 
     });  
   }  
@@ -54,14 +52,13 @@ function mount(callback){
 } 
 
 function copy_mount(mnt,file_name,token,dest){ 
-  mkdir(mnt + "/" + token);
-
+  mkdir(mnt + "/" + token); 
   fs.copyFile(file_name, mnt + "/" + token + "/" + dest, function(err){
     if (!err){
       logger.info('copied ' + file_name + ' to ' + mnt + "/" + token); 
     }  
     else{
-    	logger.error('Error in copying '+ file_name + ' to ' + mnt + "/" + token)
+    	logger.error('Error in copying '+ file_name + ' to ' + mnt + "/" + token + err)
     }
   });
 } 
