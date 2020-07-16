@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 merge_command  = "/home/sa_ac1bm/upload_files/upload.sh";
 
 function mkdir(dirname){
-	if (!fs.existsSync(dirname) {
+	if (!fs.existsSync(dirname)) {
         fs.mkdirSync(dirname);
     } 
 } 
