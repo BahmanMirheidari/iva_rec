@@ -994,5 +994,141 @@ module.exports = {
                 }
             }
         ] 
+    },
+    'survey_phq8':{
+        'id':3,
+        'comment':'Could you complete the questionnaire related to your mental wellbeing.',
+        'title':'Patient Health Questionnaire (PHQ-8)',
+        'main_q':'Over the last two weeks, how often have you been bothered by any of the following problems?',
+        'questions': [
+            {
+                'q_no':1,
+                'text':'Little interest or pleasure in doing things?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':2,
+                'text':'Feeling down, depressed, or hopeless?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':3,
+                'text':'Trouble falling or staying asleep, or sleeping too much?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':4,
+                'text':'Feeling tired or having little energy?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':5,
+                'text':'Poor appetite or overeating?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':6,
+                'text':'Feeling bad about yourself - or that you are a failure or have let yourself or your family down?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':7,
+                'text':'Trouble concentrating on things, such as reading the newspaper or watching television?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':8,
+                'text':'Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            }
+        ] 
+    },
+    'survey_gad7':{
+        'id':4,
+        'comment':'Could you complete the questionnaire related to your mental wellbeing.',
+        'title':'Generalised Anxiety Disorder Assessment (GAD-7)',
+        'main_q':'Over the last 2 weeks, how often have you been bothered by any of the following problems?',
+        'questions': [
+            {
+                'q_no':1,
+                'text':'Feeling nervous, anxious or on edge?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':2,
+                'text':'Not being able to stop or control worrying?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':3,
+                'text':'Worrying too much about different things?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':4,
+                'text':'Trouble relaxing?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':5,
+                'text':'Being so restless that it is hard to sit still?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':6,
+                'text':'Becoming easily annoyed or irritable?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':7,
+                'text':'Feeling afraid as if something awful might happen?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            }
+        ] 
     }
 }
