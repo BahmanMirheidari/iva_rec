@@ -541,7 +541,7 @@ $(function(){
 					    else{ 
 					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.pre_surveys[pre_surveyIndex].id, questions:response.pre_surveys[pre_surveyIndex].question}})); 
 					    	pre_surveyIndex ++; 
-					    	if(surveyIndex >= configuration.pre_surveys.length){
+					    	if(pre_surveyIndex >= configuration.pre_surveys.length){
 					    		$('#dynamic').addClass('hidden'); 
 					    		init_questions();
 					    	}
