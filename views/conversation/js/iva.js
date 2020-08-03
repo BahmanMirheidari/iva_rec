@@ -536,7 +536,7 @@ $(function(){
 					    
 		    			if (response.pre_surveys[pre_surveyIndex].current_question < response.pre_surveys[pre_surveyIndex].questions_length -1){  
 			    			response.pre_surveys[pre_surveyIndex].current_question ++;
-					        set_survey();
+					        set_pre_survey();
 					    }
 					    else{ 
 					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.pre_surveys[pre_surveyIndex].id, questions:response.pre_surveys[pre_surveyIndex].question}})); 
