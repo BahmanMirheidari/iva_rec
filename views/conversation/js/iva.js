@@ -371,8 +371,8 @@ $(function(){
     	return html;
     }
 
-    function html_textbox(id,text){
-    	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" >';  
+    function html_textbox(id,text,font_size="200"){
+    	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" style="font-size: ' + font_size + '%;" >';  
     }
 
     function html_radio(id,text,options){
