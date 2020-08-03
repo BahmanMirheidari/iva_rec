@@ -442,14 +442,14 @@ $(function(){
 				    	else{ 
 				    		response.consent.agreed.push('Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
 				    		response.consent.agreed.push('Yes, sign, "' + $("#txt_" + id).val() + '"');
+				    		ws.send(JSON.stringify({msg:'consent',data:{token:token, agreements:response.consent.agreed}})); 
+
 					    	$("#dynamic_header").empty(); 
 					    	$("#dynamic_title").empty();
 					    	$("#dynamic_body").empty(); 
 					    	$('#dynamic').addClass('hidden');
-					    	$('#startAvatarButton').removeClass('hidden').show();
-					    	$('#divAlert').removeClass('hidden').show();
-
-					    	ws.send(JSON.stringify({msg:'consent',data:{token:token, agreements:response.consent.agreed}})); 
+					    	
+					    	init_pre_surveys(); 
 				    	} 
 				    }
 				});
