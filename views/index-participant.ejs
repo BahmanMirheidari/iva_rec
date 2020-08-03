@@ -12,6 +12,7 @@
                     <th scope="col">Male</th> 
                     <th scope="col">DOB</th>
                     <th scope="col">Diagnosis</th>
+                    <th scope="col">Configuration</th>
                     <th scope="col">Active</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -25,6 +26,7 @@
                         <td><%= participant.male %></td> 
                         <td><%= new Date(String(participant.dob)).toJSON().slice(0, 10) %></td> 
                         <td><%= participant.diagnosis %></td> 
+                        <td><%= participant.configuration %></td> 
                         <td><%= participant.active %></td>
                         <td>
                             <a href="/editparticipant/<%= participant.id %>" class="btn btn-sm btn-primary">Edit</a>

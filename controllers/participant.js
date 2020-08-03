@@ -35,9 +35,8 @@ module.exports = {
         let comments = shared.safeString(req.body.comments,200);
         let user_name = shared.safeString(req.body.user_name);
         let password = bcrypt.hashSync(shared.safeString(req.body.password), config.pass_hash_rounds);
-        let email = shared.safeString(req.body.email);  
-
-        //let usernameQuery = "SELECT * FROM `participants` WHERE user_name = '" + user_name + "'";
+        let email = shared.safeString(req.body.email); 
+        let configuration = shared.safeString(req.body.configuration);   
         let usernameQuery = "SELECT * FROM `participants` WHERE user_name = ?";
 
         db.query(usernameQuery, [user_name], (err, result) => {
@@ -50,13 +49,10 @@ module.exports = {
                     message,
                     title: config.welcome_message + ' | Add a new participant'
                 });
-            } else { 
-                    // send the participant's details to the database
-                    //let query = "INSERT INTO `participants` (first_name, last_name, male, dob, diagnosis, comments, user_name, password, email) VALUES ('" +
-                    //    first_name + "', '" + last_name + "', '" + male + "', '" + dob + "', '" + diagnosis + "', '" + comments + "', '" + user_name + "', '" + password + "', '" + email + "')";
-                    let query = "INSERT INTO `participants` (first_name, last_name, male, dob, diagnosis, comments, user_name, password, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            } else {  
+                    let query = "INSERT INTO `participants` (first_name, last_name, male, dob, diagnosis, comments, user_name, password, email, configuration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     //console.log(`query: ${query}`);
-                    db.query(query,[first_name, last_name, male, dob, diagnosis, comments, user_name, password, email], (err, result) => {
+                    db.query(query,[first_name, last_name, male, dob, diagnosis, comments, user_name, password, email, configuration], (err, result) => {
                         if (err) {
                             return res.status(500).send(err);
                         }
@@ -66,8 +62,7 @@ module.exports = {
         });
     },
     editparticipantPage: (req, res) => {
-        let participantId = shared.safeString(req.params.id);
-        //let query = "SELECT * FROM `participants` WHERE `id` = '" + participantId + "' ";
+        let participantId = shared.safeString(req.params.id); 
         let query = "SELECT * FROM `participants` WHERE `id` = ? ";
         db.query(query, [participantId], (err, result) => {
             if (err) {
@@ -87,10 +82,10 @@ module.exports = {
         let male = shared.safeString(req.body.male) ? 1 : 0; 
         let dob = shared.safeString(req.body.dob);
         let diagnosis = shared.safeString(req.body.diagnosis);
+        let configuration = shared.safeString(req.body.configuration)
         let comments = shared.safeString(req.body.comments, 200);  
-        //let query = "UPDATE `participants` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `male` = '" + male + "', `dob` = '" + dob + "', `diagnosis` = '" + diagnosis + "', `comments` = '" + comments + "' WHERE `participants`.`id` = '" + participantId + "'";
-        
-        let query = "UPDATE `participants` SET `first_name` = ?, `last_name` = ?, `male` = ?, `dob` = ?, `diagnosis` = ?, `comments` = ? WHERE `participants`.`id` = ?";
+          
+        let query = "UPDATE `participants` SET `first_name` = ?, `last_name` = ?, `male` = ?, `dob` = ?, `diagnosis` = ?, `comments` = ?, `configuration` = ? WHERE `participants`.`id` = ?";
         db.query(query,[first_name, last_name, male, dob, diagnosis, comments, participantId], (err, result) => {
             if (err) {
                 return res.status(500).send(err);
@@ -100,8 +95,8 @@ module.exports = {
         });
     },
     editparticipantpassPage: (req, res) => {
-        let participantId = shared.safeString(req.params.id);
-        //let query = "SELECT * FROM `participants` WHERE `id` = '" + participantId + "' ";
+        let participantId = shared.safeString(req.params.id); 
+
         let query = "SELECT * FROM `participants` WHERE `id` = ? ";
         db.query(query,[participantId], (err, result) => {
             if (err) {
@@ -121,14 +116,12 @@ module.exports = {
         let password = bcrypt.hashSync(shared.safeString(req.body.password), config.pass_hash_rounds); 
         let hidpass = shared.safeString(req.body.hidpass);
         let email = shared.safeString(req.body.email);    
-        if (hidpass === shared.safeString(req.body.password)){
-            //query = "UPDATE `participants` SET `user_name` = '" + user_name + "', `email` = '" + email + "' WHERE `participants`.`id` = '" + participantId + "'";
+        if (hidpass === shared.safeString(req.body.password)){ 
             query = "UPDATE `participants` SET `user_name` = ?, `email` = ? WHERE `participants`.`id` = ?";
             names = [user_name, email, participantId]
         }
             
-        else{
-            //query = "UPDATE `participants` SET `user_name` = '" + user_name + "', `password` = '" + password  + "', `email` = '" + email + "' WHERE `participants`.`id` = '" + participantId + "'";
+        else{ 
             query = "UPDATE `participants` SET `user_name` = ?, `password` = ?, `email` = ? WHERE `participants`.`id` = ?";
             names = [user_name, password, email, participantId] 
         }
@@ -143,10 +136,7 @@ module.exports = {
         
     },
     deleteparticipant: (req, res) => {
-        let participantId = shared.safeString(req.params.id); 
-        //let getActiveQuery = 'SELECT `active` from `participants` WHERE id = "' + participantId + '"'; 
-        //let deactivateQuery = 'UPDATE `participants` set `active` = 0, `modified_at` = now() WHERE `active` = 1 and `id` = "' + participantId + '"';
-        //let activateQuery = 'UPDATE `participants` set `active` = 1, `modified_at` = now() WHERE `active` = 0 and `id` = "' + participantId + '"';
+        let participantId = shared.safeString(req.params.id);  
         let getActiveQuery = 'SELECT `active` from `participants` WHERE id = ?'; 
         let deactivateQuery = 'UPDATE `participants` set `active` = 0, `modified_at` = now() WHERE `active` = 1 and `id` = ?';
         let activateQuery = 'UPDATE `participants` set `active` = 1, `modified_at` = now() WHERE `active` = 0 and `id` = ?';

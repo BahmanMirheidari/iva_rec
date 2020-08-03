@@ -37,10 +37,11 @@
                     <label for="comment">Comment</label>
                     <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment" value="<%= participant.comment %>">
                 </div>  
- 
-            </div> 
-
-            
+                <div class="form-group col-md-4">
+                    <label for="configuration">Configuration</label>
+                    <input type="text" class="form-control" name="configuration" id="configuration" value="<%= participant.configuration %>" required>
+                </div> 
+            </div>  
 
             <div class="form-row float-right">
                 <a href="#" onclick="history.go(-1)" class="btn btn-primary">Cancel</a>&nbsp;&nbsp;
