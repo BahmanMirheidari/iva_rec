@@ -2,7 +2,8 @@
 shared_conf    = require( './shared_conf.js' );
 
 module.exports = { 
-    'consent': shared_conf.consent_stroke,
+    'consent': {},
+    'pre_surveys': [shared_conf.survey_anosognosia_pat, shared_conf.survey_anosognosia_carer],
     'questions': shared_conf.questions_ivastroke1, 
-    'surveys': []
+    'surveys': [shared_conf.survey_phq8, shared_conf.survey_gad7]
 };

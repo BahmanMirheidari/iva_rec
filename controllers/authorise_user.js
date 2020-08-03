@@ -51,7 +51,7 @@ module.exports = {
     },
     getrole: (req, res) => {
     try{ 
-        let query = "SELECT id,admin FROM `clinicians` WHERE `active` = 1 AND `email` = ? "; 
+        let query = "SELECT id,admin,configuration FROM `clinicians` WHERE `active` = 1 AND `email` = ? "; 
         //let query = "SELECT id,admin FROM `clinicians` WHERE `active` = 1 AND `email` = '" + req.user.email + "' ";  
         req.session.role = '';
         req.session.authorised = false;  
@@ -61,7 +61,7 @@ module.exports = {
         db.query(query, [shared.safeString(req.user.email)], (err, result) => { 
             try{
                 req.session.authorised = true;  
-                req.user.configuration = get_from_config(config.iva_default);
+                req.user.configuration = get_from_config(result[0].configuration);
                 req.user.jquery=config.jquery;
 
                 if (result[0].admin === 1){

@@ -582,7 +582,7 @@ $(function(){
     	response.surveys = [];
 
     	if (Object.keys(configuration.consent).length === 0){ 
-    		init_questions();
+    		init_pre_surveys();
     	}
     	else { 
     		response.consent.agreed = ['Agreed, Agreement_No, Agreement'];
