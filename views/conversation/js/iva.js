@@ -354,8 +354,8 @@ $(function(){
 		disableKeysNext(questions[currentQuestionIndex].length); 
 	}
 
-    function html_header(h_no,text){ 
-    	return '<' + h_no + '>' + text + '</' + h_no + '>'; 
+    function html_header(h_no,text,font_size="200"){ 
+    	return '<' + h_no + ' style="font-size: ' + font_size +'%;">' + text + '</' + h_no + '>'; 
     }
 
     function html_p(text){ 
