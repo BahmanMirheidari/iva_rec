@@ -260,12 +260,11 @@ $(function(){
 			displayStopWatch(delay,60,1000);  
 		} 
 		if (questions[currentQuestionIndex].show_text){ 
-			$('#divPar').removeClass('hidden');  
+			$('#divPar').removeClass('hidden').show();  
 			$('#divMessage').text(questions[currentQuestionIndex].text);   
 		}  
 		else{
-			$('#divPar').hide();
-			$('#divMessage').hide();
+			$('#divPar').addClass('hidden'); 
 		}
 
 		if (questions[currentQuestionIndex].image_url === '') 
@@ -497,7 +496,7 @@ $(function(){
 
     function end_message(){
     	$('#dynamic').hide();
-    	$('#divPar').removeClass('hidden');  
+    	$('#divPar').removeClass('hidden').show();  
 		$('#divMessage').text(endingMessage); 
     }
 
