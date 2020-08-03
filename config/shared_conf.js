@@ -89,7 +89,7 @@ module.exports = {
             }
         ]  
     },
-    'consent_hc': {
+    'ç': {
         'image_url' :'Images/logo.png',
         'title' : 'Informed Consent Form',
         'participants': 'Healthy Volunteer',
@@ -378,7 +378,7 @@ module.exports = {
         {
             'q_no':4,
             'text':'What did you do over last weekend, giving as much detail as you can?',
-            'length':0,
+            'length':5000,
             'video_url':'mp4/iva.4/Q4.mp4',
             'image_url':'',
             'show_text':false, 
@@ -423,7 +423,7 @@ module.exports = {
         {
             'q_no':9,
             'text':'Please name as many animals as you can. You can name any type of animal you will have one minute. Please start after you hear the buzzer.',
-            'length':16000,
+            'length':73000,
             'video_url':'mp4/iva.4/Q9.mp4',
             'image_url':'',
             'show_text':false, 
@@ -432,7 +432,7 @@ module.exports = {
         {
             'q_no':10,
             'text':'Please name as many words as you can that begin with the letter p. It can be any word beginning with p except for names of people such as Peter or names of countries such as Portugal. Please start answering after you hear the buzzer.',
-            'length':16000,
+            'length':78000,
             'video_url':'mp4/iva.4/Q10.mp4',
             'image_url':'',
             'show_text':false, 

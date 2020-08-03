@@ -261,7 +261,7 @@ $(function(){
 		} 
 		if (questions[currentQuestionIndex].show_text){ 
 			$('#divPar').removeClass('hidden').show();  
-			$('#divMessage').text(questions[currentQuestionIndex].text);   
+			$('#divMessage').text(html_textbox('par_id',questions[currentQuestionIndex].text));   
 		}  
 		else{
 			$('#divPar').addClass('hidden'); 
