@@ -351,7 +351,7 @@ module.exports = {
         {
             'q_no':1,
             'text':'When the sunlight strikes raindrops in the air, they act like a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end. People look but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.',
-            'length':4000,
+            'length':15000,
             'video_url':'mp4/iva.4/Q1.mp4',
             'image_url':'',
             'show_text':true, 
@@ -360,7 +360,7 @@ module.exports = {
         {
             'q_no':2,
             'text':'Tell me what problems you have noticed with your memory recently.',
-            'length':5000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q2.mp4',
             'image_url':'',
             'show_text':false, 
@@ -369,7 +369,7 @@ module.exports = {
         {
             'q_no':3,
             'text':'Who is most worried about your memory you or somebody else?',
-            'length':5000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q3.mp4',
             'image_url':'',
             'show_text':false, 
@@ -378,7 +378,7 @@ module.exports = {
         {
             'q_no':4,
             'text':'What did you do over last weekend, giving as much detail as you can?',
-            'length':5000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q4.mp4',
             'image_url':'',
             'show_text':false, 
@@ -387,7 +387,7 @@ module.exports = {
         {
             'q_no':5,
             'text':'What has been in the news recently?',
-            'length':4000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q5.mp4',
             'image_url':'',
             'show_text':false, 
@@ -396,7 +396,7 @@ module.exports = {
         {
             'q_no':6,
             'text':'Tell me what you did when you left school. What jobs did you do?',
-            'length':5000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q6.mp4',
             'image_url':'',
             'show_text':false, 
@@ -405,7 +405,7 @@ module.exports = {
         {
             'q_no':7,
             'text':'Tell me about your last job or your current job.',
-            'length':5000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q7.mp4',
             'image_url':'',
             'show_text':false, 
@@ -414,7 +414,7 @@ module.exports = {
         {
             'q_no':8,
             'text':'Who manages your finances? You or somebody else? ',
-            'length':5000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q8.mp4',
             'image_url':'',
             'show_text':false, 
@@ -441,7 +441,7 @@ module.exports = {
         {
             'q_no':11,
             'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
-            'length':10000,
+            'length':15000,
             'video_url':'mp4/cookie_theft_description.mp4',
             'image_url':'Images/iva.4/Q11.gif',
             'show_text':false, 
@@ -450,7 +450,7 @@ module.exports = {
         {
             'q_no':12,
             'text':'Please say the months of the year in reverse order.',
-            'length':5000,
+            'length':8000,
             'video_url':'mp4/iva.4/Q12.mp4',
             'image_url':'',
             'show_text':false, 
@@ -459,7 +459,7 @@ module.exports = {
         {
             'q_no':13,
             'text':'Could you tell how to make a cup of tea? Please describe it step by step.',
-            'length':6000,
+            'length':12000,
             'video_url':'mp4/iva.4/Q13.mp4',
             'image_url':'',
             'show_text':false, 
@@ -488,7 +488,7 @@ module.exports = {
             {
                 'q_no':1,
                 'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
-                'length':6000,
+                'length':9000,
                 'video_url':'mp4/iva.3/Q1.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -497,7 +497,7 @@ module.exports = {
             {
                 'q_no':2,
                 'text':'TELL ME WHAT PROBLEMS YOU HAVE NOTICED WITH YOUR MEMORY RECENTLY',
-                'length':5000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q2.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -506,7 +506,7 @@ module.exports = {
             {
                 'q_no':3,
                 'text':'WHO IS MOST WORRIED ABOUT YOUR MEMORY YOU OR SOMEBODY ELSE',
-                'length':5000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q3.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -515,7 +515,7 @@ module.exports = {
             {
                 'q_no':4,
                 'text':'WHAT DID YOU DO OVER LAST WEEKEND GIVING AS MUCH DETAIL AS YOU CAN',
-                'length':5000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q4.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -524,7 +524,7 @@ module.exports = {
             {
                 'q_no':5,
                 'text':'WHAT HAS BEEN IN THE NEWS RECENTLY',
-                'length':4000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q5.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -533,7 +533,7 @@ module.exports = {
             {
                 'q_no':6,
                 'text':'TELL ME ABOUT THE SCHOOL YOU WENT TO AND HOW OLD YOU WERE WHEN YOU LEFT',
-                'length':5000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q6.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -542,7 +542,7 @@ module.exports = {
             {
                 'q_no':7,
                 'text':'TELL ME WHAT YOU DID WHEN YOU LEFT SCHOOL WHAT JOBS DID YOU DO',
-                'length':5000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q7.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -551,7 +551,7 @@ module.exports = {
             {
                 'q_no':8,
                 'text':'TELL ME ABOUT YOUR LAST JOB GIVE AS MUCH DETAIL AS YOU CAN',
-                'length':5000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q8.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -560,7 +560,7 @@ module.exports = {
             {
                 'q_no':9,
                 'text':'WHO MANAGES YOUR FINANCES YOU OR SOMEBODY ELSE',
-                'length':5000,
+                'length':8000,
                 'video_url':'mp4/iva.3/Q9.mp4',
                 'image_url':'',
                 'show_text':false, 
@@ -587,7 +587,7 @@ module.exports = {
             {
                 'q_no':12,
                 'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
-                'length':10000,
+                'length':15000,
                 'video_url':'mp4/iva.3/Q12.mp4',
                 'image_url':'Images/cookietheft.gif',
                 'show_text':false, 
