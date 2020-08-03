@@ -610,14 +610,14 @@ $(function(){
 			init_survey();
 		}
 		else{
-			$('#divAlert').removeClass('alert-danger').addClass('alert-info');
-	 	$('#divAlert').text('Press "Start" button to start recording ');
+			$('#divAlert').removeClass('hidden');
+		 	$('#divAlert').text('Press "Start" button to start recording ');
 
-		$('#divQuestionNo').addClass('hidden');
-		$('#divQuestionNo').text('');
- 
-		$('#startAvatarButton').removeClass('hidden').show(); 
-		//currentQuestionIndex=1;  
+			$('#divQuestionNo').addClass('hidden');
+			$('#divQuestionNo').text('');
+	 
+			$('#startAvatarButton').removeClass('hidden').show(); 
+			//currentQuestionIndex=1;  
 		} 
 	}    
 
