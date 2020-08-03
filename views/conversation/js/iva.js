@@ -510,8 +510,8 @@ $(function(){
 
     		set_survey();
 
-    		$("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].comment,'400'));
-    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title,'300')); 
+    		$("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].title ,'400'));
+    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
     		$('#dynamic').removeClass('hidden').show(); 
@@ -569,8 +569,8 @@ $(function(){
 
     		set_pre_survey();
 
-    		$("#dynamic_header").empty().append(html_header('H1', configuration.pre_surveys[pre_surveyIndex].comment,'400'));
-    		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].title,'300')); 
+    		$("#dynamic_header").empty().append(html_header('H1', configuration.pre_surveys[pre_surveyIndex].title ,'400'));
+    		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].comment,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.pre_surveys[pre_surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
     		$('#dynamic').removeClass('hidden').show(); 
