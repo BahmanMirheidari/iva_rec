@@ -34,12 +34,12 @@ shared = require( './shared' );
         let last_name = shared.safeString(req.body.last_name);
         let email = shared.safeString(req.body.email); 
         let admin = shared.safeString(req.body.admin) ? 1 : 0;
+        let configuration = shared.safeString(req.body.configuration); 
         let uploadedFile = shared.safeString(req.files.image);
         let image_name = shared.safeString(uploadedFile.name);
         let fileExtension = uploadedFile.mimetype.split('/')[1];
         image_name = email + '.' + fileExtension;
-
-        //let usernameQuery = "SELECT * FROM `clinicians` WHERE email = '" + email + "'";
+ 
         let usernameQuery = "SELECT * FROM `clinicians` WHERE email = ?";
 
         db.query(usernameQuery, [email], (err, result) => {
@@ -60,11 +60,9 @@ shared = require( './shared' );
                         if (err) {
                             return res.status(500).send(err);
                         }
-                        // send the clinician's details to the database
-                        //let query = "INSERT INTO `clinicians` (first_name, last_name, email, image, admin) VALUES ('" +
-                        //    first_name + "', '" + last_name + "', '" + email + "', '" + image_name + "', '" + admin + "')";
-                        let query = "INSERT INTO `clinicians` (first_name, last_name, email, image, admin) VALUES (?, ?, ?, ?, ?)";
-                        db.query(query, [first_name, last_name, email, image, admin], (err, result) => {
+                         
+                        let query = "INSERT INTO `clinicians` (first_name, last_name, email, image, admin, configuration) VALUES (?, ?, ?, ?, ?, ?)";
+                        db.query(query, [first_name, last_name, email, image, admin, configuration], (err, result) => {
                             if (err) {
                                 return res.status(500).send(err);
                             }
@@ -82,8 +80,7 @@ shared = require( './shared' );
         });
     },
     editclinicianPage: (req, res) => {
-        let clinicianId = shared.safeString(req.params.id);
-        //et query = "SELECT * FROM `clinicians` WHERE `id` = '" + clinicianId + "' ";
+        let clinicianId = shared.safeString(req.params.id); 
         let query = "SELECT * FROM `clinicians` WHERE `id` = ? ";
         db.query(query,[clinicianId], (err, result) => {
             if (err) {
@@ -101,11 +98,11 @@ shared = require( './shared' );
         let first_name = shared.safeString(req.body.first_name);
         let last_name = shared.safeString(req.body.last_name);
         let email = shared.safeString(req.body.email);  
+        let configuration = shared.safeString(req.body.configuration);  
         let admin = shared.safeString(req.body.admin) ? 1 : 0;
 
-        //let query = "UPDATE `clinicians` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `admin` = '" + admin + "', `email` = '" + email + "' WHERE `clinicians`.`id` = '" + clinicianId + "'";
-        let query = "UPDATE `clinicians` SET `first_name` = ?, `last_name` = ?, `admin` = ?, `email` = ? WHERE `clinicians`.`id` = ?";
-        db.query(query, [first_name, last_name, admin, email, clinicianId],(err, result) => {
+        let query = "UPDATE `clinicians` SET `first_name` = ?, `last_name` = ?, `admin` = ?, `email` = ?, `configuration` = ? WHERE `clinicians`.`id` = ?";
+        db.query(query, [first_name, last_name, admin, email,configuration, clinicianId],(err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
@@ -114,13 +111,7 @@ shared = require( './shared' );
         });
     },
     deleteclinician: (req, res) => {
-        let clinicianId = shared.safeString(req.params.id);
-        //let getImageQuery = 'SELECT image from `clinicians` WHERE active = 1 and id = "' + clinicianId + '"';
-        //let deleteUserQuery = 'DELETE FROM clinicians WHERE id = "' + clinicianId + '"';
-
-        //let getActiveQuery = 'SELECT `active` from `clinicians` WHERE id = "' + clinicianId + '"'; 
-        //let deactivateQuery = 'UPDATE `clinicians` set `active` = 0, `modified_at` = now() WHERE `active` = 1 and `id` = "' + clinicianId + '"';
-        //let activateQuery = 'UPDATE `clinicians` set `active` = 1, `modified_at` = now() WHERE `active` = 0 and `id` = "' + clinicianId + '"';
+        let clinicianId = shared.safeString(req.params.id); 
         let getActiveQuery = 'SELECT `active` from `clinicians` WHERE id = ?'; 
         let deactivateQuery = 'UPDATE `clinicians` set `active` = 0, `modified_at` = now() WHERE `active` = 1 and `id` = ?';
         let activateQuery = 'UPDATE `clinicians` set `active` = 1, `modified_at` = now() WHERE `active` = 0 and `id` = ?';
@@ -130,8 +121,7 @@ shared = require( './shared' );
                 return res.status(500).send(err);
             }
             
-            let active = result[0].active;
-            //console.log(`active: ${active}`);
+            let active = result[0].active; 
             if (active == 1)
                 db.query(deactivateQuery, [clinicianId], (err, result) => {
                     if (err) {
@@ -148,26 +138,6 @@ shared = require( './shared' );
                     //console.log(`activateQuery: ${activateQuery}`);
                     res.redirect('/clinician');
                 }); 
-        });
-
-        /*db.query(getImageQuery, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-
-            let image = result[0].image;
-
-            fs.unlink(`public/assets/img/${image}`, (err) => {
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                db.query(deleteUserQuery, (err, result) => {
-                    if (err) {
-                        return res.status(500).send(err);
-                    }
-                    res.redirect('/');
-                });
-            });
-        });*/
+        }); 
     }
 };
