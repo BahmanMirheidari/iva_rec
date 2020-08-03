@@ -743,7 +743,7 @@ module.exports = {
         'id':1,
         'comment':'The questionnaire must be completed by the patient.',
         'title':'Measurement of anosognosia A (patient)',
-        'main_q':'Compared with 10 years ago how is this person at:',
+        'main_q':'Compared with 10 years ago how you are at:',
         'questions': [
             {
                 'q_no':1,

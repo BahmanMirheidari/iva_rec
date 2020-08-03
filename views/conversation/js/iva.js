@@ -510,9 +510,9 @@ $(function(){
 
     		set_survey();
 
-    		$("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].comment));
-    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q)); 
+    		$("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].comment,'400'));
+    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title,'300')); 
+    		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
     		$('#dynamic').removeClass('hidden').show(); 
     	}
@@ -591,11 +591,11 @@ $(function(){
     		response.consent.current_agreement = 0;  
     		response.consent.agreements_length = configuration.consent.agreements.length; 
     		
-    		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title));
-    		$("#dynamic_header").append(html_header('H2', configuration.consent.participants)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.consent.project)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.consent.reference)); 
-    		$("#dynamic_header").append(html_header('H3', configuration.consent.pi)); 
+    		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title,'400'));
+    		$("#dynamic_header").append(html_header('H2', configuration.consent.participants,'300')); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.project,'200')); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.reference,'200')); 
+    		$("#dynamic_header").append(html_header('H3', configuration.consent.pi,'200')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
     		
     		set_consent_agreement();
