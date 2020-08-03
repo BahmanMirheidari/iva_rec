@@ -319,6 +319,10 @@ message = JSON.parse(message);
 
   if ( msg != null ) {
     logger.info('received ip: ' + received_ip + ' - msg: ' + msg); 
+    //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
+    if (data.token !== undefined)
+      common.mkdir(__dirname + "/uploads/" + data.token);
+
     /* changed 23/6/20 */
   if (msg == 'consent') {
     common.process_content(data,__dirname,config.mount_dir);
@@ -348,10 +352,7 @@ message = JSON.parse(message);
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
       logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
       /* changed 20/6/20 */
-      //updateconversation(userID, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
-
-      //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
-      common.mkdir(__dirname + "/uploads/" + token);
+      //updateconversation(userID, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()); 
 
       var max_file_size; 
       (msg == 'mp3') ? max_file_size = config.max_mp3_file : max_file_size = config.max_mp4_file;
