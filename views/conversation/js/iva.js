@@ -544,7 +544,7 @@ $(function(){
 					    	if(surveyIndex >= configuration.pre_surveys.length)
 					    		init_questions();
 					    	else
-					        	init_pre_survey(); 
+					        	init_pre_surveys(); 
 					    }
 				        break;
 		    		}
