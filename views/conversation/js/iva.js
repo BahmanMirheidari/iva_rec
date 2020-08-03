@@ -28,6 +28,7 @@ $(function(){
 	var startQuestionIndex=0;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var pre_surveyIndex=0;
+	var questionnaire=1;
 	var endingMessage="Thank you. The END."; 
    
 	// start Avatar Button, introduces the interview
@@ -482,8 +483,10 @@ $(function(){
 					    	surveyIndex ++; 
 					    	if(surveyIndex >= configuration.surveys.length)
 					    		end_message();
-					    	else
+					    	else{
+					    		questionnaire ++;
 					        	init_survey(); 
+					    	}
 					    }
 				        break;
 		    		}
@@ -509,8 +512,8 @@ $(function(){
     		response.surveys[surveyIndex].questions_length = configuration.surveys[surveyIndex].questions.length; 
 
     		set_survey();
-
-    		$("#dynamic_header").empty().append(html_header('H1', configuration.surveys[surveyIndex].title ,'400'));
+    		$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400')); 
+    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title,'300')); 
     		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
@@ -542,19 +545,20 @@ $(function(){
 					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.pre_surveys[pre_surveyIndex].id, questions:response.pre_surveys[pre_surveyIndex].question}})); 
 					    	pre_surveyIndex ++; 
 					    	if(pre_surveyIndex >= configuration.pre_surveys.length){
-					    		$('#dynamic').addClass('hidden'); 
+					    		$('#dynamic').addClass('hidden');  
 					    		init_questions();
 					    	}
-					    	else
+					    	else{
+					    		questionnaire ++;
 					        	init_pre_surveys(); 
+					    	}
 					    }
 				        break;
 		    		}
 		    	}  
 			}); 
 		}  
-    }
-
+    } 
 
     function init_pre_surveys(){
 
@@ -569,7 +573,8 @@ $(function(){
 
     		set_pre_survey();
 
-    		$("#dynamic_header").empty().append(html_header('H1', configuration.pre_surveys[pre_surveyIndex].title ,'400'));
+    		$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400'));
+    		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].title,'300')); 
     		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].comment,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.pre_surveys[pre_surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
@@ -591,6 +596,7 @@ $(function(){
     		response.consent.current_agreement = 0;  
     		response.consent.agreements_length = configuration.consent.agreements.length; 
     		
+
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title,'400'));
     		$("#dynamic_header").append(html_header('H2', configuration.consent.participants,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.consent.project,'200')); 
