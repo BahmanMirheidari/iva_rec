@@ -5,7 +5,7 @@
             <% if (pageCount > 1) { %>
                 <ul class="pagination" style="font-size:140%">
                     <% if (currentPage > 1) { %>
-                        <li><a href="/conversation?page=1">&laquo;</a></li>
+                        <li><a href="/conversations?page=1">&laquo;</a></li>
                     <% } %>
                     <% var i = 1;
                     if (currentPage > 5) {
@@ -18,14 +18,14 @@
                         <% if (currentPage == i) { %>
                             <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
                         <% } else { %>
-                            <li><a href="/conversation?page=<%= i %>"><%= i %></a></li>
+                            <li><a href="/conversations?page=<%= i %>"><%= i %></a></li>
                         <% } %>
                         <% if (i == (+currentPage + 4)) { %>
                             <li class="disabled"><a href="#">...</a></li>
                         <% break; } %>
                     <% } %>
                     <% if (currentPage != pageCount) { %>
-                        <li><a href="/conversation?page=<%= pageCount %>">&raquo;</a></li>
+                        <li><a href="/conversations?page=<%= pageCount %>">&raquo;</a></li>
                     <% } %>
                 </ul>
             <% } %>
