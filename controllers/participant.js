@@ -15,7 +15,7 @@ module.exports = {
                 return res.redirect('/');
             }
             var totalRows = result.length;
-            var pageCount = totalRows / pageSize;
+            var pageCount = Math.ceil(totalRows / pageSize);
             var currentPage = 1;
             var dataList = []; 
             var dataArrays = []; 
