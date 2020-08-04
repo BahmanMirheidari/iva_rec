@@ -2,6 +2,7 @@
 // if(bcrypt.compareSync('somePassword', hash)) {} 
 
 shared = require( './shared' );
+pageSize = 10;
 
 module.exports = {   
     getconversationHomePage: (req, res) => {
@@ -13,10 +14,33 @@ module.exports = {
                 console.log(`Error: ${err}`);
                 return res.redirect('/');
             }
+            var totalRows = result.length;
+            var pageCount = Math.ceil(totalRows / pageSize);
+            var currentPage = 1;
+            var dataList = []; 
+            var dataArrays = []; 
+            //split list into groups
+            while (result.length > 0) {
+                dataArrays.push(result.splice(0, pageSize));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof req.query.page !== 'undefined') {
+                currentPage = +req.query.page;
+            }
+
+            //show list of students from group
+            dataList = dataArrays[+currentPage - 1]; 
+
             //console.log(`query: ${query}`);
             res.render('index-conversation.ejs', {
-                title: config.welcome_message + ' | View participants'
-                ,conversations: result, user:req.user
+                title: config.welcome_message + ' | View participants',
+                conversations: dataList, 
+                user:req.user, 
+                pageSize: pageSize,
+                totalRows: totalRows,
+                pageCount: pageCount,
+                currentPage: currentPage
             });
         });
     },

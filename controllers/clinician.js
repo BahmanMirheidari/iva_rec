@@ -1,4 +1,5 @@
 shared = require( './shared' ); 
+pageSize=2;
 
  module.exports = {
     getclinicianHomePage: (req, res) => {
@@ -10,10 +11,34 @@ shared = require( './shared' );
                 console.log(`Error: ${err}`);
                 return res.redirect('/');
             }
+
+            var totalRows = result.length;
+            var pageCount = Math.ceil(totalRows / pageSize);
+            var currentPage = 1;
+            var dataList = []; 
+            var dataArrays = []; 
+            //split list into groups
+            while (result.length > 0) {
+                dataArrays.push(result.splice(0, pageSize));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof req.query.page !== 'undefined') {
+                currentPage = +req.query.page;
+            }
+
+            //show list of students from group
+            dataList = dataArrays[+currentPage - 1]; 
+
             //console.log(`query: ${query}`);
             res.render('index-clinician.ejs', {
-                title: config.welcome_message + ' | View clinicians'
-                ,clinicians: result, user:req.user
+                title: config.welcome_message + ' | View clinicians',
+                clinicians: dataList, 
+                user:req.user, 
+                pageSize: pageSize,
+                totalRows: totalRows,
+                pageCount: pageCount,
+                currentPage: currentPage
             });
         });
     },
@@ -102,7 +127,7 @@ shared = require( './shared' );
         let admin = shared.safeString(req.body.admin) ? 1 : 0;
 
         let query = "UPDATE `clinicians` SET `first_name` = ?, `last_name` = ?, `admin` = ?, `email` = ?, `configuration` = ? WHERE `clinicians`.`id` = ?";
-        db.query(query, [first_name, last_name, admin, email,configuration, clinicianId],(err, result) => {
+        db.query(query, [first_name, last_name, admin, email, configuration, clinicianId],(err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
