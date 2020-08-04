@@ -50,9 +50,9 @@ pageSize = 10;
     },
     addclinician: (req, res) => {
         
-        if (!req.files) {
+        /*if (!req.files) {
             return res.status(400).send("No files were uploaded.");
-        }
+        }*/
 
         let message = '';
         let first_name = shared.safeString(req.body.first_name);
