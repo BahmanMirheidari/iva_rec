@@ -1,10 +1,12 @@
 // let password = bcrypt.hashSync(req.body.password, pass_hash_rounds); 
 // if(bcrypt.compareSync('somePassword', hash)) {} 
 shared = require( './shared' );
+var pageSize = 10;
+
 
 module.exports = {
     getparticipantHomePage: (req, res) => {
-        let query = "SELECT * FROM `participants` ORDER BY id ASC";  
+        let query = "SELECT * FROM `participants` ORDER BY id ASC";   
 
         // execute query
         db.query(query, (err, result) => {
@@ -12,10 +14,33 @@ module.exports = {
                 console.log(`Error: ${err}`);
                 return res.redirect('/');
             }
+            var totalRows = result.length;
+            var pageCount = totalRows / pageSize;
+            var currentPage = 1;
+            var dataList = []; 
+            var dataArrays = []; 
+            //split list into groups
+            while (result.length > 0) {
+                dataArrays.push(result.splice(0, pageSize));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof req.query.page !== 'undefined') {
+                currentPage = +req.query.page;
+            }
+
+            //show list of students from group
+            dataList = dataArrays[+currentPage - 1];
+
             //console.log(`query: ${query}`);
             res.render('index-participant.ejs', {
-                title: config.welcome_message + ' | View participants'
-                ,participants: result, user:req.user, 
+                title: config.welcome_message + ' | View participants',
+                user:req.user, 
+                participants: dataList, 
+                pageSize: pageSize,
+                totalRows: totalRows,
+                pageCount: pageCount,
+                currentPage: currentPage
             });
         });
     },
@@ -137,6 +162,7 @@ module.exports = {
     },
     deleteparticipant: (req, res) => {
         let participantId = shared.safeString(req.params.id);  
+
         let getActiveQuery = 'SELECT `active` from `participants` WHERE id = ?'; 
         let deactivateQuery = 'UPDATE `participants` set `active` = 0, `modified_at` = now() WHERE `active` = 1 and `id` = ?';
         let activateQuery = 'UPDATE `participants` set `active` = 1, `modified_at` = now() WHERE `active` = 0 and `id` = ?';
