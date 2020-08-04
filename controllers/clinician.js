@@ -61,9 +61,9 @@ pageSize = 10;
         let admin = shared.safeString(req.body.admin) ? 1 : 0;
         let configuration = shared.safeString(req.body.configuration); 
         let uploadedFile = shared.safeString(req.files.image);
-        let image_name = shared.safeString(uploadedFile.name);
-        let fileExtension = uploadedFile.mimetype.split('/')[1];
-        image_name = email + '.' + fileExtension;
+        //let image_name = shared.safeString(uploadedFile.name);
+        //let fileExtension = uploadedFile.mimetype.split('/')[1];
+        //image_name = email + '.' + fileExtension;
  
         let usernameQuery = "SELECT * FROM `clinicians` WHERE email = ?";
 
@@ -78,8 +78,16 @@ pageSize = 10;
                     title: config.welcome_message + ' | Add a new clinician'
                 });
             } else {
+                let query = "INSERT INTO `clinicians` (first_name, last_name, email, admin, configuration) VALUES (?, ?, ?, ?, ?)";
+                db.query(query, [first_name, last_name, email, admin, configuration], (err, result) => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    res.redirect('/clinician');
+                });
+
                 // check the filetype before uploading it
-                if (uploadedFile.mimetype === 'image/png' || uploadedFile.mimetype === 'image/jpeg' || uploadedFile.mimetype === 'image/gif') {
+                /*if (uploadedFile.mimetype === 'image/png' || uploadedFile.mimetype === 'image/jpeg' || uploadedFile.mimetype === 'image/gif') {
                     // upload the file to the /public/assets/img directory
                     uploadedFile.mv(`public/assets/img/${image_name}`, (err ) => {
                         if (err) {
@@ -100,7 +108,7 @@ pageSize = 10;
                         message,
                         title: config.welcome_message + ' | Add a new clinician'
                     });
-                }
+                }*/
             }
         });
     },
