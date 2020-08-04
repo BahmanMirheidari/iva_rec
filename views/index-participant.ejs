@@ -3,6 +3,34 @@
  
 <div class="table-wrapper"> 
     <% if (typeof participants !== "undefined" && participants.length > 0) {%>
+        <% if (pageCount > 1) { %>
+            <ul class="pagination">
+                <% if (currentPage > 1) { %>
+                    <li><a href="/participant?page=1">&laquo;</a></li>
+                <% } %>
+                <% var i = 1;
+                if (currentPage > 5) {
+                    i = +currentPage - 4;
+                } %>
+                <% if (i !== 1) { %>
+                    <li class="disabled"><a href="#">...</a></li>
+                <% } %>
+                <% for (i; i<=pageCount; i++) { %>
+                    <% if (currentPage == i) { %>
+                        <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
+                    <% } else { %>
+                        <li><a href="/participant?page=<%= i %>"><%= i %></a></li>
+                    <% } %>
+                    <% if (i == (+currentPage + 4)) { %>
+                        <li class="disabled"><a href="#">...</a></li>
+                    <% break; } %>
+                <% } %>
+                <% if (currentPage != pageCount) { %>
+                    <li><a href="/participant?page=<%= pageCount %>">&raquo;</a></li>
+                <% } %>
+            </ul>
+        <% } %>
+
         <table class="table table-hovered">
             <thead class="thead-dark">
                 <tr>
@@ -36,36 +64,7 @@
                     </tr>
                 <% }) %>
             </tbody>
-        </table>
-        
-        <% if (pageCount > 1) { %>
-            <ul class="pagination">
-                <% if (currentPage > 1) { %>
-                    <li><a href="/participant?page=1">&laquo;</a></li>
-                <% } %>
-                <% var i = 1;
-                if (currentPage > 5) {
-                    i = +currentPage - 4;
-                } %>
-                <% if (i !== 1) { %>
-                    <li class="disabled"><a href="#">...</a></li>
-                <% } %>
-                <% for (i; i<=pageCount; i++) { %>
-                    <% if (currentPage == i) { %>
-                        <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
-                    <% } else { %>
-                        <li><a href="/participant?page=<%= i %>"><%= i %></a></li>
-                    <% } %>
-                    <% if (i == (+currentPage + 4)) { %>
-                        <li class="disabled"><a href="#">...</a></li>
-                    <% break; } %>
-                <% } %>
-                <% if (currentPage != pageCount) { %>
-                    <li><a href="/participant?page=<%= pageCount %>">&raquo;</a></li>
-                <% } %>
-            </ul>
-        <% } %>
-
+        </table> 
 
     <% } else { %>
         <p class="text-center">No participants found. Go <a href="/addparticipant" >here</a> to add participants.</p>
