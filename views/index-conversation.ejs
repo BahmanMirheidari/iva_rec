@@ -3,29 +3,29 @@
     <div class="table-wrapper">    
         <% if (typeof conversations !== "undefined" && conversations.length > 0) {%>
             <% if (pageCount > 1) { %>
-                <ul class="pagination" style="font-size:140%">
+                <ul class="pagination" style="font-size:140%;padding-left:10px">
                     <% if (currentPage > 1) { %>
-                        <li><a href="/conversations?page=1">&laquo;</a></li>
+                        <li style="padding-left:10px"><a href="/conversations?page=1">&laquo;</a></li>
                     <% } %>
                     <% var i = 1;
                     if (currentPage > 5) {
                         i = +currentPage - 4;
                     } %>
                     <% if (i !== 1) { %>
-                        <li class="disabled"><a href="#">...</a></li>
+                        <li style="padding-left:10px" class="disabled"><a href="#">...</a></li>
                     <% } %>
                     <% for (i; i<=pageCount; i++) { %>
                         <% if (currentPage == i) { %>
-                            <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
+                            <li style="padding-left:10px" class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
                         <% } else { %>
-                            <li><a href="/conversations?page=<%= i %>"><%= i %></a></li>
+                            <li style="padding-left:10px"><a href="/conversations?page=<%= i %>"><%= i %></a></li>
                         <% } %>
                         <% if (i == (+currentPage + 4)) { %>
-                            <li class="disabled"><a href="#">...</a></li>
+                            <li style="padding-left:10px" class="disabled"><a href="#">...</a></li>
                         <% break; } %>
                     <% } %>
                     <% if (currentPage != pageCount) { %>
-                        <li><a href="/conversations?page=<%= pageCount %>">&raquo;</a></li>
+                        <li style="padding-left:10px"><a href="/conversations?page=<%= pageCount %>">&raquo;</a></li>
                     <% } %>
                 </ul>
             <% } %>
