@@ -7,10 +7,12 @@
         <% } else if (role === "clinician") { %>
         		<h3>Hello, <%= user.displayName %>.</h3> 
                 <h4><a href="/participant">Participants</a></h4>
+                <h4><a class="float-right" href="/logout" title="Logout">Logout</a></h4>
         <% } else  if (role === "admin"){ %>
                 <h3>Hello, <%= user.displayName %>.</h3>
                 <h4><a href="/clinician">Clinicians</a></h4>
                 <h4><a href="/participant">Participants</a></h4>
+                <h4><a class="float-right" href="/logout" title="Logout">Logout</a></h4>
         <% } %> 
     </div>
 <% include partials/footer.ejs %>
