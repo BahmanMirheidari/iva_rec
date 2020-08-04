@@ -125,8 +125,8 @@ function process_survey(data,dirname,mnt){
     } 
     else{
     	// else if .copied exists remove it
-      if (fs.existsSync(sub_folder2 + '.copied')) {
-        fs.unlinkSync(sub_folder2 + '.copied');}
+	    if (fs.existsSync(sub_folder2 + '.copied')) {
+	       fs.unlinkSync(sub_folder2 + '.copied');}
 
         fs.writeFile(sub_folder2 + "/" + csv_file, survey, function(err) {
           if(err) {
