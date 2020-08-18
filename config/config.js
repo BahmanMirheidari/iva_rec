@@ -43,9 +43,15 @@ module.exports = {
 	    'ffmpeg_path'      : '/usr/bin/ffmpeg'   //'/usr/bin/ffmpeg'    '/Applications/ffmpeg/bin/ffmpeg'
     },
     'jquery': 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', 
-    'iva_configs':{
-        'iva3' : iva3,
-        'ivamc1' : ivamc1,
-        'ivastroke1' : ivastroke1
+    'iva_configs':{ 
+        'ivamem1' : ivamem1,
+        'ivamem2' : ivamem2,
+        'ivamem3' : ivamem3,
+        'ivamem4' : ivamem4,
+        'ivamem5' : ivamem5,
+        'ivamem6' : ivamem6,
+        'ivamem7' : ivamem7, 
+        'ivastroke1' : ivastroke1, 
+        'ivastroke2' : ivastroke2
     }    
 }; 

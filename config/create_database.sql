@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
   `modified_at` TIMESTAMP NULL,
   `dob` DATE NULL,
   `auto_link` varchar(255) DEFAULT '',
-  `configuration` varchar(100) DEFAULT 'iva3',
+  `configuration` varchar(100) DEFAULT 'ivamem2',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `conversations` (
   `last_modified_at` TIMESTAMP NULL,
   `active` boolean DEFAULT 1,
   `admin` boolean DEFAULT 0,
+  `configuration` varchar(100) DEFAULT 'ivamem2',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;

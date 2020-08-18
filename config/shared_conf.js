@@ -1,6 +1,7 @@
 // config/shared_conf.js
 
 module.exports = { 
+    // consents
     'consent_mc': {
         'image_url' :'Images/logo.png',
         'title' : 'Informed Consent Form',
@@ -89,7 +90,7 @@ module.exports = {
             }
         ]  
     },
-    'ç': {
+    'consent_hc': {
         'image_url' :'Images/logo.png',
         'title' : 'Informed Consent Form',
         'participants': 'Healthy Volunteer',
@@ -338,145 +339,128 @@ module.exports = {
             }
         ] 
     },
-    'questions_ivastroke1':[
-        {
-            'q_no':0,
-            'text':'Hello, I am a computerised doctor and I’ll be asking you questions today. I will ask you the sorts of questions doctors ask in a memory clinic. Thank you for talking to me. I will start to ask questions shortly.',
-            'length':15000,
-            'video_url':'mp4/iva.4/Q0.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false 
-        },
-        {
-            'q_no':1,
-            'text':'When the sunlight strikes raindrops in the air, they act like a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end. People look but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.',
-            'length':15000,
-            'video_url':'mp4/iva.4/Q1.mp4',
-            'image_url':'',
-            'show_text':true, 
-            'play_buzzer':false 
-        },
-        {
-            'q_no':2,
-            'text':'Tell me what problems you have noticed with your memory recently.',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q2.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false
-        },
-        {
-            'q_no':3,
-            'text':'Who is most worried about your memory you or somebody else?',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q3.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false
-        },
-        {
-            'q_no':4,
-            'text':'What did you do over last weekend, giving as much detail as you can?',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q4.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false
-        },
-        {
-            'q_no':5,
-            'text':'What has been in the news recently?',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q5.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false
-        },
-        {
-            'q_no':6,
-            'text':'Tell me what you did when you left school. What jobs did you do?',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q6.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false 
-        },
-        {
-            'q_no':7,
-            'text':'Tell me about your last job or your current job.',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q7.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false 
-        },
-        {
-            'q_no':8,
-            'text':'Who manages your finances? You or somebody else? ',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q8.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false 
-        },
-        {
-            'q_no':9,
-            'text':'Please name as many animals as you can. You can name any type of animal you will have one minute. Please start after you hear the buzzer.',
-            'length':73000,
-            'video_url':'mp4/iva.4/Q9.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':true 
-        },
-        {
-            'q_no':10,
-            'text':'Please name as many words as you can that begin with the letter p. It can be any word beginning with p except for names of people such as Peter or names of countries such as Portugal. Please start answering after you hear the buzzer.',
-            'length':78000,
-            'video_url':'mp4/iva.4/Q10.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':true
-        },
-        {
-            'q_no':11,
-            'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
-            'length':15000,
-            'video_url':'mp4/cookie_theft_description.mp4',
-            'image_url':'Images/iva.4/Q11.gif',
-            'show_text':false, 
-            'play_buzzer':false 
-        }, 
-        {
-            'q_no':12,
-            'text':'Please say the months of the year in reverse order.',
-            'length':8000,
-            'video_url':'mp4/iva.4/Q12.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false
-        },
-        {
-            'q_no':13,
-            'text':'Could you tell how to make a cup of tea? Please describe it step by step.',
-            'length':12000,
-            'video_url':'mp4/iva.4/Q13.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false
-        }, 
-        {
-            'q_no':14,
-            'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
-            'length':4000,
-            'video_url':'mp4/iva.4/Q14.mp4',
-            'image_url':'',
-            'show_text':false, 
-            'play_buzzer':false 
-        }
-	],
-    'questions_iva3':[
+    // questions iva mem
+    'questions_ivamem_fl':[
         	{
+                'q_no':0,
+                'text':'HELLO, I AM A COMPUTERISED DOCTOR AND I’LL BE ASKING YOU QUESTIONS TODAY. I WILL ASK YOU THE SORTS OF QUESTIONS DOCTORS ASK IN A MEMORY CLINIC. THANK YOU FOR TALKING TO ME. I WILL START TO ASK QUESTIONS SHORTLY.',
+                'length':15000,
+                'video_url':'mp4/iva.3/Q0.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':1,
+                'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
+                'length':9000,
+                'video_url':'mp4/iva.3/Q1.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':2,
+                'text':'TELL ME WHAT PROBLEMS YOU HAVE NOTICED WITH YOUR MEMORY RECENTLY',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q2.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':3,
+                'text':'WHO IS MOST WORRIED ABOUT YOUR MEMORY YOU OR SOMEBODY ELSE',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q3.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':4,
+                'text':'WHAT DID YOU DO OVER LAST WEEKEND GIVING AS MUCH DETAIL AS YOU CAN',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q4.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':5,
+                'text':'WHAT HAS BEEN IN THE NEWS RECENTLY',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q5.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':6,
+                'text':'TELL ME ABOUT THE SCHOOL YOU WENT TO AND HOW OLD YOU WERE WHEN YOU LEFT',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q6.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':7,
+                'text':'TELL ME WHAT YOU DID WHEN YOU LEFT SCHOOL WHAT JOBS DID YOU DO',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q7.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':8,
+                'text':'TELL ME ABOUT YOUR LAST JOB GIVE AS MUCH DETAIL AS YOU CAN',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q8.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':9,
+                'text':'WHO MANAGES YOUR FINANCES YOU OR SOMEBODY ELSE',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q9.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':10,
+                'text':'PLEASE NAME AS MANY ANIMALS AS YOU CAN YOU CAN NAME ANY TYPE OF ANIMAL YOU WILL HAVE ONE MINUTE PLEASE START AFTER YOU HEAR THE BUZZER',
+                'length':73000,
+                'video_url':'mp4/iva.3/Q10.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':true 
+            },
+            {
+                'q_no':11,
+                'text':'PLEASE NAME AS MANY WORDS AS YOU CAN THAT BEGIN WITH THE LETTER P IT CAN BE ANY WORD BEGINNING WITH P EXCEPT FOR NAMES OF PEOPLE SUCH AS PETER OR NAMES OF COUNTRIES SUCH AS PORTUGAL PLEASE START ANSWERING AFTER YOU HEAR THE BUZZER',
+                'length':78000,
+                'video_url':'mp4/iva.3/Q11.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':true
+            }, 
+            {
+                'q_no':12,
+                'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
+                'length':6000,
+                'video_url':'mp4/iva.3/Q13.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            }
+	],
+    'questions_ivamem_fl_ct':[
+            {
                 'q_no':0,
                 'text':'HELLO, I AM A COMPUTERISED DOCTOR AND I’LL BE ASKING YOU QUESTIONS TODAY. I WILL ASK YOU THE SORTS OF QUESTIONS DOCTORS ASK IN A MEMORY CLINIC. THANK YOU FOR TALKING TO ME. I WILL START TO ASK QUESTIONS SHORTLY.',
                 'length':15000,
@@ -602,7 +586,593 @@ module.exports = {
                 'show_text':false, 
                 'play_buzzer':false 
             }
-	],
+    ],
+    'questions_ivamem_fl_ct_gp_cp1':[
+            {
+                'q_no':0,
+                'text':'HELLO, I AM A COMPUTERISED DOCTOR AND I’LL BE ASKING YOU QUESTIONS TODAY. I WILL ASK YOU THE SORTS OF QUESTIONS DOCTORS ASK IN A MEMORY CLINIC. THANK YOU FOR TALKING TO ME. I WILL START TO ASK QUESTIONS SHORTLY.',
+                'length':15000,
+                'video_url':'mp4/iva.3/Q0.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':1,
+                'text':'When the sunlight strikes raindrops in the air, they act like a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end. People look but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.',
+                'length':15000,
+                'video_url':'mp4/iva.4/Q1.mp4',
+                'image_url':'',
+                'show_text':true, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':2,
+                'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
+                'length':9000,
+                'video_url':'mp4/iva.3/Q1.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':3,
+                'text':'TELL ME WHAT PROBLEMS YOU HAVE NOTICED WITH YOUR MEMORY RECENTLY',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q2.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':4,
+                'text':'WHO IS MOST WORRIED ABOUT YOUR MEMORY YOU OR SOMEBODY ELSE',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q3.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':5,
+                'text':'WHAT DID YOU DO OVER LAST WEEKEND GIVING AS MUCH DETAIL AS YOU CAN',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q4.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':6,
+                'text':'WHAT HAS BEEN IN THE NEWS RECENTLY',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q5.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':7,
+                'text':'TELL ME ABOUT THE SCHOOL YOU WENT TO AND HOW OLD YOU WERE WHEN YOU LEFT',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q6.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':8,
+                'text':'TELL ME WHAT YOU DID WHEN YOU LEFT SCHOOL WHAT JOBS DID YOU DO',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q7.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':9,
+                'text':'TELL ME ABOUT YOUR LAST JOB GIVE AS MUCH DETAIL AS YOU CAN',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q8.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':10,
+                'text':'WHO MANAGES YOUR FINANCES YOU OR SOMEBODY ELSE',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q9.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':11,
+                'text':'PLEASE NAME AS MANY ANIMALS AS YOU CAN YOU CAN NAME ANY TYPE OF ANIMAL YOU WILL HAVE ONE MINUTE PLEASE START AFTER YOU HEAR THE BUZZER',
+                'length':73000,
+                'video_url':'mp4/iva.3/Q10.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':true 
+            },
+            {
+                'q_no':12,
+                'text':'PLEASE NAME AS MANY WORDS AS YOU CAN THAT BEGIN WITH THE LETTER P IT CAN BE ANY WORD BEGINNING WITH P EXCEPT FOR NAMES OF PEOPLE SUCH AS PETER OR NAMES OF COUNTRIES SUCH AS PORTUGAL PLEASE START ANSWERING AFTER YOU HEAR THE BUZZER',
+                'length':78000,
+                'video_url':'mp4/iva.3/Q11.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':true
+            },
+            {
+                'q_no':13,
+                'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
+                'length':15000,
+                'video_url':'mp4/iva.3/Q12.mp4',
+                'image_url':'Images/cookietheft.gif',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':14,
+                'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
+                'length':15000,
+                'video_url':'mp4/iva.3/Q12.mp4',
+                'image_url':'Images/ComplexPicture1.png',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':15,
+                'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
+                'length':6000,
+                'video_url':'mp4/iva.3/Q13.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            }
+    ],
+    'questions_ivamem_fl_ct_gp_cp2':[
+            {
+                'q_no':0,
+                'text':'HELLO, I AM A COMPUTERISED DOCTOR AND I’LL BE ASKING YOU QUESTIONS TODAY. I WILL ASK YOU THE SORTS OF QUESTIONS DOCTORS ASK IN A MEMORY CLINIC. THANK YOU FOR TALKING TO ME. I WILL START TO ASK QUESTIONS SHORTLY.',
+                'length':15000,
+                'video_url':'mp4/iva.3/Q0.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':1,
+                'text':'When the sunlight strikes raindrops in the air, they act like a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end. People look but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.',
+                'length':15000,
+                'video_url':'mp4/iva.4/Q1.mp4',
+                'image_url':'',
+                'show_text':true, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':2,
+                'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
+                'length':9000,
+                'video_url':'mp4/iva.3/Q1.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':3,
+                'text':'TELL ME WHAT PROBLEMS YOU HAVE NOTICED WITH YOUR MEMORY RECENTLY',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q2.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':4,
+                'text':'WHO IS MOST WORRIED ABOUT YOUR MEMORY YOU OR SOMEBODY ELSE',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q3.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':5,
+                'text':'WHAT DID YOU DO OVER LAST WEEKEND GIVING AS MUCH DETAIL AS YOU CAN',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q4.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':6,
+                'text':'WHAT HAS BEEN IN THE NEWS RECENTLY',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q5.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':7,
+                'text':'TELL ME ABOUT THE SCHOOL YOU WENT TO AND HOW OLD YOU WERE WHEN YOU LEFT',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q6.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':8,
+                'text':'TELL ME WHAT YOU DID WHEN YOU LEFT SCHOOL WHAT JOBS DID YOU DO',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q7.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':9,
+                'text':'TELL ME ABOUT YOUR LAST JOB GIVE AS MUCH DETAIL AS YOU CAN',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q8.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':10,
+                'text':'WHO MANAGES YOUR FINANCES YOU OR SOMEBODY ELSE',
+                'length':8000,
+                'video_url':'mp4/iva.3/Q9.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false
+            },
+            {
+                'q_no':11,
+                'text':'PLEASE NAME AS MANY ANIMALS AS YOU CAN YOU CAN NAME ANY TYPE OF ANIMAL YOU WILL HAVE ONE MINUTE PLEASE START AFTER YOU HEAR THE BUZZER',
+                'length':73000,
+                'video_url':'mp4/iva.3/Q10.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':true 
+            },
+            {
+                'q_no':12,
+                'text':'PLEASE NAME AS MANY WORDS AS YOU CAN THAT BEGIN WITH THE LETTER P IT CAN BE ANY WORD BEGINNING WITH P EXCEPT FOR NAMES OF PEOPLE SUCH AS PETER OR NAMES OF COUNTRIES SUCH AS PORTUGAL PLEASE START ANSWERING AFTER YOU HEAR THE BUZZER',
+                'length':78000,
+                'video_url':'mp4/iva.3/Q11.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':true
+            },
+            {
+                'q_no':13,
+                'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
+                'length':15000,
+                'video_url':'mp4/iva.3/Q12.mp4',
+                'image_url':'Images/cookietheft.gif',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':14,
+                'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
+                'length':15000,
+                'video_url':'mp4/iva.3/Q12.mp4',
+                'image_url':'Images/ComplexPicture2.png',
+                'show_text':false, 
+                'play_buzzer':false 
+            },
+            {
+                'q_no':15,
+                'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
+                'length':6000,
+                'video_url':'mp4/iva.3/Q13.mp4',
+                'image_url':'',
+                'show_text':false, 
+                'play_buzzer':false 
+            }
+    ],
+    // questions iva stroke
+    'questions_ivastroke_fl_ct_gp_cp1':[
+        {
+            'q_no':0,
+            'text':'Hello, I am a computerised doctor and I’ll be asking you questions today. I will ask you the sorts of questions doctors ask in a memory clinic. Thank you for talking to me. I will start to ask questions shortly.',
+            'length':15000,
+            'video_url':'mp4/iva.4/Q0.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':1,
+            'text':'When the sunlight strikes raindrops in the air, they act like a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end. People look but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.',
+            'length':15000,
+            'video_url':'mp4/iva.4/Q1.mp4',
+            'image_url':'',
+            'show_text':true, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':2,
+            'text':'Tell me what problems you have noticed with your memory recently.',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q2.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':3,
+            'text':'Who is most worried about your memory you or somebody else?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q3.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':4,
+            'text':'What did you do over last weekend, giving as much detail as you can?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q4.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':5,
+            'text':'What has been in the news recently?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q5.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':6,
+            'text':'Tell me what you did when you left school. What jobs did you do?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q6.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':7,
+            'text':'Tell me about your last job or your current job.',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q7.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':8,
+            'text':'Who manages your finances? You or somebody else? ',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q8.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':9,
+            'text':'Please name as many animals as you can. You can name any type of animal you will have one minute. Please start after you hear the buzzer.',
+            'length':73000,
+            'video_url':'mp4/iva.4/Q9.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':true 
+        },
+        {
+            'q_no':10,
+            'text':'Please name as many words as you can that begin with the letter p. It can be any word beginning with p except for names of people such as Peter or names of countries such as Portugal. Please start answering after you hear the buzzer.',
+            'length':78000,
+            'video_url':'mp4/iva.4/Q10.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':true
+        },
+        {
+            'q_no':11,
+            'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
+            'length':15000,
+            'video_url':'mp4/cookie_theft_description.mp4',
+            'image_url':'Images/iva.4/Q11.gif',
+            'show_text':false, 
+            'play_buzzer':false 
+        }, 
+        {
+            'q_no':12,
+            'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
+            'length':15000,
+            'video_url':'mp4/iva.3/Q12.mp4',
+            'image_url':'Images/ComplexPicture1.png',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':13,
+            'text':'Please say the months of the year in reverse order.',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q12.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':14,
+            'text':'Could you tell how to make a cup of tea? Please describe it step by step.',
+            'length':12000,
+            'video_url':'mp4/iva.4/Q13.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        }, 
+        {
+            'q_no':15,
+            'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
+            'length':4000,
+            'video_url':'mp4/iva.4/Q14.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        }
+    ],
+    'questions_ivastroke_fl_ct_gp_cp2':[
+        {
+            'q_no':0,
+            'text':'Hello, I am a computerised doctor and I’ll be asking you questions today. I will ask you the sorts of questions doctors ask in a memory clinic. Thank you for talking to me. I will start to ask questions shortly.',
+            'length':15000,
+            'video_url':'mp4/iva.4/Q0.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':1,
+            'text':'When the sunlight strikes raindrops in the air, they act like a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end. People look but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.',
+            'length':15000,
+            'video_url':'mp4/iva.4/Q1.mp4',
+            'image_url':'',
+            'show_text':true, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':2,
+            'text':'Tell me what problems you have noticed with your memory recently.',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q2.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':3,
+            'text':'Who is most worried about your memory you or somebody else?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q3.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':4,
+            'text':'What did you do over last weekend, giving as much detail as you can?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q4.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':5,
+            'text':'What has been in the news recently?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q5.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':6,
+            'text':'Tell me what you did when you left school. What jobs did you do?',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q6.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':7,
+            'text':'Tell me about your last job or your current job.',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q7.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':8,
+            'text':'Who manages your finances? You or somebody else? ',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q8.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':9,
+            'text':'Please name as many animals as you can. You can name any type of animal you will have one minute. Please start after you hear the buzzer.',
+            'length':73000,
+            'video_url':'mp4/iva.4/Q9.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':true 
+        },
+        {
+            'q_no':10,
+            'text':'Please name as many words as you can that begin with the letter p. It can be any word beginning with p except for names of people such as Peter or names of countries such as Portugal. Please start answering after you hear the buzzer.',
+            'length':78000,
+            'video_url':'mp4/iva.4/Q10.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':true
+        },
+        {
+            'q_no':11,
+            'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
+            'length':15000,
+            'video_url':'mp4/cookie_theft_description.mp4',
+            'image_url':'Images/iva.4/Q11.gif',
+            'show_text':false, 
+            'play_buzzer':false 
+        }, 
+        {
+            'q_no':12,
+            'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
+            'length':15000,
+            'video_url':'mp4/iva.3/Q12.mp4',
+            'image_url':'Images/ComplexPicture2.png',
+            'show_text':false, 
+            'play_buzzer':false 
+        },
+        {
+            'q_no':13,
+            'text':'Please say the months of the year in reverse order.',
+            'length':8000,
+            'video_url':'mp4/iva.4/Q12.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        },
+        {
+            'q_no':14,
+            'text':'Could you tell how to make a cup of tea? Please describe it step by step.',
+            'length':12000,
+            'video_url':'mp4/iva.4/Q13.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false
+        }, 
+        {
+            'q_no':15,
+            'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
+            'length':4000,
+            'video_url':'mp4/iva.4/Q14.mp4',
+            'image_url':'',
+            'show_text':false, 
+            'play_buzzer':false 
+        }
+    ],
+    // surveys
     'survey_iqcode':{
         'id':0,
         'comment':'The questionnaire must be completed by the informant.',
@@ -867,7 +1437,7 @@ module.exports = {
             }
         ] 
     },
-    'survey_anosognosia_carer':{
+    'survey_anosognosia_informant':{
         'id':2,
         'comment':'The questionnaire must be completed by the informant.',
         'title':'Measurement of anosognosia B (informant)',
