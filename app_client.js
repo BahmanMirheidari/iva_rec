@@ -23,7 +23,7 @@ var express          = require( 'express' )
 const { exec }       = require('child_process');
 merge_command = "/home/sa_ac1bm/upload_files/upload.sh"
 
-const {auth,getrole} = require( './controllers/authorise' ); 
+const {auth,getrole} = require( './controllers/authorise_user' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
 const {createLogger,format,transports} = require('winston');
 require('winston-daily-rotate-file'); 
@@ -220,7 +220,7 @@ app.get('/conversation', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
       res.redirect('/login');
     else
-      res.render('conversation.ejs', {
+      res.render('talk2iva.ejs', {
           title: config.welcome_message + ' | Conversation'
           ,message: '', user :req.user 
       }); 
