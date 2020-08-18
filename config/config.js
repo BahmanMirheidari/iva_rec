@@ -1,7 +1,13 @@
 // config/config.js
-iva3           = require( './iva3.js' );
-ivamc1         = require( './ivamc1.js' );
+ivamem1        = require( './ivamem1.js' );
+ivamem2        = require( './ivamem2.js' );
+ivamem3        = require( './ivamem3.js' );
+ivamem4        = require( './ivamem4.js' );
+ivamem6        = require( './ivamem6.js' );
+ivamem6        = require( './ivamem6.js' );
+ivamem7        = require( './ivamem7.js' );
 ivastroke1     = require( './ivastroke1.js' );
+ivastroke2     = require( './ivastroke2.js' );
 
 const PORT     = 8081; 
 const PORT2    = 8082;
