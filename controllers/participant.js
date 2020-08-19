@@ -111,7 +111,7 @@ module.exports = {
         let comment = shared.safeString(req.body.comment, 1024);  
           
         let query = "UPDATE `participants` SET `first_name` = ?, `last_name` = ?, `male` = ?, `dob` = ?, `diagnosis` = ?, `comment` = ?, `configuration` = ? WHERE `participants`.`id` = ?";
-        db.query(query,[first_name, last_name, male, dob, diagnosis, comment, participantId], (err, result) => {
+        db.query(query,[first_name, last_name, male, dob, diagnosis, comment, configuration, participantId], (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
