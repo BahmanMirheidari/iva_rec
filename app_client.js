@@ -267,7 +267,7 @@ message = JSON.parse(message);
   else if (msg == 'token') {
       logger.info('token: ' + data); 
       /* changed 20/6/20 */
-      updateconversation(token, 'start');  
+      updateconversation(data, 'start');  
 
     } else if (msg == 'mp3' || msg == 'webm') {
 
