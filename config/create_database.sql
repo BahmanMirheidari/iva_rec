@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
   `last_name` varchar(255) NOT NULL, 
   `male` boolean DEFAULT 1, 
   `diagnosis` varchar(255) DEFAULT '',
-  `comments` varchar(2048) DEFAULT '',
+  `comment` varchar(1024) DEFAULT '',
   `user_name` varchar(30) NOT NULL,
   `password` varchar(512) NOT NULL,
   `email` varchar(30) NOT NULL,

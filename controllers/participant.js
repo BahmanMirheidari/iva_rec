@@ -57,7 +57,7 @@ module.exports = {
         let male = shared.safeString(req.body.male) ? 1 : 0; 
         let dob = shared.safeString(req.body.dob);
         let diagnosis = shared.safeString(req.body.diagnosis);
-        let comments = shared.safeString(req.body.comments,200);
+        let comment = shared.safeString(req.body.comment,1024);
         let user_name = shared.safeString(req.body.user_name);
         let password = bcrypt.hashSync(shared.safeString(req.body.password), config.pass_hash_rounds);
         let email = shared.safeString(req.body.email); 
@@ -75,9 +75,9 @@ module.exports = {
                     title: config.welcome_message + ' | Add a new participant'
                 });
             } else {  
-                    let query = "INSERT INTO `participants` (first_name, last_name, male, dob, diagnosis, comments, user_name, password, email, configuration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    let query = "INSERT INTO `participants` (first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     //console.log(`query: ${query}`);
-                    db.query(query,[first_name, last_name, male, dob, diagnosis, comments, user_name, password, email, configuration], (err, result) => {
+                    db.query(query,[first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration], (err, result) => {
                         if (err) {
                             return res.status(500).send(err);
                         }
@@ -108,10 +108,10 @@ module.exports = {
         let dob = shared.safeString(req.body.dob);
         let diagnosis = shared.safeString(req.body.diagnosis);
         let configuration = shared.safeString(req.body.configuration)
-        let comments = shared.safeString(req.body.comments, 200);  
+        let comment = shared.safeString(req.body.comment, 1024);  
           
-        let query = "UPDATE `participants` SET `first_name` = ?, `last_name` = ?, `male` = ?, `dob` = ?, `diagnosis` = ?, `comments` = ?, `configuration` = ? WHERE `participants`.`id` = ?";
-        db.query(query,[first_name, last_name, male, dob, diagnosis, comments, participantId], (err, result) => {
+        let query = "UPDATE `participants` SET `first_name` = ?, `last_name` = ?, `male` = ?, `dob` = ?, `diagnosis` = ?, `comment` = ?, `configuration` = ? WHERE `participants`.`id` = ?";
+        db.query(query,[first_name, last_name, male, dob, diagnosis, comment, participantId], (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
