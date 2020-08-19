@@ -50,7 +50,7 @@ module.exports = {
         let queryInsert = "INSERT INTO `conversations` (id, last_question, last_modified_at) VALUES (?, ?, NOW())";   
         
         if (last_question === "start")
-            db.query(queryInsert, [token, last_question], (err, result) => {
+            db.query(queryInsert, [id, last_question], (err, result) => {
                 if (err) {
                     console.log(`conversations queryInsert error: ${err}`);
                 }  
