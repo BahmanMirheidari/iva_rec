@@ -10,30 +10,15 @@
         <form class="add-form" action="" method="post" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="first-name">Participant Id</label>
-                    <input type="text" class="form-control" name="participant_id" id="participant_id" value="<%= conversation.participant_id %>" disabled>
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" name="id" id="id" value="<%= conversation.id %>" disabled>
                 </div>
                 
                 <div class="form-group col-md-4">
                     <label for="created_at">Created At</label>
                     <input type="text" class="form-control" name="created_at" id="created_at" value="<%= new Date(String(conversation.created_at)).toJSON().slice(0, 19).replace("T","") %>" disabled>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="admin">Admin</label>
-                    <% if (conversation.admin) { %>
-                        <input type="checkbox" class="form-control" name="admin" id="admin" checked disabled>
-                    <% } else { %>
-                        <input type="checkbox" class="form-control" name="admin" id="admin" disabled>
-                    <% } %> 
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="active">Active</label>
-                    <% if (conversation.active) { %>
-                        <input type="checkbox" class="form-control" name="active" id="active" checked disabled>
-                    <% } else { %>
-                        <input type="checkbox" class="form-control" name="active" id="active" disabled>
-                    <% } %> 
-                </div>
+                
                 <div class="form-group col-md-4">
                     <label for="last_modified_at">Last Modified At</label> 
                     <input type="text" class="form-control" name="last_modified_at" id="last_modified_at" value="<%= new Date(String(conversation.last_modified_at)).toJSON().slice(0, 19).replace("T","") %>" disabled/>

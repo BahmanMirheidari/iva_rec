@@ -34,26 +34,20 @@
             <table class="table table-hovered">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Participant ID</th>
+                        <th scope="col">ID</th> 
                         <th scope="col">Created At</th>
                         <th scope="col">Last Question</th>
-                        <th scope="col">Last Modified At</th>  
-                        <th scope="col">Active</th>
-                        <th scope="col">Admin</th>
+                        <th scope="col">Last Modified At</th>   
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% conversations.forEach((conversation, index) => { %>
                         <tr>
-                            <th scope="row"><%= conversation.id %></th> 
-                            <td><%= conversation.participant_id %></td>
+                            <th scope="row"><%= conversation.id %></th>  
                             <td><%= new Date(String(conversation.created_at)).toJSON().slice(0, 19).replace("T"," ") %></td>
                             <td><%= conversation.last_question %></td> 
-                            <td><%= new Date(String(conversation.last_modified_at)).toJSON().slice(0, 19).replace("T"," ") %></td> 
-                            <td><%= conversation.active %></td>
-                            <td><%= conversation.admin %></td>
+                            <td><%= new Date(String(conversation.last_modified_at)).toJSON().slice(0, 19).replace("T"," ") %></td>  
                             <td>
                                 <a href="/conversation_details/<%= conversation.id %>" class="btn btn-sm btn-primary">Show</a> 
                             </td>

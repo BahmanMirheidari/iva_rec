@@ -44,12 +44,10 @@ module.exports = {
             });
         });
     },
-    updateconversation: (token, last_question) => {    
-        token = shared.safeString(token);  
+    updateconversation: (id, last_question) => {    
         //let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND participant_id = "' + participantId + '" AND admin = "' + admin + '" ORDER BY created_at DESC'; 
-        //let queryInsert = "INSERT INTO `conversations` (participant_id, last_question, admin, last_modified_at) VALUES ('" + participantId + "', '" + last_question + "', '" + admin + "', NOW())"; 
-        let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND token = ? ORDER BY created_at DESC'; 
-        let queryInsert = "INSERT INTO `conversations` (token, last_question, last_modified_at) VALUES (?, ?, NOW())";   
+        //let queryInsert = "INSERT INTO `conversations` (participant_id, last_question, admin, last_modified_at) VALUES ('" + participantId + "', '" + last_question + "', '" + admin + "', NOW())";  
+        let queryInsert = "INSERT INTO `conversations` (id, last_question, last_modified_at) VALUES (?, ?, NOW())";   
         
         if (last_question === "start")
             db.query(queryInsert, [token, last_question], (err, result) => {
@@ -60,26 +58,19 @@ module.exports = {
                 //    console.log(`conversations queryInsert done: ${queryInsert}`); 
             });  
 
-        else
-            db.query(query, [participantId, admin], (err, result) => { 
+        else{  
+            //console.log(`conversations query done: ${query}`); 
+            //et queryUpdate = 'UPDATE `conversations` set `last_question` = "' + last_question + '", `last_modified_at` = now() WHERE `id` = "' + result[0].id + '"';
+            let queryUpdate = 'UPDATE `conversations` set `last_question` = ?, `last_modified_at` = now() WHERE `id` = ?'; 
+         
+            db.query(queryUpdate, [last_question, id], (err, result) => {
                 if (err) {
-                    console.log(`conversations query error: ${err}`); 
-                }  
-                else{
-                    //console.log(`conversations query done: ${query}`); 
-                    //et queryUpdate = 'UPDATE `conversations` set `last_question` = "' + last_question + '", `last_modified_at` = now() WHERE `id` = "' + result[0].id + '"';
-                    let queryUpdate = 'UPDATE `conversations` set `last_question` = ?, `last_modified_at` = now() WHERE `id` = ?';
-                 
-                 
-                    db.query(queryUpdate, [last_question, result[0].id], (err, result) => {
-                        if (err) {
-                            console.log(`conversations queryUpdate error: ${err}`);  
-                        }   
-                        //else
-                        //    console.log(`conversations queryUpdate done: ${queryUpdate}`); 
-                    });   
-                } 
-            }); 
+                    console.log(`conversations queryUpdate error: ${err}`);  
+                }   
+                //else
+                //    console.log(`conversations queryUpdate done: ${queryUpdate}`); 
+            });   
+        }  
     }, 
     conversation_detailsPage: (req, res) => {
         let conversationId = shared.safeString(req.params.id);  

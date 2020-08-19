@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `clinicians` (
   `admin` boolean DEFAULT 0,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `modified_at` TIMESTAMP NULL, 
+  `configuration` varchar(100) DEFAULT 'ivamem2',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
@@ -38,14 +39,11 @@ CREATE TABLE IF NOT EXISTS `participants` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `conversations` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `token` varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `conversations` ( 
+  `id` varchar(255) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `last_question` varchar(255) DEFAULT '', 
-  `last_modified_at` TIMESTAMP NULL,
-  `active` boolean DEFAULT 1,
-  `admin` boolean DEFAULT 0,
+  `last_modified_at` TIMESTAMP NULL, 
   `configuration` varchar(100) DEFAULT 'ivamem2',
 
   PRIMARY KEY (`id`)
