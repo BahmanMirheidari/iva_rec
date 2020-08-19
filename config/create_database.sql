@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
 
 CREATE TABLE IF NOT EXISTS `conversations` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `participant_id` int(5) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `last_question` varchar(255) DEFAULT '', 
   `last_modified_at` TIMESTAMP NULL,

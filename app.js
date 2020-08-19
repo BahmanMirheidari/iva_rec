@@ -331,28 +331,22 @@ message = JSON.parse(message);
      common.process_survey(data,__dirname,config.mount_dir);
   }
   else if (msg == 'token') {
-      logger.info('token: ' + data);
-      splits = data.split("-");
-      userID = splits[0] + '-' + splits[1];
+      logger.info('token: ' + data); 
       /* changed 20/6/20 */
-      //updateconversation(userID, 'start');  
+      updateconversation(token, 'start');  
 
     } else if (msg == 'mp3' || msg == 'webm') {
 
       var token = data.token;
       var q_no = data.q_no; 
-      var r_no = data.r_no; 
-
-      splits = token.split("-");
-      userID = splits[0] + '-' + splits[1];  
-
+      var r_no = data.r_no;   
       var blob = data.data;
       var len  = blob.length; 
       var dest = 'Q'+ q_no.toString() + '-R' + r_no.toString();
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
       logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
       /* changed 20/6/20 */
-      //updateconversation(userID, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()); 
+      updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()); 
 
       var max_file_size; 
       (msg == 'mp3') ? max_file_size = config.max_mp3_file : max_file_size = config.max_mp4_file;

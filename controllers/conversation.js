@@ -44,26 +44,15 @@ module.exports = {
             });
         });
     },
-    updateconversation: (userID, last_question) => {    
-        userID = shared.safeString(userID);
-        last_question = shared.safeString(last_question);
-
-        var admin = 0, participantId = 0;
-        if (userID.search("clinician-") > -1 || userID.search("admin-") > -1){
-            admin = 1; 
-            participantId = userID.replace("clinician-", "").replace("admin-", ""); 
-        } 
-        else{
-            participantId = userID.replace("participant-", "");  
-        }   
-
+    updateconversation: (token, last_question) => {    
+        token = shared.safeString(token);  
         //let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND participant_id = "' + participantId + '" AND admin = "' + admin + '" ORDER BY created_at DESC'; 
         //let queryInsert = "INSERT INTO `conversations` (participant_id, last_question, admin, last_modified_at) VALUES ('" + participantId + "', '" + last_question + "', '" + admin + "', NOW())"; 
-        let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND participant_id = ? AND admin = ? ORDER BY created_at DESC'; 
-        let queryInsert = "INSERT INTO `conversations` (participant_id, last_question, admin, last_modified_at) VALUES (?, ?, ?, NOW())";   
+        let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND token = ? AND admin = ? ORDER BY created_at DESC'; 
+        let queryInsert = "INSERT INTO `conversations` (token, last_question, admin, last_modified_at) VALUES (?, ?, ?, NOW())";   
         
         if (last_question === "start")
-            db.query(queryInsert, [participantId, last_question, admin], (err, result) => {
+            db.query(queryInsert, [token, last_question, admin], (err, result) => {
                 if (err) {
                     console.log(`conversations queryInsert error: ${err}`);
                 }  
