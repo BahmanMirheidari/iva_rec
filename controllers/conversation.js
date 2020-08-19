@@ -48,11 +48,11 @@ module.exports = {
         token = shared.safeString(token);  
         //let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND participant_id = "' + participantId + '" AND admin = "' + admin + '" ORDER BY created_at DESC'; 
         //let queryInsert = "INSERT INTO `conversations` (participant_id, last_question, admin, last_modified_at) VALUES ('" + participantId + "', '" + last_question + "', '" + admin + "', NOW())"; 
-        let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND token = ? AND admin = ? ORDER BY created_at DESC'; 
+        let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND token = ? ORDER BY created_at DESC'; 
         let queryInsert = "INSERT INTO `conversations` (token, last_question, admin, last_modified_at) VALUES (?, ?, ?, NOW())";   
         
         if (last_question === "start")
-            db.query(queryInsert, [token, last_question, admin], (err, result) => {
+            db.query(queryInsert, [token, last_question], (err, result) => {
                 if (err) {
                     console.log(`conversations queryInsert error: ${err}`);
                 }  
