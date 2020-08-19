@@ -103,6 +103,7 @@ global.db = db;
 global.config = config;
 global.bcrypt = bcrypt;
 global.fs = fs; 
+global.logger = logger;
  
 passport.serializeUser(function(user, done) {
   done(null, user);
