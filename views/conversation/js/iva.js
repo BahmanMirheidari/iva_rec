@@ -267,10 +267,9 @@ $(function(){
 			$('#divPar').addClass('hidden'); 
 		}
 
-		if (questions[currentQuestionIndex].image_url === '') 
-			$("#divDescriptionImage").addClass('hidden');
-		else {
-			$("#imgDescription").src = questions[currentQuestionIndex].image_url;
+		$("#divDescriptionImage").addClass('hidden');
+		if (questions[currentQuestionIndex].image_url !== '')  {
+			$("#imgDescription").src = questions[currentQuestionIndex].image_url + "?t=" + new Date().getTime();
  			$("#divDescriptionImage").removeClass('hidden');  
 		}
 	}
