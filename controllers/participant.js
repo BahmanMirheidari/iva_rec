@@ -48,7 +48,8 @@ module.exports = {
                 pageSize: pageSize,
                 totalRows: totalRows,
                 pageCount: pageCount,
-                currentPage: currentPage
+                currentPage: currentPage,
+                search:search
             });
         });
     },
