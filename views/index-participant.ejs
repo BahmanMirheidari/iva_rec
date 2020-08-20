@@ -1,12 +1,6 @@
 <% include partials/header.ejs %>
 <% include partials/header-participant.ejs %> 
-<script>
-    document.getElementById('btnSearch').onclick = function() {
-        var search = document.getElementById('search').value;
-        var searchEncoded = encodeURIComponent(search);
-        window.location.url = "/participant?page=1&search=" + searchEncoded;
-}
-</script>
+
 <div class="table-wrapper"> 
     <% if (typeof participants !== "undefined" && participants.length > 0) {%>
         <form class="add-form" action="" method="post">
@@ -19,6 +13,13 @@
              <div class="form-row float-left">   
                 <a id="btnSearch" class="btn btn-success">Update</a>  
             </div> 
+            <script>
+                document.getElementById('btnSearch').onclick = function() {
+                    var search = document.getElementById('search').value;
+                    var searchEncoded = encodeURIComponent(search);
+                    window.location.url = "/participant?page=1&search=" + searchEncoded;
+            }
+            </script>
         </form>
 
         <% if (pageCount > 1) { %>
