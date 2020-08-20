@@ -1,7 +1,7 @@
 <% include partials/header.ejs %>
 <% include partials/header-participant.ejs %> 
 <script type='text/javascript'>
-    searchIt() {
+    function searchIt() {
         var search = document.getElementById('search').value;
         var searchEncoded = encodeURIComponent(search);
         window.location.url = "/participant?page=1&search=" + searchEncoded;
