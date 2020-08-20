@@ -611,7 +611,7 @@ module.exports = {
                 'text':'WHERE HAVE YOU COME IN FROM TODAY AND WHAT ARE YOU HOPING TO FIND OUT',
                 'length':9000,
                 'video_url':'mp4/iva.3/Q1.mp4',
-                'image_url':'Images/ComplexPicture1.png',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false 
             },
@@ -620,7 +620,7 @@ module.exports = {
                 'text':'TELL ME WHAT PROBLEMS YOU HAVE NOTICED WITH YOUR MEMORY RECENTLY',
                 'length':8000,
                 'video_url':'mp4/iva.3/Q2.mp4',
-                'image_url':'Images/ComplexPicture2.png',
+                'image_url':'',
                 'show_text':false, 
                 'play_buzzer':false
             },
