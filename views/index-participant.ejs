@@ -4,8 +4,7 @@
     function searchIt() {
         var search = document.getElementById('search').value;
         var searchEncoded = encodeURIComponent(search);
-        window.location.url = "/participant?page=1&search=" + searchEncoded;
-        alert(searchEncoded);
+        window.location.href = "/participant?page=1&search=" + searchEncoded; 
 }
 </script>
 
