@@ -232,7 +232,6 @@ app.get('/editparticipant/:id', ensureIsClinician, editparticipantPage);
 app.get('/editparticipantpass/:id', ensureIsClinician, editparticipantpassPage);
 
 app.get('/deleteparticipant/:id', ensureIsClinician, deleteparticipant);
-app.post('/participant', ensureIsClinician, getparticipantHomePage);
 app.post('/addparticipant', ensureIsClinician, addparticipant);
 app.post('/editparticipant/:id', ensureIsClinician, editparticipant); 
 app.post('/editparticipantpass/:id', ensureIsClinician, editparticipantpass);   
