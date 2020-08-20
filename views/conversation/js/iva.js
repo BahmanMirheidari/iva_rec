@@ -30,6 +30,8 @@ $(function(){
 	var pre_surveyIndex=0;
 	var questionnaire=1;
 	var endingMessage="Thank you. The END."; 
+	var logoutUrl="/logout"
+	var logoutTimeout=3000;
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -497,6 +499,10 @@ $(function(){
     	$('#dynamic').hide();
     	$('#divPar').removeClass('hidden').show();  
 		$('#divMessage').text(endingMessage); 
+
+		setTimeout(function(){
+			window.location = logoutUrl;
+			}, logoutTimeout);  
     }
 
     function init_survey(){
