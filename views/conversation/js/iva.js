@@ -269,7 +269,7 @@ $(function(){
 
 		$("#divDescriptionImage").addClass('hidden');
 		if (questions[currentQuestionIndex].image_url !== '')  {
-			$("#imgDescription").src = questions[currentQuestionIndex].image_url + "?t=" + new Date().getTime();
+			$("#imgDescription").attr("src", questions[currentQuestionIndex].image_url + `?v=${new Date().getTime()}`); 
  			$("#divDescriptionImage").removeClass('hidden');  
 		}
 	}
