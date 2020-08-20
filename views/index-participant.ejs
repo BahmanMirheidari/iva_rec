@@ -3,6 +3,14 @@
  
 <div class="table-wrapper"> 
     <% if (typeof participants !== "undefined" && participants.length > 0) {%>
+        <form class="add-form" action="" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="search">Search</label>
+                    <input type="text" class="form-control" name="search" id="search" value="" >
+                </div> 
+        </form>
+
         <% if (pageCount > 1) { %>
             <ul class="pagination" style="font-size:140%;padding-left:10px">
                 <% if (currentPage > 1) { %>

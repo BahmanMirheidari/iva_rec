@@ -4,9 +4,14 @@ shared = require( './shared' );
 var pageSize = 10;
 
 
+
 module.exports = {
     getparticipantHomePage: (req, res) => {
+        var search = shared.safeString(req.body.search,256);
+
         let query = "SELECT * FROM `participants` ORDER BY id ASC";   
+        if (search !== '')
+            query = 'SELECT * FROM `participants` WHERE ' + shared.makeLikes({'first_name':search, 'last_name':search, 'diagnosis':search, 'user_name':search,' email':search}) + ' ORDER BY id ASC';
 
         // execute query
         db.query(query, (err, result) => {

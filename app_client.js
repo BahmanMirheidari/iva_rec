@@ -207,10 +207,9 @@ app.get('/login', function(req, res){
     }); 
 }); 
 
-app.get('/logout', function(req, res){
-  req.session.role = '';
-  req.session.authorised = false;  
-  req.user = {};
+app.get('/logout', function(req, res){ 
+  req.user = null; 
+  req.session.destroy(); 
   req.logout();
   res.redirect('/');
 }); 
