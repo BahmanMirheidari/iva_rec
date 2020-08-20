@@ -208,6 +208,9 @@ app.get('/login', function(req, res){
 }); 
 
 app.get('/logout', function(req, res){
+  req.session.role = '';
+  req.session.authorised = false;  
+  req.user = {};
   req.logout();
   res.redirect('/');
 }); 
