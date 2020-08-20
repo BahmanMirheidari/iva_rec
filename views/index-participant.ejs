@@ -26,7 +26,7 @@
         <% if (pageCount > 1) { %>
             <ul class="pagination" style="font-size:140%;padding-left:10px">
                 <% if (currentPage > 1) { %>
-                    <li style="padding-left:10px"><a href="/participant?search=" + "<%= search %>" + "&page=1">&laquo;</a></li>
+                    <li style="padding-left:10px"><a href="/participant?search='<%= search %>'&page=1">&laquo;</a></li>
                 <% } %>
                 <% var i = 1;
                 if (currentPage > 5) {
@@ -39,14 +39,14 @@
                     <% if (currentPage == i) { %>
                         <li style="padding-left:10px" class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
                     <% } else { %>
-                        <li style="padding-left:10px"><a href="/participant?search=" + "<%= search %>" + "&page=<%= i %>"><%= i %></a></li>
+                        <li style="padding-left:10px"><a href="/participant?search='<%= search %>'&page=<%= i %>"><%= i %></a></li>
                     <% } %>
                     <% if (i == (+currentPage + 4)) { %>
                         <li style="padding-left:10px" class="disabled"><a href="#">...</a></li>
                     <% break; } %>
                 <% } %>
                 <% if (currentPage != pageCount) { %>
-                    <li style="padding-left:10px"><a href="/participant?search=" + "<%= search %>" + "&page=<%= pageCount %>">&raquo;</a></li>
+                    <li style="padding-left:10px"><a href="/participant?search='<%= search %>'&page=<%= pageCount %>">&raquo;</a></li>
                 <% } %>
             </ul>
         <% } %>
