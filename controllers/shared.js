@@ -14,7 +14,7 @@ module.exports = {
     	try{
 	    	result = ''
 		    Object.keys(field_names).forEach(function(key) {
-		        var newlike = key + ' LIKE ` %' + field_names[key] + '%` '
+		        var newlike = key + ' LIKE `%' + field_names[key] + '%` '
 		        if (result === '')
 		            result = newlike;
 		        else
