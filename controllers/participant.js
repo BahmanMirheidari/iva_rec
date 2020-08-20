@@ -9,13 +9,13 @@ module.exports = {
     getparticipantHomePage: (req, res) => {
         var search = '';
         if (req.query !== null && req.query.search)
-            shared.safeString(req.query.search,256);
+            search = shared.safeString(req.query.search,256);
 
         let query = "SELECT * FROM `participants` ORDER BY id ASC";   
         if (search !== '')
             query = 'SELECT * FROM `participants` WHERE ' + shared.makeLikes({'first_name':search, 'last_name':search, 'diagnosis':search, 'user_name':search,' email':search}) + ' ORDER BY id ASC';
         console.log(`query: ${query}`);
-        
+
         // execute query
         db.query(query, (err, result) => {
             if (err) {
