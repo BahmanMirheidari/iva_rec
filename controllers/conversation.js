@@ -12,7 +12,7 @@ module.exports = {
 
         let query = "SELECT * FROM `conversations` ORDER BY id ASC";    
         if (search !== '')
-            query = 'SELECT * FROM `conversations` WHERE ' + shared.makeLikes({'configuration':search, 'id':search}) + ' ORDER BY id ASC'; 
+            query = 'SELECT * FROM `conversations` WHERE ' + shared.makeLikes({'configuration':search, 'id':search}) + ' ORDER BY created_at DESC'; 
 
         // execute query
         db.query(query, (err, result) => {
