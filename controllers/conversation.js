@@ -5,8 +5,14 @@ shared = require( './shared' );
 pageSize = 10;
 
 module.exports = {   
-    getconversationHomePage: (req, res) => {
-        let query = "SELECT * FROM `conversations` ORDER BY id ASC";  
+    getconversationHomePage: (req, res) => { 
+        var search = '';
+        if (req.query !== null && req.query.search)
+            search = shared.safeString(req.query.search,256);
+
+        let query = "SELECT * FROM `conversations` ORDER BY id ASC";    
+        if (search !== '')
+            query = 'SELECT * FROM `conversations` WHERE ' + shared.makeLikes({'configuration':search, 'id':search}) + ' ORDER BY id ASC'; 
 
         // execute query
         db.query(query, (err, result) => {
@@ -40,7 +46,8 @@ module.exports = {
                 pageSize: pageSize,
                 totalRows: totalRows,
                 pageCount: pageCount,
-                currentPage: currentPage
+                currentPage: currentPage,
+                search: search
             });
         });
     },

@@ -1,15 +1,36 @@
 <% include partials/header.ejs %>
 <% include partials/header-clinician.ejs %>
+
+<script type='text/javascript'>
+    function searchIt() {
+        var search = document.getElementById('search').value;
+        var searchEncoded = encodeURIComponent(search);
+        window.location.href = "/clinician?search=" + searchEncoded + "&page=1"; 
+}
+</script>  
+
     <div class="table-wrapper">
         <p>ID: <%= user.id %></p>
         <p>Name: <%= user.displayName %></p>
         <p>Email: <%= user.email %></p> 
 
         <% if (typeof clinicians !== "undefined" && clinicians.length > 0) {%>
+
+            <form class="add-form" action="" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-4"> 
+                        <input type="text" class="form-control" name="search" id="search" value="<%= search %>" >
+                    </div>  
+                    <div class="form-group col-md-2">
+                        <a id="btnSearch" class="btn btn-success" onclick="searchIt();">Search</a>  
+                    </div>  
+                </div>  
+            </form>
+
             <% if (pageCount > 1) { %>
                 <ul class="pagination" style="font-size:140%;padding-left:10px">
                     <% if (currentPage > 1) { %>
-                        <li style="padding-left:10px"><a href="/clinician?page=1">&laquo;</a></li>
+                        <li style="padding-left:10px"><a href="/clinician?search='<%= search %>'&page=1">&laquo;</a></li>
                     <% } %>
                     <% var i = 1;
                     if (currentPage > 5) {
@@ -22,14 +43,14 @@
                         <% if (currentPage == i) { %>
                             <li style="padding-left:10px" class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
                         <% } else { %>
-                            <li style="padding-left:10px"><a href="/clinician?page=<%= i %>"><%= i %></a></li>
+                            <li style="padding-left:10px"><a href="/clinician?search='<%= search %>'&page=<%= i %>"><%= i %></a></li>
                         <% } %>
                         <% if (i == (+currentPage + 4)) { %>
                             <li style="padding-left:10px" class="disabled"><a href="#">...</a></li>
                         <% break; } %>
                     <% } %>
                     <% if (currentPage != pageCount) { %>
-                        <li style="padding-left:10px"><a href="/clinician?page=<%= pageCount %>">&raquo;</a></li>
+                        <li style="padding-left:10px"><a href="/clinician?search='<%= search %>'&page=<%= pageCount %>">&raquo;</a></li>
                     <% } %>
                 </ul>
             <% } %>

@@ -3,7 +3,13 @@ pageSize = 2;
 
  module.exports = {
     getclinicianHomePage: (req, res) => {
-        let query = "SELECT * FROM `clinicians` ORDER BY id ASC";  
+        var search = '';
+        if (req.query !== null && req.query.search)
+            search = shared.safeString(req.query.search,256);
+
+        let query = "SELECT * FROM `clinicians` ORDER BY id ASC";    
+        if (search !== '')
+            query = 'SELECT * FROM `clinicians` WHERE ' + shared.makeLikes({'first_name':search, 'last_name':search, 'email':search}) + ' ORDER BY id ASC'; 
 
         // execute query
         db.query(query, (err, result) => {
@@ -38,7 +44,8 @@ pageSize = 2;
                 pageSize: pageSize,
                 totalRows: totalRows,
                 pageCount: pageCount,
-                currentPage: currentPage
+                currentPage: currentPage,
+                search: search
             });
         });
     },
