@@ -10,7 +10,7 @@ module.exports = {
         if (req.query !== null && req.query.search)
             search = shared.safeString(req.query.search,256);
 
-        let query = "SELECT * FROM `conversations` ORDER BY id ASC";    
+        let query = "SELECT * FROM `conversations` ORDER BY created_at DESC";    
         if (search !== '')
             query = 'SELECT * FROM `conversations` WHERE ' + shared.makeLikes({'configuration':search, 'id':search}) + ' ORDER BY created_at DESC'; 
 
