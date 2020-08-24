@@ -1,5 +1,5 @@
 shared = require( './shared' ); 
-pageSize = 2;
+pageSize = 3;
 
  module.exports = {
     getclinicianHomePage: (req, res) => {
