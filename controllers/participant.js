@@ -102,7 +102,7 @@ module.exports = {
         });
     },
     uploadparticipants: (req, res) => {  
-        console.log(`req.body: ${req.files}`); 
+        console.log(`req.body: ${req.files.filename}`); 
         let filename = req.body.files.filename; 
         console.log(`filename: ${filename}`); 
         var csvFile = filename[0].files[0];
