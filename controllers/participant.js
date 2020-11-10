@@ -3,6 +3,21 @@
 shared = require( './shared' );
 var pageSize = 10;
 
+function generateUUID() { // Public Domain/MIT
+    var d = new Date().getTime();//Timestamp
+    var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16;//random number between 0 and 16
+        if(d > 0){//Use timestamp until depleted
+            r = (d + r)%16 | 0;
+            d = Math.floor(d/16);
+        } else {//Use microseconds since page-load if supported
+            r = (d2 + r)%16 | 0;
+            d2 = Math.floor(d2/16);
+        }
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
 
 
 module.exports = {
@@ -108,17 +123,34 @@ module.exports = {
                     status: false,
                     message: 'Error: No file uploaded'
                 });
+                message = 'Cannot read csv file';
+                res.render('upload-participants.ejs', {
+                    message,
+                    title: config.welcome_message + ' | Upload participants'
+                });
+
             } else {
                 let uploadedFile = req.files.filename;
-                uploadedFile.mv('/tmp/' + uploadedFile.name);
-                res.json({
-                    message: 'File is uploaded',
-                    data: {
-                        name: uploadedFile.name,
-                        mimetype: uploadedFile.mimetype,
-                        size: uploadedFile.size
-                    }
+                let newname = '/tmp/' + generateUUID() + '-' + uploadedFile.name;
+                uploadedFile.mv(newname);
+
+                // read contents of the file
+                const data = fs.readFileSync(newname, 'UTF-8');
+
+                // split the contents by new line
+                const lines = data.split(/\r?\n/);
+
+                // print all lines
+                lines.forEach((line) => {
+                    console.log(line);
                 });
+
+                message = 'Csv file uploaded';
+                res.render('upload-participants.ejs', {
+                    message,
+                    title: config.welcome_message + ' | Upload participants'
+                });
+
             }
         } catch (err) {
             res.json({Error: "Error while uploading file."})
