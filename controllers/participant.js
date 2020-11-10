@@ -8,9 +8,11 @@ function S4() {
    }  
 
 function guid(){
-    return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
-}
-
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();  
+    var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();  
+    var dateTime = date+'-'+time;
+    return date+'-'+time + '-' +(S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+} 
 
 module.exports = {
     getparticipantHomePage: (req, res) => {
@@ -130,28 +132,36 @@ module.exports = {
                 console.log(g);
 
                 let newname = 'tmp/' + g + '-' + uploadedFile.name;
-                uploadedFile.mv(newname);
+                uploadedFile.mv(newname, function(err) {
+                    if (err) {
+                      res.send(err);
+                    } else {
+                        // read contents of the file
+                        const data = fs.readFileSync(newname, 'UTF-8');
 
-                // read contents of the file
-                const data = fs.readFileSync(newname, 'UTF-8');
+                        // split the contents by new line
+                        const lines = data.split(/\r?\n/);
 
-                // split the contents by new line
-                const lines = data.split(/\r?\n/);
+                        // print all lines
+                        lines.forEach((line) => {
+                            console.log(line);
+                        });
 
-                // print all lines
-                lines.forEach((line) => {
-                    console.log(line);
-                });
+                        message = 'Csv file uploaded';
+                        res.render('upload-participants.ejs', {
+                            message,
+                            title: config.welcome_message + ' | Upload participants'
+                        });
 
-                message = 'Csv file uploaded';
-                res.render('upload-participants.ejs', {
-                    message,
-                    title: config.welcome_message + ' | Upload participants'
-                });
-
+                    }
+                });  
             }
-        } catch (err) {
-            res.json({Error: "Error while uploading file."})
+        } catch (err) { 
+            message = 'Error while uploading file.';
+            res.render('upload-participants.ejs', {
+                message,
+                title: config.welcome_message + ' | Upload participants'
+            });
         }
     },
     editparticipantPage: (req, res) => {
