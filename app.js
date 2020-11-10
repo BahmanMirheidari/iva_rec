@@ -156,12 +156,11 @@ app.use( fileUpload({
     createParentPath: true
 })); // configure fileupload
 app.use( cookieParser()); 
-app.use( cors());
+
 app.use( bodyParser.json());
 app.use( bodyParser.urlencoded({
   extended: true
-}));
-app.use(morgan('dev'));
+})); 
 
 // global variables
 app.use(function (req, res, next) {
