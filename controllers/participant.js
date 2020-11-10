@@ -104,12 +104,12 @@ module.exports = {
     uploadparticipants: (req, res) => { 
         
         let filename = req.body.filename; 
-        alert(filename);
+        console.log(`filename: ${filename}`); 
         var csvFile = filename[0].files[0];
         var ext = csv.val().split(".").pop().toLowerCase();
 
         if($.inArray(ext, ["csv"]) === -1){
-            alert('upload csv');
+            console.log(`no csv file`);   
             return false;
         }
         if(csvFile != undefined){
@@ -117,7 +117,7 @@ module.exports = {
             reader.onload = function(e){
 
                 csvResult = e.target.result.split(/\r|\n|\r\n/);
-                alert(csvResult);
+                console.log(`csvResult: ${csvResult}`);  
             }
             reader.readAsText(csvFile);
         }
