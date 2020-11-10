@@ -23,12 +23,13 @@ function insert(res, first_name, last_name, male, dob, diagnosis, comment, user_
             return res.status(500).send(err);
         }
         if (result.length > 0) {
-            
+
             message = 'Username already exists';
-            res.render('add-participant.ejs', {
-                message,
-                title: config.welcome_message + ' | Add a new participant'
-            });
+            if (use_res == true)
+                res.render('add-participant.ejs', {
+                    message,
+                    title: config.welcome_message + ' | Add a new participant'
+                });
         } else {  
                 let query = "INSERT INTO `participants` (first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //console.log(`query: ${query}`);
@@ -36,7 +37,8 @@ function insert(res, first_name, last_name, male, dob, diagnosis, comment, user_
                     if (err) {
                         return res.status(500).send(err);
                     }
-                    res.redirect('/participant');
+                    if (use_res == true)
+                        res.redirect('/participant');
                 }); 
             } 
     });
@@ -108,7 +110,7 @@ module.exports = {
         let password = bcrypt.hashSync(shared.safeString(req.body.password), config.pass_hash_rounds);
         let email = shared.safeString(req.body.email); 
         let configuration = shared.safeString(req.body.configuration);   
-        insert(res, first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration); 
+        insert(res, first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration, true); 
     }, 
     uploadparticipantsPage: (req, res) => {
         res.render('upload-participants.ejs', {
@@ -170,11 +172,11 @@ module.exports = {
                             let password = bcrypt.hashSync(shared.safeString(pass), config.pass_hash_rounds);
                             let email = shared.safeString(parid) + "@sheffield.ac.uk"; 
                             let configuration = shared.safeString(cnf);   
-                            insert(res, first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration); 
+                            insert(res, first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration, false); 
                             added ++; 
                         });
 
-                        message = 'Csv file uploaded ' + added.toString() + 'new records';
+                        message = 'Csv file uploaded lines: ' + added.toString() ;
                         res.render('upload-participants.ejs', {
                             message,
                             title: config.welcome_message + ' | Upload participants'
