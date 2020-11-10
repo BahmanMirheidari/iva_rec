@@ -94,8 +94,7 @@ module.exports = {
                     }); 
                 } 
         });
-    },
-    ,
+    }, 
     uploadparticipantsPage: (req, res) => {
         res.render('upload-participant.ejs', {
             title: config.welcome_message + ' | Upload participants'
