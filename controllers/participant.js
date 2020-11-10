@@ -131,7 +131,13 @@ module.exports = {
 
             } else {
                 let uploadedFile = req.files.filename;
-                let newname = '/tmp/' + generateUUID() + '-' + uploadedFile.name;
+
+                console.log(uploadedFile.name);
+                let guid = generateUUID();
+                
+                console.log(guid);
+
+                let newname = 'tmp/' + guid + '-' + uploadedFile.name;
                 uploadedFile.mv(newname);
 
                 // read contents of the file
