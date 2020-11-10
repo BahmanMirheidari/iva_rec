@@ -101,9 +101,8 @@ module.exports = {
             ,message: ''
         });
     },
-    uploadparticipants: (req, res) => { 
-        var s= JSON.stringify(req);
-        console.log(`req.body: ${s}`); 
+    uploadparticipants: (req, res) => {  
+        console.log(`req.body: ${req.file}`); 
         let filename = req.body.files.filename; 
         console.log(`filename: ${filename}`); 
         var csvFile = filename[0].files[0];
