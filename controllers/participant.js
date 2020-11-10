@@ -95,6 +95,33 @@ module.exports = {
                 } 
         });
     },
+    ,
+    uploadparticipantsPage: (req, res) => {
+        res.render('upload-participant.ejs', {
+            title: config.welcome_message + ' | Upload participants'
+            ,message: ''
+        });
+    },
+    uploadparticipants: (req, res) => { 
+        
+        let filename = req.body.filename; 
+        var csvFile = filename[0].files[0];
+        var ext = csv.val().split(".").pop().toLowerCase();
+
+        if($.inArray(ext, ["csv"]) === -1){
+            alert('upload csv');
+            return false;
+        }
+        if(csvFile != undefined){
+            reader = new FileReader();
+            reader.onload = function(e){
+
+                csvResult = e.target.result.split(/\r|\n|\r\n/);
+                alert(csvResult);
+            }
+            reader.readAsText(csvFile);
+        }
+    },
     editparticipantPage: (req, res) => {
         let participantId = shared.safeString(req.params.id); 
         let query = "SELECT * FROM `participants` WHERE `id` = ? ";

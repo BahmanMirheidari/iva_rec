@@ -1,0 +1,20 @@
+<% include partials/header.ejs %>
+<% include partials/header-participant.ejs %> 
+
+<div class="container">
+    <% if (message != '') { %>
+        <p class="text-center text-danger"><%= message %></p>
+    <% } %>
+    <form class="add-form" action="" method="post" enctype="multipart/form-data">
+        <div class="form-row">
+             <input type="file" name="filename" id="filename">
+        </div>
+
+        <div class="form-row float-right">
+            <a href="#" onclick="history.go(-1)" class="btn btn-primary">Cancel</a>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-success">Upload csv file</button>  
+        </div>
+        
+    </form>
+</div>
+<% include partials/footer.ejs %>
