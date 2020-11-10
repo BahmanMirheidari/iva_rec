@@ -157,7 +157,8 @@ module.exports = {
                 });  
             }
         } catch (err) { 
-            message = 'Error while uploading file.';
+
+            message = 'Error while uploading file:' + err;
             res.render('upload-participants.ejs', {
                 message,
                 title: config.welcome_message + ' | Upload participants'
