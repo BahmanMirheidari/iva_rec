@@ -103,9 +103,9 @@ module.exports = {
     },
     uploadparticipants: (req, res) => {  
         console.log(`req.body: ${req.files.filename}`); 
-        let filename = req.body.files.filename[0]; 
+        let filename = req.files.filename; 
         console.log(`filename: ${filename}`); 
-        var csvFile = filename[0].files[0];
+        var csvFile = filename;
         var ext = csv.val().split(".").pop().toLowerCase();
 
         if($.inArray(ext, ["csv"]) === -1){
