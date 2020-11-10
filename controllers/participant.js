@@ -127,11 +127,11 @@ module.exports = {
                 let uploadedFile = req.files.filename;
 
                 console.log(uploadedFile.name);
-                let g = guid();
+                var g = guid();
 
                 console.log(g);
 
-                let newname = 'tmp/' + g + '-' + uploadedFile.name;
+                var newname = 'tmp/' + g + '-' + uploadedFile.name;
                 uploadedFile.mv(newname, function(err) {
                     if (err) {
                       res.send(err);
