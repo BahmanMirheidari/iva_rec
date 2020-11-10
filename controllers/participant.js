@@ -96,7 +96,7 @@ module.exports = {
         });
     }, 
     uploadparticipantsPage: (req, res) => {
-        res.render('upload-participant.ejs', {
+        res.render('upload-participants.ejs', {
             title: config.welcome_message + ' | Upload participants'
             ,message: ''
         });
