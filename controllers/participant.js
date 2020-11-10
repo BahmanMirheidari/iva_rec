@@ -154,7 +154,7 @@ module.exports = {
 
                         // print all lines
                         lines.forEach((line) => {
-                            console.log(line);
+                            //console.log(line);
                             var ss = line.split(",");
                             var parid = ss[0];
                             var pass = ss[1];
