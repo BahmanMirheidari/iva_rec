@@ -104,6 +104,7 @@ module.exports = {
     uploadparticipants: (req, res) => { 
         
         let filename = req.body.filename; 
+        alert(filename);
         var csvFile = filename[0].files[0];
         var ext = csv.val().split(".").pop().toLowerCase();
 
