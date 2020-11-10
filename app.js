@@ -228,7 +228,7 @@ app.post('/editclinician/:id', ensureIsAdmin, editclinician);
 
 app.get('/participant', ensureIsClinician, getparticipantHomePage);
 app.get('/addparticipant', ensureIsClinician, addparticipantPage);
-app.get('/uploadparticipants', ensureIsClinician, uploadparticipantPage);
+app.get('/uploadparticipants', ensureIsClinician, uploadparticipantsPage);
 app.get('/editparticipant/:id', ensureIsClinician, editparticipantPage);
 app.get('/editparticipantpass/:id', ensureIsClinician, editparticipantpassPage);
 
