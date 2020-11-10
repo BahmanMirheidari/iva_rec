@@ -22,7 +22,7 @@ var express          = require( 'express' )
 /* change 18/6/20*/
 const {auth,getrole} = require( './controllers/authorise_user' ); 
 const {getclinicianHomePage,addclinicianPage, addclinician, editclinicianPage, editclinician, deleteclinician} = require( './controllers/clinician' ); 
-const {getparticipantHomePage,addparticipantPage, addparticipant, editparticipantPage, editparticipant, editparticipantpassPage, editparticipantpass, deleteparticipant} = require( './controllers/participant' ); 
+const {getparticipantHomePage,addparticipantPage, addparticipant, uploadparticipantsPage, uploadparticipants, editparticipantPage, editparticipant, editparticipantpassPage, editparticipantpass, deleteparticipant} = require( './controllers/participant' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
 const {createLogger,format,transports} = require('winston');
 require('winston-daily-rotate-file'); 
@@ -228,11 +228,13 @@ app.post('/editclinician/:id', ensureIsAdmin, editclinician);
 
 app.get('/participant', ensureIsClinician, getparticipantHomePage);
 app.get('/addparticipant', ensureIsClinician, addparticipantPage);
+app.get('/uploadparticipants', ensureIsClinician, uploadparticipantPage);
 app.get('/editparticipant/:id', ensureIsClinician, editparticipantPage);
 app.get('/editparticipantpass/:id', ensureIsClinician, editparticipantpassPage);
 
 app.get('/deleteparticipant/:id', ensureIsClinician, deleteparticipant);
 app.post('/addparticipant', ensureIsClinician, addparticipant);
+app.post('/uploadparticipants', ensureIsClinician, uploadparticipants);
 app.post('/editparticipant/:id', ensureIsClinician, editparticipant); 
 app.post('/editparticipantpass/:id', ensureIsClinician, editparticipantpass);   
 
