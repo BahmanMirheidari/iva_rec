@@ -19,6 +19,10 @@ var express          = require( 'express' )
   , config           = require( './config/config.js' )
   , common           = require( './config/common.js' );  
 
+const morgan = require('morgan');
+const _ = require('lodash');
+
+
 /* change 18/6/20*/
 const {auth,getrole} = require( './controllers/authorise_user' ); 
 const {getclinicianHomePage,addclinicianPage, addclinician, editclinicianPage, editclinician, deleteclinician} = require( './controllers/clinician' ); 
@@ -148,12 +152,16 @@ app.set( 'views', __dirname + '/views');
 app.set( 'view engine', 'ejs');
 app.use( express.static(__dirname + '/views/conversation'));
 app.use('/scripts', express.static(`${__dirname}/node_modules/`));
-app.use( fileUpload()); // configure fileupload
+app.use( fileUpload({
+    createParentPath: true
+})); // configure fileupload
 app.use( cookieParser()); 
+app.use( cors());
 app.use( bodyParser.json());
 app.use( bodyParser.urlencoded({
   extended: true
 }));
+app.use(morgan('dev'));
 
 // global variables
 app.use(function (req, res, next) {

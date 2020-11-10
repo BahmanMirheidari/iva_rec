@@ -102,24 +102,26 @@ module.exports = {
         });
     },
     uploadparticipants: (req, res) => {  
-        console.log(`req.body: ${req.files.filename}`); 
-        let filename = req.files.filename; 
-        console.log(`filename: ${filename}`); 
-        var csvFile = filename;
-        var ext = csv.val().split(".").pop().toLowerCase();
-
-        if($.inArray(ext, ["csv"]) === -1){
-            console.log(`no csv file`);   
-            return false;
-        }
-        if(csvFile != undefined){
-            reader = new FileReader();
-            reader.onload = function(e){
-
-                csvResult = e.target.result.split(/\r|\n|\r\n/);
-                console.log(`csvResult: ${csvResult}`);  
+        try {
+            if(!req.files) {
+                res.send({
+                    status: false,
+                    message: 'Error: No file uploaded'
+                });
+            } else {
+                let uploadedFile = req.files.filename;
+                uploadedFile.mv('/tmp/' + uploadedFile.name);
+                res.json({
+                    message: 'File is uploaded',
+                    data: {
+                        name: uploadedFile.name,
+                        mimetype: uploadedFile.mimetype,
+                        size: uploadedFile.size
+                    }
+                });
             }
-            reader.readAsText(csvFile);
+        } catch (err) {
+            res.json({Error: "Error while uploading file."})
         }
     },
     editparticipantPage: (req, res) => {
