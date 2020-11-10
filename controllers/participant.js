@@ -15,7 +15,7 @@ function guid(){
     return date+'-'+time + '-' +(S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
 } 
 
-function insert(res, first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration){
+function insert(res, first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration, use_res){
     let usernameQuery = "SELECT * FROM `participants` WHERE user_name = ?";
 
     db.query(usernameQuery, [user_name], (err, result) => {
@@ -23,6 +23,7 @@ function insert(res, first_name, last_name, male, dob, diagnosis, comment, user_
             return res.status(500).send(err);
         }
         if (result.length > 0) {
+            
             message = 'Username already exists';
             res.render('add-participant.ejs', {
                 message,
@@ -162,12 +163,12 @@ module.exports = {
                             let first_name = shared.safeString(parid);
                             let last_name = shared.safeString(parid);
                             let male = 0; 
-                            let dob = "";
+                            let dob = "2000-01-01";
                             let diagnosis = shared.safeString(uniqueid);
                             let comment = shared.safeString(cm);
                             let user_name = shared.safeString(parid);
                             let password = bcrypt.hashSync(shared.safeString(pass), config.pass_hash_rounds);
-                            let email = shared.safeString(pass) + "@sheffield.ac.uk"; 
+                            let email = shared.safeString(parid) + "@sheffield.ac.uk"; 
                             let configuration = shared.safeString(cnf);   
                             insert(res, first_name, last_name, male, dob, diagnosis, comment, user_name, password, email, configuration); 
                             added ++; 
