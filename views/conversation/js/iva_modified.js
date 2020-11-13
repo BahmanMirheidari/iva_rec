@@ -506,7 +506,7 @@ $(function(){
 		if (cur_question.q_no <= response.surveys[surveyIndex].question.length){
 			id = id + S4() + S4() + S4(); 
 			var strs=response.surveys[surveyIndex].question[cur_question.q_no - 1].split(","); 
-			idx = fruits.indexOf(strs[0]); 
+			idx = cur_question.answers.values.indexOf(strs[0]); 
 		} 
 
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx));
