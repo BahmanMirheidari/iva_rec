@@ -507,6 +507,10 @@ $(function(){
 			id = id + S4() + S4() + S4(); 
 			var strs=response.surveys[surveyIndex].question[cur_question.q_no - 1].split(","); 
 			idx = cur_question.answers.values.indexOf(strs[0]); 
+			alert(cur_question.q_no)
+			alert(strs)
+			alert(cur_question.answers.values)
+			alert(idx)
 		} 
 
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx));
