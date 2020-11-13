@@ -17,11 +17,7 @@ var express          = require( 'express' )
   , fluentffmpeg     = require( 'fluent-ffmpeg' )
   , GoogleStrategy   = require( './controllers/google_aouth2.js' ).Strategy //require( 'passport-google-oauth2' ).Strategy;
   , config           = require( './config/config.js' )
-  , common           = require( './config/common.js' );  
-
-const morgan = require('morgan');
-const _ = require('lodash');
-
+  , common           = require( './config/common.js' );   
 
 /* change 18/6/20*/
 const {auth,getrole} = require( './controllers/authorise_user' ); 
@@ -254,6 +250,16 @@ app.get('/conversation', ensureAuthenticated, (req, res) => {
       res.redirect('/login');
     else
       res.render('talk2iva.ejs', {
+          title: config.welcome_message + ' | Conversation'
+          ,message: '', user :req.user 
+      }); 
+}); 
+
+app.get('/conversation_modifie', ensureAuthenticated, (req, res) => {
+    if (req.user === undefined)
+      res.redirect('/login');
+    else
+      res.render('talk2iva_modified.ejs', {
           title: config.welcome_message + ' | Conversation'
           ,message: '', user :req.user 
       }); 

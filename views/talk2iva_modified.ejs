@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>IVA</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">   
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+ 
+  <style>
+    .disabledButton { color: silver; } 
+    .hidden{ 
+        display: none;
+    }
+    /* The container */
+    .cust_container {
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .cust_container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 50px;
+      width: 50px;
+      background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .cust_container:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .cust_container input:checked ~ .checkmark {
+      background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .cust_container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .cust_container .checkmark:after {
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  </style> 
+ 
+</head>
+<body>  
+  <script>
+  var userID = "<%= user.userID %>";  
+  var configuration = <%- JSON.stringify(user.configuration) %>
+  var socket_uri = "<%= socket_uri %>";  
+  var jquery = "<%= user.jquery %>";
+  </script>
+
+  <script type='text/javascript' src="js/iva_modified.js"></script>   
+  <script type="text/javascript" src="js/getUserMedia.js"></script> 
+
+  <div class="jumbotron text-center" id="header">
+    <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive float-left" style="width: 80%">
+    <div id="divWebcam" class="pull-right" > 
+        <video id="video" muted="true" class="img-responsive" style="width: 10%">
+        </video> 
+        <canvas id="mycanvas" class="img-responsive" style="width: 10%"></canvas>
+        <div id="mylog"> 
+        </div> 
+      </div>
+    </div>  
+  </div> 
+
+  <div id="dynamic" class="container col-sm-11 hidden">
+    <div class="row"> 
+        <div id="dynamic_header"> 
+        </div> 
+    </div>
+
+    <div class="row"> 
+        <div id="dynamic_title"> 
+        </div> 
+    </div>
+
+    <div class="row"> 
+        <div id="dynamic_body"> 
+        </div> 
+    </div>
+
+    <button type="button" class="btn-lg btn-primary hidden" id="nextSurveyButton" name="nextSurveyButton">Next</button>
+    <button type="button" class="btn-lg btn-primary hidden" id="backSurveyButton" name="backSurveyButton">Back</button>
+  </div>   
+
+<div class="container col-sm-12"> 
+  <div class="row">  
+    <div class="col-sm-5 pull-left hidden" id="divVideo"> 
+      <video id="videoMp4" class="img-responsive" style="width: 90%">
+       <source src="mp4/q_0.mp4" type="video/mp4" />
+         HTML5 Video is required for this example. 
+      </video>  
+      <button type="button" class="btn-lg btn-primary col-xs-5 hidden" id="repeatMessageButton" name="repeatMessageButton" style="width: 45%;margin-top:5px">Repeat</button>
+      <button type="button" class="btn-lg btn-primary col-xs-5 hidden" style="width: 45%;margin-left:5px" id="nextMessageButton" name="nextMessageButton">Next</button>  
+    </div> 
+
+    <div class="col-sm-7 pull-right">
+
+      <h2>
+        <div class="alert alert-info hidden" id="divAlert">
+        Press "Start" button to start recording 
+        </div> 
+      </h2>
+
+      <button type="button" class="btn-lg btn-primary hidden" id="startAvatarButton" name="startAvatarButton">Start</button>   
+      <h3>
+        <div id="divQuestionNo" class="alert alert-info hidden"> 
+        </div>
+      </h3>  
+
+      <div id="divDescriptionImage" class="hidden"> 
+        <img id="imgDescription" src="Images/cookietheft.gif" alt="Cookie Theft" class="img-responsive" style="width: 90%">
+      </div>  
+
+      <div class="container col-xs-6 pull-right hidden" id="divPar">  
+        <h3>
+          <div class="alert alert-success" id="divMessage"> 
+          </div>
+        </h3> 
+      </div>
+
+      <h1 style="font-size: 400%;">
+        <div id="divStopWatch" class="alert alert-warning hidden"> 
+        </div> 
+      </h1>  
+    </div> 
+  </div>  
+</body>
+</html>
