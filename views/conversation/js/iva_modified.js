@@ -482,10 +482,8 @@ $(function(){
 
 
     // backSurvey Button
-    $("#backSurveyButton").click(function(){  
-    	cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];
-
-    	if (cur_question>0){  
+    $("#backSurveyButton").click(function(){   
+    	if (response.surveys[surveyIndex].current_question>0){  
 			response.surveys[surveyIndex].current_question --;
 	        set_survey();
 	    }  
