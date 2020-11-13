@@ -503,9 +503,9 @@ $(function(){
 		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];
 		id = "question_" + cur_question.q_no.toString(); 
 		var idx = 0;
-		if (cur_question.q_no <= response.surveys[surveyIndex].question.length){
+		if (response.surveys[surveyIndex].question.length>0 && cur_question.q_no <= response.surveys[surveyIndex].question.length){
 			id = id + S4() + S4() + S4(); 
-			var strs=response.surveys[surveyIndex].question[cur_question.q_no - 1].split(","); 
+			var strs=response.surveys[surveyIndex].question[cur_question.q_no].split(","); 
 			idx = cur_question.answers.values.indexOf(strs[0]); 
 			alert(cur_question.q_no)
 			alert(strs)
