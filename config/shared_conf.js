@@ -982,12 +982,12 @@ module.exports = {
         },
         {
             'q_no':11,
-            'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
+            'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
             'length':15000,
-            'video_url':'mp4/cookie_theft_description.mp4',
-            'image_url':'Images/iva.4/Q11.gif',
+            'video_url':'mp4/iva.3/Q12.mp4',
+            'image_url':'Images/cookietheft.gif',
             'show_text':false, 
-            'play_buzzer':false 
+            'play_buzzer':false  
         }, 
         {
             'q_no':12,
@@ -1127,11 +1127,11 @@ module.exports = {
             'play_buzzer':true
         },
         {
-            'q_no':11,
-            'text':'Tell me everything you see going on in this picture. Please describe it in as much detail as you can. When you have finished press forward.',
+            'q_no':11, 
+            'text':'TELL ME EVERYTHING YOU SEE GOING ON IN THIS PICTURE PLEASE DESCRIBE IT IN AS MUCH DETAIL AS YOU CAN WHEN YOU HAVE FINISHED PRESS FORWARD',
             'length':15000,
-            'video_url':'mp4/cookie_theft_description.mp4',
-            'image_url':'Images/iva.4/Q11.gif',
+            'video_url':'mp4/iva.3/Q12.mp4',
+            'image_url':'Images/cookietheft.gif',
             'show_text':false, 
             'play_buzzer':false 
         }, 
