@@ -486,7 +486,7 @@ $(function(){
 
     // backSurvey Button
     $("#backSurveyButton").click(function(){   
-    	if (response.surveys[surveyIndex].current_question>0){  
+    	if (response.surveys[surveyIndex].current_question>1){  
 			response.surveys[surveyIndex].current_question --;
 	        set_survey();
 	    }  
@@ -503,7 +503,7 @@ $(function(){
 		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];
 		id = "question_" + cur_question.q_no.toString(); 
 		var idx = 0;
-		if (response.surveys[surveyIndex].question.length>1 && cur_question.q_no <= response.surveys[surveyIndex].question.length){
+		if (response.surveys[surveyIndex].question.length>1 && response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].question.length){
 			id = id + S4() + S4() + S4(); 
 			var strs=response.surveys[surveyIndex].question[cur_question.q_no].split(","); 
 			idx = cur_question.answers.values.indexOf(strs[0]);  
