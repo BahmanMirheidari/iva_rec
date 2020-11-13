@@ -25,7 +25,7 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=10;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=14;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var pre_surveyIndex=0;
 	var questionnaire=1;
@@ -503,7 +503,7 @@ $(function(){
 		id = "question_" + cur_question.q_no.toString(); 
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values));
 
-		if (q_no <= response.surveys[surveyIndex].question.length){
+		if (cur_question.q_no <= response.surveys[surveyIndex].question.length){
 			id = id + S4() + S4() + S4(); 
 		} 
 
