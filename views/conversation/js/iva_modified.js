@@ -376,11 +376,14 @@ $(function(){
     	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" style="font-size: ' + font_size + '%;" >';  
     }
 
-    function html_radio(id,text,options){
+    function html_radio(id,text,options,idx=0){
     	html = html_header("H4", text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<label class="cust_container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '"> <span class="checkmark"></span> </label>';
+    		var checked = '';
+    		if (idx == i)
+    			checked = "checked"
+    		html += '<label class="cust_container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" ' + checked + '> <span class="checkmark"></span> </label>';
     	}
     	return html; 
     } 
@@ -499,12 +502,15 @@ $(function(){
 
 		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];
 		id = "question_" + cur_question.q_no.toString(); 
-		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values));
-
+		var idx = 0;
 		if (cur_question.q_no <= response.surveys[surveyIndex].question.length){
 			id = id + S4() + S4() + S4(); 
+			var strs=response.surveys[surveyIndex].question[cur_question.q_no - 1].split(","); 
+			idx = fruits.indexOf(strs[0]); 
 		} 
 
+		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx));
+ 
 		script.onload = function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() { 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
@@ -513,8 +519,7 @@ $(function(){
 		    			if (cur_question.q_no > response.surveys[surveyIndex].question.length)
 		    				response.surveys[surveyIndex].question.push(msg);
 		    			else
-		    				response.surveys[surveyIndex].question[cur_question.q_no - 1] = msg; 
-		    			
+		    				response.surveys[surveyIndex].question[cur_question.q_no - 1] = msg;  
 				        break;
 		    		}
 		    	}  
