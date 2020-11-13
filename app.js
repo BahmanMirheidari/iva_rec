@@ -255,7 +255,7 @@ app.get('/conversation', ensureAuthenticated, (req, res) => {
       }); 
 }); 
 
-app.get('/conversation_modifie', ensureAuthenticated, (req, res) => {
+app.get('/conversation_modified', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
       res.redirect('/login');
     else
