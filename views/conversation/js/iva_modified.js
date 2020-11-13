@@ -512,10 +512,10 @@ $(function(){
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
 		    			var msg = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';
-		    			if (q_no > response.surveys[surveyIndex].question.length)
+		    			if (cur_question.q_no > response.surveys[surveyIndex].question.length)
 		    				response.surveys[surveyIndex].question.push(msg);
 		    			else
-		    				response.surveys[surveyIndex].question[q_no - 1] = msg; 
+		    				response.surveys[surveyIndex].question[cur_question.q_no - 1] = msg; 
 		    			
 				        break;
 		    		}
