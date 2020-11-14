@@ -562,7 +562,7 @@ $(function(){
 			answer = strs[0].replace(/"/g,''); 
 			idx = cur_question.answers.values.indexOf(answer);   
 		} 
-		var id = "answer_pre_survey_" + (surveyIndex).toString(); 
+		var id = "answer_pre_survey_" + (pre_surveyIndex).toString(); 
 
     	var script = document.createElement('script'); 
 		document.head.appendChild(script);    
