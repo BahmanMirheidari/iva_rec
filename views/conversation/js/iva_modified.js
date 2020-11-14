@@ -504,7 +504,7 @@ $(function(){
 			var strs = answer.split(","); 
 			idx = cur_question.answers.values.indexOf(strs[0]);  
 		} 
-
+		var id = "answer_aurvey_" + (surveyIndex).toString();
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
     }
 
@@ -536,7 +536,7 @@ $(function(){
 			script.type = 'text/javascript';
 			script.src = jquery;
 			set_survey();	
- 			id = "answer_aurvey_" + (surveyIndex).toString(); 
+ 			var id = "answer_aurvey_" + (surveyIndex).toString(); 
 
 			script.onload = function(){
 			    $('input[type=radio][name="' + id + '"]').change(function() { 
