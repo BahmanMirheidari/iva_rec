@@ -503,7 +503,7 @@ $(function(){
 		if (answer !== ''){
 
 			var strs = answer.split(","); 
-			answer = strs[0].replace('"','')
+			answer = strs[0].replace(/"/g,''); 
 			idx = cur_question.answers.values.indexOf(answer);  
 			alert(idx);
 			alert(answer);
