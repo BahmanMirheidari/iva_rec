@@ -503,9 +503,10 @@ $(function(){
 		if (answer !== ''){
 
 			var strs = answer.split(","); 
-			idx = cur_question.answers.values.indexOf(strs[0].replace('"',''));  
+			answer = strs[0].replace('"','')
+			idx = cur_question.answers.values.indexOf(answer);  
 			alert(idx);
-			alert(cur_question.answers.values);
+			alert(answer);
 		} 
 		var id = "answer_aurvey_" + (surveyIndex).toString();
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
