@@ -572,13 +572,13 @@ $(function(){
 
 		script.onload = function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() { 
-		    	var q = 1 + response.pre_surveys[pre_surveysIndex].current_question;
-		    	cur_question = configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question]; 
+		    	var q = 1 + response.pre_surveys[pre_surveyIndex].current_question;
+		    	cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question]; 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
-		    			response.pre_surveys[pre_surveysIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question].text + '"';	    			 
+		    			response.pre_surveys[pre_surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].text + '"';	    			 
 		    			alert(q);
-		    			alert(response.pre_surveys[pre_surveysIndex].question[q]);
+		    			alert(response.pre_surveys[pre_surveyIndex].question[q]);
 		    		}
 		    	}  
 			}); 
