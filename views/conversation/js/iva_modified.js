@@ -544,6 +544,7 @@ $(function(){
 			    	for(var j=0;j<cur_question.answers.values.length;j++){
 			    		if (this.value === cur_question.answers.values[j]){
 			    			response.surveys[surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';
+			    			alert(q,response.surveys[surveyIndex].question[q]); 
 			    		}
 			    	}  
 				}); 
