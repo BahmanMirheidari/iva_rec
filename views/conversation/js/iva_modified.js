@@ -502,7 +502,7 @@ $(function(){
 		var answer = response.surveys[surveyIndex].question[response.surveys[surveyIndex].current_question + 1];
 		if (answer !== ''){
 			var strs = answer.split(","); 
-			idx = cur_question.answers.values.indexOf(strs[0]);  
+			idx = cur_question.answers.values.indexOf(strs[0].replace('"',''));  
 		} 
 		var id = "answer_aurvey_" + (surveyIndex).toString();
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
@@ -518,9 +518,7 @@ $(function(){
 		    	cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question]; 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
-		    			response.surveys[surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';
-		    			alert(q); 
-		    			alert(response.surveys[surveyIndex].question[q]);
+		    			response.surveys[surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';	    			 
 		    		}
 		    	}  
 			}); 
