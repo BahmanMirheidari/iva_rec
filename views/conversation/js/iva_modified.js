@@ -682,8 +682,8 @@ $(function(){
     		response.consent.current_agreement = 0;  
     		response.consent.agreements_length = configuration.consent.agreements.length;  
 
-    		for (var i=0;i<1+response.consent[current_agreement].questions_length;i++){
-    			response.consent[current_agreement].agreed.push('');
+    		for (var i=0;i<1+response.consent.agreements_length;i++){
+    			response.consent.agreed.push('');
     		}
 
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title,'400'));
