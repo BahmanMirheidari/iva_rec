@@ -504,7 +504,7 @@ $(function(){
 
 		script.onload = function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() { 
-		    	var q = 1 + response.surveys[surveyIndex].current_question;
+		    	var q = cur_question.q_no;
 		    	cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question]; 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
@@ -572,7 +572,7 @@ $(function(){
 
 		script.onload = function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() { 
-		    	var q = 1 + response.pre_surveys[pre_surveyIndex].current_question;
+		    	var q = cur_question.q_no;
 		    	cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question]; 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
