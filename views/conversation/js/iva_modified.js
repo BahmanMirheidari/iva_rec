@@ -500,13 +500,10 @@ $(function(){
 		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];  
 		var idx = 0;
 		var answer = response.surveys[surveyIndex].question[response.surveys[surveyIndex].current_question + 1];
-		if (answer !== ''){
-
+		if (answer !== ''){ 
 			var strs = answer.split(","); 
 			answer = strs[0].replace(/"/g,''); 
-			idx = cur_question.answers.values.indexOf(answer);  
-			alert(idx);
-			alert(answer);
+			idx = cur_question.answers.values.indexOf(answer);   
 		} 
 		var id = "answer_aurvey_" + (surveyIndex).toString();
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
