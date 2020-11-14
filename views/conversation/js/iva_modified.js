@@ -610,8 +610,7 @@ $(function(){
     function set_consent_agreement(){
     	cur_agreement = configuration.consent.agreements[response.consent.current_agreement];
     	var idx = 0; 
-    	var answer = response.consent.agreed[response.consent.current_question + 1]; 
-    	alert(answer)
+    	var answer = response.consent.agreed[response.consent.current_agreement + 1];  
 		if (answer !== ''){ 
 			var strs = answer.split(","); 
 			answer = strs[0].replace(/"/g,''); 
