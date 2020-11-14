@@ -477,49 +477,35 @@ $(function(){
 	        	init_survey(); 
 	    	}
 	    } 
+
+	    if (response.surveys[surveyIndex].current_question > 0)
+	    	$('#backSurveyButton').prop('disabled', false);
          
 		return false;
 	});   
 
     // backSurvey Button
     $("#backSurveyButton").click(function(){   
-    	if (response.surveys[surveyIndex].current_question>1){  
+    	if (response.surveys[surveyIndex].current_question>0){  
 			response.surveys[surveyIndex].current_question --;
 	        set_survey();
 	    }  
+	    if (response.surveys[surveyIndex].current_question == 0)
+	    	$('#backSurveyButton').prop('disabled', true);
          
 		return false;
 	});  
 
-    function set_survey(){
-    	var script = document.createElement('script'); 
-		document.head.appendChild(script);    
-		script.type = 'text/javascript';
-		script.src = jquery;
-
-		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];
-		id = "question_" + (response.surveys[surveyIndex].current_question + 1).toString(); 
-
+    function set_survey(){ 
+		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];  
 		var idx = 0;
-		if (response.surveys[surveyIndex].question.length>1 && response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].question.length){
-			id = id + S4() + S4() + S4(); 
-			var strs=response.surveys[surveyIndex].question[1+response.surveys[surveyIndex].current_question].split(","); 
+		var answer = response.surveys[surveyIndex].question[response.surveys[surveyIndex].current_question + 1];
+		if (answer !== ''){
+			var strs = answer.split(","); 
 			idx = cur_question.answers.values.indexOf(strs[0]);  
 		} 
 
-		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx));
- 
-		script.onload = function(){
-		    $('input[type=radio][name="' + id + '"]').change(function() { 
-		    	var q = parseInt(id.split("_")[1]);
-		    	for(var j=0;j<cur_question.answers.values.length;j++){
-		    		if (this.value === cur_question.answers.values[j]){
-		    			var msg = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';
-		    			response.surveys[surveyIndex].question[q] = msg; 
-		    		}
-		    	}  
-			}); 
-		}  
+		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
     }
 
     function end_message(){
@@ -545,13 +531,31 @@ $(function(){
     			response.surveys[surveyIndex].question.push('');
     		}
 
-    		set_survey();
+    		var script = document.createElement('script'); 
+			document.head.appendChild(script);    
+			script.type = 'text/javascript';
+			script.src = jquery;
+			set_survey();	
+ 			id = "answer_aurvey_" + (surveyIndex).toString(); 
+
+			script.onload = function(){
+			    $('input[type=radio][name="' + id + '"]').change(function() { 
+			    	var q = response.surveys[surveyIndex].current_question;
+			    	for(var j=0;j<cur_question.answers.values.length;j++){
+			    		if (this.value === cur_question.answers.values[j]){
+			    			response.surveys[surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';
+			    		}
+			    	}  
+				}); 
+			}   
+ 
     		$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400')); 
     		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title,'300')); 
     		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
     		$('#dynamic').removeClass('hidden').show(); 
+    		$('#backSurveyButton').prop('disabled', true);
     	}
     }
 
