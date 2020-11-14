@@ -501,9 +501,11 @@ $(function(){
 		var idx = 0;
 		var answer = response.surveys[surveyIndex].question[response.surveys[surveyIndex].current_question + 1];
 		if (answer !== ''){
-			alert(answer);
+
 			var strs = answer.split(","); 
 			idx = cur_question.answers.values.indexOf(strs[0].replace('"',''));  
+			alert(idx);
+			alert(cur_question.answers.values);
 		} 
 		var id = "answer_aurvey_" + (surveyIndex).toString();
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
