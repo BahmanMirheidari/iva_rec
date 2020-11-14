@@ -501,6 +501,7 @@ $(function(){
 		var idx = 0;
 		var answer = response.surveys[surveyIndex].question[response.surveys[surveyIndex].current_question + 1];
 		if (answer !== ''){
+			alert(answer);
 			var strs = answer.split(","); 
 			idx = cur_question.answers.values.indexOf(strs[0].replace('"',''));  
 		} 
