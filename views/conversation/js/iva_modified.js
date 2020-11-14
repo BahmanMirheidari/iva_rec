@@ -546,9 +546,7 @@ $(function(){
     		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
-    		$('#dynamic').removeClass('hidden').show(); 
-    		$('#backSurveyButton').removeClass('hidden').show(); 
-    		$('#nextSurveyButton').removeClass('hidden').show(); 
+    		$('#dynamic').removeClass('hidden').show();  
     		$('#backSurveyButton').prop('disabled', true);
     	}
     }
@@ -605,70 +603,78 @@ $(function(){
     		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].comment,'300')); 
     		$("#dynamic_header").append(html_header('H3', configuration.pre_surveys[pre_surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
-    		$('#dynamic').removeClass('hidden').show(); 
-    		$('#backSurveyButton').removeClass('hidden').show(); 
-    		$('#nextSurveyButton').removeClass('hidden').show(); 
+    		$('#dynamic').removeClass('hidden').show();  
     	} 
     }
 
     function set_consent_agreement(){
+    	cur_agreement = configuration.consent.agreements[response.consent.current_agreement];
+    	var idx = 0;
+    	var answer = response.consent.agreed[response.consent.current_question + 1]; 
+		if (answer !== ''){ 
+			var strs = answer.split(","); 
+			answer = strs[0].replace(/"/g,''); 
+			idx = cur_question.answers.values.indexOf(answer);   
+		}  
+
     	var script = document.createElement('script'); 
 		document.head.appendChild(script);    
 		script.type = 'text/javascript';
-		script.src = jquery;
-
-    	cur_agreement = configuration.consent.agreements[response.consent.current_agreement]
-    	if (cur_agreement.a_type === 'mandatory'){
+		script.src = jquery; 
+    	
+    	if (cur_agreement.a_type === 'mandatory'){  
     		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.mandatory_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
+    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement], idx));
+    		
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
+			    	var q  = cur_agreement.a_no;
 				    if(this.checked) {
-				    	response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-				    	response.consent.current_agreement ++;
-				        set_consent_agreement();
+				    	response.consent.agreed[q] = "Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"'; 
+				    }
+				    else{
+				    	response.consent.agreed[q] = "No, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"'; 
 				    }
 				});
 			}   
     	}
-    	else if (cur_agreement.a_type === 'optional'){
+    	else if (cur_agreement.a_type === 'optional'){ 
     		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.optional_statement)); 
     		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement,["Yes", "No"]));
+    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement,["Yes", "No"], idx));
+    		
     		script.onload = function(){
 			    $('input[type=radio][name="' + id + '"]').change(function() {   
+			    	var q  = cur_agreement.a_no;
 					switch(this.value) {
-					        case 'Yes' :
-					            response.consent.agreed.push('Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-						    	response.consent.current_agreement ++;
-						        set_consent_agreement();
-					            break;
-					        case 'No' :
-					            response.consent.agreed.push('No, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-						    	response.consent.current_agreement ++;
-						        set_consent_agreement();
-					            break;
-					    }   
+				        case 'Yes' :
+				            rresponse.consent.agreed[q] = 'Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"'; 
+				            break;
+				        case 'No' :
+				            response.consent.agreed[q] = 'No, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"'; 
+				            break;
+				    }   
 				}); 
 			}   
     	}
-    	else{//last agreement
+    	else{//last agreement 
     		$("#dynamic_title").empty();
     		id = "agreement_" + cur_agreement.a_no.toString();
     		$("#dynamic_body").empty().append(html_textbox(id,configuration.consent.sign_statement));
-    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
+    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement], idx));
 
     		script.onload = function(){
 			    $("#" + id + "_1").change(function() {
+			    	var q  = cur_agreement.a_no;
 				    if(this.checked) {
 				    	if ($("#txt_" + id).val() === ''){
 				    		$("#" + id + "_1").prop("checked", false);
 				    		alert('You should fill the sign textbox!');  
 				    	}
 				    	else{ 
-				    		response.consent.agreed.push('Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-				    		response.consent.agreed.push('Yes, sign, "' + $("#txt_" + id).val() + '"');
+				    		response.consent.agreed = 'Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"';
+				    		response.consent.agreed = 'Yes, sign, "' + $("#txt_" + id).val() + '"';
 				    		ws.send(JSON.stringify({msg:'consent',data:{token:token, agreements:response.consent.agreed}})); 
 
 					    	$("#dynamic_header").empty(); 
@@ -695,8 +701,13 @@ $(function(){
     	else { 
     		response.consent.agreed = ['Agreed, Agreement_No, Agreement'];
     		response.consent.current_agreement = 0;  
-    		response.consent.agreements_length = configuration.consent.agreements.length; 
+    		response.consent.agreements_length = configuration.consent.agreements.length;  
     		
+    		for (var i=0;i<response.consent.agreements_length+1;i++){
+    			response.consent.agreed.push('');
+    		}
+
+    		set_consent_agreement();
 
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title,'400'));
     		$("#dynamic_header").append(html_header('H2', configuration.consent.participants,'300')); 
@@ -704,13 +715,8 @@ $(function(){
     		$("#dynamic_header").append(html_header('H3', configuration.consent.reference,'200')); 
     		$("#dynamic_header").append(html_header('H3', configuration.consent.pi,'200')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
-    		
-    		set_consent_agreement();
-
     		$('#dynamic').removeClass('hidden').show(); 
-    		$('#startAvatarButton').addClass('hidden');
-    		$('#backSurveyButton').addClass('hidden');
-    		$('#nextSurveyButton').addClass('hidden'); 
+    		$('#startAvatarButton').addClass('hidden'); 
     	} 
     } 
 
