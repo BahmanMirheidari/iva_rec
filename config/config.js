@@ -8,6 +8,7 @@ ivamem6        = require( './ivamem6.js' );
 ivamem7        = require( './ivamem7.js' );
 ivastroke1     = require( './ivastroke1.js' );
 ivastroke2     = require( './ivastroke2.js' );
+ivastroke_test = require( './ivastroke_test.js' );
 
 const PORT     = 8081; 
 const PORT2    = 8082;
@@ -58,6 +59,7 @@ module.exports = {
         'ivamem6' : ivamem6,
         'ivamem7' : ivamem7, 
         'ivastroke1' : ivastroke1, 
-        'ivastroke2' : ivastroke2
+        'ivastroke2' : ivastroke2,
+        'ivastroke_test' : ivastroke_test
     }    
 }; 

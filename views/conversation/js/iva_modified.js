@@ -25,10 +25,11 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=14;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=13;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var pre_surveyIndex=0;
 	var questionnaire=1;
+	var dynamic='pre_survey';
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
 	var logoutTimeout=3000;
@@ -386,112 +387,100 @@ $(function(){
     		html += '<label class="cust_container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" ' + checked + '> <span class="checkmark"></span> </label>';
     	}
     	return html; 
-    } 
-
-    function set_consent_agreement(){
-    	var script = document.createElement('script'); 
-		document.head.appendChild(script);    
-		script.type = 'text/javascript';
-		script.src = jquery;
-
-    	cur_agreement = configuration.consent.agreements[response.consent.current_agreement]
-    	if (cur_agreement.a_type === 'mandatory'){
-    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.mandatory_statement)); 
-    		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
-    		script.onload = function(){
-			    $("#" + id + "_1").change(function() {
-				    if(this.checked) {
-				    	response.consent.agreed.push("Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-				    	response.consent.current_agreement ++;
-				        set_consent_agreement();
-				    }
-				});
-			}   
-    	}
-    	else if (cur_agreement.a_type === 'optional'){
-    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.optional_statement)); 
-    		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement,["Yes", "No"]));
-    		script.onload = function(){
-			    $('input[type=radio][name="' + id + '"]').change(function() {   
-					switch(this.value) {
-					        case 'Yes' :
-					            response.consent.agreed.push('Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-						    	response.consent.current_agreement ++;
-						        set_consent_agreement();
-					            break;
-					        case 'No' :
-					            response.consent.agreed.push('No, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-						    	response.consent.current_agreement ++;
-						        set_consent_agreement();
-					            break;
-					    }   
-				}); 
-			}   
-    	}
-    	else{//last agreement
-    		$("#dynamic_title").empty();
-    		id = "agreement_" + cur_agreement.a_no.toString();
-    		$("#dynamic_body").empty().append(html_textbox(id,configuration.consent.sign_statement));
-    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
-
-    		script.onload = function(){
-			    $("#" + id + "_1").change(function() {
-				    if(this.checked) {
-				    	if ($("#txt_" + id).val() === ''){
-				    		$("#" + id + "_1").prop("checked", false);
-				    		alert('You should fill the sign textbox!');  
-				    	}
-				    	else{ 
-				    		response.consent.agreed.push('Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"');
-				    		response.consent.agreed.push('Yes, sign, "' + $("#txt_" + id).val() + '"');
-				    		ws.send(JSON.stringify({msg:'consent',data:{token:token, agreements:response.consent.agreed}})); 
-
-					    	$("#dynamic_header").empty(); 
-					    	$("#dynamic_title").empty();
-					    	$("#dynamic_body").empty(); 
-					    	$('#dynamic').addClass('hidden');
-					    	
-					    	init_pre_surveys(); 
-				    	} 
-				    }
-				});
-			}   
-    	}   
-    }
-
+    }  
+    
     // nextSurvey Button
     $("#nextSurveyButton").click(function(){   
-    	if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length -1){    
-    		response.surveys[surveyIndex].current_question ++; 
-    		set_survey();
-	    }
-	    else{ 
-	    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.surveys[surveyIndex].id, questions:response.surveys[surveyIndex].question}})); 
-	    	surveyIndex ++; 
-	    	questionnaire ++;
-	    	if(surveyIndex >= configuration.surveys.length)
-	    		end_message();
-	    	else{ 
-	        	init_survey(); 
-	    	}
-	    } 
+    	if (dynamic == 'consent') { 
+    		if (response.consent.current_agreement < response.consent.current_agreement.questions_length -1){    
+	    		response.consent.current_agreement ++; 
+	    		set_consent_agreement();
+		    }
+		    else{ 
+		    	ws.send(JSON.stringify({msg:'consent',data:{token:token, agreements:response.consent.agreed}})); 
+	    		init_pre_surveys(); 
+		    	
+		    	$("#dynamic_header").empty(); 
+		    	$("#dynamic_title").empty();
+		    	$("#dynamic_body").empty(); 
+		    	$('#dynamic').addClass('hidden'); 
+		    } 
 
-	    if (response.surveys[surveyIndex].current_question > 0)
-	    	$('#backSurveyButton').prop('disabled', false);
-         
+		    if (response.consent.current_agreement > 0)
+		    	$('#backSurveyButton').prop('disabled', false);  
+    	}
+    	else if (dynamic == 'survey') {
+    		if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length -1){    
+	    		response.surveys[surveyIndex].current_question ++; 
+	    		set_survey();
+		    }
+		    else{ 
+		    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.surveys[surveyIndex].id, questions:response.surveys[surveyIndex].question}})); 
+		    	surveyIndex ++; 
+		    	questionnaire ++;
+		    	if(surveyIndex >= configuration.surveys.length)
+		    		end_message();
+		    	else{ 
+		        	init_survey(); 
+		    	}
+		    } 
+
+		    if (response.surveys[surveyIndex].current_question > 0)
+		    	$('#backSurveyButton').prop('disabled', false); 
+    	}
+    	else if (dynamic == 'pre_survey') {
+    		if (response.pre_surveys[pre_surveyIndex].current_question < response.pre_surveys[pre_surveyIndex].questions_length -1){    
+	    		response.pre_surveys[pre_surveyIndex].current_question ++; 
+	    		set_pre_survey();
+		    }
+		    else{ 
+		    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.pre_surveys[pre_surveyIndex].id, questions:response.pre_surveys[pre_surveyIndex].question}})); 
+		    	pre_surveyIndex ++; 
+		    	questionnaire ++;
+		    	if(pre_surveyIndex >= configuration.pre_surveys.length){
+		    		$('#dynamic').addClass('hidden');  
+		    		init_questions();
+		    	}
+		    	else{ 
+		        	init_pre_surveys(); 
+		    	}
+		    } 
+
+		    if (response.pre_surveys[pre_surveyIndex].current_question > 0)
+		    	$('#backSurveyButton').prop('disabled', false);  
+    	}   
+
 		return false;
 	});   
 
     // backSurvey Button
     $("#backSurveyButton").click(function(){   
-    	if (response.surveys[surveyIndex].current_question>0){  
-			response.surveys[surveyIndex].current_question --;
-	        set_survey();
-	    }  
-	    if (response.surveys[surveyIndex].current_question == 0)
-	    	$('#backSurveyButton').prop('disabled', true);
+    	if (dynamic == 'consent') {
+    		response.consent.current_agreement
+
+    		if (response.consent.current_agreement>0){  
+				response.consent.current_agreement --;
+		        set_consent_agreement();
+		    }  
+		    if (response.consent.current_question == 0)
+		    	$('#backSurveyButton').prop('disabled', true);   
+    	}
+    	else if (dynamic == 'survey') {
+    		if (response.surveys[surveyIndex].current_question>0){  
+				response.surveys[surveyIndex].current_question --;
+		        set_survey();
+		    }  
+		    if (response.surveys[surveyIndex].current_question == 0)
+		    	$('#backSurveyButton').prop('disabled', true);  
+    	}
+    	else if (dynamic == 'pre_survey') {
+    		if (response.pre_surveys[pre_surveyIndex].current_question>0){  
+				response.pre_surveys[pre_surveyIndex].current_question --;
+		        set_pre_survey();
+		    }  
+		    if (response.pre_surveys[pre_surveyIndex].current_question == 0)
+		    	$('#backSurveyButton').prop('disabled', true);  
+    	} 
          
 		return false;
 	});  
@@ -505,7 +494,7 @@ $(function(){
 			answer = strs[0].replace(/"/g,''); 
 			idx = cur_question.answers.values.indexOf(answer);   
 		} 
-		var id = "answer_aurvey_" + (surveyIndex).toString();
+		var id = "answer_survey_" + (surveyIndex).toString();
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
     	
     	var script = document.createElement('script'); 
@@ -537,6 +526,7 @@ $(function(){
     }
 
     function init_survey(){
+    	dynamic = 'survey';
     	if (configuration.surveys.length == 0){  
     		end_message();
     	}
@@ -562,38 +552,29 @@ $(function(){
     }
 
     function set_pre_survey(){
+    	cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question];
+    	var idx = 0;
+		var answer = response.pre_surveys[pre_surveyIndex].question[pre_surveys[pre_surveyIndex].current_question + 1];
+		if (answer !== ''){ 
+			var strs = answer.split(","); 
+			answer = strs[0].replace(/"/g,''); 
+			idx = cur_question.answers.values.indexOf(answer);   
+		} 
+		var id = "answer_pre_survey_" + (surveyIndex).toString(); 
+
     	var script = document.createElement('script'); 
 		document.head.appendChild(script);    
 		script.type = 'text/javascript';
-		script.src = jquery;
-
-		cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question];
-		id = "question_pre_" + cur_question.q_no.toString(); 
-		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.pre_surveys[pre_surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values));
+		script.src = jquery;  
+		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.pre_surveys[pre_surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx));
 
 		script.onload = function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() { 
+		    	var q = 1 + response.pre_surveys[pre_surveysIndex].current_question;
+		    	cur_question = configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question]; 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
-		    			response.pre_surveys[pre_surveyIndex].question.push('"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].text + '"');
-					    
-		    			if (response.pre_surveys[pre_surveyIndex].current_question < response.pre_surveys[pre_surveyIndex].questions_length -1){  
-			    			response.pre_surveys[pre_surveyIndex].current_question ++;
-					        set_pre_survey();
-					    }
-					    else{ 
-					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.pre_surveys[pre_surveyIndex].id, questions:response.pre_surveys[pre_surveyIndex].question}})); 
-					    	pre_surveyIndex ++; 
-					    	questionnaire ++;
-					    	if(pre_surveyIndex >= configuration.pre_surveys.length){
-					    		$('#dynamic').addClass('hidden');  
-					    		init_questions();
-					    	}
-					    	else{ 
-					        	init_pre_surveys(); 
-					    	}
-					    }
-				        break;
+		    			response.pre_surveys[pre_surveysIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question].text + '"';	    			 
 		    		}
 		    	}  
 			}); 
@@ -601,7 +582,7 @@ $(function(){
     } 
 
     function init_pre_surveys(){
-
+    	dynamic = 'pre_survey';
     	if (configuration.pre_surveys.length == 0){ 
     		init_questions();
     	}
@@ -611,6 +592,10 @@ $(function(){
     		response.pre_surveys[pre_surveyIndex].current_question = 0;  
     		response.pre_surveys[pre_surveyIndex].questions_length = configuration.pre_surveys[pre_surveyIndex].questions.length; 
 
+    		for (var i=0;i<response.pre_surveys[pre_surveyIndex].questions_length;i++){
+    			response.pre_surveys[pre_surveyIndex].question.push('');
+    		}
+
     		set_pre_survey();
 
     		$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400'));
@@ -619,11 +604,72 @@ $(function(){
     		$("#dynamic_header").append(html_header('H3', configuration.pre_surveys[pre_surveyIndex].main_q,'300')); 
     		$('#dynamic_header').addClass('bg-info text-white');  
     		$('#dynamic').removeClass('hidden').show(); 
-    	}
+    	} 
+    }
 
+    function set_consent_agreement(){
+    	cur_agreement = configuration.consent.agreements[response.consent.current_agreement]
+
+    	var script = document.createElement('script'); 
+		document.head.appendChild(script);    
+		script.type = 'text/javascript';
+		script.src = jquery; 
+    	
+    	if (cur_agreement.a_type === 'mandatory'){
+    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.mandatory_statement)); 
+    		id = "agreement_" + cur_agreement.a_no.toString();
+    		$("#dynamic_body").empty().append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
+    		script.onload = function(){
+			    $("#" + id + "_1").change(function() {
+				    if(this.checked) {
+				    	response.consent.agreed[ 1 + cur_agreement.a_no ] = "Yes, " + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"'; 
+				    }
+				});
+			}   
+    	}
+    	else if (cur_agreement.a_type === 'optional'){
+    		$("#dynamic_title").empty().append(html_header("H3", configuration.consent.optional_statement)); 
+    		id = "agreement_" + cur_agreement.a_no.toString();
+    		$("#dynamic_body").empty().append(html_radio(id,cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement,["Yes", "No"]));
+    		script.onload = function(){
+			    $('input[type=radio][name="' + id + '"]').change(function() {   
+					switch(this.value) {
+					        case 'Yes' :
+					            response.consent.agreed[ 1 + cur_agreement.a_no ] = 'Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"'; 
+					            break;
+					        case 'No' :
+					            response.consent.agreed[ 1 + cur_agreement.a_no ] = 'No, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"';
+						    	break;
+					    }   
+				}); 
+			}   
+    	}
+    	else{//last agreement
+    		$("#dynamic_title").empty();
+    		id = "agreement_" + cur_agreement.a_no.toString();
+    		$("#dynamic_body").empty().append(html_textbox(id,configuration.consent.sign_statement));
+    		$("#dynamic_body").append(html_checkbox(id,[cur_agreement.a_no.toString() + "/" + response.consent.agreements_length.toString() + ") "+ cur_agreement.agreement]));
+
+    		script.onload = function(){
+			    $("#" + id + "_1").change(function() {
+				    if(this.checked) {
+				    	if ($("#txt_" + id).val() === ''){
+				    		$("#" + id + "_1").prop("checked", false);
+				    		alert('You should fill the sign textbox!');  
+				    	}
+				    	else{ 
+				    		response.consent.agreed[ 1 + cur_agreement.a_no ] = 'Yes, ' + configuration.consent.agreements[response.consent.current_agreement].a_no.toString() + ',"' + configuration.consent.agreements[response.consent.current_agreement].agreement + '"';
+				    		response.consent.agreed[ 2 + cur_agreement.a_no ] = 'Yes, sign, "' + $("#txt_" + id).val() + '"';
+
+				    	} 
+				    }
+				});
+			}   
+    	}   
     }
 
     function init_consent(){ 
+    	dynamic = 'consent';
     	response.consent = {};
     	response.pre_surveys = [];
     	response.surveys = [];
@@ -634,8 +680,11 @@ $(function(){
     	else { 
     		response.consent.agreed = ['Agreed, Agreement_No, Agreement'];
     		response.consent.current_agreement = 0;  
-    		response.consent.agreements_length = configuration.consent.agreements.length; 
-    		
+    		response.consent.agreements_length = configuration.consent.agreements.length;  
+
+    		for (var i=0;i<1+response.consent[current_agreement].questions_length;i++){
+    			response.consent[current_agreement].agreed.push('');
+    		}
 
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title,'400'));
     		$("#dynamic_header").append(html_header('H2', configuration.consent.participants,'300')); 
