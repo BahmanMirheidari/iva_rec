@@ -577,6 +577,8 @@ $(function(){
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
 		    			response.pre_surveys[pre_surveysIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveysIndex].questions[response.pre_surveys[pre_surveysIndex].current_question].text + '"';	    			 
+		    			alert(q);
+		    			alert(response.pre_surveys[pre_surveysIndex].question[q]);
 		    		}
 		    	}  
 			}); 
