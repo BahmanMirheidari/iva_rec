@@ -506,6 +506,23 @@ $(function(){
 		} 
 		var id = "answer_aurvey_" + (surveyIndex).toString();
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
+    	
+    	var script = document.createElement('script'); 
+		document.head.appendChild(script);    
+		script.type = 'text/javascript';
+		script.src = jquery; 
+
+		script.onload = function(){
+		    $('input[type=radio][name="' + id + '"]').change(function() { 
+		    	var q = response.surveys[surveyIndex].current_question;
+		    	for(var j=0;j<cur_question.answers.values.length;j++){
+		    		if (this.value === cur_question.answers.values[j]){
+		    			response.surveys[surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';
+		    			alert(q,response.surveys[surveyIndex].question[q]); 
+		    		}
+		    	}  
+			}); 
+		}   
     }
 
     function end_message(){
@@ -531,24 +548,7 @@ $(function(){
     			response.surveys[surveyIndex].question.push('');
     		}
 
-    		var script = document.createElement('script'); 
-			document.head.appendChild(script);    
-			script.type = 'text/javascript';
-			script.src = jquery;
-			set_survey();	
- 			var id = "answer_aurvey_" + (surveyIndex).toString(); 
-
-			script.onload = function(){
-			    $('input[type=radio][name="' + id + '"]').change(function() { 
-			    	var q = response.surveys[surveyIndex].current_question;
-			    	for(var j=0;j<cur_question.answers.values.length;j++){
-			    		if (this.value === cur_question.answers.values[j]){
-			    			response.surveys[surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"';
-			    			alert(q,response.surveys[surveyIndex].question[q]); 
-			    		}
-			    	}  
-				}); 
-			}   
+    		set_survey();   
  
     		$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400')); 
     		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title,'300')); 
