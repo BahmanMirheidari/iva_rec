@@ -708,7 +708,9 @@ $(function(){
     		set_consent_agreement();
 
     		$('#dynamic').removeClass('hidden').show(); 
-    		$('#startAvatarButton').addClass('hidden'); 
+    		$('#startAvatarButton').addClass('hidden');
+    		$('#backSurveyButton').addClass('hidden');
+    		$('#nextSurveyButton').addClass('hidden'); 
     	} 
     } 
 
