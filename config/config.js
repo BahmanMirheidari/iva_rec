@@ -60,6 +60,6 @@ module.exports = {
         'ivamem7' : ivamem7, 
         'ivastroke1' : ivastroke1, 
         'ivastroke2' : ivastroke2,
-        'ivastroke_test' : ivastroke_test
+        'ivastroketest' : ivastroke_test
     }    
 }; 
