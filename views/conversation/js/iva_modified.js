@@ -494,7 +494,7 @@ $(function(){
 			answer = strs[0].replace(/"/g,''); 
 			idx = cur_question.answers.values.indexOf(answer);   
 		} 
-		var id = "answer_survey_" + (surveyIndex).toString();
+		var id = "answer_survey_" + (surveyIndex).toString() + '-' + S4()+ '-' + S4()+ '-' + S4(); 
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
     	
     	var script = document.createElement('script'); 
@@ -562,7 +562,7 @@ $(function(){
 			answer = strs[0].replace(/"/g,''); 
 			idx = cur_question.answers.values.indexOf(answer);   
 		} 
-		var id = "answer_pre_survey_" + (pre_surveyIndex).toString(); 
+		var id = "answer_pre_survey_" + (pre_surveyIndex).toString() + '-' + S4()+ '-' + S4()+ '-' + S4(); 
 
     	var script = document.createElement('script'); 
 		document.head.appendChild(script);    
@@ -695,8 +695,7 @@ $(function(){
     	else { 
     		response.consent.agreed = ['Agreed, Agreement_No, Agreement'];
     		response.consent.current_agreement = 0;  
-    		response.consent.agreements_length = configuration.consent.agreements.length; 
-    		
+    		response.consent.agreements_length = configuration.consent.agreements.length;  
 
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title,'400'));
     		$("#dynamic_header").append(html_header('H2', configuration.consent.participants,'300')); 
