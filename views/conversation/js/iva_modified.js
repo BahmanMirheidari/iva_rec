@@ -533,7 +533,7 @@ $(function(){
     		response.surveys[surveyIndex].current_question = 0;  
     		response.surveys[surveyIndex].questions_length = configuration.surveys[surveyIndex].questions.length; 
     		for (var i=0;i<response.surveys[surveyIndex].questions_length;i++){ 
-    			response.surveys[surveyIndex].question.push('"Yes", ' + (i+1).toString() + ',"' + configuration.surveys[surveyIndex].questions[i].text + '"');	    			 
+    			response.surveys[surveyIndex].question.push('"' + configuration.surveys[surveyIndex].questions[i].values[0] + '", ' + (i+1).toString() + ',"' + configuration.surveys[surveyIndex].questions[i].text + '"');	    			 
     		}
 
     		set_survey(function(err,msg){
@@ -588,7 +588,7 @@ $(function(){
     		response.pre_surveys[pre_surveyIndex].questions_length = configuration.pre_surveys[pre_surveyIndex].questions.length; 
 
     		for (var i=0;i<response.pre_surveys[pre_surveyIndex].questions_length;i++){
-    			response.pre_surveys[pre_surveyIndex].question.push('"Yes", ' + (i+1).toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[i].text + '"');	    			 
+    			response.pre_surveys[pre_surveyIndex].question.push('"' + configuration.pre_surveys[pre_surveyIndex].questions[i].values[0] + '", ' + (i+1).toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[i].text + '"');	    			 
     		}
 
     		set_pre_survey(function(err,msg){ 
