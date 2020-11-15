@@ -556,7 +556,7 @@ $(function(){
     function set_pre_survey(){
     	cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question];
     	var idx = 0;
-    	var answer = response.pre_surveys[pre_surveyIndex].question[response.pre_surveys[pre_surveyIndex].current_question + 1]; 
+    	var answer = response.pre_surveys[pre_surveyIndex].question[cur_question.q_no]; 
 		if (answer !== ''){ 
 			var strs = answer.split(","); 
 			answer = strs[0].replace(/"/g,''); 
