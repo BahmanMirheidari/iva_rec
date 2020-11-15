@@ -573,6 +573,7 @@ $(function(){
 
 		script.onload = function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() {  
+		    	alert(this.value);
 		    	response.pre_surveys[pre_surveyIndex].question[cur_question.q_no] = '"' + this.value + '", ' + cur_question.q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[cur_question.q_no-1].text + '"';	    			 
  			}); 
 		}  
