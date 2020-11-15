@@ -563,7 +563,7 @@ $(function(){
 			answer = strs[0].replace(/"/g,''); 
 			idx = cur_question.answers.values.indexOf(answer);   
 		} 
-		var id = "answer_pre_survey_" + (pre_surveyIndex).toString(); 
+		var id = "answer_pre_survey_" + (pre_surveyIndex).toString() + '-' + cur_question.q_no.toString(); 
 
     	var script = document.createElement('script'); 
 		document.head.appendChild(script);    
@@ -572,12 +572,11 @@ $(function(){
 		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.pre_surveys[pre_surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx));
 
 		script.onload = function(){
-		    $('input[type=radio][name="' + id + '"]').change(function() { 
-		    	var q = 1 + response.pre_surveys[pre_surveyIndex].current_question;
-		    	cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question]; 
+		    $('input[type=radio][name="' + id + '"]').change(function() {  
+		    	//cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question]; 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
-		    			response.pre_surveys[pre_surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].text + '"';	    			 
+		    			response.pre_surveys[pre_surveyIndex].question[cur_question.q_no] = '"' + cur_question.answers.values[j] + '", ' + cur_question.q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[cur_question.q_no-1].text + '"';	    			 
 		    		}
 		    	}  
 			}); 
