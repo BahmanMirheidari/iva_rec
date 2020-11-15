@@ -593,7 +593,7 @@ $(function(){
     		response.pre_surveys[pre_surveyIndex].questions_length = configuration.pre_surveys[pre_surveyIndex].questions.length; 
 
     		for (var i=0;i<response.pre_surveys[pre_surveyIndex].questions_length;i++){
-    			response.pre_surveys[pre_surveyIndex].question.push('');
+    			response.pre_surveys[pre_surveyIndex].question.push('"Yes", ' + (i+1).toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[i].text + '"');	    			 
     		}
 
     		set_pre_survey(function(err,msg){ 
