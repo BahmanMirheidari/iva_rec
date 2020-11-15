@@ -575,7 +575,7 @@ $(function(){
 		    	var q = 1 + cur_question.q_no; 
 		    	for(var j=0;j<cur_question.answers.values.length;j++){
 		    		if (this.value === cur_question.answers.values[j]){
-		    			response.pre_surveys[pre_surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].text + '"';	    			 
+		    			response.pre_surveys[pre_surveyIndex].question[q] = '"' + cur_question.answers.values[j] + '", ' + q.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[q-1].text + '"';	    			 
 		    		}
 		    	}  
 			}); 
