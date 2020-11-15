@@ -573,13 +573,8 @@ $(function(){
 
 		script.onload = function(){
 		    $('input[type=radio][name="' + id + '"]').change(function() {  
-		    	//cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question]; 
-		    	for(var j=0;j<cur_question.answers.values.length;j++){
-		    		if (this.value === cur_question.answers.values[j]){
-		    			response.pre_surveys[pre_surveyIndex].question[cur_question.q_no] = '"' + cur_question.answers.values[j] + '", ' + cur_question.q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[cur_question.q_no-1].text + '"';	    			 
-		    		}
-		    	}  
-			}); 
+		    	response.pre_surveys[pre_surveyIndex].question[cur_question.q_no] = '"' + this.value + '", ' + cur_question.q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[cur_question.q_no-1].text + '"';	    			 
+ 			}); 
 		}  
 
 		callback(null,'completed');
