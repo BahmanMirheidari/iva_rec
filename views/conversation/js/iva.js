@@ -29,6 +29,7 @@ $(function(){
 	var surveyIndex=0;
 	var pre_surveyIndex=0;
 	var questionnaire=1;
+	var dynamic='pre_survey';
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
 	var logoutTimeout=3000;
@@ -376,14 +377,232 @@ $(function(){
     	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" style="font-size: ' + font_size + '%;" >';  
     }
 
-    function html_radio(id,text,options){
+    function html_radio(id,text,options,idx=-1){
     	html = html_header("H4", text);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
-    		html += '<label class="cust_container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '"> <span class="checkmark"></span> </label>';
+    		var checked = '';
+    		if (idx == i)
+    			checked = "checked"
+    		html += '<label class="cust_container">' + html_header("H4", options[i]) + '<input class="checkmark" type="radio" id="rd_' + indexed_id + '" value="' + options[i] + '" name="' + id + '" ' + checked + '> <span class="checkmark"></span> </label>';
     	}
     	return html; 
+    }  
+    
+    // nextSurvey Button
+    $("#nextSurveyButton").click(function(){   
+    	if (dynamic == 'consent') { 
+    		if (response.consent.current_agreement < response.consent.current_agreement.questions_length -1){    
+	    		response.consent.current_agreement ++; 
+	    		set_consent_agreement();
+		    }
+		    else{ 
+		    	ws.send(JSON.stringify({msg:'consent',data:{token:token, agreements:response.consent.agreed}})); 
+	    		init_pre_surveys(); 
+		    	
+		    	$("#dynamic_header").empty(); 
+		    	$("#dynamic_title").empty();
+		    	$("#dynamic_body").empty(); 
+		    	$('#dynamic').addClass('hidden'); 
+		    } 
+
+		    if (response.consent.current_agreement > 0)
+		    	$('#backSurveyButton').prop('disabled', false);  
+    	}
+    	else if (dynamic == 'survey') {
+    		if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length -1){    
+	    		response.surveys[surveyIndex].current_question ++; 
+	    		set_survey(function(err,msg){
+	    			if (response.surveys[surveyIndex].current_question > 0)
+		    			$('#backSurveyButton').prop('disabled', false); 
+	    		});
+		    }
+		    else{ 
+		    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.surveys[surveyIndex].id, questions:response.surveys[surveyIndex].question}})); 
+		    	surveyIndex ++; 
+		    	questionnaire ++;
+		    	if(surveyIndex >= configuration.surveys.length)
+		    		end_message();
+		    	else{ 
+		        	init_survey(); 
+		    	}
+		    }  
+    	}
+    	else if (dynamic == 'pre_survey') {
+    		if (response.pre_surveys[pre_surveyIndex].current_question < response.pre_surveys[pre_surveyIndex].questions_length -1){    
+	    		response.pre_surveys[pre_surveyIndex].current_question ++; 
+	    		set_pre_survey(function(err,msg){
+	    			if (response.pre_surveys[pre_surveyIndex].current_question > 0)
+		    			$('#backSurveyButton').prop('disabled', false);  
+	    		});
+		    }
+		    else{ 
+		    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.pre_surveys[pre_surveyIndex].id, questions:response.pre_surveys[pre_surveyIndex].question}})); 
+		    	pre_surveyIndex ++; 
+		    	questionnaire ++;
+		    	if(pre_surveyIndex >= configuration.pre_surveys.length){
+		    		$('#dynamic').addClass('hidden');  
+		    		init_questions();
+		    	}
+		    	else{ 
+		        	init_pre_surveys(); 
+		    	}
+		    }   
+    	}   
+
+		return false;
+	});   
+
+    // backSurvey Button
+    $("#backSurveyButton").click(function(){   
+    	if (dynamic == 'consent') {
+    		response.consent.current_agreement
+
+    		if (response.consent.current_agreement>0){  
+				response.consent.current_agreement --;
+		        set_consent_agreement();
+		    }  
+		    if (response.consent.current_question == 0)
+		    	$('#backSurveyButton').prop('disabled', true);   
+    	}
+    	else if (dynamic == 'survey') {
+    		if (response.surveys[surveyIndex].current_question>0){  
+				response.surveys[surveyIndex].current_question --;
+		        set_survey(function(err,msg){
+		        	if (response.surveys[surveyIndex].current_question == 0)
+		    			$('#backSurveyButton').prop('disabled', true); 
+		        });
+		    }  
+    	}
+    	else if (dynamic == 'pre_survey') {
+    		if (response.pre_surveys[pre_surveyIndex].current_question>0){  
+				response.pre_surveys[pre_surveyIndex].current_question --;
+		        set_pre_survey(function(err,msg){
+		        	if (response.pre_surveys[pre_surveyIndex].current_question == 0)
+		    			$('#backSurveyButton').prop('disabled', true);  
+		        });
+		    }   
+    	} 
+         
+		return false;
+	});  
+
+    function set_survey(callback){ 
+		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];  
+		var idx = 0;
+		var answer = response.surveys[surveyIndex].question[response.surveys[surveyIndex].current_question + 1];
+		if (answer !== ''){ 
+			var strs = answer.split(","); 
+			answer = strs[0].replace(/"/g,''); 
+			idx = cur_question.answers.values.indexOf(answer);   
+		} 
+		var id = "answer_survey_" + (surveyIndex).toString() + '-' + cur_question.q_no.toString(); 
+		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx)); 		 
+    	
+    	var script = document.createElement('script'); 
+		document.head.appendChild(script);    
+		script.type = 'text/javascript';
+		script.src = jquery; 
+
+		script.onload = function(){
+		    $('input[type=radio][name="' + id + '"]').change(function() { 
+		    	response.surveys[surveyIndex].question[cur_question.q_no] = '"' + this.value + '", ' + cur_question.q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[cur_question.q_no-1].text + '"';	
+			}); 
+		} 
+		callback(null,'completed');  
+    }
+
+    function end_message(){
+    	$('#dynamic').hide();
+    	$('#divPar').removeClass('hidden').show();  
+		$('#divMessage').text(endingMessage); 
+
+		setTimeout(function(){
+			window.location = logoutUrl;
+			}, logoutTimeout);  
+    }
+
+    function init_survey(){
+    	dynamic = 'survey';
+    	if (configuration.surveys.length == 0){  
+    		end_message();
+    	}
+    	else{
+    		response.surveys[surveyIndex] = {};
+    		response.surveys[surveyIndex].question = ['Answer, Question_No, Question'];
+    		response.surveys[surveyIndex].current_question = 0;  
+    		response.surveys[surveyIndex].questions_length = configuration.surveys[surveyIndex].questions.length; 
+    		for (var i=0;i<response.surveys[surveyIndex].questions_length;i++){ 
+    			response.surveys[surveyIndex].question.push('"' + configuration.surveys[surveyIndex].questions[i].answers.values[0] + '", ' + (i+1).toString() + ',"' + configuration.surveys[surveyIndex].questions[i].text + '"');	    			 
+    		}
+
+    		set_survey(function(err,msg){
+    			$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400')); 
+	    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title,'300')); 
+	    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment,'300')); 
+	    		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q,'300')); 
+	    		$('#dynamic_header').addClass('bg-info text-white');  
+	    		$('#dynamic').removeClass('hidden').show(); 
+	    		$('#backSurveyButton').removeClass('hidden').show(); 
+	    		$('#nextSurveyButton').removeClass('hidden').show(); 
+	    		$('#backSurveyButton').prop('disabled', true);
+    		});   
+    	}
+    }
+
+    function set_pre_survey(callback){
+    	cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question];
+    	var idx = 0;
+    	var answer = response.pre_surveys[pre_surveyIndex].question[response.pre_surveys[pre_surveyIndex].current_question + 1]; 
+		if (answer !== ''){ 
+			var strs = answer.split(","); 
+			answer = strs[0].replace(/"/g,''); 
+			idx = cur_question.answers.values.indexOf(answer);   
+		} 
+		var id = "answer_pre_survey_" + (pre_surveyIndex).toString() + '-' + cur_question.q_no.toString(); 
+		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.pre_surveys[pre_surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values, idx));
+
+    	var script = document.createElement('script'); 
+		document.head.appendChild(script);    
+		script.type = 'text/javascript';
+		script.src = jquery;  
+		
+		script.onload = function(){
+		    $('input[type=radio][name="' + id + '"]').change(function() {   
+		    	response.pre_surveys[pre_surveyIndex].question[cur_question.q_no] = '"' + this.value + '", ' + cur_question.q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[cur_question.q_no-1].text + '"';	    			 
+ 			}); 
+		}  
+
+		callback(null,'completed');
     } 
+
+    function init_pre_surveys(){
+    	dynamic = 'pre_survey';
+    	if (configuration.pre_surveys.length == 0){ 
+    		init_questions();
+    	}
+    	else {
+    		response.pre_surveys[pre_surveyIndex] = {};
+    		response.pre_surveys[pre_surveyIndex].question = ['Answer, Question_No, Question'];
+    		response.pre_surveys[pre_surveyIndex].current_question = 0;  
+    		response.pre_surveys[pre_surveyIndex].questions_length = configuration.pre_surveys[pre_surveyIndex].questions.length; 
+
+    		for (var i=0;i<response.pre_surveys[pre_surveyIndex].questions_length;i++){
+    			response.pre_surveys[pre_surveyIndex].question.push('"' + configuration.pre_surveys[pre_surveyIndex].questions[i].answers.values[0] + '", ' + (i+1).toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[i].text + '"');	    			 
+    		}
+
+    		set_pre_survey(function(err,msg){ 
+    			$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400'));
+	    		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].title,'300')); 
+	    		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].comment,'300')); 
+	    		$("#dynamic_header").append(html_header('H3', configuration.pre_surveys[pre_surveyIndex].main_q,'300')); 
+	    		$('#dynamic_header').addClass('bg-info text-white');  
+	    		$('#dynamic').removeClass('hidden').show(); 
+	    		$('#backSurveyButton').removeClass('hidden').show(); 
+	    		$('#nextSurveyButton').removeClass('hidden').show();  
+    		}); 
+    	} 
+    }
 
     function set_consent_agreement(){
     	var script = document.createElement('script'); 
@@ -456,136 +675,7 @@ $(function(){
 				});
 			}   
     	}   
-    }
-
-    function set_survey(){
-    	var script = document.createElement('script'); 
-		document.head.appendChild(script);    
-		script.type = 'text/javascript';
-		script.src = jquery;
-
-		cur_question = configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question];
-		id = "question_" + cur_question.q_no.toString(); 
-		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values));
-
-		script.onload = function(){
-		    $('input[type=radio][name="' + id + '"]').change(function() { 
-		    	for(var j=0;j<cur_question.answers.values.length;j++){
-		    		if (this.value === cur_question.answers.values[j]){
-		    			response.surveys[surveyIndex].question.push('"' + cur_question.answers.values[j] + '", ' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].q_no.toString() + ',"' + configuration.surveys[surveyIndex].questions[response.surveys[surveyIndex].current_question].text + '"');
-					    
-		    			if (response.surveys[surveyIndex].current_question < response.surveys[surveyIndex].questions_length -1){  
-			    			response.surveys[surveyIndex].current_question ++;
-					        set_survey();
-					    }
-					    else{ 
-					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.surveys[surveyIndex].id, questions:response.surveys[surveyIndex].question}})); 
-					    	surveyIndex ++; 
-					    	questionnaire ++;
-					    	if(surveyIndex >= configuration.surveys.length)
-					    		end_message();
-					    	else{ 
-					        	init_survey(); 
-					    	}
-					    }
-				        break;
-		    		}
-		    	}  
-			}); 
-		}  
-    }
-
-    function end_message(){
-    	$('#dynamic').hide();
-    	$('#divPar').removeClass('hidden').show();  
-		$('#divMessage').text(endingMessage); 
-
-		setTimeout(function(){
-			window.location = logoutUrl;
-			}, logoutTimeout);  
-    }
-
-    function init_survey(){
-    	if (configuration.surveys.length == 0){  
-    		end_message();
-    	}
-    	else{
-    		response.surveys[surveyIndex] = {};
-    		response.surveys[surveyIndex].question = ['Answer, Question_No, Question'];
-    		response.surveys[surveyIndex].current_question = 0;  
-    		response.surveys[surveyIndex].questions_length = configuration.surveys[surveyIndex].questions.length; 
-
-    		set_survey();
-    		$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400')); 
-    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title,'300')); 
-    		$("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment,'300')); 
-    		$("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q,'300')); 
-    		$('#dynamic_header').addClass('bg-info text-white');  
-    		$('#dynamic').removeClass('hidden').show(); 
-    	}
-    }
-
-    function set_pre_survey(){
-    	var script = document.createElement('script'); 
-		document.head.appendChild(script);    
-		script.type = 'text/javascript';
-		script.src = jquery;
-
-		cur_question = configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question];
-		id = "question_pre_" + cur_question.q_no.toString(); 
-		$("#dynamic_body").empty().append(html_radio(id,cur_question.q_no.toString() + "/" + response.pre_surveys[pre_surveyIndex].questions_length.toString() + ") "+ cur_question.text, cur_question.answers.values));
-
-		script.onload = function(){
-		    $('input[type=radio][name="' + id + '"]').change(function() { 
-		    	for(var j=0;j<cur_question.answers.values.length;j++){
-		    		if (this.value === cur_question.answers.values[j]){
-		    			response.pre_surveys[pre_surveyIndex].question.push('"' + cur_question.answers.values[j] + '", ' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].q_no.toString() + ',"' + configuration.pre_surveys[pre_surveyIndex].questions[response.pre_surveys[pre_surveyIndex].current_question].text + '"');
-					    
-		    			if (response.pre_surveys[pre_surveyIndex].current_question < response.pre_surveys[pre_surveyIndex].questions_length -1){  
-			    			response.pre_surveys[pre_surveyIndex].current_question ++;
-					        set_pre_survey();
-					    }
-					    else{ 
-					    	ws.send(JSON.stringify({msg:'survey',data:{token:token, id:configuration.pre_surveys[pre_surveyIndex].id, questions:response.pre_surveys[pre_surveyIndex].question}})); 
-					    	pre_surveyIndex ++; 
-					    	questionnaire ++;
-					    	if(pre_surveyIndex >= configuration.pre_surveys.length){
-					    		$('#dynamic').addClass('hidden');  
-					    		init_questions();
-					    	}
-					    	else{ 
-					        	init_pre_surveys(); 
-					    	}
-					    }
-				        break;
-		    		}
-		    	}  
-			}); 
-		}  
     } 
-
-    function init_pre_surveys(){
-
-    	if (configuration.pre_surveys.length == 0){ 
-    		init_questions();
-    	}
-    	else {
-    		response.pre_surveys[pre_surveyIndex] = {};
-    		response.pre_surveys[pre_surveyIndex].question = ['Answer, Question_No, Question'];
-    		response.pre_surveys[pre_surveyIndex].current_question = 0;  
-    		response.pre_surveys[pre_surveyIndex].questions_length = configuration.pre_surveys[pre_surveyIndex].questions.length; 
-
-    		set_pre_survey();
-
-    		$("#dynamic_header").empty().append(html_header('H1', 'Questionnaire '+questionnaire.toString() ,'400'));
-    		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].title,'300')); 
-    		$("#dynamic_header").append(html_header('H2', configuration.pre_surveys[pre_surveyIndex].comment,'300')); 
-    		$("#dynamic_header").append(html_header('H3', configuration.pre_surveys[pre_surveyIndex].main_q,'300')); 
-    		$('#dynamic_header').addClass('bg-info text-white');  
-    		$('#dynamic').removeClass('hidden').show(); 
-    	}
-
-    }
 
     function init_consent(){ 
     	response.consent = {};
@@ -598,8 +688,7 @@ $(function(){
     	else { 
     		response.consent.agreed = ['Agreed, Agreement_No, Agreement'];
     		response.consent.current_agreement = 0;  
-    		response.consent.agreements_length = configuration.consent.agreements.length; 
-    		
+    		response.consent.agreements_length = configuration.consent.agreements.length;  
 
     		$("#dynamic_header").empty().append(html_header('H1', configuration.consent.title,'400'));
     		$("#dynamic_header").append(html_header('H2', configuration.consent.participants,'300')); 
@@ -611,7 +700,9 @@ $(function(){
     		set_consent_agreement();
 
     		$('#dynamic').removeClass('hidden').show(); 
-    		$('#startAvatarButton').addClass('hidden'); 
+    		$('#startAvatarButton').addClass('hidden');
+    		$('#backSurveyButton').addClass('hidden');
+    		$('#nextSurveyButton').addClass('hidden'); 
     	} 
     } 
 

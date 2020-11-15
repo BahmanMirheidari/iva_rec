@@ -43,8 +43,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      height: 50px;
-      width: 50px;
+      height: 40px;
+      width: 40px;
       background-color: #eee;
     }
 
@@ -72,12 +72,12 @@
 
     /* Style the checkmark/indicator */
     .cust_container .checkmark:after {
-      left: 9px;
+      left: 5px;
       top: 5px;
-      width: 5px;
-      height: 10px;
+      width: 25px;
+      height: 25px;
       border: solid white;
-      border-width: 0 3px 3px 0;
+      border-width: 0px 8px 4px 0px;
       -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
@@ -93,7 +93,7 @@
   var jquery = "<%= user.jquery %>";
   </script>
 
-  <script type='text/javascript' src="js/iva.js"></script>   
+  <script type='text/javascript' src="js/iva_modified.js"></script>   
   <script type="text/javascript" src="js/getUserMedia.js"></script> 
 
   <div class="jumbotron text-center" id="header">
@@ -123,6 +123,9 @@
         <div id="dynamic_body"> 
         </div> 
     </div>
+
+    <button type="button" class="btn-lg btn-primary" id="backSurveyButton" name="backSurveyButton">Back</button>
+    <button type="button" class="btn-lg btn-primary" id="nextSurveyButton" name="nextSurveyButton">Next</button> 
   </div>   
 
 <div class="container col-sm-12"> 
