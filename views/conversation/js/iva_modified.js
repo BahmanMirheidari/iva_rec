@@ -61,7 +61,7 @@ $(function(){
 			  onSuccess(stream);
 
 			  mediaRecorder = RecordRTC(stream, {
-			        type: 'video', mimeType: 'video/webm;codecs=vp8', recorderType: StereoAudioRecorder
+			        type: 'video', mimeType: 'video/webm;codecs=vp8', recorderType: WebAssemblyRecorder
 			    });
 
 			})
