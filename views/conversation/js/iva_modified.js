@@ -60,7 +60,7 @@ $(function(){
 			  //for wave form
 			  onSuccess(stream);
 			  mediaRecorder = new MRecordRTC();
-				mediaRecorder.addStream(stream);
+				mediaRecorder.addStream(stream ,{recorderType: WhammyRecorder});
 				mediaRecorder.mediaType = {
 				    audio: true, // or StereoAudioRecorder or MediaStreamRecorder
 				    video: true//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
@@ -71,8 +71,7 @@ $(function(){
 				    audio: 'audio/wav',
 				    video: 'video/webm'//,
 				    //gif:   'image/gif'
-				};
-
+				}; 
 			  //mediaRecorder = RecordRTC(stream, {
 			  //      type: 'video', mimeType: 'video/webm;codecs=vp8', recorderType: WebAssemblyRecorder
 			   // });
