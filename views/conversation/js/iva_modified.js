@@ -61,8 +61,8 @@ $(function(){
 			  onSuccess(stream);
 			  options = {type: 'video', mimeType: 'video/webm;codecs=vp8'}
 
-			  var RecorderType = GetRecorderType(options);
-			  mediaRecorder = new RecorderType(options);
+			  var RecorderType = GetRecorderType(stream);
+			  mediaRecorder = new RecorderType(stream);
 
 
 			  //mediaRecorder = RecordRTC(stream, {
