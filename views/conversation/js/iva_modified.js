@@ -731,7 +731,7 @@ $(function(){
 	     
 	    //mediaRecorder && mediaRecorder.stop();  
 	    mediaRecorder && mediaRecorder.stopRecording(function() {
-	        let blob = recorder.getBlob();
+	        let blob = mediaRecorder.getBlob();
 	        invokeSaveAsDialog(blob);
 	        alert(blob)
 
