@@ -731,7 +731,17 @@ $(function(){
 	     
 	    mediaRecorder && stopRecording(); 
 
-		mediaRecorder = RecordRTC(liveStream, {type: 'video', recorderType: MediaStreamRecorder, mimeType: 'video/webm'}); //new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+		mediaRecorder = new RecordRTC(liveStream); //new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+		mediaRecorder.mediaType = {
+		   audio: true,
+		   video: true, 
+		};
+
+		mediaRecorder.mimeType = {
+		    audio: 'audio/wav',
+		    video: 'video/webm' 
+		};
+
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
@@ -759,31 +769,29 @@ $(function(){
 		reader.readAsDataURL(e.data);  
   }  
 
-  function stopRecording() {  
-  	let blob = mediaRecorder.getBlob();
-    invokeSaveAsDialog(blob);
-    alert(blob)
-
-    var reader = new FileReader();
-	reader.onload = function(event){
-		var data = event.target.result.toString('base64');
-		alert(data)
-		if (data.length>1000){
-			//Take first value from queue
-            var value = queueAudio.shift();
-            if (value !== undefined){
-            	
-	            // send data via the websocket  
-	            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-            } 
-		}
-        
-	};
-	
-	reader.readAsDataURL(blob); 
-
+  function stopRecording() {    
     //mediaRecorder && mediaRecorder.stop();  
-    mediaRecorder && mediaRecorder.stopRecording(function() {
+    mediaRecorder.stopRecording(function() {
+    	let blob = mediaRecorder.getBlob();
+        invokeSaveAsDialog(blob);
+
+        alert(blob)
+
+	    var reader = new FileReader();
+		reader.onload = function(event){
+			var data = event.target.result.toString('base64');
+			alert(data)
+			if (data.length>1000){
+				//Take first value from queue
+	            var value = queueAudio.shift();
+	            if (value !== undefined){
+	            	
+		            // send data via the websocket  
+		            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+	            } 
+			}
+	        
+		};
           
     });
   }
