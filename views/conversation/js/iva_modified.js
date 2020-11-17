@@ -744,6 +744,25 @@ $(function(){
 
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+	  	mediaRecorder.ondataavailable = function(e) { 
+            var reader = new FileReader();
+			reader.onload = function(event){
+				var data = event.target.result.toString('base64');
+
+				if (data.length>1000){
+					//Take first value from queue
+		            var value = queueAudio.shift();
+		            if (value !== undefined){
+		            	
+			            // send data via the websocket  
+			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+		            } 
+				}
+	            
+			};
+			reader.readAsDataURL(e.data);  
+
+	        };
 	  	//mediaRecorder.start();  
 	  	mediaRecorder.startRecording();
 
@@ -771,27 +790,7 @@ $(function(){
 
   function stopRecording() {    
     //mediaRecorder && mediaRecorder.stop();  
-    mediaRecorder.stopRecording(function() {
-    	let blob = mediaRecorder.getBlob();
-        invokeSaveAsDialog(blob);
-
-        alert(blob)
-
-	    var reader = new FileReader();
-		reader.onload = function(event){
-			var data = event.target.result.toString('base64');
-			alert(data)
-			if (data.length>1000){
-				//Take first value from queue
-	            var value = queueAudio.shift();
-	            if (value !== undefined){
-	            	
-		            // send data via the websocket  
-		            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-	            } 
-			}
-	        
-		};
+    mediaRecorder.stopRecording(function() { 
           
     });
   }
