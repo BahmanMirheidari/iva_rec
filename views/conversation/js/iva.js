@@ -870,7 +870,7 @@ $(function(){
 		navigator.mediaDevices.getUserMedia = function(constraints) {
 
 		    // First get ahold of the legacy getUserMedia, if present
-		    var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+		    var getUserMedia = navigator.getUserMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.mediaDevices.getUserMedia);
 
 		    // Some browsers just don't implement it - return a rejected promise with an error
 		    // to keep a consistent interface
