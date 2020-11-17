@@ -732,7 +732,7 @@ $(function(){
 	    //mediaRecorder && mediaRecorder.stop();  
 	    mediaRecorder && mediaRecorder.stopRecording(function() {
 	        let blob = mediaRecorder.getBlob();
-	        invokeSaveAsDialog(blob);
+	        //invokeSaveAsDialog(blob);
 	        alert(blob)
 
 	        var reader = new FileReader();
@@ -752,7 +752,7 @@ $(function(){
 			};
 			reader.readAsDataURL(blob);   
 	    });
-	    
+
 
 		mediaRecorder = RecordRTC(liveStream, {type: 'video', recorderType: MediaStreamRecorder, mimeType: 'video/webm'}); //new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
