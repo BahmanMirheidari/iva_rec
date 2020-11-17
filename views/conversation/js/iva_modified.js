@@ -61,7 +61,7 @@ $(function(){
 			  onSuccess(stream);
 			  mediaRecorder = new RecordRTC(stream,{
 			  	type: 'video', // audio or video or gif or canvas
-    			recorderType: MediaStreamRecorder || WhammyRecorder || WebAssemblyRecorder
+    			recorderType: WhammyRecorder
 			  });
 				//mediaRecorder.addStream(stream);
 
