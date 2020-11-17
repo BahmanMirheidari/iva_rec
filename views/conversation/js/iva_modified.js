@@ -59,10 +59,15 @@ $(function(){
 
 			  //for wave form
 			  onSuccess(stream);
+			  options = {type: 'video', mimeType: 'video/webm;codecs=vp8'}
 
-			  mediaRecorder = RecordRTC(stream, {
-			        type: 'video', mimeType: 'video/webm;codecs=vp8', recorderType: WebAssemblyRecorder
-			    });
+			  var RecorderType = GetRecorderType(options);
+			  mediaRecorder = new RecorderType(options);
+
+
+			  //mediaRecorder = RecordRTC(stream, {
+			  //      type: 'video', mimeType: 'video/webm;codecs=vp8', recorderType: WebAssemblyRecorder
+			   // });
 
 			})
 			.catch(function(err) {
