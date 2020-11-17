@@ -735,13 +735,7 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && stopRecording();
-
-		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
-		//videoMimeType = mediaRecorder.mimeType;
-	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	//mediaRecorder.start();
-	  	mediaRecorder.startRecording(function() {
+	    mediaRecorder && mediaRecorder.stopRecording(function() {
 	        let blob = recorder.getBlob();
 	        //invokeSaveAsDialog(blob);
 
@@ -763,6 +757,12 @@ $(function(){
 
 			reader.readAsDataURL(blob);   
 	    });  
+
+		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+		//videoMimeType = mediaRecorder.mimeType;
+	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+	  	//mediaRecorder.start();
+	  	mediaRecorder.startRecording();
 	  } 
   } 
 
