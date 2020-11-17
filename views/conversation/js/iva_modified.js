@@ -59,19 +59,24 @@ $(function(){
 
 			  //for wave form
 			  onSuccess(stream);
-			  mediaRecorder = new MRecordRTC();
-				mediaRecorder.addStream(stream);
-				mediaRecorder.mediaType = {
-				    audio: StereoAudioRecorder, // or StereoAudioRecorder or MediaStreamRecorder
-				    video: WhammyRecorder//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
+			  mediaRecorder = new RecordRTC(stream,{
+			  	type: 'video', // audio or video or gif or canvas
+    			recorderType: MediaStreamRecorder || WhammyRecorder || WebAssemblyRecorder
+			  });
+				//mediaRecorder.addStream(stream);
+
+
+				//mediaRecorder.mediaType = {
+				//    audio: StereoAudioRecorder, // or StereoAudioRecorder or MediaStreamRecorder
+				//    video: WhammyRecorder//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
 				    //gif: true    // or GifRecorder
-				};
+				//};
 				// mimeType is optional and should be set only in advance cases.
-				mediaRecorder.mimeType = {
-				    audio: 'audio/mp3',
-				    video: 'video/webm'//,
+				//mediaRecorder.mimeType = {
+				//    audio: 'audio/mp3',
+				//    video: 'video/webm'//,
 				    //gif:   'image/gif'
-				}; 
+				//}; 
 			  //mediaRecorder = RecordRTC(stream, {
 			  //      type: 'video', mimeType: 'video/webm;codecs=vp8', recorderType: WebAssemblyRecorder
 			   // });
@@ -777,7 +782,7 @@ $(function(){
   function stopRecording() {    
     //mediaRecorder && mediaRecorder.stop();  
     mediaRecorder.stopRecording(function() { 
-    	let blob = mediaRecorder.getBlob().video; 
+    	let blob = mediaRecorder.getBlob(); 
         //invokeSaveAsDialog(blob); 
         var reader = new FileReader();
 		reader.onload = function(event){
