@@ -33,7 +33,6 @@ $(function(){
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
 	var logoutTimeout=3000;
-	var canRecordVp9=false;
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -60,10 +59,6 @@ $(function(){
 
 			  //for wave form
 			  onSuccess(stream);
-
-			  mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm;codecs="vp8, vorbis"'}); 
-			  videoMimeType = mediaRecorder.mimeType;
-			  mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 
 			})
 			.catch(function(err) {
@@ -734,10 +729,12 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && stopRecording(); 
+	    stopRecording();
 
-
-	  	mediaRecorder && mediaRecorder.start();  
+		mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+		videoMimeType = mediaRecorder.mimeType;
+	  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+	  	mediaRecorder.start();  
 	  } 
   } 
 
