@@ -745,6 +745,7 @@ $(function(){
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	mediaRecorder.ondataavailable = function(e) { 
+	  		alert(e.data)
             var reader = new FileReader();
 			reader.onload = function(event){
 				var data = event.target.result.toString('base64');
