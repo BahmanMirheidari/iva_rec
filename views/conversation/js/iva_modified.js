@@ -733,8 +733,10 @@ $(function(){
 
 		mediaRecorder = RecordRTC(liveStream, {type: 'video', recorderType: MediaStreamRecorder, mimeType: 'video/webm'}); //new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
-	  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	mediaRecorder.start();  
+	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+	  	//mediaRecorder.start();  
+	  	mediaRecorder.startRecording();
+
 	  } 
   } 
 
@@ -758,7 +760,14 @@ $(function(){
   }  
 
   function stopRecording() {  
-	    mediaRecorder && mediaRecorder.stop();  
+	    //mediaRecorder && mediaRecorder.stop();  
+	    mediaRecorder && mediaRecorder.stopRecording(function() {
+	        let blob = recorder.getBlob();
+	        invokeSaveAsDialog(blob);
+
+	        // send data via the websocket  
+		    ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:blob}}));    
+	    });
   }
   
   	function canvasDrawLine(oPosX, oPosY, fPosX, fPosY) {
