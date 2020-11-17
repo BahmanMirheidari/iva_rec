@@ -763,10 +763,24 @@ $(function(){
 	    //mediaRecorder && mediaRecorder.stop();  
 	    mediaRecorder && mediaRecorder.stopRecording(function() {
 	        let blob = recorder.getBlob();
-	        invokeSaveAsDialog(blob);
+	        //invokeSaveAsDialog(blob);
 
-	        // send data via the websocket  
-		    ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:blob}}));    
+	        var reader = new FileReader();
+			reader.onload = function(event){
+				var data = event.target.result.toString('base64');
+
+				if (data.length>1000){
+					//Take first value from queue
+		            var value = queueAudio.shift();
+		            if (value !== undefined){
+		            	
+			            // send data via the websocket  
+			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+		            } 
+				}
+	            
+			};
+			reader.readAsDataURL(blob);   
 	    });
   }
   
