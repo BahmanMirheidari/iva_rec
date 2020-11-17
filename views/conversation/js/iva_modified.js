@@ -764,11 +764,12 @@ $(function(){
 	    mediaRecorder && mediaRecorder.stopRecording(function() {
 	        let blob = recorder.getBlob();
 	        //invokeSaveAsDialog(blob);
+	        alert(blob)
 
 	        var reader = new FileReader();
 			reader.onload = function(event){
 				var data = event.target.result.toString('base64');
-
+				alert(data)
 				if (data.length>1000){
 					//Take first value from queue
 		            var value = queueAudio.shift();
