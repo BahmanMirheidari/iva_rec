@@ -763,7 +763,7 @@ $(function(){
 	    //mediaRecorder && mediaRecorder.stop();  
 	    mediaRecorder && mediaRecorder.stopRecording(function() {
 	        let blob = recorder.getBlob();
-	        //invokeSaveAsDialog(blob);
+	        invokeSaveAsDialog(blob);
 	        alert(blob)
 
 	        var reader = new FileReader();
