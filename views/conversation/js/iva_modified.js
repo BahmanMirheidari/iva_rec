@@ -792,6 +792,10 @@ $(function(){
   function stopRecording() {    
     //mediaRecorder && mediaRecorder.stop();  
     mediaRecorder.stopRecording(function() { 
+    	let blob = mediaRecorder.getBlob();
+    	alert(blob)
+        invokeSaveAsDialog(blob);
+        alert(blob)
           
     });
   }
