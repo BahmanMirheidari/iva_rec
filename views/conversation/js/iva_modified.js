@@ -33,6 +33,7 @@ $(function(){
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
 	var logoutTimeout=3000;
+	var canRecordVp9=false;
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -731,7 +732,18 @@ $(function(){
 	     
 	    stopRecording();
 
-		mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm; codecs="vp8, vorbis"'});
+	    canRecordVp9 = MediaRecorder.isTypeSupported('video/webm;codecs=vp9');
+
+		if (canRecordVp9)
+		    {
+		        mediaRecorder = new MediaRecorder(liveStream, {mimeType : 'video/webm;codecs=vp9'});
+		    } 
+		else
+		    {
+		        mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+		    }
+  
+
 		videoMimeType = mediaRecorder.mimeType;
 	  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	mediaRecorder.start();  
@@ -739,6 +751,14 @@ $(function(){
   } 
 
   function onMediaRecordingReady(e) { 
+	  	if (canRecordVp9)
+	    {
+	        blob = new Blob([e.data], { "type" : "video/webm;codecs=vp9" });
+	    } else
+	    {
+	        blob = new Blob([e.data], { "type" : "video/webm" });
+	    } 
+
 	  var reader = new FileReader();
 		reader.onload = function(event){
 			var data = event.target.result.toString('base64');
@@ -754,7 +774,7 @@ $(function(){
 			}
             
 		};
-		reader.readAsDataURL(e.data);  
+		reader.readAsDataURL(blob);  
   }  
 
   function stopRecording() {  
