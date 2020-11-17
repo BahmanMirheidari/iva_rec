@@ -60,10 +60,10 @@ $(function(){
 			  //for wave form
 			  onSuccess(stream);
 			  mediaRecorder = new MRecordRTC();
-				mediaRecorder.addStream(stream ,{recorderType: WhammyRecorder});
+				mediaRecorder.addStream(stream);
 				mediaRecorder.mediaType = {
-				    audio: true, // or StereoAudioRecorder or MediaStreamRecorder
-				    video: true//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
+				    audio: StereoAudioRecorder, // or StereoAudioRecorder or MediaStreamRecorder
+				    video: WhammyRecorder//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
 				    //gif: true    // or GifRecorder
 				};
 				// mimeType is optional and should be set only in advance cases.
