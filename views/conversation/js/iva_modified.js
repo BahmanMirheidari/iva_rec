@@ -61,6 +61,10 @@ $(function(){
 			  //for wave form
 			  onSuccess(stream);
 
+			  mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm;codecs="vp8, vorbis"'}); 
+			  videoMimeType = mediaRecorder.mimeType;
+			  mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+
 			})
 			.catch(function(err) {
 			  console.log(err.name + ": " + err.message);
@@ -730,12 +734,10 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    stopRecording(); 
+	    mediarecorder && stopRecording(); 
 
-		mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm;codecs="vp8, vorbis"'});
-		videoMimeType = mediaRecorder.mimeType;
-	  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	mediaRecorder.start();  
+
+	  	mediaRecorder && mediaRecorder.start();  
 	  } 
   } 
 
