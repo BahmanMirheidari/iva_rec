@@ -743,7 +743,7 @@ $(function(){
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);  
 
-	  	mediaRecorder.startRecording();
+	  	mediaRecorder && mediaRecorder.startRecording();
 
 	  } 
   } 
