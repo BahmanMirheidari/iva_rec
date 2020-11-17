@@ -732,7 +732,7 @@ $(function(){
 	     
 	    stopRecording(); 
 
-		mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm;codecs=vp9'});
+		mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/mp4'});
 		videoMimeType = mediaRecorder.mimeType;
 	  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	mediaRecorder.start();  
