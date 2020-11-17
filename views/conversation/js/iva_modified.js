@@ -734,7 +734,7 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediarecorder && stopRecording(); 
+	    mediaRecorder && stopRecording(); 
 
 
 	  	mediaRecorder && mediaRecorder.start();  
