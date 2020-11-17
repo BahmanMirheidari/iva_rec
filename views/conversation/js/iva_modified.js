@@ -59,11 +59,19 @@ $(function(){
 
 			  //for wave form
 			  onSuccess(stream);
-			  options = {type: 'video', mimeType: 'video/webm;codecs=vp8'}
-
-			  var RecorderType = GetRecorderType(stream);
-			  mediaRecorder = new RecorderType(stream);
-
+			  mediaRecorder = new MRecordRTC();
+				mediaRecorder.addStream(stream);
+				mediaRecorder.mediaType = {
+				    audio: true, // or StereoAudioRecorder or MediaStreamRecorder
+				    video: true//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
+				    //gif: true    // or GifRecorder
+				};
+				// mimeType is optional and should be set only in advance cases.
+				mediaRecorder.mimeType = {
+				    audio: 'audio/wav',
+				    video: 'video/webm'//,
+				    //gif:   'image/gif'
+				};
 
 			  //mediaRecorder = RecordRTC(stream, {
 			  //      type: 'video', mimeType: 'video/webm;codecs=vp8', recorderType: WebAssemblyRecorder
