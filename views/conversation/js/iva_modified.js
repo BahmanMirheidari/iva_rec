@@ -33,6 +33,32 @@ $(function(){
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
 	var logoutTimeout=3000;
+	var audioOnlyStream;
+	var videoOnlyStream;
+
+
+	function makeAudioOnlyStreamFromExistingStream(stream) {
+	  var audioStream = stream.clone();
+	  var videoTracks = audioStream.getVideoTracks();
+	  for (var i = 0, len = videoTracks.length; i < len; i++) {
+	    audioStream.removeTrack(videoTracks[i]);
+	  }
+	  console.log('created audio only stream, original stream tracks: ', stream.getTracks());
+	  console.log('created audio only stream, new stream tracks: ', audioStream.getTracks());
+	  return audioStream;
+	}
+ 
+	function makeVideoOnlyStreamFromExistingStream(stream) {
+	  var videoStream = stream.clone();
+	  var audioTracks = videoStream.getAudioTracks();
+	  for (var i = 0, len = audioTracks.length; i < len; i++) {
+	    videoStream.removeTrack(audioTracks[i]);
+	  }
+	  console.log('created video only stream, original stream tracks: ', stream.getTracks());
+	  console.log('created video only stream, new stream tracks: ', videoStream.getTracks());
+	  return videoStream;
+	}
+
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -40,14 +66,17 @@ $(function(){
 			.then(function(stream) {
 			  //webcam
 			  video =  document.querySelector('video'); 
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+
 
 			  // Older browsers may not have srcObject
 			  if ("srcObject" in video) {
-			    video.srcObject = stream;
+			    video.srcObject = videoOnlyStream;
 
 			  } else {
 			    // Avoid using this in new browsers, as it is going away.
-			    video.src = window.URL.createObjectURL(stream);
+			    video.src = window.URL.createObjectURL(videoOnlyStream);
 
 			  }
 
@@ -57,14 +86,14 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(stream, {
-			        type: 'video'//,
-			        //mimeType: 'video/webm',
+			  mediaRecorder = RecordRTC(videoOnlyStream, {
+			        type: 'video',
+			        mimeType: 'video/webm'
 			        //recorderType: MediaStreamRecorder
 			    });
 
 			  //for wave form
-			  onSuccess(stream);
+			  onSuccess(audioOnlyStream);
 
 			})
 			.catch(function(err) {
