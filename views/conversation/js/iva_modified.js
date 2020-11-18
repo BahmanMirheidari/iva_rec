@@ -57,7 +57,7 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = MediaStreamRecorder(stream, { 
+			  mediaRecorder = new MediaStreamRecorder(stream, { 
 			        mimeType: 'video/webm' 
 			    }); 
 
@@ -760,7 +760,7 @@ $(function(){
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
-	  	mediaRecorder.record(); 
+	  	mediaRecorder && mediaRecorder.record(); 
 	  } 
   } 
 
