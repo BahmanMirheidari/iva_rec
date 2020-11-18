@@ -61,6 +61,7 @@ $(function(){
 	  return videoStream;
 	}
 
+   
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
 		navigator.mediaDevices.getUserMedia({ audio: true, video: true })
@@ -84,23 +85,17 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  //audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
-
-  			  /*mediaRecorder = RecordRTC(stream, {
+			  mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    }); */
- 
-				mediaRecorder = RecordRTC(stream, {
-				    type: 'video', // audio or video or gif or canvas
-				    recorderType: MediaStreamRecorder || StereoAudioRecorder
-				}); 
+			    }); 
 
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
-			  onSuccess(stream);
+			  onSuccess(audioOnlyStream);
 
 			})
 			.catch(function(err) {
@@ -771,7 +766,8 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && mediaRecorder.stopRecording(function(blob) { 
+	    mediaRecorder && mediaRecorder.stopRecording(function() {
+	        let blob = mediaRecorder.getBlob();
 	        invokeSaveAsDialog(blob);
 
 	        var reader = new FileReader();
@@ -793,11 +789,12 @@ $(function(){
 			reader.readAsDataURL(blob);   
 	    });  
 
+	     
+
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	//mediaRecorder.start(); 
-
+	  	//mediaRecorder.start();  
 	  	mediaRecorder.startRecording();
 
 	  } 
