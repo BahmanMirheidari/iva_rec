@@ -70,8 +70,7 @@ $(function(){
 			    audio: 'audio/wav',
 			    video: 'video/webm'//,
 			    //gif:   'image/gif'
-			  };
-};
+			  }; 
 
 			  //mediaRecorder = new WhammyRecorder(stream, { 
 			  //      mimeType: 'video/webm' 
