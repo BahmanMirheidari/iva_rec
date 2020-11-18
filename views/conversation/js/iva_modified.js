@@ -67,16 +67,16 @@ $(function(){
 			  //webcam
 			  video =  document.querySelector('video'); 
 			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 
 			  // Older browsers may not have srcObject
 			  if ("srcObject" in video) {
-			    video.srcObject = videoOnlyStream;
+			    video.srcObject = stream;
 
 			  } else {
 			    // Avoid using this in new browsers, as it is going away.
-			    video.src = window.URL.createObjectURL(videoOnlyStream);
+			    video.src = window.URL.createObjectURL(stream);
 
 			  }
 
