@@ -754,8 +754,8 @@ $(function(){
 	     
 	    mediaRecorder && mediaRecorder.stopRecording(function(blobs) {   
 	    	
-	    	blobvideo = recorder.getBlob().video;
-	    	blobaudio = recorder.getBlob().audio;
+	    	blobvideo = mediaRecorder.getBlob().video;
+	    	blobaudio = mediaRecorder.getBlob().audio;
 	    	alert(blobvideo)
 	    	alert(blobaudio)
 
