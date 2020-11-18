@@ -58,9 +58,9 @@ $(function(){
 			  }; 
 
 			  mediaRecorder = RecordRTC(stream, {
-			        type: 'video'//,
-			        //mimeType: 'video/webm',
-			        //recorderType: MediaStreamRecorder
+			        type: 'video',
+			        mimeType: 'video/webm',
+			        recorderType: WhammyRecorder
 			    });
 
 			  //for wave form
