@@ -61,8 +61,8 @@ $(function(){
 			  mediaRecorder.addStream(stream);
 
 			  mediaRecorder.mediaType = {
-				    audio: true, // or StereoAudioRecorder or MediaStreamRecorder
-				    video: true//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
+				    audio: StereoAudioRecorder, // or StereoAudioRecorder or MediaStreamRecorder
+				    video: MediaStreamRecorder//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
 				    //gif: true    // or GifRecorder
 				};
 
@@ -754,8 +754,8 @@ $(function(){
 	     
 	    mediaRecorder && mediaRecorder.stopRecording(function(blobs) {   
 	    	
-	    	blobvideo = mediaRecorder.getBlob().video;
-	    	blobaudio = mediaRecorder.getBlob().audio;
+	    	blobvideo = blobs.video;
+	    	blobaudio = blobs.audio;
 	    	alert(blobvideo)
 	    	alert(blobaudio)
 
@@ -793,7 +793,7 @@ $(function(){
 	            
 			};
 
-			readerMp3.readAsDataURL(blobsaudio);   
+			readerMp3.readAsDataURL(blobaudio);   
 	    });   
 
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
