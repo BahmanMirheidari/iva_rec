@@ -92,8 +92,12 @@ $(function(){
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
 			    }); */
+ 
+				var mediaRecorder = new MultiStreamRecorder(ArrayOfMediaStreams, {
+				    mimeType: 'video/webm'
+				});
 
-			    mediaRecorder = new MediaStreamRecorder(stream); 
+
 
 			  //for wave form
 			  onSuccess(stream);
