@@ -736,7 +736,7 @@ $(function(){
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
 	    mediaRecorder && mediaRecorder.stopRecording(function() {
-	        let blob = recorder.getBlob();
+	        let blob = mediaRecorder.getBlob();
 	        //invokeSaveAsDialog(blob);
 
 	        var reader = new FileReader();
