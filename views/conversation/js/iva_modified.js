@@ -57,7 +57,8 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = new MRecordRTC(stream);
+			  mediaRecorder = new MRecordRTC();
+			  recorder.addStream(stream);
 
 			  mediaRecorder.mediaType = {
 				    audio: true, // or StereoAudioRecorder or MediaStreamRecorder
