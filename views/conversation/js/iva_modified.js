@@ -20,8 +20,6 @@ $(function(){
 	var audio_context; 
 	var mediaRecorder;
 	var liveStream;
-	var liveStreamAudio;
-	var mediaRecorderAudio;
 	var video;
 	var chunks;
 	var response = {};   
@@ -34,7 +32,11 @@ $(function(){
 	var dynamic='pre_survey';
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
-	var logoutTimeout=3000;  
+	var logoutTimeout=3000;
+	var audioOnlyStream;
+	var videoOnlyStream;
+	var myRecorderAudio;
+
 
 	function makeAudioOnlyStreamFromExistingStream(stream) {
 	var audioStream = stream.clone();
@@ -57,59 +59,48 @@ $(function(){
 	  console.log('created video only stream, original stream tracks: ', stream.getTracks());
 	  console.log('created video only stream, new stream tracks: ', videoStream.getTracks());
 	  return videoStream;
-	} 
+	}
+
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
-		navigator.mediaDevices.getUserMedia({video: true })
-			.then(function(videostream) {
+		navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+			.then(function(stream) {
 			  //webcam
 			  video =  document.querySelector('video');    
 
 			  // Older browsers may not have srcObject
 			  if ("srcObject" in video) {
-			    video.srcObject = videostream;
+			    video.srcObject = stream;
 
 			  } else {
 			    // Avoid using this in new browsers, as it is going away.
-			    video.src = window.URL.createObjectURL(videostream);
+			    video.src = window.URL.createObjectURL(stream);
 
 			  }
 
 			  //video
-			  liveStream = videostream;
+			  liveStream = stream;
 			  video.onloadedmetadata = function(e) {
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(videostream, {
+			  mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    });  
-			})
-			.catch(function(err) {
-			  console.log(err.name + ": " + err.message);
-			}); 
+			    }); 
 
-		navigator.mediaDevices.getUserMedia({audio: true})
-			.then(function(audiostream) { 
-			  //audio
-			  liveStreamAudio = audiostream;  
-			  mediaRecorderAudio = RecordRTC(audiostream, {
-			        type: 'audio',
-			        mimeType: 'audio/webm',
-			        recorderType: StereoAudioRecorder
-			    });  
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
-			  onSuccess(audiostream);
+			  onSuccess(audioOnlyStream);
 
 			})
 			.catch(function(err) {
 			  console.log(err.name + ": " + err.message);
 			}); 
-
 
 		$("#consent").addClass('hidden');
 		
@@ -789,42 +780,7 @@ $(function(){
 		            if (value !== undefined){
 		            	
 			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'webm-video',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-		            } 
-				}
-	            
-			};
-
-			reader.readAsDataURL(blob);   
-	    });   
-
-		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
-		//videoMimeType = mediaRecorder.mimeType;
-	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	//mediaRecorder.start();  
-	  	mediaRecorderAudio = RecordRTC(liveStream, {
-			        type: 'audio',
-			        mimeType: 'audio/webm',
-			        recorderType: StereoAudioRecorder
-			    });  
-
-	  	mediaRecorder.startRecording();
-
-	  	/*mediaRecorderAudio && mediaRecorderAudio.stopRecording(function() {
-	        let blob = mediaRecorder.getBlob();
-	        invokeSaveAsDialog(blob);
-
-	        var reader = new FileReader();
-			reader.onload = function(event){
-				var data = event.target.result.toString('base64');
-
-				if (data.length>1000){
-					//Take first value from queue
-		            var value = queueAudio.shift();
-		            if (value !== undefined){
-		            	
-			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'webm-audio',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
 		            } 
 				}
 	            
@@ -832,7 +788,14 @@ $(function(){
 
 			reader.readAsDataURL(blob);   
 	    });  
-	  	mediaRecorderAudio.startRecording(); */
+
+	     
+
+		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+		//videoMimeType = mediaRecorder.mimeType;
+	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+	  	//mediaRecorder.start();  
+	  	mediaRecorder.startRecording();
 
 	  } 
   } 

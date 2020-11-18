@@ -314,65 +314,6 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated() || req.session.authorised) { return next(); }
   res.redirect('/login');
 }
-
-function convert2mp4(file_name,token,dest,q_no,callback){
-  var convert = new Mp4Convert(file_name +'.webm', file_name +".mp4");
-  convert.on('done',function(){
-  logger.info('converted to mp4 as ' + file_name + ".mp4" );
-  common.copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
-
-  if (q_no == config.last_q -1) 
-    common.merge_files(__dirname,token,config.mount_dir); 
-
-  callback(null);
-
-  });
-  convert.start();
-}
-
-function convert2mp3(video,file_name,token,dest,q_no,callback){
-  //convert to mp3
-  video.fnExtractSoundToMP3(file_name+ ".mp3", function (error, file) {
-    if (!error){
-        logger.info('converted to mp3 as ' + file_name + ".mp3" );
-        common.copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3");   
-       }  
-    else
-      logger.error('Error in converting to mp3: ' + error);  
-    callback(null);
-    }); 
-}
-
-function extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no,callback){
-  try { 
-    var process = new ffmpeg(file_name + "." + msg);  
-    process.then(function (video) {
-      if (cov2mp4){
-        convert2mp4(file_name,token,dest,q_no,function(e){
-          callback(null);
-        }); 
-      } else if (cov2mp3){
-        convert2mp3(video,file_name,token,dest,q_no,function(e){
-          callback(null);
-        });
-
-      } else{
-        convert2mp3(video,file_name,token,dest,q_no,function(e){ 
-          convert2mp4(file_name,token,dest,q_no,function(e){
-            callback(null);
-          }); 
-        }); 
-      }  
-
-    }, function (err) {
-      logger.error('FFMPEG MP3 error: ' + err);
-      callback('FFMPEG MP3 error: ' + err);});
-  } catch (e) {
-    logger.error('FFMPEG (MP3) CONVERSION msg: ' + e.msg);
-    logger.error('code: ' + e.code); 
-    callback('FFMPEG (MP3) CONVERSION msg: ' + e.msg + 'code: ' + e.code);
-  } 
-}
   
 var https = ( config.ssl ) ? require('https') : require('http'); 
 var httpsServer = ( config.ssl ) ? https.createServer({key: fs.readFileSync(config.paths.key_file_path, 'utf8'), cert: fs.readFileSync(config.paths.cert_file_path, 'utf8')}, app) : httpsServer = https.createServer(app);
@@ -411,7 +352,7 @@ message = JSON.parse(message);
       /* changed 20/6/20 */
       updateconversation(data, 'start');  
 
-    } else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') {
+    } else if (msg == 'mp3' || msg == 'webm') {
 
       var token = data.token;
       var q_no = data.q_no; 
@@ -420,16 +361,6 @@ message = JSON.parse(message);
       var len  = blob.length; 
       var dest = 'Q'+ q_no.toString() + '-R' + r_no.toString();
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
-      cov2mp3=true;
-      conv2mp4=true;
-      if (msg == 'webm-audio'){
-        cov2mp4=false;
-        msg="webm";
-      } else if (msg == 'webm-video'){
-        cov2mp3=false;
-        msg="webm";
-      }   
-
       logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
       /* changed 20/6/20 */
       updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()); 
@@ -448,16 +379,48 @@ message = JSON.parse(message);
              logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
              common.copy_to_mount(config.mount_dir,file_name + msg,token,dest+msg); 
 
-             if (msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video'){ 
-                extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no,function(e){
-                  if (e==null){
-                    fs.unlink(file_name + ".webm", function(err){
-                    if (err){
-                     logger.error('Deleting '+file_name + '.webm error: ' + err);}
-                    else {logger.info('Deleted ' + file_name + ".webm" );}
-                    });  
-                  }  
-                });
+             if (msg == 'webm'){  
+
+                try {
+                    var process = new ffmpeg(file_name + "." + msg);  
+                    process.then(function (video) {
+                    //convert to mp3
+                    video.fnExtractSoundToMP3(file_name+ ".mp3", function (error, file) {
+                    if (!error){
+                        logger.info('converted to mp3 as ' + file_name + ".mp3" );
+                      common.copy_to_mount(config.mount_dir,file_name + ".mp3",token,dest+".mp3"); 
+          
+                      var convert = new Mp4Convert(file_name +'.webm', file_name +".mp4");
+                      convert.on('done',function(){
+                      logger.info('converted to mp4 as ' + file_name + ".mp4" );
+                      common.copy_to_mount(config.mount_dir,file_name + ".mp4",token,dest+".mp4");
+
+                      if (q_no == config.last_q -1) 
+                        common.merge_files(__dirname,token,config.mount_dir);
+
+                      fs.unlink(file_name + ".webm", function(err){
+                            if (err){
+                         logger.error('Deleting '+file_name + '.webm error: ' + err); 
+                      }
+                            else {
+                                  logger.info('Deleted ' + file_name + ".webm" );
+                      }
+                                     });
+                  
+                      });
+                      convert.start();
+                     }  
+                      else
+                        logger.error('Error in converting to mp3: ' + error);  
+                    }); 
+
+                  }, function (err) {
+                      logger.error('FFMPEG MP3 error: ' + err); 
+                    });
+                  } catch (e) {
+                    logger.error('FFMPEG (MP3) CONVERSION msg: ' + e.msg);
+                    logger.error('code: ' + e.code); 
+                  } 
                 } 
              } 
         });  
