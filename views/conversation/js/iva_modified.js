@@ -85,9 +85,11 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = new RecordRTCPromisesHandler(stream, {
-				    type: 'video'
-				});
+			  mediaRecorder = RecordRTC(stream, {
+			        type: 'video',
+			        mimeType: 'video/webm',
+			        recorderType: MediaStreamRecorder
+			    }); 
 
 			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
   			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
