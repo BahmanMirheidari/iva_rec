@@ -93,7 +93,7 @@ $(function(){
 			        recorderType: MediaStreamRecorder
 			    }); */
  
-				var mediaRecorder = new MultiStreamRecorder(ArrayOfMediaStreams, {
+				mediaRecorder = new MultiStreamRecorder(stream, {
 				    mimeType: 'video/webm'
 				});
 
