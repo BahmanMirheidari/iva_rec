@@ -93,10 +93,10 @@ $(function(){
 			        recorderType: MediaStreamRecorder
 			    }); */
  
-				mediaRecorder = new MultiStreamRecorder(stream, {
-				    mimeType: 'video/webm'
-				});
-
+				mediaRecorder = RecordRTC(stream, {
+				    type: 'video', // audio or video or gif or canvas
+				    recorderType: MediaStreamRecorder || StereoAudioRecorder
+				}); 
 
 
 			  //for wave form
@@ -771,7 +771,7 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && mediaRecorder.stop(function(blob) { 
+	    mediaRecorder && mediaRecorder.stopRecording(function(blob) { 
 	        invokeSaveAsDialog(blob);
 
 	        var reader = new FileReader();
@@ -798,7 +798,7 @@ $(function(){
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start(); 
 
-	  	mediaRecorder.record();
+	  	mediaRecorder.startRecording();
 
 	  } 
   } 
