@@ -753,6 +753,8 @@ $(function(){
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
 	    mediaRecorder && mediaRecorder.stopRecording(function(blobs) {   
+	    	alert(blobs)
+	    	
 	        var reader = new FileReader();
 			reader.onload = function(event){
 				var data = event.target.result.toString('base64');
