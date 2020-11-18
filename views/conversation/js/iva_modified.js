@@ -93,13 +93,7 @@ $(function(){
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    }); 
-
-			   myRecorderAudio = RecordRTC(audioOnlyStream, {
-			        type: 'audio',
-			        mimeType: 'video/webm',
-			        recorderType: MediaStreamRecorder
-			    }); 
+			    });  
 
 			  //for wave form
 			  onSuccess(audioOnlyStream);
@@ -796,36 +790,14 @@ $(function(){
 			reader.readAsDataURL(blob);   
 	    });  
 
-	    myRecorderAudio && myRecorderAudio.stopRecording(function() {
-	        let blob = myRecorderAudio.getBlob();
-	        invokeSaveAsDialog(blob);
-
-	        var reader = new FileReader();
-			reader.onload = function(event){
-				var data = event.target.result.toString('base64');
-
-				if (data.length>1000){
-					//Take first value from queue
-		            var value = queueAudio.shift();
-		            if (value !== undefined){
-		            	
-			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-		            } 
-				}
-	            
-			};
-
-			reader.readAsDataURL(blob);   
-	    });  
+	     
 
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();
 	  	mediaRecorder && mediaRecorder.startRecording();
-
-	  	myRecorderAudio && myRecorderAudio.startRecording();
+	  	
 	  } 
   } 
 
