@@ -96,9 +96,9 @@ $(function(){
 			    }); 
 
 			   myRecorderAudio = RecordRTC(audioOnlyStream, {
-			        type: 'audio'//,
-			        //mimeType: 'video/webm',
-			        //recorderType: MediaStreamRecorder
+			        type: 'audio',
+			        mimeType: 'video/webm'
+			        recorderType: MediaStreamRecorder
 			    }); 
 
 			  //for wave form
