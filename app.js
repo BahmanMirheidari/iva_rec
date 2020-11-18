@@ -343,17 +343,8 @@ function convert2mp3(video,file_name,token,dest,q_no,callback){
     }); 
 }
 
-function extractWebM(file_name, msg,token,dest,q_no){
+function extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no){
   try {
-    cov2mp3=true;
-    conv2mp4=true;
-    if (msg === 'webm-audio'){
-      cov2mp4=false;
-      msg="webm";
-    } else if (msg === 'webm-video'){
-      cov2mp3=false;
-      msg="webm";
-    }   
 
     var process = new ffmpeg(file_name + "." + msg);  
     process.then(function (video) {
@@ -440,6 +431,16 @@ message = JSON.parse(message);
       var len  = blob.length; 
       var dest = 'Q'+ q_no.toString() + '-R' + r_no.toString();
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
+      cov2mp3=true;
+      conv2mp4=true;
+      if (msg === 'webm-audio'){
+        cov2mp4=false;
+        msg="webm";
+      } else if (msg === 'webm-video'){
+        cov2mp3=false;
+        msg="webm";
+      }   
+
       logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
       /* changed 20/6/20 */
       updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()); 
@@ -459,7 +460,7 @@ message = JSON.parse(message);
              common.copy_to_mount(config.mount_dir,file_name + msg,token,dest+msg); 
 
              if (msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video'){ 
-                extractWebM(file_name, msg,token,dest,q_no);
+                extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no);
                 } 
              } 
         });  
