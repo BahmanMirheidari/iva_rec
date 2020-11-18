@@ -793,12 +793,7 @@ $(function(){
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	//mediaRecorder.start();  
-	  	mediaRecorder = RecordRTC(videoOnlyStream, {
-			        type: 'video',
-			        mimeType: 'video/webm',
-			        recorderType: MediaStreamRecorder
-			    }); 
+	  	//mediaRecorder.start(); 
 
 	  	mediaRecorder.startRecording();
 
