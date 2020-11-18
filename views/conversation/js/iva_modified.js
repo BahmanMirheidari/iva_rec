@@ -85,10 +85,10 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+			  //audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
-  			  mediaRecorder = RecordRTC(videoOnlyStream, {
+  			  mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
@@ -96,7 +96,7 @@ $(function(){
 
 
 			  //for wave form
-			  onSuccess(audioOnlyStream);
+			  onSuccess(stream);
 
 			})
 			.catch(function(err) {
