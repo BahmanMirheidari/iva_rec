@@ -92,7 +92,7 @@ $(function(){
 			  console.log(err.name + ": " + err.message);
 			}); 
 
-			navigator.mediaDevices.getUserMedia({ audio: true})
+		navigator.mediaDevices.getUserMedia({audio: true})
 			.then(function(audiostream) { 
 			  //audio
 			  liveStreamAudio = audiostream;  
@@ -101,7 +101,7 @@ $(function(){
 			        mimeType: 'audio/webm',
 			        recorderType: StereoAudioRecorder
 			    });  
-			  
+
 			  //for wave form
 			  onSuccess(audiostream);
 
@@ -802,9 +802,15 @@ $(function(){
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
+	  	mediaRecorderAudio = RecordRTC(audiostream, {
+			        type: 'audio',
+			        mimeType: 'audio/webm',
+			        recorderType: StereoAudioRecorder
+			    });  
+	  	
 	  	mediaRecorder.startRecording();
 
-	  	mediaRecorderAudio && mediaRecorderAudio.stopRecording(function() {
+	  	/*mediaRecorderAudio && mediaRecorderAudio.stopRecording(function() {
 	        let blob = mediaRecorder.getBlob();
 	        invokeSaveAsDialog(blob);
 
@@ -826,7 +832,7 @@ $(function(){
 
 			reader.readAsDataURL(blob);   
 	    });  
-	  	mediaRecorderAudio.startRecording(); 
+	  	mediaRecorderAudio.startRecording(); */
 
 	  } 
   } 
