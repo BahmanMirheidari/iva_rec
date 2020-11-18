@@ -802,12 +802,12 @@ $(function(){
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
-	  	mediaRecorderAudio = RecordRTC(audiostream, {
+	  	mediaRecorderAudio = RecordRTC(liveStream, {
 			        type: 'audio',
 			        mimeType: 'audio/webm',
 			        recorderType: StereoAudioRecorder
 			    });  
-	  	
+
 	  	mediaRecorder.startRecording();
 
 	  	/*mediaRecorderAudio && mediaRecorderAudio.stopRecording(function() {
