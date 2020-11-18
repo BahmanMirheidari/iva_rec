@@ -347,21 +347,22 @@ function extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no,callback){
   try { 
     var process = new ffmpeg(file_name + "." + msg);  
     process.then(function (video) {
-    if (cov2mp4){
-      convert2mp4(file_name,token,dest,q_no,function(e){
-        callback(null);
-      }); 
-    } else if (cov2mp3){
-      convert2mp3(video,file_name,token,dest,q_no,function(e){
-        callback(null);
-      });
-
-    } else{
-      convert2mp3(video,file_name,token,dest,q_no,function(e){ 
+      if (cov2mp4){
         convert2mp4(file_name,token,dest,q_no,function(e){
-        callback(null);
-      }); 
-    }  
+          callback(null);
+        }); 
+      } else if (cov2mp3){
+        convert2mp3(video,file_name,token,dest,q_no,function(e){
+          callback(null);
+        });
+
+      } else{
+        convert2mp3(video,file_name,token,dest,q_no,function(e){ 
+          convert2mp4(file_name,token,dest,q_no,function(e){
+            callback(null);
+          }); 
+        }); 
+      }  
 
     }, function (err) {
       logger.error('FFMPEG MP3 error: ' + err);
