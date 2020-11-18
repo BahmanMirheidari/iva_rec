@@ -783,8 +783,6 @@ $(function(){
 			reader.readAsDataURL(blob);   
 	    });  
 
-	     
-
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
