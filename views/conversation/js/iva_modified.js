@@ -85,17 +85,17 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = new RecordRTC(stream, {
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+
+			  mediaRecorder = new RecordRTC(videoOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    }); 
-
-			  //audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+			    });  
 
 			  //for wave form
-			  onSuccess(stream);
+			  onSuccess(audioOnlyStream);
 
 			})
 			.catch(function(err) {
