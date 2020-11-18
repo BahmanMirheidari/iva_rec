@@ -754,7 +754,8 @@ $(function(){
 	     
 	    mediaRecorder && mediaRecorder.stopRecording(function(blobs) {   
 	    	alert(blobs)
-	    	
+	    	alert(blobs.video)
+
 	        var reader = new FileReader();
 			reader.onload = function(event){
 				var data = event.target.result.toString('base64');
