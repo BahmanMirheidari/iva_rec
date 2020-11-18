@@ -89,7 +89,7 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(liveStream, {
+			  mediaRecorder = RecordRTC(videoOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
