@@ -85,14 +85,8 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(stream, {
-			        type: 'audio',
-			        mimeType: 'video/webm',
-			        recorderType: MediaStreamRecorder
-			    }); 
-
-			  //audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
 			  onSuccess(stream);
@@ -795,6 +789,12 @@ $(function(){
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
+	  	mediaRecorder = new RecordRTC(videoStream, {
+			        type: 'video',
+			        mimeType: 'video/webm',
+			        recorderType: MediaStreamRecorder
+			    }); 
+
 	  	mediaRecorder.startRecording();
 
 	  } 
