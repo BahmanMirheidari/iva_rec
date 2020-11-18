@@ -32,7 +32,35 @@ $(function(){
 	var dynamic='pre_survey';
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
-	var logoutTimeout=3000;  
+	var logoutTimeout=3000;
+	var audioOnlyStream;
+	var videoOnlyStream;
+	var myRecorderAudio;
+
+
+	function makeAudioOnlyStreamFromExistingStream(stream) {
+	var audioStream = stream.clone();
+	  
+	  var videoTracks = audioStream.getVideoTracks();
+	  for (var i = 0, len = videoTracks.length; i < len; i++) {
+	    audioStream.removeTrack(videoTracks[i]);
+	  }
+	  console.log('created audio only stream, original stream tracks: ', stream.getTracks());
+	  console.log('created audio only stream, new stream tracks: ', audioStream.getTracks());
+	  return audioStream;
+	}
+ 
+	function makeVideoOnlyStreamFromExistingStream(stream) {
+	  var videoStream = stream.clone();
+	  var audioTracks = videoStream.getAudioTracks();
+	  for (var i = 0, len = audioTracks.length; i < len; i++) {
+	    videoStream.removeTrack(audioTracks[i]);
+	  }
+	  console.log('created video only stream, original stream tracks: ', stream.getTracks());
+	  console.log('created video only stream, new stream tracks: ', videoStream.getTracks());
+	  return videoStream;
+	}
+
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -57,25 +85,11 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = new MRecordRTC();
-			  mediaRecorder.addStream(stream);
-
-			  mediaRecorder.mediaType = {
-				    audio: StereoAudioRecorder, // or StereoAudioRecorder or MediaStreamRecorder
-				    video: MediaStreamRecorder//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
-				    //gif: true    // or GifRecorder
-				};
-
-			  // mimeType is optional and should be set only in advance cases.
-			  mediaRecorder.mimeType = {
-			    //audio: 'audio/wav',
-			    video: 'video/webm'//,
-			    //gif:   'image/gif'
-			  }; 
-
-			  //mediaRecorder = new WhammyRecorder(stream, { 
-			  //      mimeType: 'video/webm' 
-			  //  }); 
+			  mediaRecorder = new RecordRTC(stream, {
+			        type: 'video',
+			        mimeType: 'video/webm',
+			        recorderType: MediaStreamRecorder
+			    }); 
 
 			  //audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
   			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
@@ -752,12 +766,9 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && mediaRecorder.stopRecording(function(blobs) {   
-	    	
-	    	blobvideo = blobs.video;
-	    	blobaudio = blobs.audio;
-	    	alert(blobvideo)
-	    	alert(blobaudio)
+	    mediaRecorder && mediaRecorder.stopRecording(function() {
+	        let blob = mediaRecorder.getBlob();
+	        invokeSaveAsDialog(blob);
 
 	        var reader = new FileReader();
 			reader.onload = function(event){
@@ -775,32 +786,17 @@ $(function(){
 	            
 			};
 
-			reader.readAsDataURL(blobvideo); 
+			reader.readAsDataURL(blob);   
+	    });  
 
-			var readerMp3 = new FileReader();
-			reader.onload = function(event){
-				var data = event.target.result.toString('base64');
-
-				if (data.length>1000){
-					//Take first value from queue
-		            var value = queueAudio.shift();
-		            if (value !== undefined){
-		            	
-			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'mp3',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-		            } 
-				}
-	            
-			};
-
-			readerMp3.readAsDataURL(blobaudio);   
-	    });   
+	     
 
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
-	  	mediaRecorder && mediaRecorder.startRecording(); 
+	  	mediaRecorder.startRecording();
+
 	  } 
   } 
 
