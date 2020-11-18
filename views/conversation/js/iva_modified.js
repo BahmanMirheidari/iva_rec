@@ -59,7 +59,7 @@ $(function(){
 
 			  mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
-			        mimeType: 'video/webm;codecs=vp8',
+			        mimeType: 'video/webm;codecs="vp8, pcm"',
 			        recorderType: MediaStreamRecorder
 			    });
 
