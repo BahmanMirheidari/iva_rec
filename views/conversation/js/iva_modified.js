@@ -67,19 +67,15 @@ $(function(){
 		navigator.mediaDevices.getUserMedia({ audio: true, video: true })
 			.then(function(stream) {
 			  //webcam
-			  video =  document.querySelector('video');  
-
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
-
+			  video =  document.querySelector('video');    
 
 			  // Older browsers may not have srcObject
 			  if ("srcObject" in video) {
-			    video.srcObject = videoOnlyStream;
+			    video.srcObject = stream;
 
 			  } else {
 			    // Avoid using this in new browsers, as it is going away.
-			    video.src = window.URL.createObjectURL(videoOnlyStream);
+			    video.src = window.URL.createObjectURL(stream);
 
 			  }
 
@@ -89,11 +85,14 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(videoOnlyStream, {
+			  mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    });  
+			    }); 
+
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
 			  onSuccess(audioOnlyStream);
@@ -769,7 +768,7 @@ $(function(){
 	     
 	    mediaRecorder && mediaRecorder.stopRecording(function() {
 	        let blob = mediaRecorder.getBlob();
-	        invokeSaveAsDialog(blob);
+	        //invokeSaveAsDialog(blob);
 
 	        var reader = new FileReader();
 			reader.onload = function(event){
