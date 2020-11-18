@@ -35,6 +35,7 @@ $(function(){
 	var logoutTimeout=3000;
 	var audioOnlyStream;
 	var videoOnlyStream;
+	var myRecorderAudio;
 
 
 	function makeAudioOnlyStreamFromExistingStream(stream) {
@@ -67,7 +68,7 @@ $(function(){
 			  //webcam
 			  video =  document.querySelector('video'); 
 			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 
 			  // Older browsers may not have srcObject
@@ -86,9 +87,14 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(stream, {
+			  mediaRecorder = RecordRTC(videoOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm'
+			        //recorderType: MediaStreamRecorder
+			    });
+
+			  mediaRecorderAudio = RecordRTC(audioOnlyStream, {
+			        type: 'audio' 
 			        //recorderType: MediaStreamRecorder
 			    });
 
