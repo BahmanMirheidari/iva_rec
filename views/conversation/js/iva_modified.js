@@ -88,12 +88,12 @@ $(function(){
 			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
   			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
-  			  mediaRecorder = new RecordRTC(videoOnlyStream, {
+  			  mediaRecorder = RecordRTC(videoOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
 			    }); 
-  			  
+
 
 			  //for wave form
 			  onSuccess(audioOnlyStream);
@@ -794,7 +794,7 @@ $(function(){
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
-	  	mediaRecorder = new RecordRTC(videoOnlyStream, {
+	  	mediaRecorder = RecordRTC(videoOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
