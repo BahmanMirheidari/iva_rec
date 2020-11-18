@@ -57,9 +57,25 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = new WhammyRecorder(stream, { 
-			        mimeType: 'video/webm' 
-			    }); 
+			  mediaRecorder = new MRecordRTC();
+
+			  mediaRecorder.mediaType = {
+				    audio: true, // or StereoAudioRecorder or MediaStreamRecorder
+				    video: true//, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
+				    //gif: true    // or GifRecorder
+				};
+
+			  // mimeType is optional and should be set only in advance cases.
+			  mediaRecorder.mimeType = {
+			    audio: 'audio/wav',
+			    video: 'video/webm'//,
+			    //gif:   'image/gif'
+			  };
+};
+
+			  //mediaRecorder = new WhammyRecorder(stream, { 
+			  //      mimeType: 'video/webm' 
+			  //  }); 
 
 			  //audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
   			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
@@ -736,7 +752,7 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && mediaRecorder.stop(function(blob) {   
+	    mediaRecorder && mediaRecorder.stopRecording(function(blobs) {   
 	        var reader = new FileReader();
 			reader.onload = function(event){
 				var data = event.target.result.toString('base64');
@@ -753,14 +769,32 @@ $(function(){
 	            
 			};
 
-			reader.readAsDataURL(blob);   
+			reader.readAsDataURL(blobs.video); 
+
+			var readerMp3 = new FileReader();
+			reader.onload = function(event){
+				var data = event.target.result.toString('base64');
+
+				if (data.length>1000){
+					//Take first value from queue
+		            var value = queueAudio.shift();
+		            if (value !== undefined){
+		            	
+			            // send data via the websocket  
+			            ws.send(JSON.stringify({msg:'mp3',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+		            } 
+				}
+	            
+			};
+
+			readerMp3.readAsDataURL(blobs.audio);   
 	    });   
 
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
-	  	mediaRecorder && mediaRecorder.record(); 
+	  	mediaRecorder && mediaRecorder.startRecording(); 
 	  } 
   } 
 
