@@ -753,8 +753,11 @@ $(function(){
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
 	    mediaRecorder && mediaRecorder.stopRecording(function(blobs) {   
-	    	alert(blobs)
-	    	alert(blobs.video)
+	    	
+	    	blobvideo = recorder.getBlob().video;
+	    	blobaudio = recorder.getBlob().audio;
+	    	alert(blobvideo)
+	    	alert(blobaudio)
 
 	        var reader = new FileReader();
 			reader.onload = function(event){
@@ -772,7 +775,7 @@ $(function(){
 	            
 			};
 
-			reader.readAsDataURL(blobs.video); 
+			reader.readAsDataURL(blobvideo); 
 
 			var readerMp3 = new FileReader();
 			reader.onload = function(event){
@@ -790,7 +793,7 @@ $(function(){
 	            
 			};
 
-			readerMp3.readAsDataURL(blobs.audio);   
+			readerMp3.readAsDataURL(blobsaudio);   
 	    });   
 
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
