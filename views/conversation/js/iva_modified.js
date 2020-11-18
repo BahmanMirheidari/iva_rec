@@ -35,7 +35,7 @@ $(function(){
 	var logoutTimeout=3000;
 	var audioOnlyStream;
 	var videoOnlyStream;
-	var myRecorderAudio;
+	var mediaRecorderAudio;
 
 
 	function makeAudioOnlyStreamFromExistingStream(stream) {
@@ -92,6 +92,12 @@ $(function(){
 			    }); 
 
 			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+			  mediaRecorderAudio = RecordRTC(audioOnlyStream, {
+			        type: 'audio',
+			        mimeType: 'audio/webm',
+			        recorderType: StereoAudioRecorder
+			    }); 
+
   			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
@@ -780,7 +786,36 @@ $(function(){
 		            if (value !== undefined){
 		            	
 			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+			            ws.send(JSON.stringify({msg:'webm-video',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+		            } 
+				}
+	            
+			};
+
+			reader.readAsDataURL(blob);   
+	    });   
+
+		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+		//videoMimeType = mediaRecorder.mimeType;
+	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+	  	//mediaRecorder.start();  
+	  	mediaRecorder.startRecording();
+
+	  	mediaRecorderAudio && mediaRecorderAudio.stopRecording(function() {
+	        let blob = mediaRecorder.getBlob();
+	        invokeSaveAsDialog(blob);
+
+	        var reader = new FileReader();
+			reader.onload = function(event){
+				var data = event.target.result.toString('base64');
+
+				if (data.length>1000){
+					//Take first value from queue
+		            var value = queueAudio.shift();
+		            if (value !== undefined){
+		            	
+			            // send data via the websocket  
+			            ws.send(JSON.stringify({msg:'webm-audio',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
 		            } 
 				}
 	            
@@ -788,14 +823,7 @@ $(function(){
 
 			reader.readAsDataURL(blob);   
 	    });  
-
-	     
-
-		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
-		//videoMimeType = mediaRecorder.mimeType;
-	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	//mediaRecorder.start();  
-	  	mediaRecorder.startRecording();
+	  	mediaRecorderAudio.startRecording(); 
 
 	  } 
   } 
