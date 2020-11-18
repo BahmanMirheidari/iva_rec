@@ -343,45 +343,33 @@ function convert2mp3(video,file_name,token,dest,q_no,callback){
     }); 
 }
 
-function extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no){
-  try {
-
+function extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no,callback){
+  try { 
     var process = new ffmpeg(file_name + "." + msg);  
     process.then(function (video) {
     if (cov2mp4){
       convert2mp4(file_name,token,dest,q_no,function(e){
-        fs.unlink(file_name + ".webm", function(err){
-          if (err){
-           logger.error('Deleting '+file_name + '.webm error: ' + err);}
-          else {logger.info('Deleted ' + file_name + ".webm" );}
-          }); 
+        callback(null);
       }); 
     } else if (cov2mp3){
       convert2mp3(video,file_name,token,dest,q_no,function(e){
-        fs.unlink(file_name + ".webm", function(err){
-          if (err){
-           logger.error('Deleting '+file_name + '.webm error: ' + err);}
-          else {logger.info('Deleted ' + file_name + ".webm" );}
-          }); 
+        callback(null);
       });
 
     } else{
       convert2mp3(video,file_name,token,dest,q_no,function(e){ 
         convert2mp4(file_name,token,dest,q_no,function(e){
-        fs.unlink(file_name + ".webm", function(err){
-          if (err){
-           logger.error('Deleting '+file_name + '.webm error: ' + err);}
-          else {logger.info('Deleted ' + file_name + ".webm" );}
-          }); 
-        }); 
+        callback(null);
       }); 
     }  
 
     }, function (err) {
-      logger.error('FFMPEG MP3 error: ' + err);});
+      logger.error('FFMPEG MP3 error: ' + err);
+      callback('FFMPEG MP3 error: ' + err);});
   } catch (e) {
     logger.error('FFMPEG (MP3) CONVERSION msg: ' + e.msg);
     logger.error('code: ' + e.code); 
+    callback('FFMPEG (MP3) CONVERSION msg: ' + e.msg + 'code: ' + e.code);
   } 
 }
   
@@ -433,10 +421,10 @@ message = JSON.parse(message);
       var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
       cov2mp3=true;
       conv2mp4=true;
-      if (msg === 'webm-audio'){
+      if (msg == 'webm-audio'){
         cov2mp4=false;
         msg="webm";
-      } else if (msg === 'webm-video'){
+      } else if (msg == 'webm-video'){
         cov2mp3=false;
         msg="webm";
       }   
@@ -460,7 +448,15 @@ message = JSON.parse(message);
              common.copy_to_mount(config.mount_dir,file_name + msg,token,dest+msg); 
 
              if (msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video'){ 
-                extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no);
+                extractWebM(cov2mp3,cov2mp4,file_name, msg,token,dest,q_no,function(e){
+                  if (e==null){
+                    fs.unlink(file_name + ".webm", function(err){
+                    if (err){
+                     logger.error('Deleting '+file_name + '.webm error: ' + err);}
+                    else {logger.info('Deleted ' + file_name + ".webm" );}
+                    });  
+                  }  
+                });
                 } 
              } 
         });  
