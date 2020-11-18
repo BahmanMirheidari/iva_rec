@@ -57,7 +57,7 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = new MediaStreamRecorder(stream, { 
+			  mediaRecorder = new WhammyRecorder(stream, { 
 			        mimeType: 'video/webm' 
 			    }); 
 
