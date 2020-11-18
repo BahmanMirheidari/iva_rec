@@ -67,7 +67,7 @@ $(function(){
 
 			  // mimeType is optional and should be set only in advance cases.
 			  mediaRecorder.mimeType = {
-			    audio: 'audio/wav',
+			    //audio: 'audio/wav',
 			    video: 'video/webm'//,
 			    //gif:   'image/gif'
 			  }; 
