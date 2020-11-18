@@ -97,7 +97,7 @@ $(function(){
 
 			   myRecorderAudio = RecordRTC(audioOnlyStream, {
 			        type: 'audio',
-			        mimeType: 'video/webm'
+			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
 			    }); 
 
