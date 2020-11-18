@@ -93,34 +93,7 @@ $(function(){
 			        recorderType: MediaStreamRecorder
 			    }); */
 
-			    mediaRecorder = new MRecordRTC();
-				mediaRecorder.addStream(stream);
-				mediaRecorder.mediaType = {
-				    //audio: StereoAudioRecorder, // or StereoAudioRecorder or MediaStreamRecorder
-				    video: MediaStreamRecorder //, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
-				    //gif: GifRecorder    // or GifRecorder
-				};
-				// mimeType is optional and should be set only in advance cases.
-				mediaRecorder.mimeType = {
-				    //audio: 'audio/wav',
-				    video: 'video/webm' //,
-				    //gif:   'image/gif'
-				}; 
-
-				myRecorderAudio = new MRecordRTC();
-				myRecorderAudio.addStream(stream);
-				myRecorderAudio.mediaType = {
-				    audio: StereoAudioRecorder //, // or StereoAudioRecorder or MediaStreamRecorder
-				    //video: MediaStreamRecorder //, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
-				    //gif: GifRecorder    // or GifRecorder
-				};
-				// mimeType is optional and should be set only in advance cases.
-				myRecorderAudio.mimeType = {
-				    audio: 'audio/wav' //,
-				    //video: 'video/webm',
-				    //gif:   'image/gif'
-				}; 
-
+			    mediaRecorder = new MediaStreamRecorder(stream); 
 
 			  //for wave form
 			  onSuccess(stream);
@@ -794,8 +767,7 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && mediaRecorder.stopRecording(function() {
-	        let blob = mediaRecorder.getBlob().video;
+	    mediaRecorder && mediaRecorder.stop(function(blob) { 
 	        invokeSaveAsDialog(blob);
 
 	        var reader = new FileReader();
@@ -822,7 +794,7 @@ $(function(){
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start(); 
 
-	  	mediaRecorder.startRecording();
+	  	mediaRecorder.record();
 
 	  } 
   } 
