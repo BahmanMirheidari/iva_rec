@@ -32,35 +32,7 @@ $(function(){
 	var dynamic='pre_survey';
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
-	var logoutTimeout=3000;
-	var audioOnlyStream;
-	var videoOnlyStream;
-	var myRecorderAudio;
-
-
-	function makeAudioOnlyStreamFromExistingStream(stream) {
-	var audioStream = stream.clone();
-	  
-	  var videoTracks = audioStream.getVideoTracks();
-	  for (var i = 0, len = videoTracks.length; i < len; i++) {
-	    audioStream.removeTrack(videoTracks[i]);
-	  }
-	  console.log('created audio only stream, original stream tracks: ', stream.getTracks());
-	  console.log('created audio only stream, new stream tracks: ', audioStream.getTracks());
-	  return audioStream;
-	}
- 
-	function makeVideoOnlyStreamFromExistingStream(stream) {
-	  var videoStream = stream.clone();
-	  var audioTracks = videoStream.getAudioTracks();
-	  for (var i = 0, len = audioTracks.length; i < len; i++) {
-	    videoStream.removeTrack(audioTracks[i]);
-	  }
-	  console.log('created video only stream, original stream tracks: ', stream.getTracks());
-	  console.log('created video only stream, new stream tracks: ', videoStream.getTracks());
-	  return videoStream;
-	}
-
+	var logoutTimeout=3000;  
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -85,17 +57,15 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(stream, {
-			        type: 'video',
-			        mimeType: 'video/webm',
-			        recorderType: MediaStreamRecorder
+			  mediaRecorder = MediaStreamRecorder(stream, { 
+			        mimeType: 'video/webm' 
 			    }); 
 
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+			  //audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
   			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
-			  onSuccess(audioOnlyStream);
+			  onSuccess(stream);
 
 			})
 			.catch(function(err) {
@@ -766,10 +736,7 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && mediaRecorder.stopRecording(function() {
-	        let blob = mediaRecorder.getBlob();
-	        invokeSaveAsDialog(blob);
-
+	    mediaRecorder && mediaRecorder.stop(function(blob) {   
 	        var reader = new FileReader();
 			reader.onload = function(event){
 				var data = event.target.result.toString('base64');
@@ -787,16 +754,13 @@ $(function(){
 			};
 
 			reader.readAsDataURL(blob);   
-	    });  
-
-	     
+	    });   
 
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
-	  	mediaRecorder.startRecording();
-
+	  	mediaRecorder.record(); 
 	  } 
   } 
 
