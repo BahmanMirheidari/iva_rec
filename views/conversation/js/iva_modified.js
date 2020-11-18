@@ -20,6 +20,8 @@ $(function(){
 	var audio_context; 
 	var mediaRecorder;
 	var liveStream;
+	var liveStreamAudio;
+	var mediaRecorderAudio;
 	var video;
 	var chunks;
 	var response = {};   
@@ -32,11 +34,7 @@ $(function(){
 	var dynamic='pre_survey';
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
-	var logoutTimeout=3000;
-	var audioOnlyStream;
-	var videoOnlyStream;
-	var mediaRecorderAudio;
-
+	var logoutTimeout=3000;  
 
 	function makeAudioOnlyStreamFromExistingStream(stream) {
 	var audioStream = stream.clone();
@@ -59,54 +57,59 @@ $(function(){
 	  console.log('created video only stream, original stream tracks: ', stream.getTracks());
 	  console.log('created video only stream, new stream tracks: ', videoStream.getTracks());
 	  return videoStream;
-	}
-
+	} 
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
-		navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-			.then(function(stream) {
+		navigator.mediaDevices.getUserMedia({video: true })
+			.then(function(videostream) {
 			  //webcam
 			  video =  document.querySelector('video');    
 
 			  // Older browsers may not have srcObject
 			  if ("srcObject" in video) {
-			    video.srcObject = stream;
+			    video.srcObject = videostream;
 
 			  } else {
 			    // Avoid using this in new browsers, as it is going away.
-			    video.src = window.URL.createObjectURL(stream);
+			    video.src = window.URL.createObjectURL(videostream);
 
 			  }
 
 			  //video
-			  liveStream = stream;
+			  liveStream = videostream;
 			  video.onloadedmetadata = function(e) {
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(stream, {
+			  mediaRecorder = RecordRTC(videostream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    }); 
+			    });  
+			})
+			.catch(function(err) {
+			  console.log(err.name + ": " + err.message);
+			}); 
 
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-			  mediaRecorderAudio = RecordRTC(audioOnlyStream, {
+			navigator.mediaDevices.getUserMedia({ audio: true})
+			.then(function(audiostream) { 
+			  //audio
+			  liveStreamAudio = audiostream;  
+			  mediaRecorderAudio = RecordRTC(audiostream, {
 			        type: 'audio',
 			        mimeType: 'audio/webm',
 			        recorderType: StereoAudioRecorder
-			    }); 
-
-  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
-
+			    });  
+			  
 			  //for wave form
-			  onSuccess(audioOnlyStream);
+			  onSuccess(audiostream);
 
 			})
 			.catch(function(err) {
 			  console.log(err.name + ": " + err.message);
 			}); 
+
 
 		$("#consent").addClass('hidden');
 		
