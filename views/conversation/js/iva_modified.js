@@ -60,7 +60,7 @@ $(function(){
 			  mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
-			        recorderType: WhammyRecorder
+			        recorderType: WebAssemblyRecorder
 			    });
 
 			  //for wave form
