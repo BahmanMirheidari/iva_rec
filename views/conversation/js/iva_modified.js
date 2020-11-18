@@ -39,7 +39,7 @@ $(function(){
 
 
 	function makeAudioOnlyStreamFromExistingStream(stream) {
-	  var audioStream = stream.clone();
+	  
 	  var videoTracks = audioStream.getVideoTracks();
 	  for (var i = 0, len = videoTracks.length; i < len; i++) {
 	    audioStream.removeTrack(videoTracks[i]);
@@ -50,7 +50,7 @@ $(function(){
 	}
  
 	function makeVideoOnlyStreamFromExistingStream(stream) {
-	  var videoStream = stream.clone();
+	  
 	  var audioTracks = videoStream.getAudioTracks();
 	  for (var i = 0, len = audioTracks.length; i < len; i++) {
 	    videoStream.removeTrack(audioTracks[i]);
@@ -67,8 +67,11 @@ $(function(){
 			.then(function(stream) {
 			  //webcam
 			  video =  document.querySelector('video'); 
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+			  var videoStream = stream.clone();
+			  var audioStream = stream.clone();
+
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(audioStream);
+  			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(videoStream);
 
 
 			  // Older browsers may not have srcObject
@@ -87,16 +90,11 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(videoOnlyStream, {
+			  mediaRecorder = new RecordRTC(stream, {
 			        type: 'video',
-			        mimeType: 'video/webm'
-			        //recorderType: MediaStreamRecorder
-			    });
-
-			  mediaRecorderAudio = RecordRTC(audioOnlyStream, {
-			        type: 'audio' 
-			        //recorderType: MediaStreamRecorder
-			    });
+			        mimeType: 'video/webm',
+			        recorderType: MediaStreamRecorder
+			    }); 
 
 			  //for wave form
 			  onSuccess(audioOnlyStream);
