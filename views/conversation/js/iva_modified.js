@@ -40,7 +40,7 @@ $(function() {
     var last_q_value;
 
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 5 * 1000; //1o sec 
+    var RECORDING_CHUNKS = 10 * 1000; //1o sec 
 
     function sendAudioVideo(audio = true, last = false) {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
@@ -124,6 +124,8 @@ $(function() {
                     // Avoid using this in new browsers, as it is going away.
                     video.src = window.URL.createObjectURL(stream);
                 }
+
+                video.play();
 
                 //video
                 videoOnlyStream = stream;
@@ -847,8 +849,10 @@ $(function() {
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {  
-	    	queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex});
-	    	last_q_value=queueAudio.pop();
+        	if (queueAudio.length>0)
+        		last_q_value=queueAudio.pop();
+
+	    	queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
 
             RECORDING_FLAG = true;
             //ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
