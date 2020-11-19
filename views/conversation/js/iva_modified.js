@@ -801,7 +801,8 @@ $(function(){
 	}    
 
   function startRecording() {   
-  	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){  
+  	try{
+  		if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){  
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
   		sendAudioVideo(audio=true,last=true);
   		sendAudioVideo(audio=false,last=true);
@@ -812,6 +813,12 @@ $(function(){
 	  else{
 	  	RECORDING_FLAG=false;
 	  } 
+
+  	}
+  	catch(e){
+  		alert(e)
+  	}
+  	
   } 
 
   function onMediaRecordingReady(e) { 
