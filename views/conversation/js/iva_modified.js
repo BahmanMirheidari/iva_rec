@@ -166,43 +166,39 @@ $(function(){
 	// next Message Button
    	$("#nextMessageButton").click(function(){  
    		$('#divStopWatch').removeClass('alert-danger').addClass('alert-warning').addClass('hidden');
-   		try{
-   			//increment index
-			currentQuestionIndex++;  
-	        repeatIndex = 0;
+		//increment index
+		currentQuestionIndex++;  
+        repeatIndex = 0;
 
-	        disableButtonRN();
+        //disableButtonRN();
 
-			//start recording
-			startRecording();
+		//start recording
+		startRecording();
 
-			if (currentQuestionIndex==maxQuestions){  
-				//stopRecording();   
+		if (currentQuestionIndex==maxQuestions){  
+			//stopRecording();   
 
-				playQuestion();
+			playQuestion();
 
-				setTimeout(function() {  
-	         		$("#divVideo").hide(); 
-	         		$('#mycanvas').hide();  
-	         		video.pause();
-	    			video.src = "";
-	         		liveStream.getTracks()[0].stop();
-	         		liveStream.getTracks()[1].stop();
+			setTimeout(function() {  
+         		$("#divVideo").hide(); 
+         		$('#mycanvas').hide();  
+         		video.pause();
+    			video.src = "";
+         		liveStream.getTracks()[0].stop();
+         		liveStream.getTracks()[1].stop();
 
-	         		init_survey();
+         		init_survey();
 
-				 	$('#divAlert').hide(); 
+			 	$('#divAlert').hide(); 
 
-	    			}, questions[currentQuestionIndex].length); 
+    			}, questions[currentQuestionIndex].length); 
 
 			return false;
-			} 
-			else
-				//play current question
-				playQuestion(); 
-	   		}
-	   	catch(e){alert(e);}
-			
+		} 
+		else
+			//play current question
+			playQuestion(); 
 		
 		return false;
 	    }); 
@@ -804,10 +800,10 @@ $(function(){
 		} 
 	}    
 
-  function startRecording() {   
-  	try{
-  		if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){  
-  		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
+  function startRecording() {  
+  	  if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){  
+  	  	a=1;
+  		//ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
   		//sendAudioVideo(audio=true,last=true);
   		//sendAudioVideo(audio=false,last=true);
 	  }  
@@ -816,13 +812,7 @@ $(function(){
 	  }
 	  else{
 	  	RECORDING_FLAG=false;
-	  } 
-
-  	}
-  	catch(e){
-  		alert(e)
-  	}
-  	
+	  }  
   } 
 
   function onMediaRecordingReady(e) { 
