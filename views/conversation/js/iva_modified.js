@@ -48,15 +48,16 @@ $(function() {
                     var reader = new FileReader();
                     reader.onload = function(event) {
                         var data = event.target.result.toString('base64');
-                        if (data.length > 100) {
+                        var value=queueAudio[0];
+                        if (value !== undefined && data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
                             ws.send(JSON.stringify({
                                 msg: 'webm-audio-chunk',
                                 data: {
                                     token: token,
-                                    q_no: currentQuestionIndex,
-                                    r_no: repeatIndex,
+                                    q_no: value.q_no,
+                                    r_no: value.r_no,
                                     size: data.length,
                                     last: last,
                                     data: data
@@ -75,15 +76,16 @@ $(function() {
                     var reader = new FileReader();
                     reader.onload = function(event) {
                         var data = event.target.result.toString('base64');
-                        if (data.length > 100) {
+                        var value=queueAudio[0];
+                        if (value !== undefined && data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
                             ws.send(JSON.stringify({
                                 msg: 'webm-video-chunk',
                                 data: {
                                     token: token,
-                                    q_no: currentQuestionIndex,
-                                    r_no: repeatIndex,
+                                    q_no: value.q_no,
+                                    r_no: value.r_no,
                                     size: data.length,
                                     last: last,
                                     data: data
@@ -837,6 +839,11 @@ $(function() {
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions) {
+        	//put value on end of queue
+        	if (queueAudio.length>0)
+        		v=queueAudio.pop();
+	    	queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex});
+
             RECORDING_FLAG = true;
             //ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
             sendAudioVideo(audio = true, last = true);
