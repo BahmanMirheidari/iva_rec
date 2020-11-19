@@ -41,14 +41,13 @@ $(function() {
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
 
-    function sendAudioVideo(audio = true, last = false) {
+    function sendAudioVideo(q_no, r_no, audio = true, last = false) {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
             if (audio) {
                 myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
                     var reader = new FileReader();
                     reader.onload = function(event) {
-                        var data = event.target.result.toString('base64');
-                        var value={q_no:currentQuestionIndex, r_no:repeatIndex} 
+                        var data = event.target.result.toString('base64'); 
 
                         if (data.length > 100) {
                             // send data via the websocket  
@@ -57,8 +56,8 @@ $(function() {
                                 msg: 'webm-audio-chunk',
                                 data: {
                                     token: token,
-                                    q_no: value.q_no,
-                                    r_no: value.r_no,
+                                    q_no: q_no,
+                                    r_no: r_no,
                                     size: data.length,
                                     last: last,
                                     data: data
@@ -76,9 +75,8 @@ $(function() {
 
                     var reader = new FileReader();
                     reader.onload = function(event) {
-                        var data = event.target.result.toString('base64');
-                        var value={q_no:currentQuestionIndex, r_no:repeatIndex}  
-                        
+                        var data = event.target.result.toString('base64'); 
+
                         if (data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
@@ -86,8 +84,8 @@ $(function() {
                                 msg: 'webm-video-chunk',
                                 data: {
                                     token: token,
-                                    q_no: value.q_no,
-                                    r_no: value.r_no,
+                                    q_no: q_no,
+                                    r_no: r_no,
                                     size: data.length,
                                     last: last,
                                     data: data
@@ -136,7 +134,7 @@ $(function() {
 
                 // send each RECORDING_CHUNKS sec
                 setInterval(function() {
-                    sendAudioVideo(audio = false);
+                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
 
                 }, RECORDING_CHUNKS);
 
@@ -162,7 +160,7 @@ $(function() {
 
                 // send each RECORDING_CHUNKS sec
                 setInterval(function() {
-                    sendAudioVideo(audio = true);
+                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true,last=false);
 
                 }, RECORDING_CHUNKS);
             })
@@ -851,8 +849,8 @@ $(function() {
 
             RECORDING_FLAG = true;
             //ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
-            sendAudioVideo(audio = true, last = true);
-            sendAudioVideo(audio = false, last = true);
+            sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true, last = true);
+            sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false, last = true); 
         } else {
             RECORDING_FLAG = false;
         }
