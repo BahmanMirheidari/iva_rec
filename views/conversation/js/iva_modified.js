@@ -74,7 +74,7 @@ $(function(){
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
-		navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+		navigator.mediaDevices.getUserMedia({video: true })
 			.then(function(stream) {
 			  //webcam
 			  video =  document.querySelector('video');    
@@ -90,35 +90,62 @@ $(function(){
 			  }
 
 			  //video
-			  liveStream = stream;
+			  videoOnlyStream = stream;
 			  video.onloadedmetadata = function(e) {
 			    video.play(); 
-			  }; 
-
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
-			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+			  };  
 
 			  mediaRecorder = RecordRTC(videoOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    });   
+			    });  
+			})
+			.catch(function(err) {
+			  console.log(err.name + " video (getUserMedia): " + err.message);
+			}); 
+
+		navigator.mediaDevices.getUserMedia({ audio: true})
+			.then(function(stream) { 
+			  //video
+			  audioOnlyStream = stream;  
 
 			  //for wave form
 			  displayWaveForm(audioOnlyStream); 
 
-		    // stream -> mediaSource -> javascriptNode -> destination
-		    context_audio = new AudioContext;
-		    mediaStreamSource_audio = context_audio.createMediaStreamSource(audioOnlyStream);
-			javascriptNode_audio = context_audio.createScriptProcessor(BUFFER_SIZE, 1, 1);
-			mediaStreamSource_audio.connect(javascriptNode_audio);
-			javascriptNode_audio.connect(context_audio.destination); 
-			javascriptNode_audio.onaudioprocess= sendAudioStream;  
+			    // stream -> mediaSource -> javascriptNode -> destination
+			    context_audio = new AudioContext;
+			    mediaStreamSource_audio = context_audio.createMediaStreamSource(audioOnlyStream);
+				javascriptNode_audio = context_audio.createScriptProcessor(BUFFER_SIZE, 1, 1);
+				mediaStreamSource_audio.connect(javascriptNode_audio);
+				javascriptNode_audio.connect(context_audio.destination); 
+				
+				javascriptNode_audio.onaudioprocess(function (e){ 
+					alert('buffer' +buffer_len.toString())  
+					for (var channel = 0; channel < numChannels; channel++) {   
+						buffer[channel].push(e.inputBuffer.getChannelData(channel)); 
+					} 
+
+					buffer_len += inputBuffer.getChannelData(0).length; 
+
+					if  (buffer_len >= BUFFER_SIZE * MAX_BUFFER) {
+
+						//export as wav blob
+						var blob = exportWAV();
+						alert('Blob size:' + blob.size.toString());
+
+						ws.send(JSON.stringify({msg:'wav-blob',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:blob}}));    
+
+						//init buffer
+						init_buffer();
+					}
+				});  
 
 			})
 			.catch(function(err) {
 			  console.log(err.name + ": " + err.message);
 			}); 
+
 
 		$("#consent").addClass('hidden');
 		
@@ -142,26 +169,7 @@ $(function(){
 
 	init_buffer();
 
-    function sendAudioStream(e){ 
-		alert('buffer' +buffer_len.toString())  
-		for (var channel = 0; channel < numChannels; channel++) {   
-			buffer[channel].push(e.inputBuffer.getChannelData(channel)); 
-		} 
-
-		buffer_len += inputBuffer.getChannelData(0).length; 
-
-		if  (buffer_len >= BUFFER_SIZE * MAX_BUFFER) {
-
-			//export as wav blob
-			var blob = exportWAV();
-			alert('Blob size:' + blob.size.toString());
-
-			ws.send(JSON.stringify({msg:'wav-blob',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:blob}}));    
-
-			//init buffer
-			init_buffer();
-		}
-	}
+    
 
 	// next Message Button
    	$("#nextMessageButton").click(function(){  
