@@ -379,7 +379,7 @@ function handleChuncks(data, audio = true) {
     if (!fs.existsSync(file_name + ext)) {
         /* changed 19/11/20 */
         updateconversation(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
-        logger.info(ext + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
+        logger.info(ext + ' file: ' + file_name + ext + ' - length: ' + len.toString());
     }
 
     const dataBuffer = new Buffer(blob, 'base64');
@@ -391,7 +391,7 @@ function handleChuncks(data, audio = true) {
 
   }
   catch(e){
-    logger.error('Error: ' + e);
+    logger.error('handleChuncks-Error: ' + e);
   }
     
 }
@@ -535,7 +535,7 @@ wss.on('connection', function connection(ws) {
             }
 
         } catch (e) {
-            logger.error('Error: ' + e); 
+            logger.error('incoming(message)-Error: ' + e); 
         }
     });
 
