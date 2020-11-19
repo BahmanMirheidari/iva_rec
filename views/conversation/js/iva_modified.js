@@ -37,40 +37,8 @@ $(function(){
 	var videoOnlyStream;
 	var myAudioRecorder;
 
-	var BUFFER_SIZE = 4096 * 10;
-	var MAX_BUFFER = 5;
-	var sampleRate = 16000;
-	var numChannels = 2;
-	var buffer = [];
-	var buffer_len = 0; 
-
-	var context_audio;
-    var mediaStreamSource_audio;
-	var javascriptNode_audio;
-
-
-	function makeAudioOnlyStreamFromExistingStream(stream) {
-	var audioStream = stream.clone();
-	  
-	  var videoTracks = audioStream.getVideoTracks();
-	  for (var i = 0, len = videoTracks.length; i < len; i++) {
-	    audioStream.removeTrack(videoTracks[i]);
-	  }
-	  console.log('created audio only stream, original stream tracks: ', stream.getTracks());
-	  console.log('created audio only stream, new stream tracks: ', audioStream.getTracks());
-	  return audioStream;
-	}
- 
-	function makeVideoOnlyStreamFromExistingStream(stream) {
-	  var videoStream = stream.clone();
-	  var audioTracks = videoStream.getAudioTracks();
-	  for (var i = 0, len = audioTracks.length; i < len; i++) {
-	    videoStream.removeTrack(audioTracks[i]);
-	  }
-	  console.log('created video only stream, original stream tracks: ', stream.getTracks());
-	  console.log('created video only stream, new stream tracks: ', videoStream.getTracks());
-	  return videoStream;
-	} 
+	var RECORDING_FLAG   = false;
+	var RECORDING_CHUNKS = 10 * 1000; //1 sec 
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -85,8 +53,7 @@ $(function(){
 
 			  } else {
 			    // Avoid using this in new browsers, as it is going away.
-			    video.src = window.URL.createObjectURL(stream);
-
+			    video.src = window.URL.createObjectURL(stream); 
 			  }
 
 			  //video
@@ -99,7 +66,29 @@ $(function(){
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    });  
+			    }); 
+
+			  // send each RECORDING_CHUNKS sec
+			  setInterval(function(){   
+			  	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){ 
+			  		mediaRecorder && mediaRecorder.stopRecording(function() {
+				        let blob_video = mediaRecorder.getBlob();
+				        //invokeSaveAsDialog(blob_video);
+
+				        var reader = new FileReader();
+						reader.onload = function(event){
+							var data = event.target.result.toString('base64'); 
+							if (data.length>100){  
+					            // send data via the websocket  
+					            ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:data}}));   
+							} 
+						}; 
+						reader.readAsDataURL(blob_video);   
+			    	});  
+			  		mediaRecorder && mediaRecorder.startRecording();  
+	  			}     
+			  }, RECORDING_CHUNKS); 
+
 			})
 			.catch(function(err) {
 			  console.log(err.name + " video (getUserMedia): " + err.message);
@@ -111,39 +100,29 @@ $(function(){
 			  audioOnlyStream = stream;  
 
 			  //for wave form
-			  displayWaveForm(audioOnlyStream); 
+			  displayWaveForm(audioOnlyStream);  
 
+			  myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {type: 'audio', mimeType: 'audio/webm'}) 
 
-			  myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {type: 'audio', mimeType: 'audio/webm'})
+			  // send each RECORDING_CHUNKS sec
+			  setInterval(function(){   
+			  	myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {  
+			        var reader = new FileReader();
+					reader.onload = function(event){
+						var data = event.target.result.toString('base64');
 
-			    // stream -> mediaSource -> javascriptNode -> destination
-			    context_audio = new AudioContext;
-			    mediaStreamSource_audio = context_audio.createMediaStreamSource(audioOnlyStream);
-				javascriptNode_audio = context_audio.createScriptProcessor(BUFFER_SIZE, 1, 1);
-				mediaStreamSource_audio.connect(javascriptNode_audio);
-				javascriptNode_audio.connect(context_audio.destination); 
-
-				javascriptNode_audio.onaudioprocess(function (e){ 
-					alert('buffer' +buffer_len.toString())  
-					for (var channel = 0; channel < numChannels; channel++) {   
-						buffer[channel].push(e.inputBuffer.getChannelData(channel)); 
-					} 
-
-					buffer_len += inputBuffer.getChannelData(0).length; 
-
-					if  (buffer_len >= BUFFER_SIZE * MAX_BUFFER) {
-
-						//export as wav blob
-						var blob = exportWAV();
-						alert('Blob size:' + blob.size.toString());
-
-						ws.send(JSON.stringify({msg:'wav-blob',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:blob}}));    
-
-						//init buffer
-						init_buffer();
-					}
+						if (data.length>100){
+							//Take first value from queue
+				            var value = queueAudio[0]; 
+				            // send data via the websocket  
+				            ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:data}}));    
+						} 
+					}; 
+					reader.readAsDataURL(blob_audio);  
 				});  
+			  	myAudioRecorder && myAudioRecorder.record();  
 
+			  }, RECORDING_CHUNKS);
 			})
 			.catch(function(err) {
 			  console.log(err.name + ": " + err.message);
@@ -811,66 +790,10 @@ $(function(){
 		} 
 	}    
 
-  function startRecording() {  
-  	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){
-  		//put value on end of queue
-	    queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
-
-  		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
-	       
-	  	myAudioRecorder && myAudioRecorder.stop(function(blob_audio) { 
-		    //invokeSaveAsDialog(blob_audio); 
-
-		    mediaRecorder && mediaRecorder.stopRecording(function() {
-		        let blob_video = mediaRecorder.getBlob();
-		        //invokeSaveAsDialog(blob_video);
-
-		        var reader = new FileReader();
-				reader.onload = function(event){
-					var data = event.target.result.toString('base64');
-
-					if (data.length>100){
-						//Take first value from queue
-			            var value = queueAudio.shift();
-			            if (value !== undefined){
-			            	
-				            // send data via the websocket  
-				            ws.send(JSON.stringify({msg:'webm-video',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-			            } 
-					}
-		            
-				};
-
-				reader.readAsDataURL(blob_video);   
-		    });   
-
-			//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
-			//videoMimeType = mediaRecorder.mimeType;
-		  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-		  	//mediaRecorder.start();  
-		  	mediaRecorder && mediaRecorder.startRecording();
-
-	        var reader = new FileReader();
-			reader.onload = function(event){
-				var data = event.target.result.toString('base64');
-
-				if (data.length>100){
-					//Take first value from queue
-		            var value = queueAudio[0];
-		            if (value !== undefined){
-		            	
-			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'webm-audio',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-		            } 
-				} 
-			};
-
-			reader.readAsDataURL(blob_audio);   
-
-		}); 
-
-	  	myAudioRecorder && myAudioRecorder.record(); 
-	  } 
+  function startRecording() {   
+  	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){  
+  		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
+	  }  
   } 
 
   function onMediaRecordingReady(e) { 
