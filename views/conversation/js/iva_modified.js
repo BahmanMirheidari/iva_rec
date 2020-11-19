@@ -44,6 +44,10 @@ $(function(){
 	var buffer = [];
 	var buffer_len = 0; 
 
+	var context_audio;
+    var mediaStreamSource_audio;
+	var javascriptNode_audio;
+
 
 	function makeAudioOnlyStreamFromExistingStream(stream) {
 	var audioStream = stream.clone();
@@ -101,9 +105,15 @@ $(function(){
 			    });   
 
 			  //for wave form
-			  displayWaveForm(audioOnlyStream);
+			  displayWaveForm(audioOnlyStream); 
 
-			  sendStream(audioOnlyStream);
+		    // stream -> mediaSource -> javascriptNode -> destination
+		    context_audio = new AudioContext;
+		    mediaStreamSource_audio = context_audio.createMediaStreamSource(audioOnlyStream);
+			javascriptNode_audio = context_audio.createScriptProcessor(BUFFER_SIZE, 1, 1);
+			mediaStreamSource_audio.connect(javascriptNode_audio);
+			javascriptNode_audio.connect(context_audio.destination); 
+			javascriptNode_audio.onaudioprocess= sendAudioStream;  
 
 			})
 			.catch(function(err) {
@@ -129,6 +139,29 @@ $(function(){
 		
 		return false;
     });  
+
+	init_buffer();
+
+    function sendAudioStream(e){ 
+		alert('buffer' +buffer_len.toString())  
+		for (var channel = 0; channel < numChannels; channel++) {   
+			buffer[channel].push(e.inputBuffer.getChannelData(channel)); 
+		} 
+
+		buffer_len += inputBuffer.getChannelData(0).length; 
+
+		if  (buffer_len >= BUFFER_SIZE * MAX_BUFFER) {
+
+			//export as wav blob
+			var blob = exportWAV();
+			alert('Blob size:' + blob.size.toString());
+
+			ws.send(JSON.stringify({msg:'wav-blob',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:blob}}));    
+
+			//init buffer
+			init_buffer();
+		}
+	}
 
 	// next Message Button
    	$("#nextMessageButton").click(function(){  
@@ -944,44 +977,7 @@ $(function(){
 		}
 		var dataview = encodeWAV(interleaved);
 		return new Blob([dataview], { type: type });   
-	} 
-
-	function sendStream(stream) {
-		// stream -> mediaSource -> javascriptNode -> destination
-	    var context = new AudioContext;
-	    var mediaStreamSource = context.createMediaStreamSource(stream);
-		var javascriptNode = context.createScriptProcessor(BUFFER_SIZE, 1, 1);
-		mediaStreamSource.connect(javascriptNode);
-		javascriptNode.connect(context.destination);
-		
-		javascriptNode.onaudioprocess(function(e){
-			var inputBuffer = e.inputBuffer;
-			alert('buffer' +buffer_len.toString())
-			
-			// Loop through the output channels (in this case there is only one)
-			if (buffer.length == 0){
-				init_buffer();
-			}
-
-			for (var channel = 0; channel < numChannels; channel++) {   
-				buffer[channel].push(inputBuffer.getChannelData(channel)); 
-			} 
-
-			buffer_len += inputBuffer.getChannelData(0).length; 
-
-			if  (buffer_len >= BUFFER_SIZE * MAX_BUFFER) {
-
-				//export as wav blob
-				var blob = exportWAV();
-				alert('Blob size:' + blob.size.toString());
-
-				ws.send(JSON.stringify({msg:'wav-blob',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:blob}}));    
-  
-				//init buffer
-				init_buffer();
-			}
-		}); 
-	}
+	}  
 
 	function displayWaveForm(stream) {
 		// stream -> mediaSource -> javascriptNode -> destination
