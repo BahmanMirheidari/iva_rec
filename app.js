@@ -352,7 +352,7 @@ message = JSON.parse(message);
       /* changed 20/6/20 */
       updateconversation(data, 'start');  
 
-    } else if (msg == 'mp3' || msg == 'webm') {
+    } else if (msg == 'mp3' || msg == 'webm'|| msg == 'webm-audio'|| msg == 'webm-video') {
 
       var token = data.token;
       var q_no = data.q_no; 
@@ -371,15 +371,29 @@ message = JSON.parse(message);
       if (len < max_file_size && len > 200){ 
         //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
           var base64Data = blob.split(';base64,').pop();
-    
+          var continue_processing = true;
+
+          if (msg == 'webm-audio'){
+            file_name = file_name + '-audio';
+            msg = 'webm';
+            continue_processing = false;
+          }
+
+          if (msg == 'webm-video'){
+            file_name = file_name + '-video';
+            msg = 'webm';
+            continue_processing = false;
+          }
+
           fs.writeFile(file_name + "." + msg, base64Data, 'base64', function(err) {
           if(err) {
                   logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg+ " - " + err);
-             } else { 
+             } else {  
+
              logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
              common.copy_to_mount(config.mount_dir,file_name + msg,token,dest+msg); 
 
-             if (msg == 'webm'){  
+             if (continue_processing && msg == 'webm'){  
 
                 try {
                     var process = new ffmpeg(file_name + "." + msg);  

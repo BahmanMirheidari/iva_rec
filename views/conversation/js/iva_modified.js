@@ -817,9 +817,7 @@ $(function(){
 	    queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
-	     
-	    
-
+	       
 	  	myAudioRecorder && myAudioRecorder.stop(function(blob_audio) { 
 		    invokeSaveAsDialog(blob_audio); 
 
@@ -831,13 +829,13 @@ $(function(){
 				reader.onload = function(event){
 					var data = event.target.result.toString('base64');
 
-					if (data.length>1000){
+					if (data.length>100){
 						//Take first value from queue
 			            var value = queueAudio.shift();
 			            if (value !== undefined){
 			            	
 				            // send data via the websocket  
-				            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+				            ws.send(JSON.stringify({msg:'webm-video',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
 			            } 
 					}
 		            
@@ -856,25 +854,22 @@ $(function(){
 			reader.onload = function(event){
 				var data = event.target.result.toString('base64');
 
-				if (data.length>1000){
+				if (data.length>100){
 					//Take first value from queue
 		            var value = queueAudio[0];
 		            if (value !== undefined){
 		            	
 			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+			            ws.send(JSON.stringify({msg:'webm-audio',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
 		            } 
-				}
-	            
+				} 
 			};
 
 			reader.readAsDataURL(blob_audio);   
 
-		});
+		}); 
 
-
-	  	myAudioRecorder && myAudioRecorder.record();
-
+	  	myAudioRecorder && myAudioRecorder.record(); 
 	  } 
   } 
 
