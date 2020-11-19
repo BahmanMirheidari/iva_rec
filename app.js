@@ -373,7 +373,7 @@ function handleChuncks(data, audio = true) {
     var dest = 'Q' + q_no.toString() + '-R' + r_no.toString();
     var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
     var ext = "-audio.webm";
-    if (audio)
+    if (audio==false)
         ext = "-video.webm";
 
     if (!fs.existsSync(file_name + ext)) {
