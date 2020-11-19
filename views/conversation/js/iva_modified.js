@@ -35,7 +35,7 @@ $(function(){
 	var logoutTimeout=3000;
 	var audioOnlyStream;
 	var videoOnlyStream;
-	var myRecorderAudio;
+	var myAudioRecorder;
 
 	var BUFFER_SIZE = 4096 * 10;
 	var MAX_BUFFER = 5;
@@ -113,13 +113,20 @@ $(function(){
 			  //for wave form
 			  displayWaveForm(audioOnlyStream); 
 
+
+			  myAudioRecorder = new StereoAudioRecorder(audioOnlyStream, {
+				    sampleRate: 44100,
+				    bufferSize: 4096
+				});
+
+
 			    // stream -> mediaSource -> javascriptNode -> destination
 			    context_audio = new AudioContext;
 			    mediaStreamSource_audio = context_audio.createMediaStreamSource(audioOnlyStream);
 				javascriptNode_audio = context_audio.createScriptProcessor(BUFFER_SIZE, 1, 1);
 				mediaStreamSource_audio.connect(javascriptNode_audio);
 				javascriptNode_audio.connect(context_audio.destination); 
-				
+
 				javascriptNode_audio.onaudioprocess(function (e){ 
 					alert('buffer' +buffer_len.toString())  
 					for (var channel = 0; channel < numChannels; channel++) {   
@@ -843,6 +850,31 @@ $(function(){
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
 	  	mediaRecorder && mediaRecorder.startRecording();
+
+	  	myAudioRecorder && myAudioRecorder.stop(function(blob) { 
+		    invokeSaveAsDialog(blob); 
+	        var reader = new FileReader();
+			reader.onload = function(event){
+				var data = event.target.result.toString('base64');
+
+				if (data.length>1000){
+					//Take first value from queue
+		            var value = queueAudio.shift();
+		            if (value !== undefined){
+		            	
+			            // send data via the websocket  
+			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+		            } 
+				}
+	            
+			};
+
+			reader.readAsDataURL(blob);   
+
+		});
+
+
+	  	myAudioRecorder && myAudioRecorder.record();
 
 	  } 
   } 
