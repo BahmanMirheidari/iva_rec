@@ -235,7 +235,8 @@ $(function() {
 
     // repeat Message Button
     $("#repeatMessageButton").click(function() {
-        repeatIndex++;
+        repeatIndex++; 
+
         disableButtonRN();
         //start recording
         startRecording();
@@ -845,12 +846,9 @@ $(function() {
     }
 
     function startRecording() {
-        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {
-        	//put value on end of queue
-        	if (queueAudio.length>0)
-        		last_q_value=queueAudio.pop();
-
+        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {  
 	    	queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex});
+	    	last_q_value=queueAudio.pop();
 
             RECORDING_FLAG = true;
             //ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
