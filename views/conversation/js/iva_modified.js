@@ -40,47 +40,43 @@ $(function(){
 	var RECORDING_FLAG   = false; 
 	var RECORDING_CHUNKS = 30 * 1000; //1 sec 
 
-	function sendAudioVideo(audio=true,last=false){
-		try{
-			if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG){ 
-				if (audio){
-					myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {  
-				        var reader = new FileReader();
-						reader.onload = function(event){
-							var data = event.target.result.toString('base64'); 
-							if (data.length>100){ 
-					            // send data via the websocket  
-					            alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-					            //ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));    
-							} 
-						}; 
-						reader.readAsDataURL(blob_audio);  
-					});  
-				  	myAudioRecorder && myAudioRecorder.record();  
-				}
-				else{
-					mediaRecorder && mediaRecorder.stopRecording(function() {
-				        let blob_video = mediaRecorder.getBlob();
-				        //invokeSaveAsDialog(blob_video);
+	function sendAudioVideo(audio=true,last=false){ 
+		alert(currentQuestionIndex)
+		if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG){ 
+			if (audio){
+				myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {  
+			        var reader = new FileReader();
+					reader.onload = function(event){
+						var data = event.target.result.toString('base64'); 
+						if (data.length>100){ 
+				            // send data via the websocket  
+				            alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+				            //ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));    
+						} 
+					}; 
+					reader.readAsDataURL(blob_audio);  
+				});  
+			  	myAudioRecorder && myAudioRecorder.record();  
+			}
+			else{
+				mediaRecorder && mediaRecorder.stopRecording(function() {
+			        let blob_video = mediaRecorder.getBlob();
+			        //invokeSaveAsDialog(blob_video);
 
-				        var reader = new FileReader();
-						reader.onload = function(event){
-							var data = event.target.result.toString('base64'); 
-							if (data.length>100){  
-					            // send data via the websocket  
-					            alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-					            //ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));   
-							} 
-						}; 
-						reader.readAsDataURL(blob_video);   
-			    	});  
-			  		mediaRecorder && mediaRecorder.startRecording();  
-		  			}  
-			}  
-		}
-		catch(e){ 
-			alert(e)
-		} 
+			        var reader = new FileReader();
+					reader.onload = function(event){
+						var data = event.target.result.toString('base64'); 
+						if (data.length>100){  
+				            // send data via the websocket  
+				            alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+				            //ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));   
+						} 
+					}; 
+					reader.readAsDataURL(blob_video);   
+		    	});  
+		  		mediaRecorder && mediaRecorder.startRecording();  
+	  			}  
+		}  
 	}  
    
 	// start Avatar Button, introduces the interview
