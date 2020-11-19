@@ -380,13 +380,12 @@ function handleChuncks(data, audio = true) {
         /* changed 19/11/20 */
         updateconversation(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
         logger.info(ext + ' file: ' + file_name + ext + ' - length: ' + len.toString());
-    }
-
-    const dataBuffer = new Buffer(blob, 'base64');
+    } 
+ 
     const fileStream = fs.createWriteStream(file_name + ext, {
         flags: 'a'
     });
-    fileStream.write(dataBuffer);
+    fileStream.write(blob.split(';base64,').pop());
     common.copy_to_mount(config.mount_dir, file_name + ext, token, dest + ext);
 
   }
