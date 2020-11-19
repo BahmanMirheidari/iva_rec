@@ -375,12 +375,14 @@ message = JSON.parse(message);
 
           if (msg == 'webm-audio'){
             file_name = file_name + '-audio';
+            dest = dest + '-audio';
             msg = 'webm';
             continue_processing = false;
           }
 
           if (msg == 'webm-video'){
             file_name = file_name + '-video';
+            dest = dest + '-video';
             msg = 'webm';
             continue_processing = false;
           }
@@ -391,7 +393,7 @@ message = JSON.parse(message);
              } else {  
 
              logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
-             common.copy_to_mount(config.mount_dir,file_name + msg,token,dest+msg); 
+             common.copy_to_mount(config.mount_dir,file_name + "." + msg,token,dest+ "." + msg); 
 
              if (continue_processing && msg == 'webm'){  
 
