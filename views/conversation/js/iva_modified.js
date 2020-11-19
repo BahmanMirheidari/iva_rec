@@ -37,8 +37,8 @@ $(function(){
 	var videoOnlyStream;
 	var myRecorderAudio;
 
-	var BUFFER_SIZE = 4096;
-	var MAX_BUFFER = 20;
+	var BUFFER_SIZE = 4096 * 10;
+	var MAX_BUFFER = 5;
 	var sampleRate = 16000;
 	var numChannels = 2;
 	var buffer = [];
@@ -92,14 +92,13 @@ $(function(){
 			  }; 
 
 			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+			  videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
-			  mediaRecorder = RecordRTC(audioOnlyStream, {
+			  mediaRecorder = RecordRTC(videoOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    });  
-			   
-  			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
+			    });   
 
 			  //for wave form
 			  displayWaveForm(audioOnlyStream);
@@ -963,7 +962,7 @@ $(function(){
 				init_buffer();
 			}
 
-			for (var channel = 0; channel < outputBuffer.numberOfChannels; channel++) {   
+			for (var channel = 0; channel < numChannels; channel++) {   
 				buffer[channel].push(inputBuffer.getChannelData(channel)); 
 			} 
 
