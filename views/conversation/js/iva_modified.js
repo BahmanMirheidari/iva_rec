@@ -52,7 +52,8 @@ $(function(){
 							//Take first value from queue
 				            var value = queueAudio[0]; 
 				            // send data via the websocket  
-				            ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));    
+				            alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+				            //ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));    
 						} 
 					}; 
 					reader.readAsDataURL(blob_audio);  
@@ -69,7 +70,8 @@ $(function(){
 						var data = event.target.result.toString('base64'); 
 						if (data.length>100){  
 				            // send data via the websocket  
-				            ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));   
+				            alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+				            //ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));   
 						} 
 					}; 
 					reader.readAsDataURL(blob_video);   
@@ -77,8 +79,7 @@ $(function(){
 		  		mediaRecorder && mediaRecorder.startRecording();  
 	  			}  
 		}  
-	} 
-
+	}  
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
