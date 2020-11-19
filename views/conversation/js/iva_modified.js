@@ -40,8 +40,7 @@ $(function(){
 	var RECORDING_FLAG   = false; 
 	var RECORDING_CHUNKS = 30 * 1000; //1 sec 
 
-	function sendAudioVideo(audio=true,last=false){ 
-		alert(currentQuestionIndex)
+	function sendAudioVideo(audio=true,last=false){  
 		if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG){ 
 			if (audio){
 				myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {  
@@ -798,14 +797,11 @@ $(function(){
 
   function startRecording() {  
   	  if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){  
-  	  	a=1;
+  	  	RECORDING_FLAG=true; 
   		//ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
-  		//sendAudioVideo(audio=true,last=true);
-  		//sendAudioVideo(audio=false,last=true);
+  		sendAudioVideo(audio=true,last=true);
+  		sendAudioVideo(audio=false,last=true);
 	  }  
-	  else if (currentQuestionIndex == 0){
-	  	RECORDING_FLAG=true;
-	  }
 	  else{
 	  	RECORDING_FLAG=false;
 	  }  
