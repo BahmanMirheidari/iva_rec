@@ -147,11 +147,7 @@ $(function(){
 		playQuestion();
 		
 		return false;
-    });  
-
-	init_buffer();
-
-    
+    });   
 
 	// next Message Button
    	$("#nextMessageButton").click(function(){  
@@ -842,13 +838,7 @@ $(function(){
 		// Outline
 	    getCanvas().getContext('2d').clearRect(0,0,width,height);
 		canvasDrawSquare(0,0,width,height);
-	}
-
-	function init_buffer(){
-		buffer_len = 0; 
-		for (var channel = 0; channel < numChannels; channel++)
-			buffer[channel] = []; 
-	}
+	} 
 
 	function encodeWAV(samples,numChannels, sampleRate, channels=2) {
 		var buf = new ArrayBuffer(44 + samples.length * 2);
