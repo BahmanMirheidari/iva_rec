@@ -40,7 +40,7 @@ $(function() {
     var last_q_value;
 
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 30 * 1000; //1 sec 
+    var RECORDING_CHUNKS = 10 * 1000; //1 sec 
 
     function sendAudioVideo(audio = true, last = false) {
         if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
@@ -83,7 +83,7 @@ $(function() {
                         var value=queueAudio[0];
                         if (last_q_value !== undefined)
                         	value=last_q_value;
-                        
+
                         if (value !== undefined && data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
