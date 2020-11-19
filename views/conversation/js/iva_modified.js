@@ -114,11 +114,7 @@ $(function(){
 			  displayWaveForm(audioOnlyStream); 
 
 
-			  myAudioRecorder = new StereoAudioRecorder(audioOnlyStream, {
-				    sampleRate: 44100,
-				    bufferSize: 4096
-				});
-
+			  myAudioRecorder = new StereoAudioRecorder(audioOnlyStream); 
 
 			    // stream -> mediaSource -> javascriptNode -> destination
 			    context_audio = new AudioContext;
