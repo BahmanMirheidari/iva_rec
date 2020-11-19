@@ -385,7 +385,7 @@ function handleChuncks(data, audio = true) {
     const fileStream = fs.createWriteStream(file_name + ext, {
         flags: 'a'
     });
-    fileStream.write(blob.split(';base64,').pop());
+    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64'));
     common.copy_to_mount(config.mount_dir, file_name + ext, token, dest + ext);
 
   }
