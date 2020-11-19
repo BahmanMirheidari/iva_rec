@@ -37,6 +37,7 @@ $(function() {
     var audioOnlyStream;
     var videoOnlyStream;
     var myAudioRecorder;
+    var last_q_value;
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 30 * 1000; //1 sec 
@@ -49,6 +50,9 @@ $(function() {
                     reader.onload = function(event) {
                         var data = event.target.result.toString('base64');
                         var value=queueAudio[0];
+                        if (last_q_value !== undefined)
+                        	value=last_q_value;
+
                         if (value !== undefined && data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
@@ -77,6 +81,9 @@ $(function() {
                     reader.onload = function(event) {
                         var data = event.target.result.toString('base64');
                         var value=queueAudio[0];
+                        if (last_q_value !== undefined)
+                        	value=last_q_value;
+                        
                         if (value !== undefined && data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
@@ -841,7 +848,8 @@ $(function() {
         if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions) {
         	//put value on end of queue
         	if (queueAudio.length>0)
-        		v=queueAudio.pop();
+        		last_q_value=queueAudio.pop();
+
 	    	queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex});
 
             RECORDING_FLAG = true;
