@@ -40,7 +40,7 @@ $(function() {
     var last_q_value;
 
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 10 * 1000; //1o sec 
+    var RECORDING_CHUNKS = 5 * 1000; //1o sec 
 
     function sendAudioVideo(audio = true, last = false) {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
