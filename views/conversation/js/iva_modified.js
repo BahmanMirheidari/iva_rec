@@ -38,7 +38,7 @@ $(function(){
 	var myAudioRecorder;
 
 	var RECORDING_FLAG   = false;
-	var RECORDING_CHUNKS = 10 * 1000; //1 sec 
+	var RECORDING_CHUNKS = 1 * 1000; //1 sec 
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -80,7 +80,7 @@ $(function(){
 							var data = event.target.result.toString('base64'); 
 							if (data.length>100){  
 					            // send data via the websocket  
-					            ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:data}}));   
+					            ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, data:data}}));   
 							} 
 						}; 
 						reader.readAsDataURL(blob_video);   
@@ -115,7 +115,7 @@ $(function(){
 							//Take first value from queue
 				            var value = queueAudio[0]; 
 				            // send data via the websocket  
-				            ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:data}}));    
+				            ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, data:data}}));    
 						} 
 					}; 
 					reader.readAsDataURL(blob_audio);  

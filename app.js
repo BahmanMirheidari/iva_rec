@@ -314,6 +314,30 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated() || req.session.authorised) { return next(); }
   res.redirect('/login');
 }
+
+function handleChuncks(data,audio=true){ 
+  var token = data.token;
+  var q_no = data.q_no; 
+  var r_no = data.r_no;   
+  var blob = data.data;
+  var len  = blob.length; 
+  var dest = 'Q'+ q_no.toString() + '-R' + r_no.toString();
+  var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
+  var ext="-audio.webm";
+  if (audio)
+    ext="-video.webm";
+
+  if (!fs.existsSync(file_name + ext)) { 
+    /* changed 19/11/20 */
+    updateconversation(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()); 
+    logger.info(ext + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
+  }
+
+  const dataBuffer = new Buffer(blob, 'base64');
+  const fileStream = fs.createWriteStream(file_name + ext, {flags: 'a'});
+  fileStream.write(dataBuffer);
+  common.copy_to_mount(config.mount_dir,file_name + ext,token,dest + ext);  
+}
   
 var https = ( config.ssl ) ? require('https') : require('http'); 
 var httpsServer = ( config.ssl ) ? https.createServer({key: fs.readFileSync(config.paths.key_file_path, 'utf8'), cert: fs.readFileSync(config.paths.cert_file_path, 'utf8')}, app) : httpsServer = https.createServer(app);
@@ -351,6 +375,14 @@ message = JSON.parse(message);
       logger.info('token: ' + data); 
       /* changed 20/6/20 */
       updateconversation(data, 'start');  
+
+    } else if ('webm-audio-chunk') {
+      handleChuncks(data,audio=true);
+      return; 
+
+    } else if (msg == 'webm-video-chunk') {
+      handleChuncks(data,audio=false);
+      return;  
 
     } else if (msg == 'mp3' || msg == 'webm'|| msg == 'webm-audio'|| msg == 'webm-video') {
 
