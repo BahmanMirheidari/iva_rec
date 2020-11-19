@@ -37,6 +37,13 @@ $(function(){
 	var videoOnlyStream;
 	var myRecorderAudio;
 
+	var BUFFER_SIZE = 4096;
+	var MAX_BUFFER = 20;
+	var sampleRate = 16000;
+	var numChannels = 2;
+	var buffer = [];
+	var buffer_len = 0; 
+
 
 	function makeAudioOnlyStreamFromExistingStream(stream) {
 	var audioStream = stream.clone();
@@ -59,8 +66,7 @@ $(function(){
 	  console.log('created video only stream, original stream tracks: ', stream.getTracks());
 	  console.log('created video only stream, new stream tracks: ', videoStream.getTracks());
 	  return videoStream;
-	}
-
+	} 
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -85,17 +91,19 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  mediaRecorder = RecordRTC(stream, {
+			  /*mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
 			    }); 
 
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);*/
   			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
-			  onSuccess(audioOnlyStream);
+			  displayWaveForm(stream);
+
+			  sendStream(stream, STREAM_BUFFER_SIZE);
 
 			})
 			.catch(function(err) {
@@ -848,16 +856,140 @@ $(function(){
 		canvasDrawSquare(0,0,width,height);
 	}
 
-	function onSuccess(stream) {
+	function init_buffer(){
+		buffer_len = 0; 
+		for (var channel = 0; channel < numChannels; channel++)
+			buffer[channel] = []; 
+	}
+
+	function encodeWAV(samples,numChannels, sampleRate, channels=2) {
+		var buf = new ArrayBuffer(44 + samples.length * 2);
+		var view = new DataView(buf);
+		/* RIFF identifier */
+		writeString(view, 0, 'RIFF');
+		/* RIFF chunk length */ 
+		view.setUint32(4, 4 * channels + 32 + samples.length * 2, true); //*** changed //
+		/* RIFF type */
+		writeString(view, 8, 'WAVE');
+		/* format chunk identifier */
+		writeString(view, 12, 'fmt ');
+		/* format chunk length */
+		view.setUint32(16, 16, true);
+		/* sample format (raw) */
+		view.setUint16(20, 1, true);
+		/* channel count */
+		view.setUint16(22, channels, true); //*** changed //
+		/* sample rate */
+		view.setUint32(24, sampleRate, true);
+		/* byte rate (sample rate * block align) */
+		view.setUint32(28, sampleRate * 2 * channels, true); //*** changed //
+		/* block align (channel count * bytes per sample) */
+		view.setUint16(32, channels * 2, true);
+		/* bits per sample */
+		view.setUint16(34, 16, true);
+		/* data chunk identifier */
+		writeString(view, 36, 'data');
+		/* data chunk length */
+		view.setUint32(40, samples.length * 2, true);
+		floatTo16BitPCM(view, 44, samples);
+		return view;
+	} 
+
+	function floatTo16BitPCM(output, offset, input) {
+        for (let i = 0; i < input.length; i++, offset += 2) {
+            let s = Math.max(-1, Math.min(1, input[i]));
+            output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+        }
+    }
+
+    function writeString(view, offset, string) {
+        for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
+        }
+    } 
+
+	function mergeBuffers(recBuffers, recLength) {
+	    let result = new Float32Array(recLength);
+	    let offset = 0;
+	    for (let i = 0; i < recBuffers.length; i++) {
+	        result.set(recBuffers[i], offset);
+	        offset += recBuffers[i].length;
+	    }
+	    return result;
+	}
+
+	function interleave(inputL, inputR) {
+	    let length = inputL.length + inputR.length;
+	    let result = new Float32Array(length);
+
+	    let index = 0,
+	        inputIndex = 0;
+
+	    while (index < length) {
+	        result[index++] = inputL[inputIndex];
+	        result[index++] = inputR[inputIndex];
+	        inputIndex++;
+	    }
+	    return result;
+	}  
+
+	function exportWAV(type='audio/wav') { 
+		var buffers = [];
+		for (var channel = 0; channel < numChannels; channel++) {
+			buffers.push(mergeBuffers(buffer[channel], buffer_len));
+		}
+		var interleaved = undefined;
+		if (audioChannels === 2) {
+			interleaved = interleave(buffers[0], buffers[1]);
+		} else {
+			interleaved = buffers[0];
+		}
+		var dataview = encodeWAV(interleaved);
+		return new Blob([dataview], { type: type });   
+	} 
+
+	function sendStream(stream) {
+		// stream -> mediaSource -> javascriptNode -> destination
+	    var context = new AudioContext;
+	    var mediaStreamSource = context.createMediaStreamSource(stream);
+		var javascriptNode = context.createScriptProcessor(BUFFER_SIZE, 1, 1);
+		mediaStreamSource.connect(javascriptNode);
+		javascriptNode.connect(context.destination);
+		
+		javascriptNode.onaudioprocess(function(e){
+			var inputBuffer = e.inputBuffer;
+			
+			// Loop through the output channels (in this case there is only one)
+			if (buffer.length == 0){
+				init_buffer();
+			}
+
+			for (var channel = 0; channel < outputBuffer.numberOfChannels; channel++) {   
+				buffer[channel].push(inputBuffer.getChannelData(channel)); 
+			} 
+
+			buffer_len += inputBuffer.getChannelData(0).length; 
+
+			if  (buffer_len >= BUFFER_SIZE * MAX_BUFFER) {
+				//export as wav blob
+				var blob = exportWAV();
+
+				ws.send(JSON.stringify({msg:'wav-blob',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:blob}}));    
+  
+				//init buffer
+				init_buffer();
+			}
+		}); 
+	}
+
+	function displayWaveForm(stream) {
 		// stream -> mediaSource -> javascriptNode -> destination
 	    var context = new AudioContext;
 	    var mediaStreamSource = context.createMediaStreamSource(stream);
 		var javascriptNode = context.createScriptProcessor(4096, 1, 1);
 		mediaStreamSource.connect(javascriptNode);
-		javascriptNode.connect(context.destination);
-		
-		javascriptNode.onaudioprocess = processBuffer;
-     
+		javascriptNode.connect(context.destination); 
+		javascriptNode.onaudioprocess = processBuffer; 
 	}
 
 	function processBuffer(e) {
