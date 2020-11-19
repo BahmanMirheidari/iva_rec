@@ -166,39 +166,43 @@ $(function(){
 	// next Message Button
    	$("#nextMessageButton").click(function(){  
    		$('#divStopWatch').removeClass('alert-danger').addClass('alert-warning').addClass('hidden');
-		//increment index
-		currentQuestionIndex++;  
-        repeatIndex = 0;
+   		try{
+   			//increment index
+			currentQuestionIndex++;  
+	        repeatIndex = 0;
 
-        disableButtonRN();
+	        disableButtonRN();
 
-		//start recording
-		startRecording();
+			//start recording
+			startRecording();
 
-		if (currentQuestionIndex==maxQuestions){  
-			//stopRecording();   
+			if (currentQuestionIndex==maxQuestions){  
+				//stopRecording();   
 
-			playQuestion();
+				playQuestion();
 
-			setTimeout(function() {  
-         		$("#divVideo").hide(); 
-         		$('#mycanvas').hide();  
-         		video.pause();
-    			video.src = "";
-         		liveStream.getTracks()[0].stop();
-         		liveStream.getTracks()[1].stop();
+				setTimeout(function() {  
+	         		$("#divVideo").hide(); 
+	         		$('#mycanvas').hide();  
+	         		video.pause();
+	    			video.src = "";
+	         		liveStream.getTracks()[0].stop();
+	         		liveStream.getTracks()[1].stop();
 
-         		init_survey();
+	         		init_survey();
 
-			 	$('#divAlert').hide(); 
+				 	$('#divAlert').hide(); 
 
-    			}, questions[currentQuestionIndex].length); 
+	    			}, questions[currentQuestionIndex].length); 
 
 			return false;
-		} 
-		else
-			//play current question
-			playQuestion(); 
+			} 
+			else
+				//play current question
+				playQuestion(); 
+	   		}
+	   	catch(e){alert(e);}
+			
 		
 		return false;
 	    }); 
