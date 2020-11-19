@@ -26,7 +26,7 @@ $(function() {
     var response = {};
     var questions = configuration.questions;
     var maxQuestions = questions.length - 1;
-    var startQuestionIndex = 10; // ****** CHANGE THIS TO 0
+    var startQuestionIndex =0; // ****** CHANGE THIS TO 0
     var surveyIndex = 0;
     var pre_surveyIndex = 0;
     var questionnaire = 1;
@@ -40,7 +40,7 @@ $(function() {
     var last_q_value;
 
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 10 * 1000; //1 sec 
+    var RECORDING_CHUNKS = 10 * 1000; //1o sec 
 
     function sendAudioVideo(audio = true, last = false) {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
