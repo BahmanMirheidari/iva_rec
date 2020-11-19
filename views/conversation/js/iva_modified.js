@@ -392,7 +392,7 @@ $(function(){
 		if (currentQuestionIndex == maxQuestions){
 			$('#divQuestionNo').hide();
 
-			$('#divQuestionNo').hide();
+			$('#divAlert').hide();
 
 		}
 		else if (currentQuestionIndex>0){
