@@ -37,8 +37,48 @@ $(function(){
 	var videoOnlyStream;
 	var myAudioRecorder;
 
-	var RECORDING_FLAG   = false;
-	var RECORDING_CHUNKS = 1 * 1000; //1 sec 
+	var RECORDING_FLAG   = false; 
+	var RECORDING_CHUNKS = 30 * 1000; //1 sec 
+
+	function sendAudioVideo(audio=true,last=false){
+		if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG){ 
+			if (audio){
+				myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {  
+			        var reader = new FileReader();
+					reader.onload = function(event){
+						var data = event.target.result.toString('base64');
+
+						if (data.length>100){
+							//Take first value from queue
+				            var value = queueAudio[0]; 
+				            // send data via the websocket  
+				            ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));    
+						} 
+					}; 
+					reader.readAsDataURL(blob_audio);  
+				});  
+			  	myAudioRecorder && myAudioRecorder.record();  
+			}
+			else{
+				mediaRecorder && mediaRecorder.stopRecording(function() {
+			        let blob_video = mediaRecorder.getBlob();
+			        //invokeSaveAsDialog(blob_video);
+
+			        var reader = new FileReader();
+					reader.onload = function(event){
+						var data = event.target.result.toString('base64'); 
+						if (data.length>100){  
+				            // send data via the websocket  
+				            ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));   
+						} 
+					}; 
+					reader.readAsDataURL(blob_video);   
+		    	});  
+		  		mediaRecorder && mediaRecorder.startRecording();  
+	  			}  
+		}  
+	} 
+
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -70,23 +110,8 @@ $(function(){
 
 			  // send each RECORDING_CHUNKS sec
 			  setInterval(function(){   
-			  	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){ 
-			  		mediaRecorder && mediaRecorder.stopRecording(function() {
-				        let blob_video = mediaRecorder.getBlob();
-				        //invokeSaveAsDialog(blob_video);
-
-				        var reader = new FileReader();
-						reader.onload = function(event){
-							var data = event.target.result.toString('base64'); 
-							if (data.length>100){  
-					            // send data via the websocket  
-					            ws.send(JSON.stringify({msg:'webm-video-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, data:data}}));   
-							} 
-						}; 
-						reader.readAsDataURL(blob_video);   
-			    	});  
-			  		mediaRecorder && mediaRecorder.startRecording();  
-	  			}     
+			  	sendAudioVideo(audio=false);
+			  	
 			  }, RECORDING_CHUNKS); 
 
 			})
@@ -105,22 +130,8 @@ $(function(){
 			  myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {type: 'audio', mimeType: 'audio/webm'}) 
 
 			  // send each RECORDING_CHUNKS sec
-			  setInterval(function(){   
-			  	myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {  
-			        var reader = new FileReader();
-					reader.onload = function(event){
-						var data = event.target.result.toString('base64');
-
-						if (data.length>100){
-							//Take first value from queue
-				            var value = queueAudio[0]; 
-				            // send data via the websocket  
-				            ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, data:data}}));    
-						} 
-					}; 
-					reader.readAsDataURL(blob_audio);  
-				});  
-			  	myAudioRecorder && myAudioRecorder.record();  
+			  setInterval(function(){
+			  	sendAudioVideo(audio=true);   
 
 			  }, RECORDING_CHUNKS);
 			})
@@ -789,7 +800,15 @@ $(function(){
   function startRecording() {   
   	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){  
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
+  		sendAudioVideo(audio=true,last=true);
+  		sendAudioVideo(audio=false,last=true);
 	  }  
+	  else if (currentQuestionIndex == 0){
+	  	RECORDING_FLAG=true;
+	  }
+	  else{
+	  	RECORDING_FLAG=false;
+	  } 
   } 
 
   function onMediaRecordingReady(e) { 
