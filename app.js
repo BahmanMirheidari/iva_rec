@@ -534,7 +534,7 @@ wss.on('connection', function connection(ws) {
                 }
             }
 
-        } catch (e) {
+        } catch (e) { 
             logger.error('incoming(message)-Error: ' + e); 
         }
     });
