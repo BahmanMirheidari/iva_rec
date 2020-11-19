@@ -91,19 +91,20 @@ $(function(){
 			    video.play(); 
 			  }; 
 
-			  /*mediaRecorder = RecordRTC(stream, {
+			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
+
+			  mediaRecorder = RecordRTC(stream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
-			    }); 
-
-			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);*/
+			    });  
+			   
   			  //videoOnlyStream = makeVideoOnlyStreamFromExistingStream(stream);
 
 			  //for wave form
-			  displayWaveForm(stream);
+			  displayWaveForm(audioOnlyStream);
 
-			  sendStream(stream, STREAM_BUFFER_SIZE);
+			  sendStream(audioOnlyStream);
 
 			})
 			.catch(function(err) {
@@ -795,15 +796,13 @@ $(function(){
 			};
 
 			reader.readAsDataURL(blob);   
-	    });  
-
-	     
+	    });   
 
 		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
 		//videoMimeType = mediaRecorder.mimeType;
 	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 	  	//mediaRecorder.start();  
-	  	mediaRecorder.startRecording();
+	  	mediaRecorder && mediaRecorder.startRecording();
 
 	  } 
   } 
