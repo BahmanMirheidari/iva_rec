@@ -956,6 +956,7 @@ $(function(){
 		
 		javascriptNode.onaudioprocess(function(e){
 			var inputBuffer = e.inputBuffer;
+			alert('buffer' +buffer_len.toString())
 			
 			// Loop through the output channels (in this case there is only one)
 			if (buffer.length == 0){
