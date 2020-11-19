@@ -845,7 +845,7 @@ $(function() {
     }
 
     function startRecording() {
-        if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions) {
+        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {
         	//put value on end of queue
         	if (queueAudio.length>0)
         		last_q_value=queueAudio.pop();
