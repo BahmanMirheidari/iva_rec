@@ -819,11 +819,11 @@ $(function(){
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	       
 	  	myAudioRecorder && myAudioRecorder.stop(function(blob_audio) { 
-		    invokeSaveAsDialog(blob_audio); 
+		    //invokeSaveAsDialog(blob_audio); 
 
 		    mediaRecorder && mediaRecorder.stopRecording(function() {
 		        let blob_video = mediaRecorder.getBlob();
-		        invokeSaveAsDialog(blob_video);
+		        //invokeSaveAsDialog(blob_video);
 
 		        var reader = new FileReader();
 				reader.onload = function(event){
