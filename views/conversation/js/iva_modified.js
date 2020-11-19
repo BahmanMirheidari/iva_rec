@@ -25,7 +25,7 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=10;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=9;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var pre_surveyIndex=0;
 	var questionnaire=1;
@@ -177,16 +177,7 @@ $(function(){
 	// next Message Button
    	$("#nextMessageButton").click(function(){  
    		$('#divStopWatch').removeClass('alert-danger').addClass('alert-warning').addClass('hidden');
-		//increment index
-		currentQuestionIndex++;  
-        repeatIndex = 0;
-
-        disableButtonRN();
-
-		//start recording
-		startRecording();
-
-		if (currentQuestionIndex==maxQuestions){  
+   		if (currentQuestionIndex==maxQuestions){  
 			stopRecording();   
 
 			playQuestion();
@@ -207,9 +198,20 @@ $(function(){
 
 			return false;
 		} 
-		else
-			//play current question
-			playQuestion(); 
+
+		//increment index
+		if (currentQuestionIndex < maxQuestions)
+			currentQuestionIndex++; 
+			 
+        repeatIndex = 0;
+
+        disableButtonRN();
+
+		//start recording
+		startRecording(); 
+
+		//play current question
+		playQuestion(); 
 		
 		return false;
 	    }); 
@@ -392,7 +394,7 @@ $(function(){
 		if (currentQuestionIndex == maxQuestions){
 			$('#divQuestionNo').hide();
 
-			$('#divQuestionNo').hide();
+			//$('#divQuestionNo').hide();
 
 		}
 		else if (currentQuestionIndex>0){
