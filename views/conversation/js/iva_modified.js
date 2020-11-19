@@ -46,11 +46,8 @@ $(function(){
 				myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {  
 			        var reader = new FileReader();
 					reader.onload = function(event){
-						var data = event.target.result.toString('base64');
-
-						if (data.length>100){
-							//Take first value from queue
-				            var value = queueAudio[0]; 
+						var data = event.target.result.toString('base64'); 
+						if (data.length>100){ 
 				            // send data via the websocket  
 				            alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
 				            //ws.send(JSON.stringify({msg:'webm-audio-chunk',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, size:data.length, last:last, data:data}}));    
