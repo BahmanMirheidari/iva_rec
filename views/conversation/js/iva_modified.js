@@ -93,7 +93,7 @@ $(function(){
 
 			  audioOnlyStream = makeAudioOnlyStreamFromExistingStream(stream);
 
-			  mediaRecorder = RecordRTC(stream, {
+			  mediaRecorder = RecordRTC(audioOnlyStream, {
 			        type: 'video',
 			        mimeType: 'video/webm',
 			        recorderType: MediaStreamRecorder
@@ -970,8 +970,10 @@ $(function(){
 			buffer_len += inputBuffer.getChannelData(0).length; 
 
 			if  (buffer_len >= BUFFER_SIZE * MAX_BUFFER) {
+
 				//export as wav blob
 				var blob = exportWAV();
+				alert('Blob size:' + blob.size.toString());
 
 				ws.send(JSON.stringify({msg:'wav-blob',data:{token:token, q_no:currentQuestionIndex, r_no:repeatIndex, data:blob}}));    
   
