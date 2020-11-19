@@ -114,7 +114,7 @@ $(function(){
 			  displayWaveForm(audioOnlyStream); 
 
 
-			  myAudioRecorder = new StereoAudioRecorder(audioOnlyStream); 
+			  myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {type: 'audio', mimeType: 'audio/webm'})
 
 			    // stream -> mediaSource -> javascriptNode -> destination
 			    context_audio = new AudioContext;
