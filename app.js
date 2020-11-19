@@ -386,7 +386,7 @@ function handleChuncks(data, audio = true) {
         flags: 'a'
     });
     fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64'));
-    if (data.last)
+    //if (data.last)
       common.copy_to_mount(config.mount_dir, file_name + ext, token, dest + ext);
 
   }
