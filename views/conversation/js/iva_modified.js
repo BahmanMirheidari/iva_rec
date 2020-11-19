@@ -25,7 +25,7 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=0;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=10;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var pre_surveyIndex=0;
 	var questionnaire=1;
@@ -177,8 +177,17 @@ $(function(){
 	// next Message Button
    	$("#nextMessageButton").click(function(){  
    		$('#divStopWatch').removeClass('alert-danger').addClass('alert-warning').addClass('hidden');
-   		if (currentQuestionIndex==maxQuestions){  
-			stopRecording();   
+		//increment index
+		currentQuestionIndex++;  
+        repeatIndex = 0;
+
+        disableButtonRN();
+
+		//start recording
+		startRecording();
+
+		if (currentQuestionIndex==maxQuestions){  
+			//stopRecording();   
 
 			playQuestion();
 
@@ -198,20 +207,9 @@ $(function(){
 
 			return false;
 		} 
-
-		//increment index
-		if (currentQuestionIndex < maxQuestions)
-			currentQuestionIndex++; 
-
-        repeatIndex = 0;
-
-        disableButtonRN();
-
-		//start recording
-		startRecording(); 
-
-		//play current question
-		playQuestion(); 
+		else
+			//play current question
+			playQuestion(); 
 		
 		return false;
 	    }); 
@@ -394,7 +392,7 @@ $(function(){
 		if (currentQuestionIndex == maxQuestions){
 			$('#divQuestionNo').hide();
 
-			//$('#divQuestionNo').hide();
+			$('#divQuestionNo').hide();
 
 		}
 		else if (currentQuestionIndex>0){
@@ -814,7 +812,7 @@ $(function(){
 	}    
 
   function startRecording() {  
-  	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions){
+  	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){
   		//put value on end of queue
 	    queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
 
