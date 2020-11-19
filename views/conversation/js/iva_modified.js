@@ -822,9 +822,39 @@ $(function(){
 
   		ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));
 	     
-	    mediaRecorder && mediaRecorder.stopRecording(function() {
-	        let blob = mediaRecorder.getBlob();
-	        invokeSaveAsDialog(blob);
+	    
+
+	  	myAudioRecorder && myAudioRecorder.stop(function(blob_audio) { 
+		    invokeSaveAsDialog(blob_audio); 
+
+		    mediaRecorder && mediaRecorder.stopRecording(function() {
+		        let blob_video = mediaRecorder.getBlob();
+		        invokeSaveAsDialog(blob_video);
+
+		        var reader = new FileReader();
+				reader.onload = function(event){
+					var data = event.target.result.toString('base64');
+
+					if (data.length>1000){
+						//Take first value from queue
+			            var value = queueAudio.shift();
+			            if (value !== undefined){
+			            	
+				            // send data via the websocket  
+				            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
+			            } 
+					}
+		            
+				};
+
+				reader.readAsDataURL(blob_video);   
+		    });   
+
+			//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+			//videoMimeType = mediaRecorder.mimeType;
+		  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+		  	//mediaRecorder.start();  
+		  	mediaRecorder && mediaRecorder.startRecording();
 
 	        var reader = new FileReader();
 			reader.onload = function(event){
@@ -832,7 +862,7 @@ $(function(){
 
 				if (data.length>1000){
 					//Take first value from queue
-		            var value = queueAudio.shift();
+		            var value = queueAudio[0];
 		            if (value !== undefined){
 		            	
 			            // send data via the websocket  
@@ -842,34 +872,7 @@ $(function(){
 	            
 			};
 
-			reader.readAsDataURL(blob);   
-	    });   
-
-		//mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
-		//videoMimeType = mediaRecorder.mimeType;
-	  	//mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-	  	//mediaRecorder.start();  
-	  	mediaRecorder && mediaRecorder.startRecording();
-
-	  	myAudioRecorder && myAudioRecorder.stop(function(blob) { 
-		    invokeSaveAsDialog(blob); 
-	        var reader = new FileReader();
-			reader.onload = function(event){
-				var data = event.target.result.toString('base64');
-
-				if (data.length>1000){
-					//Take first value from queue
-		            var value = queueAudio.shift();
-		            if (value !== undefined){
-		            	
-			            // send data via the websocket  
-			            ws.send(JSON.stringify({msg:'webm',data:{token:token, q_no:value.q_no, r_no:value.r_no, data:data}}));    
-		            } 
-				}
-	            
-			};
-
-			reader.readAsDataURL(blob);   
+			reader.readAsDataURL(blob_audio);   
 
 		});
 
