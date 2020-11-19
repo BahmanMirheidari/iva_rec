@@ -25,7 +25,7 @@ $(function(){
 	var response = {};   
 	var questions = configuration.questions;
 	var maxQuestions=questions.length-1; 
-	var startQuestionIndex=9;    // ****** CHANGE THIS TO 0
+	var startQuestionIndex=0;    // ****** CHANGE THIS TO 0
 	var surveyIndex=0;
 	var pre_surveyIndex=0;
 	var questionnaire=1;
@@ -202,7 +202,7 @@ $(function(){
 		//increment index
 		if (currentQuestionIndex < maxQuestions)
 			currentQuestionIndex++; 
-			 
+
         repeatIndex = 0;
 
         disableButtonRN();
@@ -814,7 +814,7 @@ $(function(){
 	}    
 
   function startRecording() {  
-  	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions){
+  	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions){
   		//put value on end of queue
 	    queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
 
