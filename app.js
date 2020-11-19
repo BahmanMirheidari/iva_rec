@@ -364,6 +364,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 function handleChuncks(data, audio = true) {
+  try{
     var token = data.token;
     var q_no = data.q_no;
     var r_no = data.r_no;
@@ -387,6 +388,12 @@ function handleChuncks(data, audio = true) {
     });
     fileStream.write(dataBuffer);
     common.copy_to_mount(config.mount_dir, file_name + ext, token, dest + ext);
+
+  }
+  catch(e){
+    logger.error('Error: ' + e);
+  }
+    
 }
 
 var https = (config.ssl) ? require('https') : require('http');
@@ -528,8 +535,7 @@ wss.on('connection', function connection(ws) {
             }
 
         } catch (e) {
-            logger.error('Error: ' + e;
-
+            logger.error('Error: ' + e); 
         }
     });
 
