@@ -376,7 +376,7 @@ message = JSON.parse(message);
       /* changed 20/6/20 */
       updateconversation(data, 'start');  
 
-    } else if ('webm-audio-chunk') {
+    } else if (msg == 'webm-audio-chunk') {
       handleChuncks(data,audio=true);
       return; 
 
