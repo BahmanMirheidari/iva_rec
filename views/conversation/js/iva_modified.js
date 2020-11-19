@@ -36,8 +36,7 @@ $(function() {
     var logoutTimeout = 3000;
     var audioOnlyStream;
     var videoOnlyStream;
-    var myAudioRecorder;
-    var last_q_value;
+    var myAudioRecorder; 
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
@@ -49,11 +48,9 @@ $(function() {
                     var reader = new FileReader();
                     reader.onload = function(event) {
                         var data = event.target.result.toString('base64');
-                        var value=queueAudio[0];
-                        if (last_q_value !== undefined)
-                        	value=last_q_value;
+                        var value={q_no:currentQuestionIndex, r_no:repeatIndex} 
 
-                        if (value !== undefined && data.length > 100) {
+                        if (data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
                             ws.send(JSON.stringify({
@@ -80,11 +77,9 @@ $(function() {
                     var reader = new FileReader();
                     reader.onload = function(event) {
                         var data = event.target.result.toString('base64');
-                        var value=queueAudio[0];
-                        if (last_q_value !== undefined)
-                        	value=last_q_value;
-
-                        if (value !== undefined && data.length > 100) {
+                        var value={q_no:currentQuestionIndex, r_no:repeatIndex}  
+                        
+                        if (data.length > 100) {
                             // send data via the websocket  
                             //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
                             ws.send(JSON.stringify({
@@ -849,10 +844,10 @@ $(function() {
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {  
-        	if (queueAudio.length>0)
-        		last_q_value=queueAudio.pop();
+        	//if (queueAudio.length>0)
+        	//	last_q_value=queueAudio.pop();
 
-	    	queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
+	    	//queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
 
             RECORDING_FLAG = true;
             //ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
