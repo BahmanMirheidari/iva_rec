@@ -107,13 +107,7 @@ $(function() {
 
     	videoWebcam.setAttribute('autoplay', '');
 	    videoWebcam.setAttribute('muted', '');
-	    videoWebcam.setAttribute('playsinline', ''); 
-
-	    var videoIVA = document.querySelector('videoMp4');
-
-    	videoIVA.setAttribute('autoplay', '');
-	    videoIVA.setAttribute('muted', '');
-	    videoIVA.setAttribute('playsinline', '');  
+	    videoWebcam.setAttribute('playsinline', '');  
 
         navigator.mediaDevices.getUserMedia({
                 video: true
@@ -184,6 +178,12 @@ $(function() {
 				        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
 
 				        $('#divAlert').text('Recording ...');
+				        var videoIVA = document.querySelector('videoMp4');
+
+				    	videoIVA.setAttribute('autoplay', '');
+					    videoIVA.setAttribute('muted', '');
+					    videoIVA.setAttribute('playsinline', ''); 
+	    
 				        playQuestion();  
 
 				        return false;
