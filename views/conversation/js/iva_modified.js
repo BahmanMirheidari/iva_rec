@@ -312,8 +312,9 @@ $(function() {
             setTimeout(function() {
                 $("#divVideo").hide();
                 $('#mycanvas').hide();
-                video.pause();
-                video.src = "";
+                var videoWebcam = document.querySelector('video');
+                videoWebcam.pause();
+                videoWebcam.src = "";
                 liveStream.getTracks()[0].stop();
                 liveStream.getTracks()[1].stop();
 
@@ -981,6 +982,7 @@ $(function() {
     }
 
     function onMediaRecordingReady(blob) {
+    	alert(blob);
         var reader = new FileReader();
         reader.onload = function(event) {
             var data = event.target.result.toString('base64'); 
