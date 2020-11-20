@@ -40,7 +40,9 @@ $(function() {
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
+    var startDate;
 
+	/*
     function sendAudioVideo(q_no, r_no, audio = true, last = false) {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
             if (audio) {
@@ -98,7 +100,7 @@ $(function() {
                 mediaRecorder && mediaRecorder.startRecording();
             }
         }
-    }
+    }*/
 
     function detectOSBrowser(){
     	var OSName="Unknown OS";
@@ -179,7 +181,7 @@ $(function() {
 	    videoWebcam.setAttribute('playsinline', '');  
 
     	navigator.mediaDevices.getUserMedia({
-                video: true
+                video: true, audio: true
             })
             .then(function(stream) {
                 //webcam
@@ -201,19 +203,33 @@ $(function() {
                     videoWebcam.play();
                 };
 
-                mediaRecorder = RecordRTC(videoOnlyStream, {
+                /*mediaRecorder = RecordRTC(videoOnlyStream, {
                     type: 'video',
                     mimeType: 'video/webm',
                     recorderType: MediaStreamRecorder
-                });
+                });*/
+
+                mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
+                mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+                RECORDING_FLAG = true;
+                startDate = new Date();
+                mediaRecorder.start(); 
 
                 // send each RECORDING_CHUNKS sec
                 setInterval(function() {
-                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
+                	if (RECORDING_FLAG){
+                		mediaRecorder && mediaRecorder.stop(); 
+                		mediaRecorder.start(); 
+                	}
+                	else{
+                		mediaRecorder && mediaRecorder.stop();
+                	}
+                	
+                    //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
 
                 }, RECORDING_CHUNKS);
 
-                navigator.mediaDevices.getUserMedia({
+                /*navigator.mediaDevices.getUserMedia({
 		                audio: true
 		            })
 		            .then(function(stream) {
@@ -240,7 +256,7 @@ $(function() {
 		            .catch(function(err) {
 		                console.log(err.name + "audio (getUserMedia): " + err.message);
 		                callback(err.name + "audio (getUserMedia): " + err.message);
-		            }); 
+		            }); */
 
             })
             .catch(function(err) {
@@ -939,45 +955,49 @@ $(function() {
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {  
+        	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
+        	ws.send(JSON.stringify({
+        		msg:'segment',
+        		q_no: currentQuestionIndex.toString(), 
+        		r_no:repeatIndex.toString(),
+        		data:token, 
+        		time_diff:time_diff.toString()
+        	}));  
+
         	//if (queueAudio.length>0)
         	//	last_q_value=queueAudio.pop();
 
 	    	//queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
 
-            RECORDING_FLAG = true;
+            //RECORDING_FLAG = true;
             //ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
-            sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true, last = true);
-            sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false, last = true); 
+            //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true, last = true);
+            //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false, last = true); 
         } else {
             RECORDING_FLAG = false;
         }
     }
 
-    function onMediaRecordingReady(e) {
+    function onMediaRecordingReady(blob) {
         var reader = new FileReader();
         reader.onload = function(event) {
-            var data = event.target.result.toString('base64');
+            var data = event.target.result.toString('base64'); 
 
-            if (data.length > 1000) {
-                //Take first value from queue
-                var value = queueAudio.shift();
-                if (value !== undefined) {
-
-                    // send data via the websocket  
-                    ws.send(JSON.stringify({
-                        msg: 'webm',
-                        data: {
-                            token: token,
-                            q_no: value.q_no,
-                            r_no: value.r_no,
-                            data: data
-                        }
-                    }));
-                }
+            if (data.length > 100) {
+            	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+                // send data via the websocket  
+                //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+                ws.send(JSON.stringify({
+                    msg: 'webm-videoaudio',
+                    data: {
+                        token: token,
+                        time_diff:time_diff.toString(), 
+                        data: data
+                    }
+                }));
             }
-
         };
-        reader.readAsDataURL(e.data);
+        reader.readAsDataURL(blob); 
     }
 
     function stopRecording() {
@@ -1074,7 +1094,6 @@ $(function() {
             var val = (sample1 + sample2) * gain; // combine two samples and multiply by gain
             canvasDrawSquare(i, height / 2, i + 1, height / 2 - val);
         }
-
     }
 
     function onError() {

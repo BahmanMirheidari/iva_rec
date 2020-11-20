@@ -363,6 +363,57 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
+function handleWebmVideoAudio(data, max_webm_size=500000000){
+  var token = data.token; 
+  var blob = data.data; 
+  var sub_folder = __dirname + "/uploads/" + token;
+  var dest = 'recording.webm';
+  var file_name = sub_folder + '/' + dest;
+  var can_save = false; 
+  common.mkdir(sub_folder);
+ 
+  if (!fs.existsSync(file_name)) {
+    can_save = true;  
+    logger.info('received file: ' + file_name);
+  }
+  else{
+    const stat = fs.statSync(file_name);  
+    if (stat.size/max_webm_size <= 1)
+      can_save = true; 
+  } 
+
+  if (can_save){
+    const fileStream = fs.createWriteStream(file_name, {
+        flags: 'a'
+    });
+
+    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64')); 
+    common.copy_to_mount(config.mount_dir, file_name, token, dest); 
+  } 
+}
+
+function handelSegment(data){  
+  var token = data.token;
+  var q_no = data.q_no;
+  var r_no = data.r_no;
+  var time_diff = data.time_diff;
+  var sub_folder = __dirname + "/uploads/" + token;
+  var dest = 'segments.txt';
+  var file_name = sub_folder + '/' + dest;  
+  var segment = q_no + ',' + r_no + ',' + time_diff;
+
+  common.mkdir(sub_folder);
+
+  const fileStream = fs.createWriteStream(file_name, {
+        flags: 'a'
+    });
+  
+  fileStream.write(segment);
+  logger.info('recived segment for ' + token + ':' + segment);
+  updateconversation(token, 'segment:' + segment);
+  copy_to_mount(config.mount_dir,file_name,token,dest); 
+}
+
 function handleChuncks(data, audio = true) {
   try{
     var token = data.token;
@@ -425,25 +476,21 @@ wss.on('connection', function connection(ws) {
                     common.mkdir(__dirname + "/uploads/" + data.token);
 
                 /* changed 23/6/20 */
-                if (msg == 'consent') {
+                if (msg == 'consent') 
                     common.process_content(data, __dirname, config.mount_dir);
-                } else if (msg == 'survey') {
+                else if (msg == 'survey')
                     common.process_survey(data, __dirname, config.mount_dir);
-                } else if (msg == 'token') {
-                    logger.info('token: ' + data);
-                    /* changed 20/6/20 */
-                    updateconversation(data, 'start');
-
-                } else if (msg == 'webm-audio-chunk') {
-                    handleChuncks(data, audio = true);
-                    return;
-
-                } else if (msg == 'webm-video-chunk') {
-                    handleChuncks(data, audio = false);
-                    return;
-
-                } else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') {
-
+                else if (msg == 'segment')
+                    handelSegment(data);
+                else if (msg == 'webm-videoaudio')
+                    handleWebmVideoAudio(data); 
+                else if (msg == 'token')  
+                    logger.info('token: ' + data); 
+                else if (msg == 'webm-audio-chunk')  
+                    handleChuncks(data, audio = true);  
+                else if (msg == 'webm-video-chunk')  
+                    handleChuncks(data, audio = false);  
+                else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') { 
                     var token = data.token;
                     var q_no = data.q_no;
                     var r_no = data.r_no;
