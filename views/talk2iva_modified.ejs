@@ -96,27 +96,20 @@
   <script type='text/javascript' src="js/iva_modified.js"></script>   
   <script type="text/javascript" src="js/getUserMedia.js"></script> 
 
-  <div class="jumbotron text-center" id="header">
+  <div class="jumbotron text-center" id="header"> 
     <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive float-left" style="width: 80%">
-    <div id="divWebcam" class="pull-right" > 
-      <div class="container" style="background-color:white;">
-        <div class="row">
-          <div class="col-sm-2">
-            <video id="video" muted="true" class="img-responsive" style="width: 50%">
-            </video>
-          </div> 
-        </div>
-        <div class="row">
-          <div class="col-sm-2">
-            <canvas id="mycanvas" class="img-responsive" style="width: 50%"> 
-            </canvas>
-          </div> 
-        </div> 
-      </div>
- 
+     
+    <div id="divWebcam" class="container pull-right" style="background-color:white;width: 20%">  
+      <div class="col-sm-2">
+        <video id="video" muted="true" class="img-responsive" style="width: 50%">
+        </video>
+      </div>  
+      <div class="col-sm-2">
+        <canvas id="mycanvas" class="img-responsive" style="width: 50%"> 
+        </canvas> 
+     </div>   
       <div id="mylog">  
-        </div> 
-      </div>
+        </div>  
     </div>  
   </div> 
 
