@@ -172,6 +172,20 @@ $(function() {
 		return {'all_details':all_details, 'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
     }
 
+    // send each RECORDING_CHUNKS sec
+    setInterval(function() {
+    	if (RECORDING_FLAG){
+    		mediaRecorder && mediaRecorder.stop(); 
+    		mediaRecorder.start(); 
+    	}
+    	else{
+    		mediaRecorder && mediaRecorder.stop();
+    	}
+    	
+        //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
+
+    }, RECORDING_CHUNKS);
+
     function initialiseAudioVideo(callback){
     	//webcam
     	var videoWebcam = document.querySelector('video');
@@ -211,25 +225,13 @@ $(function() {
                     recorderType: MediaStreamRecorder
                 });*/
 
-                mediaRecorder = MediaRecorder(stream, {mimeType: 'video/webm'});
+                mediaRecorder = new MediaRecorder(stream, {mimeType: 'video/webm'});
                 mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
                 RECORDING_FLAG = true;
                 startDate = new Date();
                 mediaRecorder.start(); 
 
-                // send each RECORDING_CHUNKS sec
-                setInterval(function() {
-                	if (RECORDING_FLAG){
-                		mediaRecorder && mediaRecorder.stop(); 
-                		mediaRecorder.start(); 
-                	}
-                	else{
-                		mediaRecorder && mediaRecorder.stop();
-                	}
-                	
-                    //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
-
-                }, RECORDING_CHUNKS);
+                
                 callback(null);
 
                 /*navigator.mediaDevices.getUserMedia({
