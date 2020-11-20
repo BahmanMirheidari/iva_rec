@@ -36,8 +36,7 @@ $(function() {
     var logoutTimeout = 3000;
     var audioOnlyStream;
     var videoOnlyStream;
-    var myAudioRecorder; 
-    var video;
+    var myAudioRecorder;  
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
@@ -104,7 +103,7 @@ $(function() {
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() {
     	//webcam
-        video = document.querySelector('video');
+        var video = document.querySelector('video');
 
     	video.setAttribute('autoplay', '');
 	    video.setAttribute('muted', '');
