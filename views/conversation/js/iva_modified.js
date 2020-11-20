@@ -102,16 +102,22 @@ $(function() {
 
     function detectOSBrowser(){
     	var OSName="Unknown OS";
-		if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
-		if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
-		if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
-		if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
-
-		var nVer = navigator.appVersion;
+    	var mobile="No";
+    	var nVer = navigator.appVersion;
 		var nAgt = navigator.userAgent;
 		var browserName  = navigator.appName;
 		var fullVersion  = ''+parseFloat(navigator.appVersion);  
 		var nameOffset,verOffset,ix;
+
+		if (nVer.indexOf("Win")!=-1) OSName="Windows";
+		if (nVer.indexOf("Mac")!=-1) OSName="MacOS";
+		if (nVer.indexOf("X11")!=-1) OSName="UNIX";
+		if (nVer.indexOf("Linux")!=-1) OSName="Linux";
+
+		if (nAgt.indexOf("Mobile")!=-1) OSName=OSName +"-Mobile";
+		if (nAgt.indexOf("Android")!=-1) OSName=OSName +"-Android";
+		if (nAgt.indexOf("iPhone")!=-1) OSName=OSName +"-iPhone";
+
 
 		// In Opera, the true version is after "Opera" or after "Version"
 		if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
@@ -122,7 +128,7 @@ $(function() {
 		}
 		// In MSIE, the true version is after "MSIE" in userAgent
 		else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
-		 browserName = "Microsoft Internet Explorer";
+		 browserName = "MSIE";
 		 fullVersion = nAgt.substring(verOffset+5);
 		}
 		// In Chrome, the true version is after "Chrome" 
