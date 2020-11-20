@@ -178,12 +178,12 @@ $(function() {
 				        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
 
 				        $('#divAlert').text('Recording ...');
-				        var videoIVA = document.querySelector('videoMp4');
+				        //var videoIVA = document.querySelector('videoMp4');
 
-				    	videoIVA.setAttribute('autoplay', '');
-					    videoIVA.setAttribute('muted', '');
-					    videoIVA.setAttribute('playsinline', ''); 
-	    
+				    	//videoIVA.setAttribute('autoplay', '');
+					    //videoIVA.setAttribute('muted', '');
+					    //videoIVA.setAttribute('playsinline', ''); 
+
 				        playQuestion();  
 
 				        return false;
@@ -363,19 +363,18 @@ $(function() {
         if (videoHidden == true) {
             $("#divVideo").removeClass('hidden');
             videoHidden = false;
-        }
-
-        // Older browsers may not have srcObject
-        if ("srcObject" in video) {
-            videoWebcam.srcObject = questions[currentQuestionIndex].video_url;
-
-        } else { 
-            // Avoid using this in new browsers, as it is going away.
-            videoWebcam.src = window.URL.createObjectURL(questions[currentQuestionIndex].video_url); 
         }  
 
         var videoIVA = document.querySelector('videoMp4');
 
+        // Older browsers may not have srcObject
+        if ("srcObject" in video) {
+            videoIVA.srcObject = questions[currentQuestionIndex].video_url;
+
+        } else { 
+            // Avoid using this in new browsers, as it is going away.
+            videoIVA.src = window.URL.createObjectURL(questions[currentQuestionIndex].video_url); 
+        }  
 
         videoIVA.onloadedmetadata = function(e) {
             videoIVA.play();
