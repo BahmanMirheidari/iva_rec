@@ -110,8 +110,7 @@ $(function() {
 		var nVer = navigator.appVersion;
 		var nAgt = navigator.userAgent;
 		var browserName  = navigator.appName;
-		var fullVersion  = ''+parseFloat(navigator.appVersion); 
-		var majorVersion = parseInt(navigator.appVersion,10);
+		var fullVersion  = ''+parseFloat(navigator.appVersion);  
 		var nameOffset,verOffset,ix;
 
 		// In Opera, the true version is after "Opera" or after "Version"
@@ -157,17 +156,11 @@ $(function() {
 		if ((ix=fullVersion.indexOf(";"))!=-1)
 		   fullVersion=fullVersion.substring(0,ix);
 		if ((ix=fullVersion.indexOf(" "))!=-1)
-		   fullVersion=fullVersion.substring(0,ix);
+		   fullVersion=fullVersion.substring(0,ix); 
 
-		majorVersion = parseInt(''+fullVersion,10);
-		if (isNaN(majorVersion)) {
-		 fullVersion  = ''+parseFloat(navigator.appVersion); 
-		 majorVersion = parseInt(navigator.appVersion,10);
-		}
+		all_details ='os:'+OSName+ ', browser:' +browserName+', fullVersion:'+fullVersion+', appName:'+navigator.appName+', userAgent:'+navigator.userAgent  
 
-		all_details ='os:'+OSName+ ', browser:' +browserName+', fullVersion:'+fullVersion+', majorVersion:'+majorVersion+', appName:'+navigator.appName+', userAgent:'+navigator.userAgent  
-
-		return {'all_details':all_details, 'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'majorVersion':majorVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
+		return {'all_details':all_details, 'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
     }
 
     function initialiseAudioVideo(callback){
@@ -878,9 +871,9 @@ $(function() {
     }
 
     function init_consent() {
-    	//{'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'majorVersion':majorVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
+    	//{'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
     	var osDetails = detectOSBrowser();
-    	alert("browserName:" + osDetails.browserName + " ,os:" +osDetails.os + ', all-' +osDetails.all_details)
+    	alert("browserName:" + osDetails.browser + " ,os:" +osDetails.os + ', all-' +osDetails.all_details)
     	 
         response.consent = {};
         response.pre_surveys = [];
