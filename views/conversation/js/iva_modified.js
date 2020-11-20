@@ -36,7 +36,7 @@ $(function() {
     var logoutTimeout = 3000;
     var audioOnlyStream;
     var videoOnlyStream;
-    var myAudioRecorder;  
+    var myAudioRecorder; 
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
@@ -98,35 +98,32 @@ $(function() {
                 mediaRecorder && mediaRecorder.startRecording();
             }
         }
-    } 
+    }
 
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() {
-    	//webcam
-    	var videoWebcam = document.querySelector('video');
-
-    	videoWebcam.setAttribute('autoplay', '');
-	    videoWebcam.setAttribute('muted', '');
-	    videoWebcam.setAttribute('playsinline', '');  
-
         navigator.mediaDevices.getUserMedia({
                 video: true
             })
-            .then(function(stream) { 
-            	// Older browsers may not have srcObject
-		        if ("srcObject" in videoWebcam) {
-		            videoWebcam.srcObject = stream;
+            .then(function(stream) {
+                //webcam
+                video = document.querySelector('video');
 
-		        } else { 
-		            // Avoid using this in new browsers, as it is going away.
-		            videoWebcam.src = window.URL.createObjectURL(stream); 
-		        }  
+                // Older browsers may not have srcObject
+                if ("srcObject" in video) {
+                    video.srcObject = stream;
+
+                } else {
+                    // Avoid using this in new browsers, as it is going away.
+                    video.src = window.URL.createObjectURL(stream);
+                }
+
+                video.play();
 
                 //video
                 videoOnlyStream = stream;
-
-                videoWebcam.onloadedmetadata = function(e) {
-                    videoWebcam.play();
+                video.onloadedmetadata = function(e) {
+                    video.play();
                 };
 
                 mediaRecorder = RecordRTC(videoOnlyStream, {
@@ -163,10 +160,9 @@ $(function() {
 		                }, RECORDING_CHUNKS);
 
 		                $("#consent").addClass('hidden');
-		                $("#startAvatarButton").hide();
 
-				        currentQuestionIndex = startQuestionIndex; 
-
+				        currentQuestionIndex = startQuestionIndex;
+				        $(this).hide();
 				        $("#repeatMessageButton").removeClass("hidden");
 				        $("#repeatMessageButton").show();
 
@@ -178,25 +174,18 @@ $(function() {
 				        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
 
 				        $('#divAlert').text('Recording ...');
-				        //var videoIVA = document.querySelector('videoMp4');
-
-				    	//videoIVA.setAttribute('autoplay', '');
-					    //videoIVA.setAttribute('muted', '');
-					    //videoIVA.setAttribute('playsinline', ''); 
-
-				        playQuestion();  
-
-				        
-
+				        playQuestion(); 
+		        
 		            })
 		            .catch(function(err) {
 		                console.log(err.name + ": " + err.message);
-		            });   
+		            }); 
+
             })
             .catch(function(err) {
                 console.log(err.name + " video (getUserMedia): " + err.message);
-            }); 
-            
+            });  
+
         return false;
     });
 
@@ -364,12 +353,13 @@ $(function() {
         if (videoHidden == true) {
             $("#divVideo").removeClass('hidden');
             videoHidden = false;
-        }  
+        }
 
-        var videoIVA = document.querySelector('videoMp4'); 
-        videoIVA.src = questions[currentQuestionIndex].video_url;   
-        videoIVA.play(); 
- 
+        var video = document.getElementById("videoMp4");
+
+        video.src = questions[currentQuestionIndex].video_url;
+        video.play();
+
         var delay = 0;
         if (currentQuestionIndex > 0)
             delay += (questions[currentQuestionIndex].length - 60000);
