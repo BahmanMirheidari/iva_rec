@@ -173,8 +173,8 @@ $(function() {
 
                 $("#consent").addClass('hidden');
 
-		        currentQuestionIndex = startQuestionIndex;
-		        $(this).hide();
+		        currentQuestionIndex = startQuestionIndex; 
+
 		        $("#repeatMessageButton").removeClass("hidden");
 		        $("#repeatMessageButton").show();
 
@@ -187,6 +187,8 @@ $(function() {
 
 		        $('#divAlert').text('Recording ...');
 		        playQuestion(); 
+
+		        $("#startAvatarButton").hide();
 
             })
             .catch(function(err) {
