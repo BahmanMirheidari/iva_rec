@@ -186,7 +186,7 @@ $(function() {
 
 				        playQuestion();  
 
-				        return false;
+				        
 
 		            })
 		            .catch(function(err) {
@@ -196,7 +196,8 @@ $(function() {
             .catch(function(err) {
                 console.log(err.name + " video (getUserMedia): " + err.message);
             }); 
-        
+            
+        return false;
     });
 
     // next Message Button
