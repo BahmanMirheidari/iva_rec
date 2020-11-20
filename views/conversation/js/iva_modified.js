@@ -116,7 +116,7 @@ $(function() {
 
 		if (nAgt.match(/BlackBerry/i)) OSName="BlackBerry";
 		if (nAgt.match(/Android/i)) OSName="Android";
-		if (nAgt.match(/iPhone|iPad|iPod/i)) OSName"iOS";
+		if (nAgt.match(/iPhone|iPad|iPod/i)) OSName="iOS";
 		if (nAgt.match(/Opera Mini/i)) OSName="Opera";
 		if (nAgt.match(/IEMobile/i)) OSName="IEMobile"; 
 
@@ -912,8 +912,7 @@ $(function() {
     function init_questions() {
         if (Object.keys(configuration.questions).length == 0) {
             init_survey();
-        } else { 
-
+        } else {  
             initialiseAudioVideo(function(e){
             	if (e){
             		$('#divAlert').removeClass('alert-info').addClass('alert-danger').text("Error in initialising Audio/Video recording! - "+e).removeClass("hidden");  
