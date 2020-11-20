@@ -36,9 +36,7 @@ $(function() {
     var logoutTimeout = 3000;
     var audioOnlyStream;
     var videoOnlyStream;
-    var myAudioRecorder; 
-    var videoWebcam;
-    var videoIVA; 
+    var myAudioRecorder;  
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
@@ -100,43 +98,35 @@ $(function() {
                 mediaRecorder && mediaRecorder.startRecording();
             }
         }
-    }
-
-    function getVideo(name,autoplay='',muted='',playsinline=''){
-    	var video = document.querySelector(name);
-
-    	video.setAttribute('autoplay', autoplay);
-	    video.setAttribute('muted', muted);
-	    video.setAttribute('playsinline', playsinline); 
-
-	    return video 
-    }
-
-    function setSrcVideo(video, src, createURL=false){
-    	// Older browsers may not have srcObject
-        if ("srcObject" in video) {
-            video.srcObject = src;
-
-        } else {
-        	if(createURL)
-	            // Avoid using this in new browsers, as it is going away.
-	            video.src = window.URL.createObjectURL(src);
-            else
-            	video.src = src;
-        }  
-    }
+    } 
 
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() {
     	//webcam
-        videoWebcam = getVideo('video','','',''); 
-        videoIVA = getVideo('videoMp4','','','');
+    	var videoWebcam = document.querySelector('video');
+
+    	videoWebcam.setAttribute('autoplay', '');
+	    videoWebcam.setAttribute('muted', '');
+	    videoWebcam.setAttribute('playsinline', ''); 
+
+	    var videoIVA = document.querySelector('videoMp4');
+
+    	videoIVA.setAttribute('autoplay', '');
+	    videoIVA.setAttribute('muted', '');
+	    videoIVA.setAttribute('playsinline', '');  
 
         navigator.mediaDevices.getUserMedia({
                 video: true
             })
             .then(function(stream) { 
-            	setSrcVideo(videoWebcam, stream, true); 
+            	// Older browsers may not have srcObject
+		        if ("srcObject" in video) {
+		            videoWebcam.srcObject = stream;
+
+		        } else { 
+		            // Avoid using this in new browsers, as it is going away.
+		            videoWebcam.src = window.URL.createObjectURL(stream); 
+		        }  
 
                 //video
                 videoOnlyStream = stream;
@@ -375,9 +365,22 @@ $(function() {
             videoHidden = false;
         }
 
-        videoIVA.src = questions[currentQuestionIndex].video_url;  
-        videoIVA.play(); 
+        // Older browsers may not have srcObject
+        if ("srcObject" in video) {
+            videoWebcam.srcObject = questions[currentQuestionIndex].video_url;
 
+        } else { 
+            // Avoid using this in new browsers, as it is going away.
+            videoWebcam.src = window.URL.createObjectURL(questions[currentQuestionIndex].video_url); 
+        }  
+
+        var videoIVA = document.querySelector('videoMp4');
+
+
+        videoIVA.onloadedmetadata = function(e) {
+            videoIVA.play();
+        };
+ 
         var delay = 0;
         if (currentQuestionIndex > 0)
             delay += (questions[currentQuestionIndex].length - 60000);
