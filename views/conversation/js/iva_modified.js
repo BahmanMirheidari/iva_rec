@@ -370,12 +370,8 @@ $(function() {
         }
 
         var videoIVA = getVideo('videoMp4');
-
-        setPlayVideo(videoIVA, questions[currentQuestionIndex].video_url); 
-
-        videoIVA.onloadedmetadata = function(e) {
-            videoIVA.play();
-        }; 
+        videoIVA.src = questions[currentQuestionIndex].video_url;
+        videoIVA.play(); 
 
         var delay = 0;
         if (currentQuestionIndex > 0)
