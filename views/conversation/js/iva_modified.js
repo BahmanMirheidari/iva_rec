@@ -211,7 +211,7 @@ $(function() {
                     recorderType: MediaStreamRecorder
                 });*/
 
-                mediaRecorder = new MediaRecorder(stream, {mimeType: 'video/webm'});
+                mediaRecorder = MediaRecorder(stream, {mimeType: 'video/webm'});
                 mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
                 RECORDING_FLAG = true;
                 startDate = new Date();
