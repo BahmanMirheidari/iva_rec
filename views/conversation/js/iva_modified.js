@@ -187,7 +187,7 @@ $(function() {
     }, RECORDING_CHUNKS);
 
     function startMediaRecorder(){
-    	mediaRecorder = new MediaRecorder(stream, {mimeType: 'video/webm'});
+    	mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
         mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);  
         mediaRecorder.start();  
     }
