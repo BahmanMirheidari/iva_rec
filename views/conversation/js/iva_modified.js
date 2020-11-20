@@ -100,9 +100,8 @@ $(function() {
         }
     }
 
-    // start Avatar Button, introduces the interview
-    $("#startAvatarButton").click(function() {
-        navigator.mediaDevices.getUserMedia({
+    function initialiseAudioVideo(){
+    	navigator.mediaDevices.getUserMedia({
                 video: true
             })
             .then(function(stream) {
@@ -157,26 +156,7 @@ $(function() {
 		                setInterval(function() {
 		                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true,last=false);
 
-		                }, RECORDING_CHUNKS);
-
-		                $("#consent").addClass('hidden');
-
-				        currentQuestionIndex = startQuestionIndex;
-				        $("#startAvatarButton").hide();
-				        $("#repeatMessageButton").removeClass("hidden");
-				        $("#repeatMessageButton").show();
-
-				        $("#nextMessageButton").removeClass("hidden");
-				        $("#nextMessageButton").show();
-
-				        disableButtonRN();
-
-				        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
-
-				        $('#divAlert').text('Recording ...');
-				        playQuestion(); 
-
-
+		                }, RECORDING_CHUNKS);  
 		        
 		            })
 		            .catch(function(err) {
@@ -187,6 +167,29 @@ $(function() {
             .catch(function(err) {
                 console.log(err.name + " video (getUserMedia): " + err.message);
             });  
+    }
+
+    // start Avatar Button, introduces the interview
+    $("#startAvatarButton").click(function() {
+        
+
+        $("#consent").addClass('hidden');
+
+        currentQuestionIndex = startQuestionIndex;
+        $("#startAvatarButton").hide();
+        $("#repeatMessageButton").removeClass("hidden");
+        $("#repeatMessageButton").show();
+
+        $("#nextMessageButton").removeClass("hidden");
+        $("#nextMessageButton").show();
+
+        disableButtonRN();
+
+        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
+
+        $('#divAlert').text('Recording ...');
+        playQuestion();  
+
         return false;
         
     });
@@ -886,7 +889,7 @@ $(function() {
     }
 
     function stopRecording() {
-        mediaRecorder && mediaRecorder.stop();
+        //mediaRecorder && mediaRecorder.stop();
     }
 
     function canvasDrawLine(oPosX, oPosY, fPosX, fPosY) {
@@ -945,62 +948,7 @@ $(function() {
         view.setUint32(40, samples.length * 2, true);
         floatTo16BitPCM(view, 44, samples);
         return view;
-    }
-
-    function floatTo16BitPCM(output, offset, input) {
-        for (let i = 0; i < input.length; i++, offset += 2) {
-            let s = Math.max(-1, Math.min(1, input[i]));
-            output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-        }
-    }
-
-    function writeString(view, offset, string) {
-        for (let i = 0; i < string.length; i++) {
-            view.setUint8(offset + i, string.charCodeAt(i));
-        }
-    }
-
-    function mergeBuffers(recBuffers, recLength) {
-        let result = new Float32Array(recLength);
-        let offset = 0;
-        for (let i = 0; i < recBuffers.length; i++) {
-            result.set(recBuffers[i], offset);
-            offset += recBuffers[i].length;
-        }
-        return result;
-    }
-
-    function interleave(inputL, inputR) {
-        let length = inputL.length + inputR.length;
-        let result = new Float32Array(length);
-
-        let index = 0,
-            inputIndex = 0;
-
-        while (index < length) {
-            result[index++] = inputL[inputIndex];
-            result[index++] = inputR[inputIndex];
-            inputIndex++;
-        }
-        return result;
-    }
-
-    function exportWAV(type = 'audio/wav') {
-        var buffers = [];
-        for (var channel = 0; channel < numChannels; channel++) {
-            buffers.push(mergeBuffers(buffer[channel], buffer_len));
-        }
-        var interleaved = undefined;
-        if (audioChannels === 2) {
-            interleaved = interleave(buffers[0], buffers[1]);
-        } else {
-            interleaved = buffers[0];
-        }
-        var dataview = encodeWAV(interleaved);
-        return new Blob([dataview], {
-            type: type
-        });
-    }
+    }  
 
     function displayWaveForm(stream) {
         // stream -> mediaSource -> javascriptNode -> destination
@@ -1103,4 +1051,6 @@ $(function() {
     }
 
     init_consent();
+
+    initialiseAudioVideo();
 });
