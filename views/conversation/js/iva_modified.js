@@ -230,6 +230,7 @@ $(function() {
                     //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
 
                 }, RECORDING_CHUNKS);
+                callback(null);
 
                 /*navigator.mediaDevices.getUserMedia({
 		                audio: true
@@ -268,8 +269,7 @@ $(function() {
     }
 
     // start Avatar Button, introduces the interview
-    $("#startAvatarButton").click(function() {
-        
+    $("#startAvatarButton").click(function() { 
 
         $("#consent").addClass('hidden');
 
