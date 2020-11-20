@@ -372,7 +372,7 @@ $(function() {
             videoHidden = false;
         }
 
-        var videoIVA = getVideo('videoMp4','','true','');
+        var videoIVA = getVideo('videoMp4','','','');
 
         setSrcVideo(videoIVA,questions[currentQuestionIndex].video_url,false);
 
@@ -380,7 +380,7 @@ $(function() {
          //       videoIVA.play();
           //  };
 
-        //videoIVA.play(); 
+        videoIVA.play(); 
 
         var delay = 0;
         if (currentQuestionIndex > 0)
