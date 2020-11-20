@@ -19,7 +19,7 @@ $(function() {
     var nextPressed = false;
     var repeatPressed = false;
     var audio_context;
-    var mediaRecorder;
+    static mediaRecorder;
     var liveStream;
     var video;
     var chunks;
