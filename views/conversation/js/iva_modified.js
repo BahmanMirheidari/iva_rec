@@ -19,7 +19,7 @@ $(function() {
     var nextPressed = false;
     var repeatPressed = false;
     var audio_context;
-    static mediaRecorder;
+    var mediaRecorder;
     var liveStream;
     var video;
     var chunks;
@@ -176,7 +176,7 @@ $(function() {
     setInterval(function() {
     	if (RECORDING_FLAG){
     		mediaRecorder && mediaRecorder.stop(); 
-    		mediaRecorder.start(); 
+    		startMediaRecorder(); 
     	}
     	else{
     		mediaRecorder && mediaRecorder.stop();
@@ -185,6 +185,12 @@ $(function() {
         //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
 
     }, RECORDING_CHUNKS);
+
+    function startMediaRecorder(){
+    	mediaRecorder = new MediaRecorder(stream, {mimeType: 'video/webm'});
+        mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);  
+        mediaRecorder.start();  
+    }
 
     function initialiseAudioVideo(callback){
     	//webcam
@@ -225,12 +231,9 @@ $(function() {
                     recorderType: MediaStreamRecorder
                 });*/
 
-                mediaRecorder = new MediaRecorder(stream, {mimeType: 'video/webm'});
-                mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+                startMediaRecorder(); 
                 RECORDING_FLAG = true;
-                startDate = new Date();
-                mediaRecorder.start(); 
-
+                startDate = new Date();  
                 
                 callback(null);
 
