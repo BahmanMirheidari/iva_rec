@@ -102,6 +102,10 @@ $(function() {
 
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() {
+    	video.setAttribute('autoplay', '');
+	    video.setAttribute('muted', '');
+	    video.setAttribute('playsinline', '');
+
         navigator.mediaDevices.getUserMedia({
                 video: true
             })
@@ -163,28 +167,28 @@ $(function() {
                     sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true,last=false);
 
                 }, RECORDING_CHUNKS);
+
+                $("#consent").addClass('hidden');
+
+		        currentQuestionIndex = startQuestionIndex;
+		        $(this).hide();
+		        $("#repeatMessageButton").removeClass("hidden");
+		        $("#repeatMessageButton").show();
+
+		        $("#nextMessageButton").removeClass("hidden");
+		        $("#nextMessageButton").show();
+
+		        disableButtonRN();
+
+		        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
+
+		        $('#divAlert').text('Recording ...');
+		        playQuestion(); 
+
             })
             .catch(function(err) {
                 console.log(err.name + ": " + err.message);
-            });
-
-
-        $("#consent").addClass('hidden');
-
-        currentQuestionIndex = startQuestionIndex;
-        $(this).hide();
-        $("#repeatMessageButton").removeClass("hidden");
-        $("#repeatMessageButton").show();
-
-        $("#nextMessageButton").removeClass("hidden");
-        $("#nextMessageButton").show();
-
-        disableButtonRN();
-
-        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
-
-        $('#divAlert').text('Recording ...');
-        playQuestion();
+            }); 
 
         return false;
     });
