@@ -162,7 +162,7 @@ $(function() {
 		                $("#consent").addClass('hidden');
 
 				        currentQuestionIndex = startQuestionIndex;
-				        $(this).hide();
+				        $("#startAvatarButton").hide();
 				        $("#repeatMessageButton").removeClass("hidden");
 				        $("#repeatMessageButton").show();
 
@@ -176,7 +176,7 @@ $(function() {
 				        $('#divAlert').text('Recording ...');
 				        playQuestion(); 
 
-				        return false;
+
 		        
 		            })
 		            .catch(function(err) {
@@ -187,7 +187,7 @@ $(function() {
             .catch(function(err) {
                 console.log(err.name + " video (getUserMedia): " + err.message);
             });  
-
+        return false;
         
     });
 
