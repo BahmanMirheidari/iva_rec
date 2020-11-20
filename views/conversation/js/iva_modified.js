@@ -171,29 +171,35 @@ $(function() {
     }
 
     function initialiseAudioVideo(callback){
+    	//webcam
+    	var videoWebcam = document.querySelector('video');
+
+    	videoWebcam.setAttribute('autoplay', '');
+	    videoWebcam.setAttribute('muted', '');
+	    videoWebcam.setAttribute('playsinline', '');  
 
     	navigator.mediaDevices.getUserMedia({
                 video: true
             })
             .then(function(stream) {
                 //webcam
-                video = document.querySelector('video');
+                var videoWebcam = document.querySelector('video');
 
                 // Older browsers may not have srcObject
                 if ("srcObject" in video) {
-                    video.srcObject = stream;
+                    videoWebcam.srcObject = stream;
 
                 } else {
                     // Avoid using this in new browsers, as it is going away.
-                    video.src = window.URL.createObjectURL(stream);
+                    videoWebcam.src = window.URL.createObjectURL(stream);
                 }
 
-                video.play();
+                videoWebcam.play();
 
                 //video
                 videoOnlyStream = stream;
                 video.onloadedmetadata = function(e) {
-                    video.play();
+                    videoWebcam.play();
                 };
 
                 mediaRecorder = RecordRTC(videoOnlyStream, {
