@@ -36,7 +36,9 @@ $(function() {
     var logoutTimeout = 3000;
     var audioOnlyStream;
     var videoOnlyStream;
-    var myAudioRecorder;  
+    var myAudioRecorder; 
+    var videoWebcam;
+    var videoIVA; 
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
@@ -127,7 +129,8 @@ $(function() {
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() {
     	//webcam
-        var videoWebcam = getVideo('video','','',''); 
+        videoWebcam = getVideo('video','','',''); 
+        videoIVA = getVideo('videoMp4','','','');
 
         navigator.mediaDevices.getUserMedia({
                 video: true
@@ -372,14 +375,7 @@ $(function() {
             videoHidden = false;
         }
 
-        var videoIVA = getVideo('videoMp4','','','');
-
-        setSrcVideo(videoIVA,questions[currentQuestionIndex].video_url,false);
-
-        //videoIVA.onloadedmetadata = function(e) {
-         //       videoIVA.play();
-          //  };
-
+        videoIVA.src = questions[currentQuestionIndex].video_url;  
         videoIVA.play(); 
 
         var delay = 0;
