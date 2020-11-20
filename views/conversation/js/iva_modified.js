@@ -198,10 +198,12 @@ $(function() {
                 videoWebcam.play();
 
                 //video
-                videoOnlyStream = stream;
+                //videoOnlyStream = stream;
                 videoWebcam.onloadedmetadata = function(e) {
                     videoWebcam.play();
                 };
+
+                displayWaveForm(stream);
 
                 /*mediaRecorder = RecordRTC(videoOnlyStream, {
                     type: 'video',
