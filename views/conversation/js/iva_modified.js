@@ -982,7 +982,7 @@ $(function() {
     }
 
     function onMediaRecordingReady(blob) {
-    	alert(blob);
+    	alert(blob.target.result.toString('base64'));
         var reader = new FileReader();
         reader.onload = function(event) {
             var data = event.target.result.toString('base64'); 
