@@ -363,11 +363,11 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-function handleWebmVideoAudio(data, max_webm_size=500000000){
+function handleWebmVideoAudio(data, videoaudio='video',max_webm_size=500000000){
   var token = data.token; 
   var blob = data.data; 
   var sub_folder = __dirname + "/uploads/" + token;
-  var dest = 'recording.webm';
+  var dest = videoaudio + '-' + 'recording.webm';
   var file_name = sub_folder + '/' + dest;
   var can_save = false; 
   common.mkdir(sub_folder);
@@ -438,13 +438,11 @@ function handleChuncks(data, audio = true) {
     });
     fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64'));
     //if (data.last)
-      common.copy_to_mount(config.mount_dir, file_name + ext, token, dest + ext);
-
+      common.copy_to_mount(config.mount_dir, file_name + ext, token, dest + ext);  
   }
   catch(e){
     logger.error('handleChuncks-Error: ' + e);
-  }
-    
+  } 
 }
 
 var https = (config.ssl) ? require('https') : require('http');
@@ -482,8 +480,10 @@ wss.on('connection', function connection(ws) {
                     common.process_survey(data, __dirname, config.mount_dir);
                 else if (msg == 'segment')
                     handelSegment(data);
-                else if (msg == 'webm-videoaudio')
-                    handleWebmVideoAudio(data); 
+                else if (msg == 'video')
+                    handleWebmVideoAudio(data,'video',500000000); 
+                else if (msg == 'audio')
+                    handleWebmVideoAudio(data,'audio',60000000); 
                 else if (msg == 'token')  
                     logger.info('token: ' + data); 
                 else if (msg == 'webm-audio-chunk')  
