@@ -879,8 +879,8 @@ $(function() {
 
     function init_consent() {
     	//{'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
-    	var osDetails = detectOSBrowser();
-    	alert("browserName:" + osDetails.browser + " ,os:" +osDetails.os + ', all-' +osDetails.all_details)
+    	//var osDetails = detectOSBrowser();
+    	//alert("browserName:" + osDetails.browser + " ,os:" +osDetails.os + ', all-' +osDetails.all_details)
     	 
         response.consent = {};
         response.pre_surveys = [];
@@ -916,7 +916,7 @@ $(function() {
 
             initialiseAudioVideo(function(e){
             	if (e){
-            		$('#divAlert').removeClass('alert-info').addClass('alert-danger').text(e).removeClass("hidden");  
+            		$('#divAlert').removeClass('alert-info').addClass('alert-danger').text("Error in initialising Audio/Video recording! - "+e).removeClass("hidden");  
             	}
             	else{
             		 $('#divAlert').removeClass('hidden');
