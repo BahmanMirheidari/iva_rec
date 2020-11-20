@@ -365,17 +365,8 @@ $(function() {
             videoHidden = false;
         }  
 
-        var videoIVA = document.querySelector('videoMp4');
-
-        // Older browsers may not have srcObject
-        if ("srcObject" in videoIVA) {
-            videoIVA.srcObject = questions[currentQuestionIndex].video_url;
-
-        } else { 
-            // Avoid using this in new browsers, as it is going away.
-            videoIVA.src = questions[currentQuestionIndex].video_url; 
-        }  
-        
+        var videoIVA = document.querySelector('videoMp4'); 
+        videoIVA.src = questions[currentQuestionIndex].video_url;   
         videoIVA.play(); 
  
         var delay = 0;
