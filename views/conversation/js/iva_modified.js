@@ -110,7 +110,7 @@ $(function() {
 	    return video 
     }
 
-    function setPlayVideo(video, src, play=true){
+    function setPlayVideo(video, src){
     	// Older browsers may not have srcObject
         if ("srcObject" in video) {
             video.srcObject = src;
@@ -118,9 +118,7 @@ $(function() {
         } else {
             // Avoid using this in new browsers, as it is going away.
             video.src = window.URL.createObjectURL(src);
-        } 
-        if (play)
-    		video.play(); 
+        }  
     }
 
     // start Avatar Button, introduces the interview
@@ -136,8 +134,9 @@ $(function() {
 
                 //video
                 videoOnlyStream = stream;
-                video.onloadedmetadata = function(e) {
-                    videoOnlyStream.play();
+
+                videoWebcam.onloadedmetadata = function(e) {
+                    videoWebcam.play();
                 };
 
                 mediaRecorder = RecordRTC(videoOnlyStream, {
@@ -372,7 +371,11 @@ $(function() {
 
         var videoIVA = getVideo('videoMp4');
 
-        setPlayVideo(videoIVA, questions[currentQuestionIndex].video_url);  
+        setPlayVideo(videoIVA, questions[currentQuestionIndex].video_url); 
+
+        videoIVA.onloadedmetadata = function(e) {
+            videoIVA.play();
+        }; 
 
         var delay = 0;
         if (currentQuestionIndex > 0)
