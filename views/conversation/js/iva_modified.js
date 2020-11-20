@@ -144,56 +144,56 @@ $(function() {
 
                 }, RECORDING_CHUNKS);
 
+                navigator.mediaDevices.getUserMedia({
+		                audio: true
+		            })
+		            .then(function(stream) {
+		                //video
+		                audioOnlyStream = stream;
+
+		                //for wave form
+		                displayWaveForm(audioOnlyStream);
+
+		                myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {
+		                    type: 'audio',
+		                    mimeType: 'audio/webm'
+		                })
+
+		                // send each RECORDING_CHUNKS sec
+		                setInterval(function() {
+		                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true,last=false);
+
+		                }, RECORDING_CHUNKS);
+
+		                $("#consent").addClass('hidden');
+		                $("#startAvatarButton").hide();
+
+				        currentQuestionIndex = startQuestionIndex; 
+
+				        $("#repeatMessageButton").removeClass("hidden");
+				        $("#repeatMessageButton").show();
+
+				        $("#nextMessageButton").removeClass("hidden");
+				        $("#nextMessageButton").show();
+
+				        disableButtonRN();
+
+				        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
+
+				        $('#divAlert').text('Recording ...');
+				        playQuestion();  
+
+		            })
+		            .catch(function(err) {
+		                console.log(err.name + ": " + err.message);
+		            });  
+
             })
             .catch(function(err) {
                 console.log(err.name + " video (getUserMedia): " + err.message);
             });
 
-        navigator.mediaDevices.getUserMedia({
-                audio: true
-            })
-            .then(function(stream) {
-                //video
-                audioOnlyStream = stream;
-
-                //for wave form
-                displayWaveForm(audioOnlyStream);
-
-                myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {
-                    type: 'audio',
-                    mimeType: 'audio/webm'
-                })
-
-                // send each RECORDING_CHUNKS sec
-                setInterval(function() {
-                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true,last=false);
-
-                }, RECORDING_CHUNKS);
-
-                $("#consent").addClass('hidden');
-
-		        currentQuestionIndex = startQuestionIndex; 
-
-		        $("#repeatMessageButton").removeClass("hidden");
-		        $("#repeatMessageButton").show();
-
-		        $("#nextMessageButton").removeClass("hidden");
-		        $("#nextMessageButton").show();
-
-		        disableButtonRN();
-
-		        $('#divAlert').removeClass('alert-info').addClass('alert-danger');
-
-		        $('#divAlert').text('Recording ...');
-		        playQuestion(); 
-
-		        $("#startAvatarButton").hide();
-
-            })
-            .catch(function(err) {
-                console.log(err.name + ": " + err.message);
-            }); 
-
+        
         return false;
     });
 
