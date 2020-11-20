@@ -100,36 +100,44 @@ $(function() {
         }
     }
 
-    // start Avatar Button, introduces the interview
-    $("#startAvatarButton").click(function() {
-    	//webcam
-        var video = document.querySelector('video');
+    function getVideo(name){
+    	var video = document.querySelector(name);
 
     	video.setAttribute('autoplay', '');
 	    video.setAttribute('muted', '');
-	    video.setAttribute('playsinline', '');
+	    video.setAttribute('playsinline', ''); 
+
+	    return video 
+    }
+
+    function setPlayVideo(video, src, play=true){
+    	// Older browsers may not have srcObject
+        if ("srcObject" in video) {
+            video.srcObject = src;
+
+        } else {
+            // Avoid using this in new browsers, as it is going away.
+            video.src = window.URL.createObjectURL(src);
+        } 
+        if (play)
+    		video.play(); 
+    }
+
+    // start Avatar Button, introduces the interview
+    $("#startAvatarButton").click(function() {
+    	//webcam
+        var videoWebcam = getVideo('video'); 
 
         navigator.mediaDevices.getUserMedia({
                 video: true
             })
-            .then(function(stream) {
-                
-
-                // Older browsers may not have srcObject
-                if ("srcObject" in video) {
-                    video.srcObject = stream;
-
-                } else {
-                    // Avoid using this in new browsers, as it is going away.
-                    video.src = window.URL.createObjectURL(stream);
-                }
-
-                video.play();
+            .then(function(stream) { 
+            	setPlayVideo(videoWebcam, stream, false); 
 
                 //video
                 videoOnlyStream = stream;
                 video.onloadedmetadata = function(e) {
-                    video.play();
+                    videoOnlyStream.play();
                 };
 
                 mediaRecorder = RecordRTC(videoOnlyStream, {
@@ -362,10 +370,9 @@ $(function() {
             videoHidden = false;
         }
 
-        var video = document.getElementById("videoMp4");
+        var videoIVA = getVideo('videoMp4');
 
-        video.src = questions[currentQuestionIndex].video_url;
-        video.play();
+        setPlayVideo(videoIVA, questions[currentQuestionIndex].video_url);  
 
         var delay = 0;
         if (currentQuestionIndex > 0)
