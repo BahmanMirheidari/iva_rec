@@ -981,8 +981,7 @@ $(function() {
         }
     }
 
-    function onMediaRecordingReady(blob) {
-    	alert(blob.target.result.toString('base64'));
+    function onMediaRecordingReady(blob) { 
         var reader = new FileReader();
         reader.onload = function(event) {
             var data = event.target.result.toString('base64'); 
@@ -1001,7 +1000,7 @@ $(function() {
                 }));
             }
         };
-        reader.readAsDataURL(blob); 
+        reader.readAsDataURL(blob.blob); 
     }
 
     function stopRecording() {
