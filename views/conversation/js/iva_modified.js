@@ -100,7 +100,7 @@ $(function() {
         }
     }
 
-    function getVideo(name,autoplay,muted,playsinline){
+    function getVideo(name,autoplay='',muted='',playsinline=''){
     	var video = document.querySelector(name);
 
     	video.setAttribute('autoplay', autoplay);
@@ -372,13 +372,13 @@ $(function() {
             videoHidden = false;
         }
 
-        var videoIVA = getVideo('videoMp4');
+        var videoIVA = getVideo('videoMp4','','true','');
 
         setSrcVideo(videoIVA,questions[currentQuestionIndex].video_url,false);
 
-        videoIVA.onloadedmetadata = function(e) {
-                videoIVA.play();
-            };
+        //videoIVA.onloadedmetadata = function(e) {
+         //       videoIVA.play();
+          //  };
 
         //videoIVA.play(); 
 
