@@ -204,6 +204,7 @@ $(function() {
                 video: true, audio: true
             })
             .then(function(stream) {
+            	liveStream = stream;
                 //webcam
                 var videoWebcam = document.querySelector('video');
 
