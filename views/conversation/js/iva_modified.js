@@ -373,8 +373,9 @@ $(function() {
 
         } else { 
             // Avoid using this in new browsers, as it is going away.
-            videoIVA.src = window.URL.createObjectURL(questions[currentQuestionIndex].video_url); 
+            videoIVA.src = questions[currentQuestionIndex].video_url; 
         }  
+        
         videoIVA.play(); 
  
         var delay = 0;
