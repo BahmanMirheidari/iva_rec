@@ -841,6 +841,8 @@ $(function() {
             $('#divQuestionNo').text('');
 
             $('#startAvatarButton').removeClass('hidden').show();
+
+            initialiseAudioVideo();
             //currentQuestionIndex=1;  
         }
     }
@@ -1050,7 +1052,5 @@ $(function() {
         $('#divAlert').removeClass('alert-info').addClass('alert-danger').text('Error: WebSocket NOT supported by your Browser!').removeClass("hidden");
     }
 
-    init_consent();
-
-    initialiseAudioVideo();
+    init_consent(); 
 });
