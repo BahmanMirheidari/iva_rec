@@ -37,6 +37,7 @@ $(function() {
     var audioOnlyStream;
     var videoOnlyStream;
     var myAudioRecorder; 
+    var video;
 
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
@@ -102,6 +103,9 @@ $(function() {
 
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() {
+    	//webcam
+        video = document.querySelector('video');
+
     	video.setAttribute('autoplay', '');
 	    video.setAttribute('muted', '');
 	    video.setAttribute('playsinline', '');
@@ -110,8 +114,7 @@ $(function() {
                 video: true
             })
             .then(function(stream) {
-                //webcam
-                video = document.querySelector('video');
+                
 
                 // Older browsers may not have srcObject
                 if ("srcObject" in video) {
