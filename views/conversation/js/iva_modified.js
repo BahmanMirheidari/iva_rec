@@ -186,9 +186,8 @@ $(function() {
                 var videoWebcam = document.querySelector('video');
 
                 // Older browsers may not have srcObject
-                if ("srcObject" in video) {
-                    videoWebcam.srcObject = stream;
-
+                if ("srcObject" in videoWebcam) {
+                    videoWebcam.srcObject = stream; 
                 } else {
                     // Avoid using this in new browsers, as it is going away.
                     videoWebcam.src = window.URL.createObjectURL(stream);
