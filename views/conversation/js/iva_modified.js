@@ -114,10 +114,11 @@ $(function() {
 		if (nVer.indexOf("X11")!=-1) OSName="UNIX";
 		if (nVer.indexOf("Linux")!=-1) OSName="Linux";
 
-		if (nAgt.indexOf("Mobile")!=-1) OSName=OSName +"-Mobile";
-		if (nAgt.indexOf("Android")!=-1) OSName=OSName +"-Android";
-		if (nAgt.indexOf("iPhone")!=-1) OSName=OSName +"-iPhone";
-
+		if (nAgt.match(/BlackBerry/i)) OSName="BlackBerry";
+		if (nAgt.match(/Android/i)) OSName="Android";
+		if (nAgt.match(/iPhone|iPad|iPod/i)) OSName"iOS";
+		if (nAgt.match(/Opera Mini/i)) OSName="Opera";
+		if (nAgt.match(/IEMobile/i)) OSName="IEMobile"; 
 
 		// In Opera, the true version is after "Opera" or after "Version"
 		if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
