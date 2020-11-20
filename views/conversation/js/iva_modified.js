@@ -100,7 +100,7 @@ $(function() {
         }
     }
 
-    function initialiseAudioVideo(){
+    function initialiseAudioVideo(callback){
     	navigator.mediaDevices.getUserMedia({
                 video: true
             })
@@ -157,15 +157,19 @@ $(function() {
 		                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true,last=false);
 
 		                }, RECORDING_CHUNKS);  
+
+		                callback(null);
 		        
 		            })
 		            .catch(function(err) {
-		                console.log(err.name + ": " + err.message);
+		                console.log(err.name + "audio (getUserMedia): " + err.message);
+		                callback(err.name + "audio (getUserMedia): " + err.message);
 		            }); 
 
             })
             .catch(function(err) {
                 console.log(err.name + " video (getUserMedia): " + err.message);
+                callback(err.name + ": video (getUserMedia): " + err.message);
             });  
     }
 
@@ -833,16 +837,23 @@ $(function() {
     function init_questions() {
         if (Object.keys(configuration.questions).length == 0) {
             init_survey();
-        } else {
-            $('#divAlert').removeClass('hidden');
-            $('#divAlert').text('Press "Start" button to start recording ');
+        } else { 
 
-            $('#divQuestionNo').addClass('hidden');
-            $('#divQuestionNo').text('');
+            initialiseAudioVideo(function(e){
+            	if (e){
+            		$('#divAlert').removeClass('alert-info').addClass('alert-danger').text(e).removeClass("hidden");  
+            	}
+            	else{
+            		 $('#divAlert').removeClass('hidden');
+		            $('#divAlert').text('Press "Start" button to start recording ');
 
-            $('#startAvatarButton').removeClass('hidden').show();
+		            $('#divQuestionNo').addClass('hidden');
+		            $('#divQuestionNo').text('');
 
-            initialiseAudioVideo();
+		            $('#startAvatarButton').removeClass('hidden').show();
+
+            	}  
+            });
             //currentQuestionIndex=1;  
         }
     }
