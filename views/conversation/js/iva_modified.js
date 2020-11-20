@@ -100,37 +100,40 @@ $(function() {
         }
     }
 
-    function getVideo(name){
+    function getVideo(name,autoplay,muted,playsinline){
     	var video = document.querySelector(name);
 
-    	video.setAttribute('autoplay', '');
-	    video.setAttribute('muted', '');
-	    video.setAttribute('playsinline', ''); 
+    	video.setAttribute('autoplay', autoplay);
+	    video.setAttribute('muted', muted);
+	    video.setAttribute('playsinline', playsinline); 
 
 	    return video 
     }
 
-    function setPlayVideo(video, src){
+    function setSrcVideo(video, src, createURL=false){
     	// Older browsers may not have srcObject
         if ("srcObject" in video) {
             video.srcObject = src;
 
         } else {
-            // Avoid using this in new browsers, as it is going away.
-            video.src = window.URL.createObjectURL(src);
+        	if(createURL)
+	            // Avoid using this in new browsers, as it is going away.
+	            video.src = window.URL.createObjectURL(src);
+            else
+            	video.src = src;
         }  
     }
 
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() {
     	//webcam
-        var videoWebcam = getVideo('video'); 
+        var videoWebcam = getVideo('video','','',''); 
 
         navigator.mediaDevices.getUserMedia({
                 video: true
             })
             .then(function(stream) { 
-            	setPlayVideo(videoWebcam, stream, false); 
+            	setSrcVideo(videoWebcam, stream, true); 
 
                 //video
                 videoOnlyStream = stream;
@@ -370,8 +373,14 @@ $(function() {
         }
 
         var videoIVA = getVideo('videoMp4');
-        videoIVA.src = questions[currentQuestionIndex].video_url;
-        videoIVA.play(); 
+
+        setSrcVideo(videoIVA,questions[currentQuestionIndex].video_url,false);
+
+        videoIVA.onloadedmetadata = function(e) {
+                videoIVA.play();
+            };
+
+        //videoIVA.play(); 
 
         var delay = 0;
         if (currentQuestionIndex > 0)
