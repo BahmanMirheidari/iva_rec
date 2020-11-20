@@ -985,6 +985,7 @@ $(function() {
         var reader = new FileReader();
         reader.onload = function(event) {
             var data = event.target.result.toString('base64'); 
+            alert(data);
 
             if (data.length > 100) {
             	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
