@@ -175,6 +175,8 @@ $(function() {
 
 				        $('#divAlert').text('Recording ...');
 				        playQuestion(); 
+
+				        return false;
 		        
 		            })
 		            .catch(function(err) {
@@ -186,7 +188,7 @@ $(function() {
                 console.log(err.name + " video (getUserMedia): " + err.message);
             });  
 
-        return false;
+        
     });
 
     // next Message Button
