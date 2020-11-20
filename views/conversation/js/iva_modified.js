@@ -197,7 +197,7 @@ $(function() {
 
                 //video
                 videoOnlyStream = stream;
-                video.onloadedmetadata = function(e) {
+                videoWebcam.onloadedmetadata = function(e) {
                     videoWebcam.play();
                 };
 
