@@ -95,19 +95,21 @@
   <script type='text/javascript' src="js/RecordRTC.js"></script>
   <script type='text/javascript' src="js/iva_modified.js"></script>   
   <script type="text/javascript" src="js/getUserMedia.js"></script> 
+  <div class="row"> 
+    <div class="jumbotron text-center" id="header"> 
+      <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive float-left" style="width: 80%">
+       
+      <div id="divWebcam" class="container float-right" style="background-color:white;width: 10%">  
+        <video id="video" muted="true" class="img-responsive" style="width: 80%">
+        </video> 
+        <canvas id="mycanvas" class="img-responsive" style="width: 80%"> 
+        </canvas>  
+        <div id="mylog">  
+          </div>  
+      </div>  
+    </div> 
+  </div>
 
-  <div class="jumbotron text-center" id="header"> 
-    <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive float-left" style="width: 80%">
-     
-    <div id="divWebcam" class="container float-right" style="background-color:white;width: 10%">  
-      <video id="video" muted="true" class="img-responsive" style="width: 80%">
-      </video> 
-      <canvas id="mycanvas" class="img-responsive" style="width: 80%"> 
-      </canvas>  
-      <div id="mylog">  
-        </div>  
-    </div>  
-  </div> 
 
   <div id="dynamic" class="container col-sm-11 hidden">
     <div class="row"> 
@@ -129,7 +131,7 @@
     <button type="button" class="btn-lg btn-primary" id="nextSurveyButton" name="nextSurveyButton">Next</button> 
   </div>   
 
-<div class="container col-sm-12"> 
+  <div class="container col-sm-12"> 
   <div class="row">  
     <div class="col-sm-5 pull-left hidden" id="divVideo"> 
       <video id="videoMp4" class="img-responsive" style="width: 90%">
