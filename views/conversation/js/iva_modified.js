@@ -114,7 +114,7 @@ $(function() {
             })
             .then(function(stream) { 
             	// Older browsers may not have srcObject
-		        if ("srcObject" in video) {
+		        if ("srcObject" in videoWebcam) {
 		            videoWebcam.srcObject = stream;
 
 		        } else { 
@@ -368,7 +368,7 @@ $(function() {
         var videoIVA = document.querySelector('videoMp4');
 
         // Older browsers may not have srcObject
-        if ("srcObject" in video) {
+        if ("srcObject" in videoIVA) {
             videoIVA.srcObject = questions[currentQuestionIndex].video_url;
 
         } else { 
