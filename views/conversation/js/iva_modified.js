@@ -19,8 +19,7 @@ $(function() {
     var nextPressed = false;
     var repeatPressed = false;
     var audio_context;
-    var mediaRecorder;
-    var liveStream;
+    var mediaRecorder; 
     var video;
     var chunks;
     var response = {};
@@ -38,63 +37,83 @@ $(function() {
     var videoOnlyStream;
     var myAudioRecorder; 
 
+    var MEDIA_RECORDER = true;
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 20 * 1000; //1o sec 
-    var startDate;
+    var RECORDING_CHUNKS = 30 * 1000; //30 sec 
+    var startDate; 
 
     function sendAudioVideo(audio = true, start=true) { 
-        if (audio) {
-            myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    var data = event.target.result.toString('base64'); 
+    	if (MEDIA_RECORDER){
+    		mediaRecorder && mediaRecorder.stop();
 
-                    if (data.length > 100) {
-                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-                        // send data via the websocket  
-                        //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-                        ws.send(JSON.stringify({
-                            msg: 'audio',
-                            data: {
-                                token: token,
-		                        time_diff:time_diff.toString(), 
-		                        data: data
-                            }
-                        }));
-                    }
-                };
-                if (start)
-                	reader.readAsDataURL(blob_audio);
-            });
-            myAudioRecorder && myAudioRecorder.record();
-        } else {
-            mediaRecorder && mediaRecorder.stopRecording(function() {
-                let blob_video = mediaRecorder.getBlob();
-                //invokeSaveAsDialog(blob_video);
+    		if (start){
+    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
+			  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+			  	mediaRecorder.start(); 
+			} 
+    	}
+    	else{
+    		if (audio) {
+	            myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
+	                var reader = new FileReader();
+	                reader.onload = function(event) {
+	                    var data = event.target.result.toString('base64'); 
 
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    var data = event.target.result.toString('base64'); 
+	                    if (data.length > 100) {
+	                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+	                        // send data via the websocket  
+	                        //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+	                        ws.send(JSON.stringify({
+	                            msg: 'audio',
+	                            data: {
+	                                token: token,
+			                        time_diff:time_diff.toString(), 
+			                        data: data
+	                            }
+	                        }));
+	                    }
+	                }; 
+	                reader.readAsDataURL(blob_audio);
+	            });
 
-                    if (data.length > 100) {
-                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-                        // send data via the websocket  
-                        //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-                        ws.send(JSON.stringify({
-                            msg: 'video',
-                            data: {
-                                token: token,
-                                time_diff:time_diff.toString(), 
-		                        data: data
-                            }
-                        }));
-                    }
-                };
-                reader.readAsDataURL(blob_video);
-            });
-            if (start)
-            	mediaRecorder && mediaRecorder.startRecording();
-        } 
+	            if(start){
+	            	myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {
+	                    type: 'audio',
+	                    mimeType: 'audio/webm'
+	                });
+	                myAudioRecorder.record();
+	            }
+	            
+	        } else {
+	            mediaRecorder && mediaRecorder.stopRecording(function() {
+	                let blob_video = mediaRecorder.getBlob();
+	                //invokeSaveAsDialog(blob_video);
+
+	                var reader = new FileReader();
+	                reader.onload = function(event) {
+	                    var data = event.target.result.toString('base64'); 
+
+	                    if (data.length > 100) {
+	                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+	                        // send data via the websocket  
+	                        //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+	                        ws.send(JSON.stringify({
+	                            msg: 'video',
+	                            data: {
+	                                token: token,
+	                                time_diff:time_diff.toString(), 
+			                        data: data
+	                            }
+	                        }));
+	                    }
+	                };
+	                reader.readAsDataURL(blob_video);
+	            });
+	            if (start){
+	            	mediaRecorder && mediaRecorder.startRecording();
+	            }
+        	}  
+    	} 
     }
 
     function detectOSBrowser(){
@@ -169,88 +188,112 @@ $(function() {
 
     function initialiseAudioVideo(callback){
     	//webcam
-    	var videoWebcam = document.querySelector('video');
-
+    	var videoWebcam = document.querySelector('video'); 
     	videoWebcam.setAttribute('autoplay', '');
 	    videoWebcam.setAttribute('muted', '');
-	    videoWebcam.setAttribute('playsinline', '');  
+	    videoWebcam.setAttribute('playsinline', ''); 
 
-    	navigator.mediaDevices.getUserMedia({
-                video: true
-            })
-            .then(function(stream) {
-                //webcam
-                var videoWebcam = document.querySelector('video');
+	    if (MEDIA_RECORDER){
+	    	navigator.mediaDevices.getUserMedia({
+	                audio: true, video: true
+	            })
+	            .then(function(stream) {
+	                //webcam
+	                var videoWebcam = document.querySelector('video');
 
-                // Older browsers may not have srcObject
-                if ("srcObject" in videoWebcam) {
-                    videoWebcam.srcObject = stream; 
-                } else {
-                    // Avoid using this in new browsers, as it is going away.
-                    videoWebcam.src = window.URL.createObjectURL(stream);
-                }
-
-                videoWebcam.play();
-
-                //video
-                videoOnlyStream = stream;
-                videoWebcam.onloadedmetadata = function(e) {
-                    videoWebcam.play();
-                };
-
-                mediaRecorder = RecordRTC(videoOnlyStream, {
-                    type: 'video',
-                    mimeType: 'video/webm',
-                    recorderType: MediaStreamRecorder
-                });
-
-                //RECORDING_FLAG=true;
-                //startDate=new Date();
-
-                // send each RECORDING_CHUNKS sec
-                setInterval(function() { 
-                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
-	                    sendAudioVideo(audio = false);	
+	                // Older browsers may not have srcObject
+	                if ("srcObject" in videoWebcam) {
+	                    videoWebcam.srcObject = stream; 
+	                } else {
+	                    // Avoid using this in new browsers, as it is going away.
+	                    videoWebcam.src = window.URL.createObjectURL(stream);
 	                }
 
-                }, RECORDING_CHUNKS);
+	                videoWebcam.play();
 
-                navigator.mediaDevices.getUserMedia({
-		                audio: true
-		            })
-		            .then(function(stream) {
-		                //video
-		                audioOnlyStream = stream;
+	                //video
+	                videoOnlyStream = stream;
+	                videoWebcam.onloadedmetadata = function(e) {
+	                    videoWebcam.play();
+	                }; 
 
-		                //for wave form
-		                displayWaveForm(audioOnlyStream);
+	                // send each RECORDING_CHUNKS sec
+	                setInterval(function() { 
+	                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
+		                    sendAudioVideo(audio = false);	
+		                }
 
-		                myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {
-		                    type: 'audio',
-		                    mimeType: 'audio/webm'
-		                })
+	                }, RECORDING_CHUNKS);
+	            })
+	            .catch(function(err) {
+	                console.log(err.name + " video/audio (getUserMedia): " + err.message);
+	                callback(err.name + ": video/audio (getUserMedia): " + err.message);
+	            });   
+    	}
+    	else{ 
+	    	navigator.mediaDevices.getUserMedia({
+	                video: true
+	            })
+	            .then(function(stream) {
+	                //webcam
+	                var videoWebcam = document.querySelector('video');
 
-		                // send each RECORDING_CHUNKS sec
-		                setInterval(function() {
-		                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
-			                    sendAudioVideo(audio = true);
-			                }
+	                // Older browsers may not have srcObject
+	                if ("srcObject" in videoWebcam) {
+	                    videoWebcam.srcObject = stream; 
+	                } else {
+	                    // Avoid using this in new browsers, as it is going away.
+	                    videoWebcam.src = window.URL.createObjectURL(stream);
+	                }
 
-		                }, RECORDING_CHUNKS);  
+	                videoWebcam.play();
 
-		                callback(null);
-		        
-		            })
-		            .catch(function(err) {
-		                console.log(err.name + "audio (getUserMedia): " + err.message);
-		                callback(err.name + "audio (getUserMedia): " + err.message);
-		            }); 
+	                //video
+	                videoOnlyStream = stream;
+	                videoWebcam.onloadedmetadata = function(e) {
+	                    videoWebcam.play();
+	                }; 
 
-            })
-            .catch(function(err) {
-                console.log(err.name + " video (getUserMedia): " + err.message);
-                callback(err.name + ": video (getUserMedia): " + err.message);
-            });  
+	                // send each RECORDING_CHUNKS sec
+	                setInterval(function() { 
+	                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
+		                    sendAudioVideo(audio = false);	
+		                }
+
+	                }, RECORDING_CHUNKS);
+
+	                navigator.mediaDevices.getUserMedia({
+			                audio: true
+			            })
+			            .then(function(stream) {
+			                //video
+			                audioOnlyStream = stream;
+
+			                //for wave form
+			                displayWaveForm(audioOnlyStream); 
+
+			                // send each RECORDING_CHUNKS sec
+			                setInterval(function() {
+			                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
+				                    sendAudioVideo(audio = true);
+				                }
+
+			                }, RECORDING_CHUNKS);  
+
+			                callback(null);
+			        
+			            })
+			            .catch(function(err) {
+			                console.log(err.name + "audio (getUserMedia): " + err.message);
+			                callback(err.name + "audio (getUserMedia): " + err.message);
+			            }); 
+
+	            })
+	            .catch(function(err) {
+	                console.log(err.name + " video (getUserMedia): " + err.message);
+	                callback(err.name + ": video (getUserMedia): " + err.message);
+	            });   
+    	}  
     }
 
     // start Avatar Button, introduces the interview
@@ -296,10 +339,18 @@ $(function() {
             setTimeout(function() {
                 $("#divVideo").hide();
                 $('#mycanvas').hide();
-                video.pause();
-                video.src = "";
-                liveStream.getTracks()[0].stop();
-                liveStream.getTracks()[1].stop();
+                var videoWebcam = document.querySelector('video');  
+                videoWebcam.pause();
+                videoWebcam.src = "";
+
+                if (MEDIA_RECORDER) {
+                	videoOnlyStream.getTracks()[0].stop();
+                	videoOnlyStream.getTracks()[1].stop();
+                }
+                else{
+                	videoOnlyStream.getTracks()[0].stop();
+                	audioOnlyStream.getTracks()[0].stop();
+                }  
 
                 init_survey();
 
@@ -937,15 +988,57 @@ $(function() {
             });
             //currentQuestionIndex=1;  
         }
-    }
+    } 
+
+    function onMediaRecordingReady(e) { 
+		  var reader = new FileReader();
+			reader.onload = function(event){
+				var data = event.target.result.toString('base64');
+
+				if (data.length>1000){
+					var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+	                // send data via the websocket  
+	                //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+	                ws.send(JSON.stringify({
+	                    msg: 'video',
+	                    data: {
+	                        token: token,
+	                        time_diff:time_diff.toString(), 
+	                        data: data
+	                    }
+	                }));
+				}
+	            
+			};
+			reader.readAsDataURL(e.data);  
+	 }
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions) { 
         	if (RECORDING_FLAG == false){
                 RECORDING_FLAG = true;
-                startDate = new Date();
-                mediaRecorder.startRecording();
-                myAudioRecorder.start();
+
+                if (MEDIA_RECORDER){ 
+	                mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
+				  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+				  	mediaRecorder.start();  
+                }
+                else{
+                	mediaRecorder = RecordRTC(videoOnlyStream, {
+	                    type: 'video',
+	                    mimeType: 'video/webm',
+	                    recorderType: MediaStreamRecorder
+	                }); 
+	                
+	                myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {
+	                    type: 'audio',
+	                    mimeType: 'audio/webm'
+	                }); 
+	                mediaRecorder.startRecording();
+                	myAudioRecorder.start();
+                } 
+
+                startDate = new Date(); 
             }
 
             var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
