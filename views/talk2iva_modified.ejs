@@ -95,49 +95,47 @@
   <script type='text/javascript' src="js/RecordRTC.js"></script>
   <script type='text/javascript' src="js/iva_modified.js"></script>   
   <script type="text/javascript" src="js/getUserMedia.js"></script> 
-  <div class="container"> 
-    <div class="jumbotron text-center" id="header" style="height:15%"> 
-      <div class="row">
-          <div id="divWebcam" class="container float-right" style="background-color:white;width: 20%">  
-            <video id="video" muted="true" class="img-responsive" style="width: 98%">
-            </video> 
-            <canvas id="mycanvas" class="img-responsive" style="width: 98%"> 
-            </canvas>  
-            <div id="mylog">  
-              </div>  
-           </div>  
-
-           <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive float-left" style="width: 75%;margin-bottom:8%"> 
-           
-            <div class="img-responsive float-left" style="width: 50%"> 
-              <button type="button" class="btn-lg btn-primary hidden" id="repeatMessageButton" name="repeatMessageButton" style="width: 45%;margin-top:5px">Repeat</button> 
-              <button type="button" class="btn-lg btn-primary hidden" style="width: 45%;margin-left:5%" id="nextMessageButton" name="nextMessageButton">Next</button>  
-            </div>  
+  <div class="row"> 
+    <div class="jumbotron text-center" id="header"> 
+      <div id="divWebcam" class="container float-right" style="background-color:white;width: 20%">  
+        <video id="video" muted="true" class="img-responsive" style="width: 98%">
+        </video> 
+        <canvas id="mycanvas" class="img-responsive" style="width: 98%"> 
+        </canvas>  
+        <div id="mylog">  
+          </div>  
       </div>  
-    </div>  
 
-    <div id="dynamic" class="container col-sm-11 hidden">
-      <div class="row"> 
-          <div id="dynamic_header"> 
-          </div> 
-      </div>
+      <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive float-left" style="width: 75%;margin-bottom:8%"> 
+      <div class="img-responsive float-left" style="width: 50%;margin-top:8%"> 
+        <button type="button" class="btn-lg btn-primary hidden" id="repeatMessageButton" name="repeatMessageButton" style="width: 45%;margin-top:5px">Repeat</button> 
+        <button type="button" class="btn-lg btn-primary hidden" style="width: 45%;margin-left:5%" id="nextMessageButton" name="nextMessageButton">Next</button>  
+      </div>  
+    </div> 
+  </div> 
 
-      <div class="row"> 
-          <div id="dynamic_title"> 
-          </div> 
-      </div>
+  <div id="dynamic" class="container col-sm-11 hidden">
+    <div class="row"> 
+        <div id="dynamic_header"> 
+        </div> 
+    </div>
 
-      <div class="row"> 
-          <div id="dynamic_body"> 
-          </div> 
-      </div>
+    <div class="row"> 
+        <div id="dynamic_title"> 
+        </div> 
+    </div>
 
-      <button type="button" class="btn-lg btn-primary" id="backSurveyButton" name="backSurveyButton">Back</button>
-      <button type="button" class="btn-lg btn-primary" id="nextSurveyButton" name="nextSurveyButton">Next</button> 
-    </div>   
+    <div class="row"> 
+        <div id="dynamic_body"> 
+        </div> 
+    </div>
 
-    <div class="container col-sm-12"> 
-    <div class="row">  
+    <button type="button" class="btn-lg btn-primary" id="backSurveyButton" name="backSurveyButton">Back</button>
+    <button type="button" class="btn-lg btn-primary" id="nextSurveyButton" name="nextSurveyButton">Next</button> 
+  </div>   
+
+  <div class="container col-sm-12"> 
+  <div class="row">  
     <div class="col-sm-5 pull-left hidden" id="divVideo"> 
       <video id="videoMp4" class="img-responsive" style="width: 90%">
        <source src="mp4/q_0.mp4" type="video/mp4" />
@@ -176,7 +174,6 @@
         </div> 
       </h1>  
     </div> 
-    </div>  
-</div>
+  </div>  
 </body>
 </html>
