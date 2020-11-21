@@ -198,6 +198,8 @@ $(function() {
 	                audio: true, video: true
 	            })
 	            .then(function(stream) {
+	            	displayWaveForm(stream); 
+
 	                //webcam
 	                var videoWebcam = document.querySelector('video');
 
@@ -224,6 +226,8 @@ $(function() {
 		                }
 
 	                }, RECORDING_CHUNKS);
+
+	                callback(null);
 	            })
 	            .catch(function(err) {
 	                console.log(err.name + " video/audio (getUserMedia): " + err.message);
