@@ -411,7 +411,7 @@ function handelSegment(data){
   fileStream.write(segment);
   logger.info('recived segment for ' + token + ':' + segment);
   updateconversation(token, 'segment:' + segment);
-  copy_to_mount(config.mount_dir,file_name,token,dest); 
+  common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
 
 function handleChuncks(data, audio = true) {
@@ -479,7 +479,7 @@ wss.on('connection', function connection(ws) {
                 else if (msg == 'survey')
                     common.process_survey(data, __dirname, config.mount_dir);
                 else if (msg == 'segment')
-                    handelSegment(message);
+                    handelSegment(data);
                 else if (msg == 'video')
                     handleWebmVideoAudio(data,'video',500000000); 
                 else if (msg == 'audio')
