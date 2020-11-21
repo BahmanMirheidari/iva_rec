@@ -37,7 +37,7 @@ $(function() {
     var videoOnlyStream;
     var myAudioRecorder; 
 
-    var MEDIA_RECORDER = true;
+    var MEDIA_RECORDER = false;
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 30 * 1000; //30 sec 
     var startDate; 
@@ -351,6 +351,8 @@ $(function() {
             setTimeout(function() {
                 $("#divVideo").hide();
                 $('#mycanvas').hide();
+                $("#repeatMessageButton").hide();
+                $("#nextMessageButton").hide();
                 var videoWebcam = document.querySelector('video');  
                 videoWebcam.pause();
                 videoWebcam.src = "";
@@ -362,7 +364,7 @@ $(function() {
                 else{
                 	videoOnlyStream.getTracks()[0].stop();
                 	audioOnlyStream.getTracks()[0].stop();
-                }  
+                }    
 
                 init_survey();
 
