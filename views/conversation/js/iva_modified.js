@@ -42,8 +42,7 @@ $(function() {
     var RECORDING_CHUNKS = 10 * 1000; //1o sec 
     var startDate;
 
-	/*
-    function sendAudioVideo(q_no, r_no, audio = true, last = false) {
+    function sendAudioVideo(audio = true) {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
             if (audio) {
                 myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
@@ -52,17 +51,15 @@ $(function() {
                         var data = event.target.result.toString('base64'); 
 
                         if (data.length > 100) {
+                        	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
                             // send data via the websocket  
                             //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
                             ws.send(JSON.stringify({
-                                msg: 'webm-audio-chunk',
+                                msg: 'audio',
                                 data: {
                                     token: token,
-                                    q_no: q_no,
-                                    r_no: r_no,
-                                    size: data.length,
-                                    last: last,
-                                    data: data
+			                        time_diff:time_diff.toString(), 
+			                        data: data
                                 }
                             }));
                         }
@@ -80,17 +77,15 @@ $(function() {
                         var data = event.target.result.toString('base64'); 
 
                         if (data.length > 100) {
+                        	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
                             // send data via the websocket  
                             //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
                             ws.send(JSON.stringify({
-                                msg: 'webm-video-chunk',
+                                msg: 'video',
                                 data: {
                                     token: token,
-                                    q_no: q_no,
-                                    r_no: r_no,
-                                    size: data.length,
-                                    last: last,
-                                    data: data
+                                    time_diff:time_diff.toString(), 
+			                        data: data
                                 }
                             }));
                         }
@@ -100,7 +95,7 @@ $(function() {
                 mediaRecorder && mediaRecorder.startRecording();
             }
         }
-    }*/
+    }
 
     function detectOSBrowser(){
     	var OSName="Unknown OS";
@@ -172,26 +167,6 @@ $(function() {
 		return {'all_details':all_details, 'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
     }
 
-    // send each RECORDING_CHUNKS sec
-    setInterval(function() {
-    	if (RECORDING_FLAG){
-    		mediaRecorder && mediaRecorder.stop(); 
-    		startMediaRecorder(); 
-    	}
-    	else{
-    		mediaRecorder && mediaRecorder.stop();
-    	}
-    	
-        //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false,last=false);
-
-    }, RECORDING_CHUNKS);
-
-    function startMediaRecorder(){
-    	mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});
-        mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);  
-        mediaRecorder.start();  
-    }
-
     function initialiseAudioVideo(callback){
     	//webcam
     	var videoWebcam = document.querySelector('video');
@@ -201,10 +176,9 @@ $(function() {
 	    videoWebcam.setAttribute('playsinline', '');  
 
     	navigator.mediaDevices.getUserMedia({
-                video: true, audio: true
+                video: true
             })
             .then(function(stream) {
-            	liveStream = stream;
                 //webcam
                 var videoWebcam = document.querySelector('video');
 
@@ -219,26 +193,27 @@ $(function() {
                 videoWebcam.play();
 
                 //video
-                //videoOnlyStream = stream;
+                videoOnlyStream = stream;
                 videoWebcam.onloadedmetadata = function(e) {
                     videoWebcam.play();
                 };
 
-                displayWaveForm(stream);
-
-                /*mediaRecorder = RecordRTC(videoOnlyStream, {
+                mediaRecorder = RecordRTC(videoOnlyStream, {
                     type: 'video',
                     mimeType: 'video/webm',
                     recorderType: MediaStreamRecorder
-                });*/
+                });
 
-                startMediaRecorder(); 
-                RECORDING_FLAG = true;
-                startDate = new Date();  
-                
-                callback(null);
+                RECORDING_FLAG=true;
+                startDate=new Date();
 
-                /*navigator.mediaDevices.getUserMedia({
+                // send each RECORDING_CHUNKS sec
+                setInterval(function() { 
+                    sendAudioVideo(audio = false);
+
+                }, RECORDING_CHUNKS);
+
+                navigator.mediaDevices.getUserMedia({
 		                audio: true
 		            })
 		            .then(function(stream) {
@@ -255,7 +230,7 @@ $(function() {
 
 		                // send each RECORDING_CHUNKS sec
 		                setInterval(function() {
-		                    sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true,last=false);
+		                    sendAudioVideo(audio = true);
 
 		                }, RECORDING_CHUNKS);  
 
@@ -265,7 +240,7 @@ $(function() {
 		            .catch(function(err) {
 		                console.log(err.name + "audio (getUserMedia): " + err.message);
 		                callback(err.name + "audio (getUserMedia): " + err.message);
-		            }); */
+		            }); 
 
             })
             .catch(function(err) {
@@ -276,7 +251,6 @@ $(function() {
 
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() { 
-
         $("#consent").addClass('hidden');
 
         currentQuestionIndex = startQuestionIndex;
@@ -318,9 +292,8 @@ $(function() {
             setTimeout(function() {
                 $("#divVideo").hide();
                 $('#mycanvas').hide();
-                var videoWebcam = document.querySelector('video');
-                videoWebcam.pause();
-                videoWebcam.src = "";
+                video.pause();
+                video.src = "";
                 liveStream.getTracks()[0].stop();
                 liveStream.getTracks()[1].stop();
 
@@ -963,8 +936,8 @@ $(function() {
     }
 
     function startRecording() {
-        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {  
-        	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
+        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {   
+            var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
         	ws.send(JSON.stringify({
         		msg:'segment',
         		q_no: currentQuestionIndex.toString(), 
@@ -972,43 +945,37 @@ $(function() {
         		data:token, 
         		time_diff:time_diff.toString()
         	}));  
-
-        	//if (queueAudio.length>0)
-        	//	last_q_value=queueAudio.pop();
-
-	    	//queueAudio.push({q_no:currentQuestionIndex, r_no:repeatIndex}); 
-
-            //RECORDING_FLAG = true;
-            //ws.send(JSON.stringify({msg:'startRecording - ' + currentQuestionIndex.toString() + ' - ' + repeatIndex.toString() ,data:token}));  
-            //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = true, last = true);
-            //sendAudioVideo(currentQuestionIndex,repeatIndex,audio = false, last = true); 
         } else {
             RECORDING_FLAG = false;
         }
     }
 
-    function onMediaRecordingReady(blob) { 
+    /*function onMediaRecordingReady(e) {
         var reader = new FileReader();
         reader.onload = function(event) {
-            var data = event.target.result.toString('base64'); 
-            alert(data);
+            var data = event.target.result.toString('base64');
 
-            if (data.length > 100) {
-            	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-                // send data via the websocket  
-                //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-                ws.send(JSON.stringify({
-                    msg: 'webm-videoaudio',
-                    data: {
-                        token: token,
-                        time_diff:time_diff.toString(), 
-                        data: data
-                    }
-                }));
+            if (data.length > 1000) {
+                //Take first value from queue
+                var value = queueAudio.shift();
+                if (value !== undefined) {
+
+                    // send data via the websocket  
+                    ws.send(JSON.stringify({
+                        msg: 'webm',
+                        data: {
+                            token: token,
+                            q_no: value.q_no,
+                            r_no: value.r_no,
+                            data: data
+                        }
+                    }));
+                }
             }
+
         };
-        reader.readAsDataURL(blob.blob); 
-    }
+        reader.readAsDataURL(e.data);
+    }*/
 
     function stopRecording() {
         //mediaRecorder && mediaRecorder.stop();
@@ -1104,6 +1071,7 @@ $(function() {
             var val = (sample1 + sample2) * gain; // combine two samples and multiply by gain
             canvasDrawSquare(i, height / 2, i + 1, height / 2 - val);
         }
+
     }
 
     function onError() {
