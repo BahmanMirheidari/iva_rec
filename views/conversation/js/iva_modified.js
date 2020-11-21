@@ -310,6 +310,9 @@ $(function() {
 
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() { 
+
+    	playSound('Buzzer/Silence.mp3');
+
         $("#consent").addClass('hidden');
 
         currentQuestionIndex = startQuestionIndex;
@@ -550,16 +553,12 @@ $(function() {
         setTimeout(function() {
             repeatPressed = false;
         }, intervals);
-    }
+    } 
 
     //play audio
-    function playSound() {   
-		setInterval(function () {
-        $('audio').each(function () {
-          this.pause();
-          this.play();
-        });
-      }, 1000); 
+    function playSound(soundfile) {   
+		var audio = new Audio(soundfile);
+		audio.play(); 
     }
 
     //plays the current question 
@@ -581,10 +580,10 @@ $(function() {
     function playBuzzers(initialDelay, buzzerInterval) {
         var intervals = initialDelay + buzzerInterval;
         setTimeout(function() {
-            playSound();
+            playSound('Buzzer/Buzzer1.mp3');
 
             setTimeout(function() {
-                playSound();
+                playSound('Buzzer/Buzzer1.mp3');
 
             }, buzzerInterval);
 
