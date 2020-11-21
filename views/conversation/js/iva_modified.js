@@ -948,9 +948,9 @@ $(function() {
         	ws.send(JSON.stringify({
         		msg:'segment',
         		q_no: currentQuestionIndex.toString(), 
-        		r_no:repeatIndex.toString(),
-        		data:token, 
-        		time_diff:time_diff.toString()
+        		r_no: repeatIndex.toString(),
+        		token: token, 
+        		time_diff: time_diff.toString()
         	}));  
         } else {
             RECORDING_FLAG = false;
