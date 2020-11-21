@@ -551,11 +551,15 @@ $(function() {
             repeatPressed = false;
         }, intervals);
     }
-    
+
     //play audio
-    function playSound() { 
-        document.getElementById('audio').muted = false;
-		document.getElementById('audio').play();
+    function playSound() {   
+		setInterval(function () {
+        $('audio').each(function () {
+          this.pause();
+          this.play();
+        });
+      }, 1000); 
     }
 
     //plays the current question 
