@@ -554,12 +554,10 @@ $(function() {
 
     //play audio
     function playSound(soundfile) {
-        var audio = new Audio();
+        var audio = document.querySelector('audio');
         audio.src = soundfile;
         audio.muted = false;
-        audio.play(); 
-		audio.pause()
-		audio.currentTime = 0;
+        audio.play();  
     }
 
     //plays the current question 
