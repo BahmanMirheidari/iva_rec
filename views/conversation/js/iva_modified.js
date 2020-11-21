@@ -940,6 +940,8 @@ $(function() {
         	if (RECORDING_FLAG == false){
                 RECORDING_FLAG = true;
                 startDate = new Date();
+                mediaRecorder.startRecording();
+                myAudioRecorder.start();
             }
 
             var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
