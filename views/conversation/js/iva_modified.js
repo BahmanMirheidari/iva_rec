@@ -40,8 +40,7 @@ $(function() {
     var MEDIA_RECORDER = false;
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 30 * 1000; //30 sec 
-    var startDate;
-    var audio; 
+    var startDate; 
 
     function sendAudioVideo(audio = true, start=true) { 
     	if (MEDIA_RECORDER){
