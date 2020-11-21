@@ -479,7 +479,7 @@ wss.on('connection', function connection(ws) {
                 else if (msg == 'survey')
                     common.process_survey(data, __dirname, config.mount_dir);
                 else if (msg == 'segment')
-                    handelSegment(data);
+                    handelSegment(message);
                 else if (msg == 'video')
                     handleWebmVideoAudio(data,'video',500000000); 
                 else if (msg == 'audio')
