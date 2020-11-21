@@ -47,7 +47,7 @@ $(function() {
     		mediaRecorder && mediaRecorder.stop();
 
     		if (start){
-    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
+    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/mp4'}); 
 			  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 			  	mediaRecorder.start(); 
 			} 
@@ -68,7 +68,8 @@ $(function() {
 	                            data: {
 	                                token: token,
 			                        time_diff:time_diff.toString(), 
-			                        data: data
+			                        data: data,
+			                        ext: "webm"
 	                            }
 	                        }));
 	                    }
@@ -102,7 +103,8 @@ $(function() {
 	                            data: {
 	                                token: token,
 	                                time_diff:time_diff.toString(), 
-			                        data: data
+			                        data: data,
+			                        ext: "webm"
 	                            }
 	                        }));
 	                    }
@@ -1016,7 +1018,8 @@ $(function() {
 	                    data: {
 	                        token: token,
 	                        time_diff:time_diff.toString(), 
-	                        data: data
+	                        data: data,
+	                        ext:"mp4"
 	                    }
 	                }));
 				}
@@ -1031,7 +1034,7 @@ $(function() {
                 RECORDING_FLAG = true;
 
                 if (MEDIA_RECORDER){ 
-	                mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
+	                mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/mp4'}); 
 				  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
 				  	mediaRecorder.start();  
                 }

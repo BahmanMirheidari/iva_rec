@@ -367,7 +367,8 @@ function handleWebmVideoAudio(data, videoaudio='video',max_webm_size=500000000){
   var token = data.token; 
   var blob = data.data; 
   var sub_folder = __dirname + "/uploads/" + token;
-  var dest = videoaudio + '-' + 'recording.webm';
+  var ext = data.ext;
+  var dest = videoaudio + '-' + 'recording.' + ext;
   var file_name = sub_folder + '/' + dest;
   var can_save = false; 
   common.mkdir(sub_folder);
