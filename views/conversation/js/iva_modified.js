@@ -310,7 +310,10 @@ $(function() {
     }
 
     // start Avatar Button, introduces the interview
-    $("#startAvatarButton").click(function() {  
+    $("#startAvatarButton").click(function() { 
+
+    	//playSound('Buzzer/Silence.mp3');
+
         $("#consent").addClass('hidden');
 
         currentQuestionIndex = startQuestionIndex;
@@ -328,7 +331,8 @@ $(function() {
         $('#divAlert').text('Recording ...');
         playQuestion();  
 
-        return false; 
+        return false;
+        
     });
 
     // next Message Button
@@ -343,7 +347,8 @@ $(function() {
         //start recording
         startRecording();
 
-        if (currentQuestionIndex == maxQuestions) {  
+        if (currentQuestionIndex == maxQuestions) {
+
             playQuestion();
 
             setTimeout(function() {
@@ -551,8 +556,9 @@ $(function() {
     } 
 
     //play audio
-    function playBuzzer() {   
-    	$('#audio').trigger('play'); 
+    function playSound(soundfile) {   
+    	audio = new Audio(soundfile);  
+		audio.play(); 
     }
 
     //plays the current question 
@@ -566,17 +572,18 @@ $(function() {
             $('#divQuestionNo').removeClass('hidden');
             $('#divQuestionNo').text('Question ' + (currentQuestionIndex).toString() + '/' + (maxQuestions - 1).toString());
         }
-        stopStopWatch(); 
+        stopStopWatch();
+
         playAvatar();
     }
 
     function playBuzzers(initialDelay, buzzerInterval) {
         var intervals = initialDelay + buzzerInterval;
         setTimeout(function() {
-            playBuzzer();
+            playSound('Buzzer/Buzzer1.mp3');
 
             setTimeout(function() {
-                playBuzzer();
+                playSound('Buzzer/Buzzer1.mp3');
 
             }, buzzerInterval);
 
@@ -945,7 +952,11 @@ $(function() {
         }
     }
 
-    function init_consent() { 
+    function init_consent() {
+    	//{'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
+    	//var osDetails = detectOSBrowser();
+    	//alert("browserName:" + osDetails.browser + " ,os:" +osDetails.os + ', all-' +osDetails.all_details)
+    	 
         response.consent = {};
         response.pre_surveys = [];
         response.surveys = [];
@@ -991,7 +1002,8 @@ $(function() {
 		            $('#startAvatarButton').removeClass('hidden').show();
 
             	}  
-            }); 
+            });
+            //currentQuestionIndex=1;  
         }
     } 
 
@@ -1063,7 +1075,11 @@ $(function() {
             sendAudioVideo(audio = true, start=false);
         }
     } 
-  
+
+    function stopRecording() {
+        //mediaRecorder && mediaRecorder.stop();
+    }
+
     function canvasDrawLine(oPosX, oPosY, fPosX, fPosY) {
         var ctx = getCanvas().getContext('2d');
         ctx.beginPath();
@@ -1222,7 +1238,5 @@ $(function() {
         $('#divAlert').removeClass('alert-info').addClass('alert-danger').text('Error: WebSocket NOT supported by your Browser!').removeClass("hidden");
     }
 
-    init_consent();  
-
-    playSound('Buzzer/Silence.mp3');
+    init_consent();   
 });
