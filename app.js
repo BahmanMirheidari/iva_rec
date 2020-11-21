@@ -400,15 +400,12 @@ function handelSegment(data){
   var sub_folder = __dirname + "/uploads/" + token;
   var dest = 'segments.txt';
   var file_name = sub_folder + '/' + dest;  
-  var segment = q_no + ',' + r_no + ',' + time_diff;
+  var segment = q_no + ',' + r_no + ',' + time_diff + '\n';
 
   common.mkdir(sub_folder);
 
-  const fileStream = fs.createWriteStream(file_name, {
-        flags: 'a'
-    });
-  
-  fileStream.write(segment);
+  fs.appendFileSync(file_name, segment);
+ 
   logger.info('recived segment for ' + token + ':' + segment);
   updateconversation(token, 'segment:' + segment);
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
