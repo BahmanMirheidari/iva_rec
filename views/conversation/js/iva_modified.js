@@ -312,7 +312,7 @@ $(function() {
     // start Avatar Button, introduces the interview
     $("#startAvatarButton").click(function() { 
 
-    	playSound('Buzzer/Silence.mp3');
+    	//playSound('Buzzer/Silence.mp3');
 
         $("#consent").addClass('hidden');
 
@@ -559,6 +559,7 @@ $(function() {
     //play audio
     function playSound(soundfile) {   
     	var audio = document.getElementById('audio');
+    	audio.mute = false;
 		audio.src = soundfile;
 		audio.play(); 
     }
