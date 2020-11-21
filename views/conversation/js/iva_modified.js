@@ -936,7 +936,12 @@ $(function() {
     }
 
     function startRecording() {
-        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) {   
+        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) { 
+        	if (RECORDING_FLAG == false){
+                RECORDING_FLAG = true;
+                startDate = new Date();
+            }
+
             var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
         	ws.send(JSON.stringify({
         		msg:'segment',
