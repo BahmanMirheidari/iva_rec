@@ -314,7 +314,7 @@ $(function() {
 
     	//playSound('Buzzer/Silence.mp3');
     	document.getElementById("audio").play();
-    	
+
 
         $("#consent").addClass('hidden');
 
@@ -561,8 +561,10 @@ $(function() {
     function playSound(soundfile) {   
     	//audio = new Audio(soundfile);  
 		//audio.play(); 
-
-		document.getElementById("audio").play();
+		audio = document.getElementById("audio");
+		audio.load();
+		audio.src=soundfile;
+		audio.play();
     }
 
     //plays the current question 
