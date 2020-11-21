@@ -187,6 +187,12 @@ $(function() {
     }
 
     function initialiseAudioVideo(callback){
+    	// for safari or iOS
+    	osBr = detectOSBrowser();
+    	if (osBr.browser.match(/Safari/i) || osBr.os.match(/oOS/i) ){
+    		MEDIA_RECORDER = false; 
+    	} 
+
     	//webcam
     	var videoWebcam = document.querySelector('video'); 
     	videoWebcam.setAttribute('autoplay', '');
