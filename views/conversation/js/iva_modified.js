@@ -555,7 +555,9 @@ $(function() {
         var audio = new Audio();
         audio.src = soundfile;
         audio.muted = false;
-        audio.play();
+        audio.play(); 
+		audio.pause()
+		audio.currentTime = 0;
     }
 
     //plays the current question 
