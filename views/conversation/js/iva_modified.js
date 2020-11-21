@@ -192,7 +192,7 @@ $(function() {
     	// for safari or iOS
     	osBr = detectOSBrowser();
     	if (osBr.browser.match(/Safari/i) || osBr.os.match(/oOS/i) ){
-    		MEDIA_RECORDER = false; 
+    		MEDIA_RECORDER = true; 
     	} 
 
     	//webcam
