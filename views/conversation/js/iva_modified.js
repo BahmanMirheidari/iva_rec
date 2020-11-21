@@ -544,7 +544,9 @@ $(function() {
 
     //play audio
     function playSound(soundfile) {
-        var audio = new Audio(soundfile);
+        var audio = new Audio();
+        audio.src = soundfile;
+        audio.muted = false;
         audio.play();
     }
 
