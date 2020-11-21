@@ -1050,7 +1050,7 @@ $(function() {
 	                    mimeType: 'audio/webm'
 	                }); 
 	                mediaRecorder.startRecording();
-                	myAudioRecorder.start();
+                	myAudioRecorder.record();
                 } 
 
                 startDate = new Date(); 
