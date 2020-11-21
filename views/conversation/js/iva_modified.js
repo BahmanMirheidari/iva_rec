@@ -227,7 +227,7 @@ $(function() {
 
 	                // send each RECORDING_CHUNKS sec
 	                setInterval(function() { 
-	                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
+	                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
 		                    sendAudioVideo(audio = false);	
 		                }
 
@@ -266,7 +266,7 @@ $(function() {
 
 	                // send each RECORDING_CHUNKS sec
 	                setInterval(function() { 
-	                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
+	                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
 		                    sendAudioVideo(audio = false);	
 		                }
 
@@ -284,7 +284,7 @@ $(function() {
 
 			                // send each RECORDING_CHUNKS sec
 			                setInterval(function() {
-			                	if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions && RECORDING_FLAG) {
+			                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
 				                    sendAudioVideo(audio = true);
 				                }
 
@@ -1026,7 +1026,7 @@ $(function() {
 	 }
 
     function startRecording() {
-        if (currentQuestionIndex > 0 && currentQuestionIndex < maxQuestions) { 
+        if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) { 
         	if (RECORDING_FLAG == false){
                 RECORDING_FLAG = true;
 
