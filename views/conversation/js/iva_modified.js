@@ -39,7 +39,7 @@ $(function() {
     var myAudioRecorder; 
 
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 30 * 1000; //1o sec 
+    var RECORDING_CHUNKS = 20 * 1000; //1o sec 
     var startDate;
 
     function sendAudioVideo(audio = true) {
