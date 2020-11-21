@@ -552,7 +552,13 @@ $(function() {
 
     //play audio
     function playSound(soundfile) {   
-    	audio = new Audio(soundfile);  
+    	if('webkitAudioContext' in window) {
+		    audio = new webkitAudioContext(soundfile);
+		}
+		else{
+			audio = new Audio(soundfile);  
+		} 
+    		
 		audio.play(); 
     }
 
