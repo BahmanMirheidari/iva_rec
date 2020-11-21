@@ -947,10 +947,12 @@ $(function() {
             var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
         	ws.send(JSON.stringify({
         		msg:'segment',
-        		q_no: currentQuestionIndex.toString(), 
-        		r_no: repeatIndex.toString(),
-        		token: token, 
-        		time_diff: time_diff.toString()
+        		data:{
+        			q_no: currentQuestionIndex.toString(), 
+	        		r_no: repeatIndex.toString(),
+	        		token: token, 
+	        		time_diff: time_diff.toString()
+        		} 
         	}));  
         } else {
             RECORDING_FLAG = false;
