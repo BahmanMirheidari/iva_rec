@@ -551,13 +551,11 @@ $(function() {
             repeatPressed = false;
         }, intervals);
     }
-
+    
     //play audio
-    function playSound(soundfile) {
-        var audio = document.querySelector('audio');
-        audio.src = soundfile;
-        audio.muted = false;
-        audio.play();  
+    function playSound() { 
+        document.getElementById('audio').muted = false;
+		document.getElementById('audio').play();
     }
 
     //plays the current question 
@@ -579,10 +577,10 @@ $(function() {
     function playBuzzers(initialDelay, buzzerInterval) {
         var intervals = initialDelay + buzzerInterval;
         setTimeout(function() {
-            playSound('Buzzer/Buzzer1.mp3');
+            playSound();
 
             setTimeout(function() {
-                playSound('Buzzer/Buzzer1.mp3');
+                playSound();
 
             }, buzzerInterval);
 
