@@ -557,10 +557,7 @@ $(function() {
 
     //play audio
     function playSound(soundfile) {   
-    	var audio = new Audio();
-    	audio.muted = false;
-    	audio.autoplay = false;
-		audio.src = soundfile;
+    	var audio = new Audio(soundfile); 
 		audio.load();
 		audio.play(); 
     }
