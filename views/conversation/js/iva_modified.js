@@ -551,15 +551,8 @@ $(function() {
     } 
 
     //play audio
-    function playSound(soundfile) {   
-    	if('webkitAudioContext' in window) {
-		    audio = new webkitAudioContext(soundfile);
-		}
-		else{
-			audio = new Audio(soundfile);  
-		} 
-    		
-		audio.play(); 
+    function playBuzzer() {   
+    	$('#audio').trigger('play'); 
     }
 
     //plays the current question 
@@ -580,10 +573,10 @@ $(function() {
     function playBuzzers(initialDelay, buzzerInterval) {
         var intervals = initialDelay + buzzerInterval;
         setTimeout(function() {
-            playSound('Buzzer/Buzzer1.mp3');
+            playBuzzer();
 
             setTimeout(function() {
-                playSound('Buzzer/Buzzer1.mp3');
+                playBuzzer();
 
             }, buzzerInterval);
 
