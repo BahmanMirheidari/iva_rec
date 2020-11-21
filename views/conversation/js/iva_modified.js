@@ -561,6 +561,7 @@ $(function() {
     	audio.muted = false;
     	audio.autoplay = false;
 		audio.src = soundfile;
+		audio.load();
 		audio.play(); 
     }
 
