@@ -313,6 +313,8 @@ $(function() {
     $("#startAvatarButton").click(function() { 
 
     	//playSound('Buzzer/Silence.mp3');
+    	document.getElementById("audio").play();
+    	
 
         $("#consent").addClass('hidden');
 
@@ -557,8 +559,10 @@ $(function() {
 
     //play audio
     function playSound(soundfile) {   
-    	audio = new Audio(soundfile);  
-		audio.play(); 
+    	//audio = new Audio(soundfile);  
+		//audio.play(); 
+
+		document.getElementById("audio").play();
     }
 
     //plays the current question 
