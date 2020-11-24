@@ -1213,7 +1213,7 @@ $(function() {
             Browser = osBr.browser;  
             $.getJSON('https://ipapi.co/json/', function(d) {
                 if(d){
-                    alert(JSON.stringify(d, null, 2));
+                    //alert(JSON.stringify(d, null, 2));
                     ws.send(JSON.stringify({
                         msg: 'token',
                         data: token,
