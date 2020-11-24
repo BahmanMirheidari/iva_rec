@@ -393,7 +393,7 @@ function handleWebmVideoAudio(data, videoaudio='video',max_webm_size=500000000){
   } 
 }
 
-function handelSegment(data){  
+function handelSegment(data,osBrStr){  
   var token = data.token;
   var q_no = data.q_no;
   var r_no = data.r_no;
@@ -408,11 +408,11 @@ function handelSegment(data){
   fs.appendFileSync(file_name, segment);
  
   logger.info('recived segment for ' + token + ':' + segment);
-  updateconversation(token, 'segment:' + segment);
+  updateconversation(token, 'segment:' + segment+'-'+osBrStr);
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
 
-function handleChuncks(data, audio = true) {
+function handleChuncks(data, osBrStr, audio = true) {
   try{
     var token = data.token;
     var q_no = data.q_no;
@@ -427,7 +427,7 @@ function handleChuncks(data, audio = true) {
 
     if (!fs.existsSync(file_name + ext)) {
         /* changed 19/11/20 */
-        updateconversation(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
+        updateconversation(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()+'-'+osBrStr);
         logger.info(ext + ' file: ' + file_name + ext + ' - length: ' + len.toString());
     } 
  
@@ -442,7 +442,7 @@ function handleChuncks(data, audio = true) {
     logger.error('handleChuncks-Error: ' + e);
   } 
 }
-
+ 
 var https = (config.ssl) ? require('https') : require('http');
 var httpsServer = (config.ssl) ? https.createServer({
     key: fs.readFileSync(config.paths.key_file_path, 'utf8'),
@@ -461,33 +461,44 @@ var wss = new WebSocketServer({
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         message = JSON.parse(message);
-        var received_ip = ws._socket.remoteAddress;
+        var received_ip = ws._socket.handshake.address;  //ws._socket.remoteAddress;
         var msg = message.msg;
-        var data = message.data;
+        var data = message.data; 
+        var osBrStr = 'ip:'+received_ip+', os:'+message.os+', browser:'+message.browser+', date:'+message.date.toString();
+
         try {
             if (msg != null) {
+
                 logger.info('received ip: ' + received_ip + ' - msg: ' + msg);
                 //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
                 if (data.token !== undefined)
                     common.mkdir(__dirname + "/uploads/" + data.token);
 
                 /* changed 23/6/20 */
-                if (msg == 'consent') 
+                if (msg == 'consent') {
                     common.process_content(data, __dirname, config.mount_dir);
-                else if (msg == 'survey')
+                }
+                else if (msg == 'survey'){
                     common.process_survey(data, __dirname, config.mount_dir);
-                else if (msg == 'segment')
-                    handelSegment(data);
-                else if (msg == 'video')
+                }
+                else if (msg == 'segment'){
+                    handelSegment(osBrStr, data);
+                }
+                else if (msg == 'video'){
                     handleWebmVideoAudio(data,'video',500000000); 
-                else if (msg == 'audio')
+                }
+                else if (msg == 'audio'){
                     handleWebmVideoAudio(data,'audio',60000000); 
-                else if (msg == 'token')  
-                    logger.info('token: ' + data); 
-                else if (msg == 'webm-audio-chunk')  
-                    handleChuncks(data, audio = true);  
-                else if (msg == 'webm-video-chunk')  
-                    handleChuncks(data, audio = false);  
+                }
+                else if (msg == 'token')  {
+                    logger.info('token: ' + data);  
+                } 
+                else if (msg == 'webm-audio-chunk')  {
+                    handleChuncks(data, osBrStr, audio = true);  
+                }
+                else if (msg == 'webm-video-chunk')  {
+                    handleChuncks(data, osBrStr, audio = false);  
+                }
                 else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') { 
                     var token = data.token;
                     var q_no = data.q_no;
@@ -498,7 +509,7 @@ wss.on('connection', function connection(ws) {
                     var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
                     logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
                     /* changed 20/6/20 */
-                    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
+                    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString() +'-'+osBrStr);
 
                     var max_file_size;
                     (msg == 'mp3') ? max_file_size = config.max_mp3_file: max_file_size = config.max_mp4_file;

@@ -15,6 +15,13 @@ const PORT2    = 8082;
 const WEB_URI  = 'https://digital-doctor.shef.ac.uk:';
 
 module.exports = {
+    'email':{
+        'from':     'server@cognospeak.shef.ac.uk',
+        'to':       'b.mirheidari@sheffield.ac.uk',
+        'subject':  'New call on CognoSpeak',
+        'text':     'A user accessed the website ' + WEB_URI + '. DateTime: <DATETIME>, Token: <TOKEN>, OS/BR: <OS>' 
+    },
+    
     'welcome_message'      : 'Welcome to Digital-Doctor',
     'mount_dir'            : '/home/sa_ac1bm/mnt/Blackburn/Avatar/CognoSpeak',
     'pass_hash_rounds'     : 10,

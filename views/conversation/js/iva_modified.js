@@ -42,6 +42,8 @@ $(function() {
     var RECORDING_CHUNKS = 30 * 1000; //30 sec 
     var startDate; 
     var audio;
+    var OS;
+    var Browser;
 
     function sendAudioVideo(audio = true, start=true) { 
     	if (MEDIA_RECORDER){
@@ -70,7 +72,10 @@ $(function() {
 	                                token: token,
 			                        time_diff:time_diff.toString(), 
 			                        data: data,
-			                        ext: "webm"
+			                        ext: "webm",
+                                    os: OS,
+                                    browser:Browser,
+                                    date: new Date()  
 	                            }
 	                        }));
 	                    }
@@ -105,7 +110,10 @@ $(function() {
 	                                token: token,
 	                                time_diff:time_diff.toString(), 
 			                        data: data,
-			                        ext: "webm"
+			                        ext: "webm" ,
+                                    os: OS,
+                                    browser:Browser,
+                                    date: new Date()  
 	                            }
 	                        }));
 	                    }
@@ -665,7 +673,10 @@ $(function() {
                     msg: 'consent',
                     data: {
                         token: token,
-                        agreements: response.consent.agreed
+                        agreements: response.consent.agreed,
+                        os: OS,
+                        browser:Browser,
+                        date: new Date() 
                     }
                 }));
                 init_pre_surveys();
@@ -691,7 +702,10 @@ $(function() {
                     data: {
                         token: token,
                         id: configuration.surveys[surveyIndex].id,
-                        questions: response.surveys[surveyIndex].question
+                        questions: response.surveys[surveyIndex].question,
+                        os: OS,
+                        browser:Browser,
+                        date: new Date()  
                     }
                 }));
                 surveyIndex++;
@@ -715,7 +729,10 @@ $(function() {
                     data: {
                         token: token,
                         id: configuration.pre_surveys[pre_surveyIndex].id,
-                        questions: response.pre_surveys[pre_surveyIndex].question
+                        questions: response.pre_surveys[pre_surveyIndex].question,
+                        os: OS,
+                        browser:Browser,
+                        date: new Date()  
                     }
                 }));
                 pre_surveyIndex++;
@@ -938,7 +955,10 @@ $(function() {
                                 msg: 'consent',
                                 data: {
                                     token: token,
-                                    agreements: response.consent.agreed
+                                    agreements: response.consent.agreed,
+                                    os: OS,
+                                    browser:Browser,
+                                    date: new Date()  
                                 }
                             }));
 
@@ -1025,7 +1045,10 @@ $(function() {
 	                        token: token,
 	                        time_diff:time_diff.toString(), 
 	                        data: data,
-	                        ext:"webm"
+	                        ext:"webm",
+                            os: OS,
+                            browser:Browser,
+                            date: new Date()  
 	                    }
 	                }));
 				}
@@ -1069,7 +1092,10 @@ $(function() {
         			q_no: currentQuestionIndex.toString(), 
 	        		r_no: repeatIndex.toString(),
 	        		token: token, 
-	        		time_diff: time_diff.toString()
+	        		time_diff: time_diff.toString(),
+                    os: OS,
+                    browser:Browser,
+                    date: new Date()  
         		} 
         	}));  
         } else {
@@ -1106,40 +1132,7 @@ $(function() {
         // Outline
         getCanvas().getContext('2d').clearRect(0, 0, width, height);
         canvasDrawSquare(0, 0, width, height);
-    }
-
-    function encodeWAV(samples, numChannels, sampleRate, channels = 2) {
-        var buf = new ArrayBuffer(44 + samples.length * 2);
-        var view = new DataView(buf);
-        /* RIFF identifier */
-        writeString(view, 0, 'RIFF');
-        /* RIFF chunk length */
-        view.setUint32(4, 4 * channels + 32 + samples.length * 2, true); //*** changed //
-        /* RIFF type */
-        writeString(view, 8, 'WAVE');
-        /* format chunk identifier */
-        writeString(view, 12, 'fmt ');
-        /* format chunk length */
-        view.setUint32(16, 16, true);
-        /* sample format (raw) */
-        view.setUint16(20, 1, true);
-        /* channel count */
-        view.setUint16(22, channels, true); //*** changed //
-        /* sample rate */
-        view.setUint32(24, sampleRate, true);
-        /* byte rate (sample rate * block align) */
-        view.setUint32(28, sampleRate * 2 * channels, true); //*** changed //
-        /* block align (channel count * bytes per sample) */
-        view.setUint16(32, channels * 2, true);
-        /* bits per sample */
-        view.setUint16(34, 16, true);
-        /* data chunk identifier */
-        writeString(view, 36, 'data');
-        /* data chunk length */
-        view.setUint32(40, samples.length * 2, true);
-        floatTo16BitPCM(view, 44, samples);
-        return view;
-    }  
+    } 
 
     function displayWaveForm(stream) {
         // stream -> mediaSource -> javascriptNode -> destination
@@ -1221,10 +1214,19 @@ $(function() {
         ws.onopen = function() {
             // make a token
             token = userID + '-' + dateTime + '-' + (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+
+            // for safari or iOS
+            osBr = detectOSBrowser();
+            OS = osBr.all_details;
+            Browser = osBr.browser;   
+
             ws.send(JSON.stringify({
                 msg: 'token',
-                data: token
-            }));
+                data: token,
+                os: OS,
+                browser:Browser,
+                date: new Date() 
+            }));  
         };
         ws.onerror = function(evt) {
             $('#divAlert').removeClass('alert-danger').addClass('alert-info').text("WebSocket error:" + evt.data).removeClass("hidden");
