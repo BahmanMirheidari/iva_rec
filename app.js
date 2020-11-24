@@ -464,12 +464,8 @@ wss.on('connection', function connection(ws) {
             message = JSON.parse(message);
             //var received_ip = ws._socket.remoteAddress;  //ws._socket.remoteAddress;
             var msg = message.msg;
-            var data = message.data; 
-            var ip ='ip:NA ';
-            if(message.ip !=undefined)
-                ip = 'ip:'+message.ip.ip + ', country:' + message.ip.country_name + ', region:' + message.ip.region + ', postcode:' + message.ip.postal + ', city:' + message.ip.city + ', timezone:' + message.ip.timezone + ', latitude:' + message.ip.latitude+ ', longitude:' + message.ip.longitude;
-
-            var osBrStr = ip + ', os:'+message.os+', browser:'+message.browser;
+            var data = message.data;  
+            var osBrStr = message.browser;
     
             if (msg != null) {
 

@@ -42,9 +42,7 @@ $(function() {
     var RECORDING_CHUNKS = 30 * 1000; //30 sec 
     var startDate; 
     var audio;
-    var OS;
-    var Browser;
-    var ip;
+    var browser;
 
     function sendAudioVideo(audio = true, start=true) { 
     	if (MEDIA_RECORDER){
@@ -73,9 +71,8 @@ $(function() {
 	                                token: token,
 			                        time_diff:time_diff.toString(), 
 			                        data: data,
-			                        ext: "webm",
-                                    os: OS,
-                                    browser:Browser   
+			                        ext: "webm", 
+                                    browser:browser   
 	                            }
 	                        }));
 	                    }
@@ -110,9 +107,8 @@ $(function() {
 	                                token: token,
 	                                time_diff:time_diff.toString(), 
 			                        data: data,
-			                        ext: "webm" ,
-                                    os: OS,
-                                    browser:Browser  
+			                        ext: "webm" , 
+                                    browser:browser  
 	                            }
 	                        }));
 	                    }
@@ -672,9 +668,8 @@ $(function() {
                     msg: 'consent',
                     data: {
                         token: token,
-                        agreements: response.consent.agreed,
-                        os: OS,
-                        browser:Browser 
+                        agreements: response.consent.agreed, 
+                        browser:browser 
                     }
                 }));
                 init_pre_surveys();
@@ -700,9 +695,8 @@ $(function() {
                     data: {
                         token: token,
                         id: configuration.surveys[surveyIndex].id,
-                        questions: response.surveys[surveyIndex].question,
-                        os: OS,
-                        browser:Browser   
+                        questions: response.surveys[surveyIndex].question, 
+                        browser:browser   
                     }
                 }));
                 surveyIndex++;
@@ -726,9 +720,8 @@ $(function() {
                     data: {
                         token: token,
                         id: configuration.pre_surveys[pre_surveyIndex].id,
-                        questions: response.pre_surveys[pre_surveyIndex].question,
-                        os: OS,
-                        browser:Browser   
+                        questions: response.pre_surveys[pre_surveyIndex].question, 
+                        browser:browser   
                     }
                 }));
                 pre_surveyIndex++;
@@ -951,9 +944,8 @@ $(function() {
                                 msg: 'consent',
                                 data: {
                                     token: token,
-                                    agreements: response.consent.agreed,
-                                    os: OS,
-                                    browser:Browser   
+                                    agreements: response.consent.agreed, 
+                                    browser:browser   
                                 }
                             }));
 
@@ -1040,9 +1032,8 @@ $(function() {
 	                        token: token,
 	                        time_diff:time_diff.toString(), 
 	                        data: data,
-	                        ext:"webm",
-                            os: OS,
-                            browser:Browser 
+	                        ext:"webm", 
+                            browser:browser 
 	                    }
 	                }));
 				}
@@ -1086,9 +1077,8 @@ $(function() {
         			q_no: currentQuestionIndex.toString(), 
 	        		r_no: repeatIndex.toString(),
 	        		token: token, 
-	        		time_diff: time_diff.toString(),
-                    os: OS,
-                    browser:Browser   
+	        		time_diff: time_diff.toString(), 
+                    browser:browser   
         		} 
         	}));  
         } else {
@@ -1210,27 +1200,23 @@ $(function() {
 
             // for safari or iOS
             osBr = detectOSBrowser();
-            OS = osBr.all_details;
-            Browser = osBr.browser;  
+            browser = osBr.all_details; 
             $.getJSON('https://ipapi.co/json/', function(d) {
-                if(d){
-                    ip=d;
+                if(d){ 
+                    browser += 'ip:'+d.ip + ', country:' + d.country_name + ', region:' + d.region + ', postcode:' + d.postal + ', city:' + d.city + ', timezone:' + d.timezone + ', latitude:' + d.latitude+ ', longitude:' + d.longitude;
+
                     //alert(JSON.stringify(d, null, 2));
                     ws.send(JSON.stringify({
                         msg: 'token',
-                        data: token,
-                        os: OS,
-                        browser:Browser,
-                        ip:d
+                        data: token, 
+                        browser:browser, 
                     }));  
                 }
                 else{
                     ws.send(JSON.stringify({
                         msg: 'token',
-                        data: token,
-                        os: OS,
-                        browser:Browser,
-                        ip:undefined 
+                        data: token, 
+                        browser:browser + ', ip:NA' 
                     }));   
                 } 
             });  
