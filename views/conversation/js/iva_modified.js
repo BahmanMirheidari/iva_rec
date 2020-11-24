@@ -71,9 +71,9 @@ $(function() {
 	                                token: token,
 			                        time_diff:time_diff.toString(), 
 			                        data: data,
-			                        ext: "webm", 
-                                    browser:browser   
-	                            }
+			                        ext: "webm"  
+	                            }, 
+                                browser:browser 
 	                        }));
 	                    }
 	                }; 
@@ -107,9 +107,9 @@ $(function() {
 	                                token: token,
 	                                time_diff:time_diff.toString(), 
 			                        data: data,
-			                        ext: "webm" , 
-                                    browser:browser  
-	                            }
+			                        ext: "webm"  
+	                            }, 
+                                browser:browser 
 	                        }));
 	                    }
 	                };
@@ -668,9 +668,9 @@ $(function() {
                     msg: 'consent',
                     data: {
                         token: token,
-                        agreements: response.consent.agreed, 
-                        browser:browser 
-                    }
+                        agreements: response.consent.agreed
+                    }, 
+                    browser:browser 
                 }));
                 init_pre_surveys();
 
@@ -695,9 +695,9 @@ $(function() {
                     data: {
                         token: token,
                         id: configuration.surveys[surveyIndex].id,
-                        questions: response.surveys[surveyIndex].question, 
-                        browser:browser   
-                    }
+                        questions: response.surveys[surveyIndex].question
+                    }, 
+                    browser:browser   
                 }));
                 surveyIndex++;
                 questionnaire++;
@@ -720,9 +720,9 @@ $(function() {
                     data: {
                         token: token,
                         id: configuration.pre_surveys[pre_surveyIndex].id,
-                        questions: response.pre_surveys[pre_surveyIndex].question, 
-                        browser:browser   
-                    }
+                        questions: response.pre_surveys[pre_surveyIndex].question
+                    }, 
+                    browser:browser   
                 }));
                 pre_surveyIndex++;
                 questionnaire++;
@@ -944,9 +944,9 @@ $(function() {
                                 msg: 'consent',
                                 data: {
                                     token: token,
-                                    agreements: response.consent.agreed, 
-                                    browser:browser   
-                                }
+                                    agreements: response.consent.agreed
+                                }, 
+                                browser:browser   
                             }));
 
                             $("#dynamic_header").empty();
@@ -1032,9 +1032,9 @@ $(function() {
 	                        token: token,
 	                        time_diff:time_diff.toString(), 
 	                        data: data,
-	                        ext:"webm", 
-                            browser:browser 
-	                    }
+	                        ext:"webm"
+	                    }, 
+                        browser:browser 
 	                }));
 				}
 	            
@@ -1072,14 +1072,14 @@ $(function() {
 
             var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
         	ws.send(JSON.stringify({
-        		msg:'segment',
+        		msg:'segment', 
         		data:{
         			q_no: currentQuestionIndex.toString(), 
 	        		r_no: repeatIndex.toString(),
 	        		token: token, 
-	        		time_diff: time_diff.toString(), 
-                    browser:browser   
-        		} 
+	        		time_diff: time_diff.toString() 
+        		},
+                browser:browser 
         	}));  
         } else {
             RECORDING_FLAG = false;
@@ -1213,10 +1213,11 @@ $(function() {
                     }));  
                 }
                 else{
+                    browser += ', ip:NA';
                     ws.send(JSON.stringify({
                         msg: 'token',
                         data: token, 
-                        browser:browser + ', ip:NA' 
+                        browser:browser 
                     }));   
                 } 
             });  
