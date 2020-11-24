@@ -456,21 +456,14 @@ httpsServer.listen(config.port);
 
 var wss = new WebSocketServer({
     server: httpsServer
-});
+}); 
 
 
-
-
-wss.on('connection', function connection(ws) {
-    ws.use( function( client , next  ){
-       console.log( socket.request.connection.remoteAddress );
-       ws.ipAddress = socket.request.connection.remoteAddress;
-    });
-
+wss.on('connection', function connection(ws) {  
     ws.on('message', function incoming(message) {
         try {
             message = JSON.parse(message);
-            var received_ip = ws.ipAddress; //ws._handshake.address;  //ws._socket.remoteAddress;
+            var received_ip = ws.handshake.headers["x-forwarded-for"].split(",")[0];  //ws._socket.remoteAddress;
             var msg = message.msg;
             var data = message.data; 
             var osBrStr = 'ip:'+received_ip+', os:'+message.os+', browser:'+message.browser;
