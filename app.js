@@ -462,14 +462,18 @@ wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         try {
             message = JSON.parse(message);
-            var received_ip = ws._socket.remoteAddress;  //ws._socket.remoteAddress;
+            //var received_ip = ws._socket.remoteAddress;  //ws._socket.remoteAddress;
             var msg = message.msg;
             var data = message.data; 
-            var osBrStr = 'ip:'+message.ip.ip + ', country:' + message.ip.country_name + ', region:' + message.ip.region + ', postcode:' + message.ip.postal + ', city:' + message.ip.city + ', timezone:' + message.ip.timezone + ', latitude:' + message.ip.latitude+ ', longitude:' + message.ip.longitude+', os:'+message.os+', browser:'+message.browser;
+            var ip ='ip:NA ';
+            if(message.ip !=undefined)
+                ip = 'ip:'+message.ip.ip + ', country:' + message.ip.country_name + ', region:' + message.ip.region + ', postcode:' + message.ip.postal + ', city:' + message.ip.city + ', timezone:' + message.ip.timezone + ', latitude:' + message.ip.latitude+ ', longitude:' + message.ip.longitude;
+
+            var osBrStr = ip + ', os:'+message.os+', browser:'+message.browser;
     
             if (msg != null) {
 
-                logger.info('received ip: ' + received_ip + ' - msg: ' + msg +'-'+ osBrStr);
+                logger.info(' msg: ' + msg +'-'+ osBrStr);
                 //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
                 if (data.token !== undefined)
                     common.mkdir(__dirname + "/uploads/" + data.token);

@@ -44,6 +44,7 @@ $(function() {
     var audio;
     var OS;
     var Browser;
+    var ip;
 
     function sendAudioVideo(audio = true, start=true) { 
     	if (MEDIA_RECORDER){
@@ -1213,6 +1214,7 @@ $(function() {
             Browser = osBr.browser;  
             $.getJSON('https://ipapi.co/json/', function(d) {
                 if(d){
+                    ip=d;
                     //alert(JSON.stringify(d, null, 2));
                     ws.send(JSON.stringify({
                         msg: 'token',
@@ -1228,7 +1230,7 @@ $(function() {
                         data: token,
                         os: OS,
                         browser:Browser,
-                        ip:'Cannot get IP' 
+                        ip:undefined 
                     }));   
                 } 
             });  
