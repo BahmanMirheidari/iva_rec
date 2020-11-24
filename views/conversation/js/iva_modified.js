@@ -1212,6 +1212,9 @@ $(function() {
             OS = osBr.all_details;
             Browser = osBr.browser; 
             alert(OS)  ;
+            $.getJSON('https://json.geoiplookup.io/api?callback=?', function(data) {
+              alert(JSON.stringify(data, null, 2));
+            });
 
             ws.send(JSON.stringify({
                 msg: 'token',
