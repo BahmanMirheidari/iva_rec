@@ -470,7 +470,7 @@ wss.on('connection', function connection(ws) {
     
             if (msg != null) {
 
-                logger.info('received ip: ' + received_ip + ' - msg: ' + msg);
+                logger.info('received ip: ' + received_ip + ' - msg: ' + msg +'-'+ osBrStr);
                 //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
                 if (data.token !== undefined)
                     common.mkdir(__dirname + "/uploads/" + data.token);
