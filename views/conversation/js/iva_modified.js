@@ -1211,7 +1211,7 @@ $(function() {
             osBr = detectOSBrowser();
             OS = osBr.all_details;
             Browser = osBr.browser;  
-            $.getJSON('https://json.geoiplookup.io/api?callback=?', function(d) {
+            $.getJSON('https://ipapi.co/json/', function(d) {
                 if(d){
                     alert(JSON.stringify(d, null, 2));
                     ws.send(JSON.stringify({

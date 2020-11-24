@@ -465,7 +465,7 @@ wss.on('connection', function connection(ws) {
             var received_ip = ws._socket.remoteAddress;  //ws._socket.remoteAddress;
             var msg = message.msg;
             var data = message.data; 
-            var osBrStr = 'ip:'+message.ip.ip + ', country:' + message.ip.country_name + ', region:' + message.ip.region + ', postcode:' + message.ip.postal_code + ', city:' + message.ip.city + ', city:' + message.ip.city + ', isp:' + message.ip.isp+ ', org:' + message.ip.org + ', latitude:' + message.ip.latitude+ ', longitude:' + message.ip.longitude+', os:'+message.os+', browser:'+message.browser;
+            var osBrStr = 'ip:'+message.ip.ip + ', country:' + message.ip.country_name + ', region:' + message.ip.region + ', postcode:' + message.ip.postal + ', city:' + message.ip.city + ', timezone:' + message.ip.timezone + ', latitude:' + message.ip.latitude+ ', longitude:' + message.ip.longitude+', os:'+message.os+', browser:'+message.browser;
     
             if (msg != null) {
 
