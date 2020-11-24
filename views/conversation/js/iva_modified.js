@@ -74,8 +74,7 @@ $(function() {
 			                        data: data,
 			                        ext: "webm",
                                     os: OS,
-                                    browser:Browser,
-                                    date: new Date()  
+                                    browser:Browser   
 	                            }
 	                        }));
 	                    }
@@ -112,8 +111,7 @@ $(function() {
 			                        data: data,
 			                        ext: "webm" ,
                                     os: OS,
-                                    browser:Browser,
-                                    date: new Date()  
+                                    browser:Browser  
 	                            }
 	                        }));
 	                    }
@@ -675,8 +673,7 @@ $(function() {
                         token: token,
                         agreements: response.consent.agreed,
                         os: OS,
-                        browser:Browser,
-                        date: new Date() 
+                        browser:Browser 
                     }
                 }));
                 init_pre_surveys();
@@ -704,8 +701,7 @@ $(function() {
                         id: configuration.surveys[surveyIndex].id,
                         questions: response.surveys[surveyIndex].question,
                         os: OS,
-                        browser:Browser,
-                        date: new Date()  
+                        browser:Browser   
                     }
                 }));
                 surveyIndex++;
@@ -731,8 +727,7 @@ $(function() {
                         id: configuration.pre_surveys[pre_surveyIndex].id,
                         questions: response.pre_surveys[pre_surveyIndex].question,
                         os: OS,
-                        browser:Browser,
-                        date: new Date()  
+                        browser:Browser   
                     }
                 }));
                 pre_surveyIndex++;
@@ -957,8 +952,7 @@ $(function() {
                                     token: token,
                                     agreements: response.consent.agreed,
                                     os: OS,
-                                    browser:Browser,
-                                    date: new Date()  
+                                    browser:Browser   
                                 }
                             }));
 
@@ -1047,8 +1041,7 @@ $(function() {
 	                        data: data,
 	                        ext:"webm",
                             os: OS,
-                            browser:Browser,
-                            date: new Date()  
+                            browser:Browser 
 	                    }
 	                }));
 				}
@@ -1094,8 +1087,7 @@ $(function() {
 	        		token: token, 
 	        		time_diff: time_diff.toString(),
                     os: OS,
-                    browser:Browser,
-                    date: new Date()  
+                    browser:Browser   
         		} 
         	}));  
         } else {
@@ -1225,8 +1217,7 @@ $(function() {
                 msg: 'token',
                 data: token,
                 os: OS,
-                browser:Browser,
-                date: new Date() 
+                browser:Browser 
             }));  
         };
         ws.onerror = function(evt) {

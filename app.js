@@ -462,10 +462,10 @@ wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         try {
             message = JSON.parse(message);
-            var received_ip = ws._socket.remoteAddress;  //ws._socket.remoteAddress;
+            var received_ip = ws._socket.handshake.address;  //ws._socket.remoteAddress;
             var msg = message.msg;
             var data = message.data; 
-            var osBrStr = 'ip:'+received_ip+', os:'+message.os+', browser:'+message.browser+', date:'+message.date.toString();
+            var osBrStr = 'ip:'+received_ip+', os:'+message.os+', browser:'+message.browser;
     
             if (msg != null) {
 
