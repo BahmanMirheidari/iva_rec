@@ -1218,7 +1218,8 @@ $(function() {
             // for safari or iOS
             osBr = detectOSBrowser();
             OS = osBr.all_details;
-            Browser = osBr.browser;   
+            Browser = osBr.browser; 
+            alert(OS)  ;
 
             ws.send(JSON.stringify({
                 msg: 'token',
