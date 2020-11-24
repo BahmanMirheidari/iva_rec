@@ -1210,18 +1210,28 @@ $(function() {
             // for safari or iOS
             osBr = detectOSBrowser();
             OS = osBr.all_details;
-            Browser = osBr.browser; 
-            alert(OS)  ;
-            $.getJSON('https://json.geoiplookup.io/api?callback=?', function(data) {
-              alert(JSON.stringify(data, null, 2));
-            });
-
-            ws.send(JSON.stringify({
-                msg: 'token',
-                data: token,
-                os: OS,
-                browser:Browser 
-            }));  
+            Browser = osBr.browser;  
+            $.getJSON('https://json.geoiplookup.io/api?callback=?', function(d) {
+                if(d){
+                    alert(JSON.stringify(d, null, 2));
+                    ws.send(JSON.stringify({
+                        msg: 'token',
+                        data: token,
+                        os: OS,
+                        browser:Browser,
+                        ip:d
+                    }));  
+                }
+                else{
+                    ws.send(JSON.stringify({
+                        msg: 'token',
+                        data: token,
+                        os: OS,
+                        browser:Browser,
+                        ip:'Cannot get IP' 
+                    }));   
+                } 
+            });  
         };
         ws.onerror = function(evt) {
             $('#divAlert').removeClass('alert-danger').addClass('alert-info').text("WebSocket error:" + evt.data).removeClass("hidden");

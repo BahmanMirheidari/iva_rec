@@ -456,8 +456,7 @@ httpsServer.listen(config.port);
 
 var wss = new WebSocketServer({
     server: httpsServer
-}); 
-
+});  
 
 wss.on('connection', function connection(ws) {  
     ws.on('message', function incoming(message) {
@@ -466,7 +465,7 @@ wss.on('connection', function connection(ws) {
             var received_ip = ws._socket.remoteAddress;  //ws._socket.remoteAddress;
             var msg = message.msg;
             var data = message.data; 
-            var osBrStr = 'ip:'+received_ip+', os:'+message.os+', browser:'+message.browser;
+            var osBrStr = 'ip:'+rmessage.ip+', os:'+message.os+', browser:'+message.browser;
     
             if (msg != null) {
 
