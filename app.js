@@ -483,7 +483,7 @@ wss.on('connection', function connection(ws) {
                     common.process_survey(data, __dirname, config.mount_dir);
                 }
                 else if (msg == 'segment'){
-                    handelSegment(osBrStr, data);
+                    handelSegment(data, osBrStr);
                 }
                 else if (msg == 'video'){
                     handleWebmVideoAudio(data,'video',500000000); 
