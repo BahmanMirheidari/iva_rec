@@ -285,13 +285,14 @@ app.get('/conversation', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
         res.redirect('/login');
     else
-        res.render('talk2iva.ejs', {
+        res.render('talk2iva_modified.ejs', {
             title: config.welcome_message + ' | Conversation',
             message: '',
             user: req.user
         });
 });
 
+/*
 app.get('/conversation_modified', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
         res.redirect('/login');
@@ -339,7 +340,7 @@ app.get('/getvideo/:id', ensureIsClinician, (req, res) => {
         res.writeHead(200, head)
         fs.createReadStream(movieFile).pipe(res)
     }
-});
+});*/
 
 function ensureIsAdmin(req, res, next) {
     if (req.isAuthenticated() && req.session.authorised && req.session.role === 'admin') {
