@@ -408,12 +408,12 @@ function process_segment(data, dirname){
   fs.appendFileSync(file_name, segment);
  
   logger.info('recived segment for ' + token + ':' + segment);
-  updateconversation_cb(token, 'segs' + segment.replace(/,/g,'-'), function(e){
+  updateconversation_cb(token, 'segs' + segment.replace(/,/g,'-'), function(e,d){
     if (e){
         logger.error('Error updateconversation: ' + e);
     }
     else{
-        logger.info(' updateconversation_cb: done');
+        logger.info(' updateconversation_cb: done:' + d);
     }
   });
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
@@ -434,12 +434,12 @@ function process_chuncks(data, dirname, audio = true) {
 
     if (!fs.existsSync(file_name + ext)) {
         /* changed 19/11/20 */
-        updateconversation_cb(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()+'-'+osBrStr, function(e){
+        updateconversation_cb(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()+'-'+osBrStr, function(e,d){
             if (e){
                 logger.error('Error updateconversation: ' + e);
             }
             else{
-                logger.info(' updateconversation_cb: done');
+                logger.info(' updateconversation_cb: done:' + d);
             }
           });
         logger.info(ext + ' file: ' + file_name + ext + ' - length: ' + len.toString());
@@ -467,12 +467,12 @@ function process_mp3mp4(data, dirname){
     var file_name = dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
     logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
     /* changed 20/6/20 */
-    updateconversation_cb(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString(), function(e){
+    updateconversation_cb(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString(), function(e,d){
         if (e){
             logger.error('Error updateconversation: ' + e);
         }
         else{
-            logger.info(' updateconversation_cb: done');
+            logger.info(' updateconversation_cb: done:' + d);
         }
       });
 

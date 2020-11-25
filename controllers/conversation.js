@@ -88,10 +88,10 @@ module.exports = {
             db.query(queryInsert, [id, last_question], (err, result) => {
                 if (err) {
                     console.log(`conversations queryInsert error: ${err}`);
-                    cb(err); 
+                    cb(err,null); 
                 }  
                 else{
-                    cb(null);
+                    cb(null,queryInsert);
                 } 
             });  
 
@@ -103,10 +103,10 @@ module.exports = {
             db.query(queryUpdate, [last_question, id], (err, result) => {
                 if (err) { 
                     console.log(`conversations queryUpdate error: ${err}`); 
-                    cb(err);  
+                    cb(err,null);  
                 }  
                 else {
-                    cb(null);
+                    cb(null,queryUpdate);
                 }
             });   
         }  
