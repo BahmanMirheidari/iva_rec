@@ -407,8 +407,8 @@ function handelSegment(data){
 
   fs.appendFileSync(file_name, segment);
  
-  logger.info('recived segment for ' + token + ':' + segment+);
-  updateconversation(token, 'segment:' + segment);
+  logger.info('recived segment for ' + token + ':' + segment);
+  updateconversation(token, 'segs' + segment.replace(/,/g,'-'));
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
 
@@ -512,7 +512,7 @@ wss.on('connection', function connection(ws) {
                     var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
                     logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
                     /* changed 20/6/20 */
-                    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString() +'-'+osBrStr);
+                    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
 
                     var max_file_size;
                     (msg == 'mp3') ? max_file_size = config.max_mp3_file: max_file_size = config.max_mp4_file;
