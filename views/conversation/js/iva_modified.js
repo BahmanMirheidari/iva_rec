@@ -37,7 +37,7 @@ $(function() {
     var videoOnlyStream;
     var myAudioRecorder; 
 
-    var MEDIA_RECORDER = false;
+    var MEDIA_RECORDER = true;
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 15 * 1000; //15 sec 
     var startDate; 
@@ -52,7 +52,30 @@ $(function() {
 
     		if (start){
     			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
-			  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
+			  	mediaRecorder.dataavailable(function(e) { 
+                    var reader = new FileReader();
+                    reader.onload = function(event){
+                        var data = event.target.result.toString('base64');
+
+                        if (data.length>1000){
+                            var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+                            // send data via the websocket  
+                            //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+                            ws.send(JSON.stringify({
+                                msg: 'video',
+                                data: {
+                                    token: token,
+                                    time_diff:time_diff.toString(), 
+                                    data: data,
+                                    ext:"webm"
+                                } 
+                            }));
+                        }
+                        
+                    };
+                    reader.readAsDataURL(e.data);  
+                });
+
 			  	mediaRecorder.start(); 
 			} 
     	}
@@ -90,10 +113,7 @@ $(function() {
 	            }
 	            
 	        } else {
-	            mediaRecorder && mediaRecorder.stopRecording(function() {
-	                let blob_video = mediaRecorder.getBlob();
-	                //invokeSaveAsDialog(blob_video);
-
+	            mediaRecorder && mediaRecorder.stop(function(blob_video) {  
 	                var reader = new FileReader();
 	                reader.onload = function(event) {
 	                    var data = event.target.result.toString('base64'); 
@@ -115,8 +135,13 @@ $(function() {
 	                };
 	                reader.readAsDataURL(blob_video);
 	            });
-	            if (start){
-	            	mediaRecorder && mediaRecorder.startRecording();
+
+	            if (start){ 
+                    mediaRecorder = new MediaStreamRecorder(videoOnlyStream, {
+                        type: 'video',
+                        mimeType: 'video/webm'
+                    });
+                    mediaRecorder.record();
 	            }
         	}  
     	} 
