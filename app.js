@@ -407,7 +407,7 @@ function handelSegment(data,osBrStr){
 
   fs.appendFileSync(file_name, segment);
  
-  logger.info('recived segment for ' + token + ':' + segment);
+  logger.info('recived segment for ' + token + ':' + segment+'-'+osBrStr);
   updateconversation(token, 'segment:' + segment+'-'+osBrStr);
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
