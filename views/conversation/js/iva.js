@@ -32,7 +32,7 @@ $(function(){
 	var dynamic='pre_survey';
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
-	var logoutTimeout=3000;
+	var logoutTimeout=5000;
 	var browser;
     var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. ';
 
