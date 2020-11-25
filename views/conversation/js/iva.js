@@ -980,9 +980,8 @@ $(function(){
             });   
 
             if (osBr.browser.match(/Safari/i)){
-            	end_message='Sorry, the system cannot support the Safari browser. Please use the Google Chrome browser.';
-            	endingMessage();
-
+            	endingMessage='Sorry, the system cannot support the Safari browser. Please use the Google Chrome browser.';
+            	end_message(); 
             }
          };
          ws.onerror = function (evt) {  
