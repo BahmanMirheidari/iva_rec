@@ -37,9 +37,9 @@ $(function() {
     var videoOnlyStream;
     var myAudioRecorder; 
 
-    var MEDIA_RECORDER = true;
+    var MEDIA_RECORDER = false;
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 15 * 1000; //15 sec 
+    var RECORDING_CHUNKS = 10 * 1000; //10 sec 
     var startDate; 
     var audio;
     var browser;
