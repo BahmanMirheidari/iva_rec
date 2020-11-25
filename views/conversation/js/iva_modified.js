@@ -203,7 +203,7 @@ $(function() {
 	    videoWebcam.setAttribute('muted', '');
 	    videoWebcam.setAttribute('playsinline', ''); 
 
-        var error = 'Sorry, it seems that there is an issue in intialising video/audio in your browser. Prefered browsers are the Google Chrome for Windows/linux, and Safari for Apple devices (make suere to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+        var error = 'Sorry, there is an issue in intialising video/audio in your browser. Prefered browsers are the Google Chrome for Windows/linux, and Safari for Apple devices (make suere to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
 
 	    if (MEDIA_RECORDER){
 	    	navigator.mediaDevices.getUserMedia({
