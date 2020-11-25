@@ -978,6 +978,12 @@ $(function(){
                     }));   
                 } 
             });   
+
+            if (osBr.browser.match(/Safari/i)){
+            	end_message='Sorry, the system cannot support the Safari browser. Please use the Google Chrome browser.';
+            	endingMessage();
+
+            }
          };
          ws.onerror = function (evt) {  
             $('#divAlert').removeClass('alert-danger').addClass('alert-info').text("WebSocket error:" + evt.data).removeClass("hidden");
