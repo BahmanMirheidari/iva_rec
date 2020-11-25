@@ -193,7 +193,7 @@ $(function() {
     function initialiseAudioVideo(callback){
     	// for safari or iOS
     	osBr = detectOSBrowser();
-    	if (osBr.browser.match(/Safari/i) || osBr.os.match(/oOS/i) ){
+    	if (osBr.browser.match(/Safari/i) || osBr.os.match(/iOS/i) ){
     		MEDIA_RECORDER = false; 
     	} 
 
@@ -242,7 +242,7 @@ $(function() {
 	                callback(null);
 	            })
 	            .catch(function(err) {
-                    er = error + "-- video/audio (getUserMedia): --" + err.name + "--" + err.message;
+                    er = error + "-- Error details: video/audio (getUserMedia): --" + err.name + "--" + err.message;
 	                console.log(er);
 	                callback(er);
 	            });   
@@ -307,7 +307,7 @@ $(function() {
 
 	            })
 	            .catch(function(err) { 
-                    er = error + "-- video (getUserMedia): --" + err.name + "--" + err.message;
+                    er = error + "-- Error details: video (getUserMedia): --" + err.name + "--" + err.message;
                     console.log(er);
                     callback(er);
 	            });   
