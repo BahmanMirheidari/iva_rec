@@ -357,6 +357,13 @@ $(function() {
         if (currentQuestionIndex == maxQuestions) {
 
             playQuestion();
+            if (MEDIA_RECORDER) {
+                    sendAudioVideo(audio = true, start=false); 
+            }
+            else{
+                sendAudioVideo(audio = false, start=false);
+                sendAudioVideo(audio = true, start=false);
+            }   
 
             setTimeout(function() {
                 $("#divVideo").hide();
@@ -365,9 +372,10 @@ $(function() {
                 $("#nextMessageButton").hide();
                 var videoWebcam = document.querySelector('video');  
                 videoWebcam.pause();
-                videoWebcam.src = "";
+                videoWebcam.src = ""; 
 
                 if (MEDIA_RECORDER) {
+                    sendAudioVideo(audio = true, start=false);
                 	videoOnlyStream.getTracks()[0].stop();
                 	videoOnlyStream.getTracks()[1].stop();
                 }
