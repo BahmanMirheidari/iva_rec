@@ -968,7 +968,7 @@ $(function(){
                         data: token, 
                         browser:browser, 
                     }));  
-                }
+                } 
                 else{
                     browser += ', ip:NA';
                     ws.send(JSON.stringify({
