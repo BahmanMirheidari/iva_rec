@@ -150,7 +150,7 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
   var dest = videoaudio + '-' + 'recording.' + ext;
   var file_name = sub_folder + '/' + dest;
   var can_save = false; 
-  common.mkdir(sub_folder);
+  mkdir(sub_folder);
  
   if (!fs.existsSync(file_name)) {
     can_save = true;  
@@ -168,7 +168,7 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
     });
 
     fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64')); 
-    common.copy_to_mount(mnt, file_name, token, dest); 
+    copy_to_mount(mnt, file_name, token, dest); 
   } 
 }
 
@@ -183,13 +183,13 @@ function process_segment(mnt,logger,updateconversation, data, dirname){
   var segment = q_no + ',' + r_no + ',' + time_diff;
   var segment_brf = 'segs-' + segment.replace(/,/g,'-');
 
-  common.mkdir(sub_folder);
+  mkdir(sub_folder);
 
   fs.appendFileSync(file_name, segment + '\n');
  
   logger.info('recived segment for ' + token + ':' + segment + ' - brf:' + segment_brf);
   updateconversation(token, segment_brf);
-  common.copy_to_mount(mnt,file_name,token,dest); 
+  copy_to_mount(mnt,file_name,token,dest); 
 }
 
 function process_chuncks(mnt, logger,updateconversation, data, dirname, audio = true) {
@@ -216,7 +216,7 @@ function process_chuncks(mnt, logger,updateconversation, data, dirname, audio = 
     });
     fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64'));
     //if (data.last)
-      common.copy_to_mount(mnt, file_name + ext, token, dest + ext);  
+    copy_to_mount(mnt, file_name + ext, token, dest + ext);  
   }
   catch(e){
     logger.error('handleChuncks-Error: ' + e);
@@ -263,7 +263,7 @@ function process_mp3mp4(mnt, logger,updateconversation, data, dirname){
             } else {
 
                 logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
-                common.copy_to_mount(mnt, file_name + "." + msg, token, dest + "." + msg);
+                copy_to_mount(mnt, file_name + "." + msg, token, dest + "." + msg);
 
                 if (continue_processing && msg == 'webm') {
 
@@ -274,15 +274,15 @@ function process_mp3mp4(mnt, logger,updateconversation, data, dirname){
                             video.fnExtractSoundToMP3(file_name + ".mp3", function(error, file) {
                                 if (!error) {
                                     logger.info('converted to mp3 as ' + file_name + ".mp3");
-                                    common.copy_to_mount(mnt, file_name + ".mp3", token, dest + ".mp3");
+                                    copy_to_mount(mnt, file_name + ".mp3", token, dest + ".mp3");
 
                                     var convert = new Mp4Convert(file_name + '.webm', file_name + ".mp4");
                                     convert.on('done', function() {
                                         logger.info('converted to mp4 as ' + file_name + ".mp4");
-                                        common.copy_to_mount(mnt, file_name + ".mp4", token, dest + ".mp4");
+                                        copy_to_mount(mnt, file_name + ".mp4", token, dest + ".mp4");
 
                                         if (q_no == config.last_q - 1)
-                                            common.merge_files(__dirname, token, config.mount_dir);
+                                            merge_files(__dirname, token, config.mount_dir);
 
                                         fs.unlink(file_name + ".webm", function(err) {
                                             if (err) {
@@ -318,9 +318,9 @@ function process_error(mnt, logger,updateconversation, data, dirname){
     var sub_folder = dirname + "/uploads/" + data.token;
     var dest = 'error.txt';
     var file_name = sub_folder + '/' + dest;  
-    common.mkdir(sub_folder); 
+    mkdir(sub_folder); 
     fs.appendFileSync(file_name, data.error); 
-    common.copy_to_mount(config.mount_dir, file_name, data.token, dest); 
+    copy_to_mount(config.mount_dir, file_name, data.token, dest); 
 }
 
 function process_token(mnt, logger,updateconversation, data, dirname, osBrStr){
@@ -331,10 +331,10 @@ function process_token(mnt, logger,updateconversation, data, dirname, osBrStr){
         var sub_folder = dirname + "/uploads/" + data;
         var dest = 'browser_info.txt';
         var file_name = sub_folder + '/' + dest;  
-        common.mkdir(sub_folder); 
+        mkdir(sub_folder); 
         fs.appendFileSync(file_name, osBrStr); 
         updateconversation(data, 'start');
-        common.copy_to_mount(mnt, file_name, data, dest); 
+        copy_to_mount(mnt, file_name, data, dest); 
     } 
 } 
 
