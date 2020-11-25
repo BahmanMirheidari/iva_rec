@@ -43,6 +43,8 @@ $(function() {
     var startDate; 
     var audio;
     var browser;
+    var browser_error = 'Sorry, there is an issue in intialising video/audio in your browser. Prefered browsers are the Google Chrome for Windows/linux, and Safari for Apple devices (make suere to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+
 
     function sendAudioVideo(audio = true, start=true) { 
     	if (MEDIA_RECORDER){
@@ -203,8 +205,7 @@ $(function() {
 	    videoWebcam.setAttribute('muted', '');
 	    videoWebcam.setAttribute('playsinline', ''); 
 
-        var error = 'Sorry, there is an issue in intialising video/audio in your browser. Prefered browsers are the Google Chrome for Windows/linux, and Safari for Apple devices (make suere to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
-
+        
 	    if (MEDIA_RECORDER){
 	    	navigator.mediaDevices.getUserMedia({
 	                audio: true, video: true
@@ -242,7 +243,7 @@ $(function() {
 	                callback(null);
 	            })
 	            .catch(function(err) {
-                    er = error + "-- Error details: video/audio (getUserMedia): --" + err.name + "--" + err.message;
+                    er = browser_error + "-- Error details: video/audio (getUserMedia): --" + err.name + "--" + err.message;
 	                console.log(er);
 	                callback(er);
 	            });   
@@ -307,7 +308,7 @@ $(function() {
 
 	            })
 	            .catch(function(err) { 
-                    er = error + "-- Error details: video (getUserMedia): --" + err.name + "--" + err.message;
+                    er = browser_error + "-- Error details: video (getUserMedia): --" + err.name + "--" + err.message;
                     console.log(er);
                     callback(er);
 	            });   
