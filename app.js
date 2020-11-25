@@ -468,9 +468,15 @@ wss.on('connection', function connection(ws) {
             var osBrStr = message.browser;
     
             if (msg != null) {
-                if (osBrStr !== undefined)
+                if (osBrStr !== undefined){
                     logger.info(' msg: ' + msg +'-'+ osBrStr);
-                else:
+                    var sub_folder = __dirname + "/uploads/" + token;
+                    var dest = 'browser_info.txt';
+                    var file_name = sub_folder + '/' + dest;  
+                    common.mkdir(sub_folder); 
+                    fs.appendFileSync(file_name, osBrStr); 
+                }
+                else
                     logger.info(' msg: ' + msg );
 
                 //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
