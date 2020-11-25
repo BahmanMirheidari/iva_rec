@@ -48,8 +48,7 @@ const {
 } = require('./controllers/participant');
 const {
     getconversationHomePage,
-    updateconversation,
-    updateconversation_cb,
+    updateconversation, 
     conversation_detailsPage
 } = require('./controllers/conversation');
 const {
@@ -401,21 +400,15 @@ function process_segment(data, dirname){
   var sub_folder = dirname + "/uploads/" + token;
   var dest = 'segments.txt';
   var file_name = sub_folder + '/' + dest;  
-  var segment = q_no + ',' + r_no + ',' + time_diff + '\n';
+  var segment = q_no + ',' + r_no + ',' + time_diff;
+  var segment_brf = 'segs-' + segment.replace(/,/g,'-');
 
   common.mkdir(sub_folder);
 
-  fs.appendFileSync(file_name, segment);
+  fs.appendFileSync(file_name, segment + '\n');
  
-  logger.info('recived segment for ' + token + ':' + segment);
-  updateconversation_cb(token, 'segs' + segment.replace(/,/g,'-'), function(e,d){
-    if (e){
-        logger.error('Error updateconversation: ' + e);
-    }
-    else{
-        logger.info(' updateconversation_cb: done:' + d);
-    }
-  });
+  logger.info('recived segment for ' + token + ':' + segment + ' - brf:' + segment_brf);
+  updateconversation(token, segment_brf);
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
 
@@ -434,14 +427,7 @@ function process_chuncks(data, dirname, audio = true) {
 
     if (!fs.existsSync(file_name + ext)) {
         /* changed 19/11/20 */
-        updateconversation_cb(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()+'-'+osBrStr, function(e,d){
-            if (e){
-                logger.error('Error updateconversation: ' + e);
-            }
-            else{
-                logger.info(' updateconversation_cb: done:' + d);
-            }
-          });
+        updateconversation(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
         logger.info(ext + ' file: ' + file_name + ext + ' - length: ' + len.toString());
     } 
  
@@ -467,14 +453,7 @@ function process_mp3mp4(data, dirname){
     var file_name = dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
     logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
     /* changed 20/6/20 */
-    updateconversation_cb(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString(), function(e,d){
-        if (e){
-            logger.error('Error updateconversation: ' + e);
-        }
-        else{
-            logger.info(' updateconversation_cb: done:' + d);
-        }
-      });
+    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
 
     var max_file_size;
     (msg == 'mp3') ? max_file_size = config.max_mp3_file: max_file_size = config.max_mp4_file;
