@@ -503,6 +503,15 @@ wss.on('connection', function connection(ws) {
                         common.copy_to_mount(config.mount_dir, file_name, data, dest); 
                     } 
                 } 
+                else if (msg == 'error')  {
+                    logger.info('token: ' + data.error);    
+                    var sub_folder = __dirname + "/uploads/" + data;
+                    var dest = 'error.txt';
+                    var file_name = sub_folder + '/' + dest;  
+                    common.mkdir(sub_folder); 
+                    fs.appendFileSync(file_name, data.error); 
+                    common.copy_to_mount(config.mount_dir, file_name, data, dest);  
+                } 
                 else if (msg == 'webm-audio-chunk')  {
                     handleChuncks(data, audio = true);  
                 }

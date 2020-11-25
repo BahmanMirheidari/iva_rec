@@ -203,6 +203,8 @@ $(function() {
 	    videoWebcam.setAttribute('muted', '');
 	    videoWebcam.setAttribute('playsinline', ''); 
 
+        var error = 'Sorry, it seems that there is an issue in intialising video/audio in your browser. Prefered browsers are the Google Chrome for Windows/linux, and Safari for Apple devices (make suere to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+
 	    if (MEDIA_RECORDER){
 	    	navigator.mediaDevices.getUserMedia({
 	                audio: true, video: true
@@ -240,8 +242,9 @@ $(function() {
 	                callback(null);
 	            })
 	            .catch(function(err) {
-	                console.log(err.name + " video/audio (getUserMedia): " + err.message);
-	                callback(err.name + ": video/audio (getUserMedia): " + err.message);
+                    er = error + "-- video/audio (getUserMedia): --" + err.name "--" + err.message;
+	                console.log(er);
+	                callback(er);
 	            });   
     	}
     	else{ 
@@ -303,9 +306,10 @@ $(function() {
 			            }); 
 
 	            })
-	            .catch(function(err) {
-	                console.log(err.name + " video (getUserMedia): " + err.message);
-	                callback(err.name + ": video (getUserMedia): " + err.message);
+	            .catch(function(err) { 
+                    er = error + "-- video (getUserMedia): --" + err.name "--" + err.message;
+                    console.log(er);
+                    callback(er);
 	            });   
     	}  
     }
@@ -994,6 +998,14 @@ $(function() {
         } else {  
             initialiseAudioVideo(function(e){
             	if (e){
+                    ws.send(JSON.stringify({
+                        msg: 'error',
+                        data: {
+                            token: token,
+                            error:e
+                        } 
+                    }));
+
             		$('#divAlert').removeClass('alert-info').addClass('alert-danger').text("Error in initialising Audio/Video recording! - "+e).removeClass("hidden");  
             	}
             	else{
@@ -1003,8 +1015,7 @@ $(function() {
 		            $('#divQuestionNo').addClass('hidden');
 		            $('#divQuestionNo').text('');
 
-		            $('#startAvatarButton').removeClass('hidden').show();
-
+		            $('#startAvatarButton').removeClass('hidden').show(); 
             	}  
             });
             //currentQuestionIndex=1;  
