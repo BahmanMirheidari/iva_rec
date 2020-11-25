@@ -33,6 +33,9 @@ $(function(){
 	var endingMessage="Thank you. The END."; 
 	var logoutUrl="/logout"
 	var logoutTimeout=3000;
+	var browser;
+    var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
@@ -62,7 +65,17 @@ $(function(){
 
 			})
 			.catch(function(err) {
-			  console.log(err.name + ": " + err.message);
+				er = browser_error + "-- Error details: video (getUserMedia): --" + err.name + "--" + err.message;
+				$('#divAlert').removeClass('alert-info').addClass('alert-danger');
+				$('#divAlert').text(er);
+				 ws.send(JSON.stringify({
+                        msg: 'error',
+                        data: {
+                            token: token,
+                            error:e
+                        } 
+                    }));
+			  	console.log(er);
 			}); 
 
 		$("#consent").addClass('hidden');
@@ -276,6 +289,78 @@ $(function(){
  			$("#divDescriptionImage").removeClass('hidden');  
 		}
 	}
+
+
+    function detectOSBrowser(){
+    	var OSName="Unknown OS";
+    	var mobile="No";
+    	var nVer = navigator.appVersion;
+		var nAgt = navigator.userAgent;
+		var browserName  = navigator.appName;
+		var fullVersion  = ''+parseFloat(navigator.appVersion);  
+		var nameOffset,verOffset,ix;
+
+		if (nVer.indexOf("Win")!=-1) OSName="Windows";
+		if (nVer.indexOf("Mac")!=-1) OSName="MacOS";
+		if (nVer.indexOf("X11")!=-1) OSName="UNIX";
+		if (nVer.indexOf("Linux")!=-1) OSName="Linux";
+
+		if (nAgt.match(/BlackBerry/i)) OSName="BlackBerry";
+		if (nAgt.match(/Android/i)) OSName="Android";
+		if (nAgt.match(/iPhone|iPad|iPod/i)) OSName="iOS";
+		if (nAgt.match(/Opera Mini/i)) OSName="Opera";
+		if (nAgt.match(/IEMobile/i)) OSName="IEMobile"; 
+
+		// In Opera, the true version is after "Opera" or after "Version"
+		if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
+		 browserName = "Opera";
+		 fullVersion = nAgt.substring(verOffset+6);
+		 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+		   fullVersion = nAgt.substring(verOffset+8);
+		}
+		// In MSIE, the true version is after "MSIE" in userAgent
+		else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
+		 browserName = "MSIE";
+		 fullVersion = nAgt.substring(verOffset+5);
+		}
+		// In Chrome, the true version is after "Chrome" 
+		else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
+		 browserName = "Chrome";
+		 fullVersion = nAgt.substring(verOffset+7);
+		}
+		// In Safari, the true version is after "Safari" or after "Version" 
+		else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
+		 browserName = "Safari";
+		 fullVersion = nAgt.substring(verOffset+7);
+		 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+		   fullVersion = nAgt.substring(verOffset+8);
+		}
+		// In Firefox, the true version is after "Firefox" 
+		else if ((verOffset=nAgt.indexOf("Firefox"))!=-1) {
+		 browserName = "Firefox";
+		 fullVersion = nAgt.substring(verOffset+8);
+		}
+		// In most other browsers, "name/version" is at the end of userAgent 
+		else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) < 
+		          (verOffset=nAgt.lastIndexOf('/')) ) 
+		{
+		 browserName = nAgt.substring(nameOffset,verOffset);
+		 fullVersion = nAgt.substring(verOffset+1);
+		 if (browserName.toLowerCase()==browserName.toUpperCase()) {
+		  browserName = navigator.appName;
+		 }
+		}
+		// trim the fullVersion string at semicolon/space if present
+		if ((ix=fullVersion.indexOf(";"))!=-1)
+		   fullVersion=fullVersion.substring(0,ix);
+		if ((ix=fullVersion.indexOf(" "))!=-1)
+		   fullVersion=fullVersion.substring(0,ix); 
+
+		all_details ='os:'+OSName+ ', browser:' +browserName+', fullVersion:'+fullVersion+', appName:'+navigator.appName+', userAgent:'+navigator.userAgent  
+
+		return {'all_details':all_details, 'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
+    }
+
 
 	//disable enter and space keys for a while
 	function disableKeysNext(intervals){
@@ -866,7 +951,29 @@ $(function(){
          ws.onopen = function() { 
              // make a token
             token = userID + '-'+ dateTime + '-' + (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();  
-            ws.send(JSON.stringify({msg:'token',data:token}));  
+            // for safari or iOS
+            osBr = detectOSBrowser();
+            browser = osBr.all_details; 
+            $.getJSON('https://ipapi.co/json/', function(d) {
+                if(d){ 
+                    browser += ', ip:'+d.ip + ', country:' + d.country_name + ', region:' + d.region + ', postcode:' + d.postal + ', city:' + d.city + ', timezone:' + d.timezone + ', latitude:' + d.latitude+ ', longitude:' + d.longitude;
+
+                    //alert(JSON.stringify(d, null, 2));
+                    ws.send(JSON.stringify({
+                        msg: 'token',
+                        data: token, 
+                        browser:browser, 
+                    }));  
+                }
+                else{
+                    browser += ', ip:NA';
+                    ws.send(JSON.stringify({
+                        msg: 'token',
+                        data: token, 
+                        browser:browser 
+                    }));   
+                } 
+            });   
          };
          ws.onerror = function (evt) {  
             $('#divAlert').removeClass('alert-danger').addClass('alert-info').text("WebSocket error:" + evt.data).removeClass("hidden");

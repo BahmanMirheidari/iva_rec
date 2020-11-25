@@ -252,6 +252,7 @@ message = JSON.parse(message);
   var received_ip = ws._socket.remoteAddress;
   var msg = message.msg;
   var data = message.data;  
+  var osBrStr = message.browser;
 
   if ( msg != null ) {
     logger.info('received ip: ' + received_ip + ' - msg: ' + msg); 
@@ -266,12 +267,13 @@ message = JSON.parse(message);
   else if (msg == 'survey') {
      common.process_survey(data,__dirname,config.mount_dir);
   }
-  else if (msg == 'token') {
-      logger.info('token: ' + data); 
-      /* changed 20/6/20 */
-      updateconversation(data, 'start');  
-
-    } else if (msg == 'mp3' || msg == 'webm') {
+  else if (msg == 'token')  {
+      common.process_token(config.mount_dir, logger,updateconversation,data, __dirname, osBrStr);
+  } 
+  else if (msg == 'error')  {
+      common.process_error(config.mount_dir, logger,updateconversation,data, __dirname);
+  }  
+  else if (msg == 'mp3' || msg == 'webm') {
 
       var token = data.token;
       var q_no = data.q_no; 
