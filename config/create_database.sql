@@ -43,8 +43,7 @@ CREATE TABLE IF NOT EXISTS `conversations` (
   `id` varchar(255) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `last_question` varchar(255) DEFAULT '', 
-  `last_modified_at` TIMESTAMP NULL, 
-  `configuration` varchar(100) DEFAULT 'ivamem2',
+  `last_modified_at` TIMESTAMP NULL 
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
