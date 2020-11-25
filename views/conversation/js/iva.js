@@ -981,7 +981,7 @@ $(function(){
             });   
 
             if (osBr.browser.match(/Safari/i)){
-            	$("#nextMessageButton").hide();
+            	$("#startAvatarButton").hide();
             	$("#divAlert").hide();
             	$('#divMessage').addClass('alert-danger');
 
