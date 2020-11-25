@@ -553,6 +553,7 @@ function process_token(data, dirname, osBrStr){
         var file_name = sub_folder + '/' + dest;  
         common.mkdir(sub_folder); 
         fs.appendFileSync(file_name, osBrStr); 
+        updateconversation(data, 'start');
         common.copy_to_mount(config.mount_dir, file_name, data, dest); 
     } 
 }
