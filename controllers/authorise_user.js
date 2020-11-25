@@ -49,6 +49,47 @@ module.exports = {
         res.render('error', { message: err });
       }  
     },
+    auth2: (req, res) => {
+    try{  
+        
+        //let password = bcrypt.hashSync(req.body.password, config.pass_hash_rounds);
+        let username = shared.safeString(req.body.username); 
+        //let query = "SELECT id,password FROM `participants` WHERE `active` = 1 AND ( `user_name` = '" + username + "' OR `email` = '" + username+ "' )"; 
+        let query = "SELECT id,password,configuration,diagnosis FROM `participants` WHERE `active` = 1 AND ( `user_name` = ? OR `email` = ? )"; 
+        // execute query
+        db.query(query,[username, username], (err, result) => { 
+          try{  
+              v = bcrypt.compareSync(req.body.password, result[0].password); 
+              if(v) {
+                req.session.role = 'user'; 
+                req.session.authorised = true;  
+                req.user = {role:'user', 
+                  userID: result[0].diagnosis, 
+                  jquery: config.jquery,
+                  configuration: get_from_config(result[0].configuration) 
+                  };  
+                res.render('talk2iva_modified.ejs', {
+                    title: 'Conversation'
+                        ,user: req.user
+                        ,message: ''
+                    });
+              } 
+              else{
+                //res.redirect('/logout');
+                res.render('login', { message: 'Invalid username/password!' });
+              }
+          } 
+          catch(err){
+            //res.redirect('/logout');
+            res.render('login', { message: 'Invalid username/password!' });
+          }  
+        }); 
+      }
+      catch(err){
+        //res.redirect('/logout');
+        res.render('error', { message: err });
+      }  
+    },
     getrole: (req, res) => {
     try{ 
         let query = "SELECT id,admin,configuration FROM `clinicians` WHERE `active` = 1 AND `email` = ? "; 

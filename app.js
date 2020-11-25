@@ -24,6 +24,7 @@ var express = require('express'),
 /* change 18/6/20*/
 const {
     auth,
+    auth2,
     getrole
 } = require('./controllers/authorise_user');
 const {
@@ -234,9 +235,9 @@ app.get('/callback',
     }));
 
 app.get('/verifyrole', getrole);
-app.post('/auth', auth);
+app.post('/auth', auth2);
 app.get('/login', function(req, res) {
-    res.render('login.ejs', {
+    res.render('login2.ejs', {
         title: config.welcome_message + ' | Conversation',
         message: ''
     });

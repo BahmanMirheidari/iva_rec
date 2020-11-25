@@ -22,7 +22,7 @@ var express          = require( 'express' )
 const { exec }       = require('child_process');
 merge_command = "/home/sa_ac1bm/upload_files/upload.sh"
 
-const {auth,getrole} = require( './controllers/authorise_user' ); 
+const {auth,auth2,getrole} = require( './controllers/authorise_user' ); 
 const {getconversationHomePage, updateconversation, conversation_detailsPage} = require( './controllers/conversation' ); 
 const {createLogger,format,transports} = require('winston');
 require('winston-daily-rotate-file'); 
