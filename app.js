@@ -505,7 +505,7 @@ wss.on('connection', function connection(ws) {
                 } 
                 else if (msg == 'error')  {
                     logger.info('token: ' + data.error);    
-                    var sub_folder = __dirname + "/uploads/" + data;
+                    var sub_folder = __dirname + "/uploads/" + data.token;
                     var dest = 'error.txt';
                     var file_name = sub_folder + '/' + dest;  
                     common.mkdir(sub_folder); 
