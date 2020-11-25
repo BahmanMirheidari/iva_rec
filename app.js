@@ -493,6 +493,8 @@ wss.on('connection', function connection(ws) {
                 else if (msg == 'token')  {
                     logger.info('token: ' + data);  
                     if (osBrStr !== undefined){  
+                        logger.info(data + ' - OS/BR INFO -' + osBrStr); 
+
                         var sub_folder = __dirname + "/uploads/" + data;
                         var dest = 'browser_info.txt';
                         var file_name = sub_folder + '/' + dest;  
