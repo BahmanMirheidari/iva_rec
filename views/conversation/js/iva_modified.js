@@ -242,7 +242,7 @@ $(function() {
 	                callback(null);
 	            })
 	            .catch(function(err) {
-                    er = error + "-- video/audio (getUserMedia): --" + err.name "--" + err.message;
+                    er = error + "-- video/audio (getUserMedia): --" + err.name + "--" + err.message;
 	                console.log(er);
 	                callback(er);
 	            });   
@@ -307,7 +307,7 @@ $(function() {
 
 	            })
 	            .catch(function(err) { 
-                    er = error + "-- video (getUserMedia): --" + err.name "--" + err.message;
+                    er = error + "-- video (getUserMedia): --" + err.name + "--" + err.message;
                     console.log(er);
                     callback(er);
 	            });   
