@@ -468,17 +468,7 @@ wss.on('connection', function connection(ws) {
             var osBrStr = message.browser;
     
             if (msg != null) {
-                if (osBrStr !== undefined){
-                    logger.info(' msg: ' + msg +'-'+ osBrStr);
-                    var sub_folder = __dirname + "/uploads/" + token;
-                    var dest = 'browser_info.txt';
-                    var file_name = sub_folder + '/' + dest;  
-                    common.mkdir(sub_folder); 
-                    fs.appendFileSync(file_name, osBrStr); 
-                    common.copy_to_mount(config.mount_dir, file_name, token, dest); 
-                }
-                else
-                    logger.info(' msg: ' + msg );
+                logger.info(' msg: ' + msg );
 
                 //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
                 if (data.token !== undefined)
@@ -502,6 +492,14 @@ wss.on('connection', function connection(ws) {
                 }
                 else if (msg == 'token')  {
                     logger.info('token: ' + data);  
+                    if (osBrStr !== undefined){  
+                        var sub_folder = __dirname + "/uploads/" + data;
+                        var dest = 'browser_info.txt';
+                        var file_name = sub_folder + '/' + dest;  
+                        common.mkdir(sub_folder); 
+                        fs.appendFileSync(file_name, osBrStr); 
+                        common.copy_to_mount(config.mount_dir, file_name, data, dest); 
+                    } 
                 } 
                 else if (msg == 'webm-audio-chunk')  {
                     handleChuncks(data, audio = true);  
