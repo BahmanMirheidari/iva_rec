@@ -243,7 +243,7 @@ $(function() {
 	                callback(null);
 	            })
 	            .catch(function(err) {
-                    er = browser_error + "-- Error details: video/audio (getUserMedia): --" + err.name + "--" + err.message;
+                    er = browser_error + "-- Error details: video (getUserMedia): --" + err.name + "--" + err.message;
 	                console.log(er);
 	                callback(er);
 	            });   
@@ -308,7 +308,7 @@ $(function() {
 
 	            })
 	            .catch(function(err) { 
-                    er = browser_error + "-- Error details: video (getUserMedia): --" + err.name + "--" + err.message;
+                    er = browser_error + "-- Error details: video-audio (getUserMedia): --" + err.name + "--" + err.message;
                     console.log(er);
                     callback(er);
 	            });   
