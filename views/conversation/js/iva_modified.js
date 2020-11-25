@@ -46,7 +46,7 @@ $(function() {
     var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
 
 
-    function sendAudioVideo(audio = true, start=true) { 
+    function sendAudioVideo(audio = true, start=true, stop=true) { 
     	if (MEDIA_RECORDER){
     		mediaRecorder && mediaRecorder.stop();
 
@@ -81,7 +81,7 @@ $(function() {
     	}
     	else{
     		if (audio) {
-	            myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
+	            stop && myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
 	                var reader = new FileReader();
 	                reader.onload = function(event) {
 	                    var data = event.target.result.toString('base64'); 
@@ -113,7 +113,7 @@ $(function() {
 	            }
 	            
 	        } else {
-	            mediaRecorder && mediaRecorder.stop(function(blob_video) {  
+	            stop && mediaRecorder && mediaRecorder.stop(function(blob_video) {  
 	                var reader = new FileReader();
 	                reader.onload = function(event) {
 	                    var data = event.target.result.toString('base64'); 
@@ -1078,23 +1078,11 @@ $(function() {
                 RECORDING_FLAG = true;
 
                 if (MEDIA_RECORDER){ 
-	                mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
-				  	mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady); 
-				  	mediaRecorder.start();  
+                    sendAudioVideo(audio = false, start=true, stop=false);
                 }
                 else{
-                	mediaRecorder = RecordRTC(videoOnlyStream, {
-	                    type: 'video',
-	                    mimeType: 'video/webm',
-	                    recorderType: MediaStreamRecorder
-	                }); 
-	                
-	                myAudioRecorder = new MediaStreamRecorder(audioOnlyStream, {
-	                    type: 'audio',
-	                    mimeType: 'audio/webm'
-	                }); 
-	                mediaRecorder.startRecording();
-                	myAudioRecorder.record();
+                	sendAudioVideo(audio = true, start=true, stop=false);
+                    sendAudioVideo(audio = false, start=true, stop=false);
                 } 
 
                 startDate = new Date(); 
