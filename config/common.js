@@ -1,5 +1,6 @@
 fs             = require( 'fs' ),
 ffmpeg = require('ffmpeg'),
+fluentffmpeg = require('fluent-ffmpeg'),
 Mp4Convert = require('mp4-convert');
 pass           = require( '/home/sa_ac1bm/upload_files/config.js' ); 
 
@@ -224,7 +225,7 @@ function process_chuncks(mnt, logger,updateconversation, data, dirname, audio = 
 }
 
 //common.process_mp3mp4(msg, config.mount_dir, logger,updateconversation,data, __dirname, config.max_mp3_file,config.max_mp4_fil); 
-function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file){
+function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file, last_q){
     var token = data.token;
     var q_no = data.q_no;
     var r_no = data.r_no;
@@ -282,8 +283,8 @@ function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_m
                                         logger.info('converted to mp4 as ' + file_name + ".mp4");
                                         copy_to_mount(mnt, file_name + ".mp4", token, dest + ".mp4");
 
-                                        /*if (q_no == config.last_q - 1)
-                                            merge_files(__dirname, token, config.mount_dir);*/
+                                        if (q_no == last_q - 1)
+                                            merge_files(__dirname, token, mnt);
 
                                         fs.unlink(file_name + ".webm", function(err) {
                                             if (err) {
@@ -364,8 +365,8 @@ module.exports = {
     process_chuncks: function (mnt,logger,updateconversation, data, dirname, audio){
       process_chuncks(mnt,logger,updateconversation, data, dirname, audio);
     },
-    process_mp3mp4: function (msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file){
-      process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file);
+    process_mp3mp4: function (msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file,last_q){
+      process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file,last_q);
     },
     process_error: function (mnt,logger,updateconversation, data, dirname){
       process_error(mnt,logger,updateconversation, data, dirname);

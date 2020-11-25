@@ -16,7 +16,7 @@ var express = require('express'),
     WebSocketServer = require('ws').Server,
     ffmpeg = require('ffmpeg'),
     Mp4Convert = require('mp4-convert'),
-    //fluentffmpeg = require('fluent-ffmpeg'),
+    fluentffmpeg = require('fluent-ffmpeg'),
     GoogleStrategy = require('./controllers/google_aouth2.js').Strategy, //require( 'passport-google-oauth2' ).Strategy; 
     config = require('./config/config.js'),
     common = require('./config/common.js');
@@ -280,7 +280,7 @@ app.post('/editparticipantpass/:id', ensureIsClinician, editparticipantpass);
 app.get('/conversations', ensureIsClinician, getconversationHomePage);
 app.get('/conversation_details/:id', ensureIsClinician, conversation_detailsPage);
 
-/* 
+/* change 18/6/20*/
 app.get('/conversation', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
         res.redirect('/login');
@@ -290,7 +290,7 @@ app.get('/conversation', ensureAuthenticated, (req, res) => {
             message: '',
             user: req.user
         });
-});change 18/6/20*/
+});
 
 app.get('/conversation_modified', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
@@ -303,7 +303,6 @@ app.get('/conversation_modified', ensureAuthenticated, (req, res) => {
         });
 });
 
-/*
 app.get('/getvideo/:id', ensureIsClinician, (req, res) => {
     let movieFile = __dirname + "/uploads/" + req.params.id;
     logger.info('/getvideo/ ' + movieFile);
@@ -340,7 +339,7 @@ app.get('/getvideo/:id', ensureIsClinician, (req, res) => {
         res.writeHead(200, head)
         fs.createReadStream(movieFile).pipe(res)
     }
-});*/
+});
 
 function ensureIsAdmin(req, res, next) {
     if (req.isAuthenticated() && req.session.authorised && req.session.role === 'admin') {
@@ -377,6 +376,7 @@ httpsServer.listen(config.port);
 var wss = new WebSocketServer({
     server: httpsServer
 });  
+ 
 
 wss.on('connection', function connection(ws) {  
     ws.on('message', function incoming(message) {
@@ -423,7 +423,7 @@ wss.on('connection', function connection(ws) {
                     common.process_chuncks(config.mount_dir, logger,updateconversation,data, __dirname, audio = false);  
                 }
                 else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') { 
-                    common.process_mp3mp4(msg, config.mount_dir, logger,updateconversation,data, __dirname, config.max_mp3_file,config.max_mp4_file); 
+                    process_mp3mp4(msg, config.mount_dir, logger,updateconversation,data, __dirname, config.max_mp3_file,config.max_mp4_file,config.last_q); 
                 }
             }
 
