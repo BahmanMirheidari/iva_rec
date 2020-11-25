@@ -52,30 +52,7 @@ $(function() {
 
     		if (start){
     			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
-			  	mediaRecorder.dataavailable(function(e) { 
-                    var reader = new FileReader();
-                    reader.onload = function(event){
-                        var data = event.target.result.toString('base64');
-
-                        if (data.length>1000){
-                            var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-                            // send data via the websocket  
-                            //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-                            ws.send(JSON.stringify({
-                                msg: 'video',
-                                data: {
-                                    token: token,
-                                    time_diff:time_diff.toString(), 
-                                    data: data,
-                                    ext:"webm"
-                                } 
-                            }));
-                        }
-                        
-                    };
-                    reader.readAsDataURL(e.data);  
-                });
-
+                mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);   
 			  	mediaRecorder.start(); 
 			} 
     	}
