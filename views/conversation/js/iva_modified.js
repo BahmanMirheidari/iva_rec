@@ -37,7 +37,7 @@ $(function() {
     var videoOnlyStream;
     var myAudioRecorder; 
 
-    var MEDIA_RECORDER = true;
+    var MEDIA_RECORDER = false;
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 15 * 1000; //15 sec 
     var startDate; 
@@ -1225,6 +1225,8 @@ $(function() {
                     }));   
                 } 
             });  
+
+
         };
         ws.onerror = function(evt) {
             $('#divAlert').removeClass('alert-danger').addClass('alert-info').text("WebSocket error:" + evt.data).removeClass("hidden");
