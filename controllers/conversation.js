@@ -91,7 +91,7 @@ module.exports = {
                     cb(err,null); 
                 }  
                 else{
-                    cb(null,queryInsert);
+                    cb(null,queryInsert + result);
                 } 
             });  
 
@@ -106,7 +106,7 @@ module.exports = {
                     cb(err,null);  
                 }  
                 else {
-                    cb(null,queryUpdate);
+                    cb(null,queryUpdate + result);
                 }
             });   
         }  
