@@ -223,7 +223,8 @@ function process_chuncks(mnt, logger,updateconversation, data, dirname, audio = 
   } 
 }
 
-function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname){
+//common.process_mp3mp4(msg, config.mount_dir, logger,updateconversation,data, __dirname, config.max_mp3_file,config.max_mp4_fil); 
+function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file){
     var token = data.token;
     var q_no = data.q_no;
     var r_no = data.r_no;
@@ -236,7 +237,7 @@ function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname){
     updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
 
     var max_file_size;
-    (msg == 'mp3') ? max_file_size = config.max_mp3_file: max_file_size = config.max_mp4_file;
+    (msg == 'mp3') ? max_file_size = max_mp3_file: max_file_size = max_mp4_file;
 
     if (len < max_file_size && len > 200) {
         //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
@@ -281,8 +282,8 @@ function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname){
                                         logger.info('converted to mp4 as ' + file_name + ".mp4");
                                         copy_to_mount(mnt, file_name + ".mp4", token, dest + ".mp4");
 
-                                        if (q_no == config.last_q - 1)
-                                            merge_files(__dirname, token, config.mount_dir);
+                                        /*if (q_no == config.last_q - 1)
+                                            merge_files(__dirname, token, config.mount_dir);*/
 
                                         fs.unlink(file_name + ".webm", function(err) {
                                             if (err) {
@@ -363,8 +364,8 @@ module.exports = {
     process_chuncks: function (mnt,logger,updateconversation, data, dirname, audio){
       process_chuncks(mnt,logger,updateconversation, data, dirname, audio);
     },
-    process_mp3mp4: function (mnt,logger,updateconversation, data, dirname){
-      process_mp3mp4(mnt,logger,updateconversation, data, dirname);
+    process_mp3mp4: function (msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file){
+      process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_mp3_file,max_mp4_file);
     },
     process_error: function (mnt,logger,updateconversation, data, dirname){
       process_error(mnt,logger,updateconversation, data, dirname);
