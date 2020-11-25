@@ -423,7 +423,7 @@ wss.on('connection', function connection(ws) {
                     common.process_chuncks(config.mount_dir, logger,updateconversation,data, __dirname, audio = false);  
                 }
                 else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') { 
-                    common.process_mp3mp4(config.mount_dir, logger,updateconversation,data, __dirname); 
+                    common.process_mp3mp4(msg, config.mount_dir, logger,updateconversation,data, __dirname); 
                 }
             }
 
