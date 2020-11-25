@@ -87,8 +87,8 @@ module.exports = {
         if (last_question === "start")
             db.query(queryInsert, [id, last_question], (err, result) => {
                 if (err) {
-                    cb(`conversations queryInsert error: ${err}`);
                     console.log(`conversations queryInsert error: ${err}`);
+                    cb(err); 
                 }  
                 else{
                     cb(null);
@@ -101,9 +101,9 @@ module.exports = {
             let queryUpdate = 'UPDATE `conversations` set `last_question` = ?, `last_modified_at` = now() WHERE `id` = ?'; 
          
             db.query(queryUpdate, [last_question, id], (err, result) => {
-                if (err) {
-                    cb(`conversations queryUpdate error: ${err}`);
-                    console.log(`conversations queryUpdate error: ${err}`);  
+                if (err) { 
+                    console.log(`conversations queryUpdate error: ${err}`); 
+                    cb(err);  
                 }  
                 else {
                     cb(null);
