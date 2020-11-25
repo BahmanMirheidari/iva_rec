@@ -78,7 +78,7 @@ module.exports = {
                 //    console.log(`conversations queryUpdate done: ${queryUpdate}`); 
             });   
         }  
-    } 
+    },
     conversation_detailsPage: (req, res) => {
         let conversationId = shared.safeString(req.params.id);  
         //let query = "SELECT * FROM `conversations` WHERE `id` = '" + conversationId + "' ";
