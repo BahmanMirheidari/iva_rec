@@ -36,6 +36,10 @@ $(function(){
 	var browser;
     var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. ';
 
+    var AudioContext = window.AudioContext          // Default
+              || window.webkitAudioContext;  // Safari and old versions of Chrome
+	this.audioContext = new AudioContext();
+
    
 	// start Avatar Button, introduces the interview
 	$("#startAvatarButton").click(function(){  
