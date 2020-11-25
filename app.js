@@ -393,7 +393,7 @@ function handleWebmVideoAudio(data, videoaudio='video',max_webm_size=500000000){
   } 
 }
 
-function handelSegment(data,osBrStr){  
+function handelSegment(data){  
   var token = data.token;
   var q_no = data.q_no;
   var r_no = data.r_no;
@@ -407,12 +407,12 @@ function handelSegment(data,osBrStr){
 
   fs.appendFileSync(file_name, segment);
  
-  logger.info('recived segment for ' + token + ':' + segment+'-'+osBrStr);
-  updateconversation(token, 'segment:' + segment+'-'+osBrStr);
+  logger.info('recived segment for ' + token + ':' + segment+);
+  updateconversation(token, 'segment:' + segment);
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
 
-function handleChuncks(data, osBrStr, audio = true) {
+function handleChuncks(data, audio = true) {
   try{
     var token = data.token;
     var q_no = data.q_no;
@@ -468,8 +468,11 @@ wss.on('connection', function connection(ws) {
             var osBrStr = message.browser;
     
             if (msg != null) {
+                if (osBrStr !== undefined)
+                    logger.info(' msg: ' + msg +'-'+ osBrStr);
+                else:
+                    logger.info(' msg: ' + msg );
 
-                logger.info(' msg: ' + msg +'-'+ osBrStr);
                 //logger.info(util.inspect(blob, {showHidden: false, depth: null}))  
                 if (data.token !== undefined)
                     common.mkdir(__dirname + "/uploads/" + data.token);
@@ -482,7 +485,7 @@ wss.on('connection', function connection(ws) {
                     common.process_survey(data, __dirname, config.mount_dir);
                 }
                 else if (msg == 'segment'){
-                    handelSegment(data, osBrStr);
+                    handelSegment(data);
                 }
                 else if (msg == 'video'){
                     handleWebmVideoAudio(data,'video',500000000); 
@@ -494,10 +497,10 @@ wss.on('connection', function connection(ws) {
                     logger.info('token: ' + data);  
                 } 
                 else if (msg == 'webm-audio-chunk')  {
-                    handleChuncks(data, osBrStr, audio = true);  
+                    handleChuncks(data, audio = true);  
                 }
                 else if (msg == 'webm-video-chunk')  {
-                    handleChuncks(data, osBrStr, audio = false);  
+                    handleChuncks(data, audio = false);  
                 }
                 else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') { 
                     var token = data.token;

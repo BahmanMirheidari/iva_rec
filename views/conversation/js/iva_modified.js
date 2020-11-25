@@ -72,8 +72,7 @@ $(function() {
 			                        time_diff:time_diff.toString(), 
 			                        data: data,
 			                        ext: "webm"  
-	                            }, 
-                                browser:browser 
+	                            } 
 	                        }));
 	                    }
 	                }; 
@@ -108,8 +107,7 @@ $(function() {
 	                                time_diff:time_diff.toString(), 
 			                        data: data,
 			                        ext: "webm"  
-	                            }, 
-                                browser:browser 
+	                            } 
 	                        }));
 	                    }
 	                };
@@ -669,8 +667,7 @@ $(function() {
                     data: {
                         token: token,
                         agreements: response.consent.agreed
-                    }, 
-                    browser:browser 
+                    } 
                 }));
                 init_pre_surveys();
 
@@ -696,8 +693,7 @@ $(function() {
                         token: token,
                         id: configuration.surveys[surveyIndex].id,
                         questions: response.surveys[surveyIndex].question
-                    }, 
-                    browser:browser   
+                    }  
                 }));
                 surveyIndex++;
                 questionnaire++;
@@ -721,8 +717,7 @@ $(function() {
                         token: token,
                         id: configuration.pre_surveys[pre_surveyIndex].id,
                         questions: response.pre_surveys[pre_surveyIndex].question
-                    }, 
-                    browser:browser   
+                    }   
                 }));
                 pre_surveyIndex++;
                 questionnaire++;
@@ -945,8 +940,7 @@ $(function() {
                                 data: {
                                     token: token,
                                     agreements: response.consent.agreed
-                                }, 
-                                browser:browser   
+                                }    
                             }));
 
                             $("#dynamic_header").empty();
@@ -1033,8 +1027,7 @@ $(function() {
 	                        time_diff:time_diff.toString(), 
 	                        data: data,
 	                        ext:"webm"
-	                    }, 
-                        browser:browser 
+	                    } 
 	                }));
 				}
 	            
@@ -1078,8 +1071,7 @@ $(function() {
 	        		r_no: repeatIndex.toString(),
 	        		token: token, 
 	        		time_diff: time_diff.toString() 
-        		},
-                browser:browser 
+        		} 
         	}));  
         } else {
             RECORDING_FLAG = false;
