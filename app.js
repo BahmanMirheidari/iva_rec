@@ -280,7 +280,7 @@ app.post('/editparticipantpass/:id', ensureIsClinician, editparticipantpass);
 app.get('/conversations', ensureIsClinician, getconversationHomePage);
 app.get('/conversation_details/:id', ensureIsClinician, conversation_detailsPage);
 
-/* change 18/6/20*/
+/* 
 app.get('/conversation', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
         res.redirect('/login');
@@ -290,7 +290,7 @@ app.get('/conversation', ensureAuthenticated, (req, res) => {
             message: '',
             user: req.user
         });
-});
+});change 18/6/20*/
 
 app.get('/conversation_modified', ensureAuthenticated, (req, res) => {
     if (req.user === undefined)
@@ -303,6 +303,7 @@ app.get('/conversation_modified', ensureAuthenticated, (req, res) => {
         });
 });
 
+/*
 app.get('/getvideo/:id', ensureIsClinician, (req, res) => {
     let movieFile = __dirname + "/uploads/" + req.params.id;
     logger.info('/getvideo/ ' + movieFile);
@@ -339,7 +340,7 @@ app.get('/getvideo/:id', ensureIsClinician, (req, res) => {
         res.writeHead(200, head)
         fs.createReadStream(movieFile).pipe(res)
     }
-});
+});*/
 
 function ensureIsAdmin(req, res, next) {
     if (req.isAuthenticated() && req.session.authorised && req.session.role === 'admin') {
