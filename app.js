@@ -49,6 +49,7 @@ const {
 const {
     getconversationHomePage,
     updateconversation,
+    updateconversation_cb,
     conversation_detailsPage
 } = require('./controllers/conversation');
 const {
@@ -407,7 +408,11 @@ function process_segment(data, dirname){
   fs.appendFileSync(file_name, segment);
  
   logger.info('recived segment for ' + token + ':' + segment);
-  updateconversation(token, 'segs' + segment.replace(/,/g,'-'));
+  updateconversation_cb(token, 'segs' + segment.replace(/,/g,'-'), function(e){
+    if (e){
+        logger.error('Error updateconversation: ' + e);
+    }
+  });
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
 
@@ -426,7 +431,11 @@ function process_chuncks(data, dirname, audio = true) {
 
     if (!fs.existsSync(file_name + ext)) {
         /* changed 19/11/20 */
-        updateconversation(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()+'-'+osBrStr);
+        updateconversation_cb(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()+'-'+osBrStr, function(e){
+            if (e){
+                logger.error('Error updateconversation: ' + e);
+            }
+          });
         logger.info(ext + ' file: ' + file_name + ext + ' - length: ' + len.toString());
     } 
  
@@ -452,7 +461,11 @@ function process_mp3mp4(data, dirname){
     var file_name = dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
     logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
     /* changed 20/6/20 */
-    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
+    updateconversation_cb(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString(), function(e){
+        if (e){
+            logger.error('Error updateconversation: ' + e);
+        }
+      });
 
     var max_file_size;
     (msg == 'mp3') ? max_file_size = config.max_mp3_file: max_file_size = config.max_mp4_file;

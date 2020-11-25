@@ -79,6 +79,38 @@ module.exports = {
             });   
         }  
     }, 
+    updateconversation_cb: (id, last_question, cb) => {    
+        //let query = 'SELECT `id` from `conversations` WHERE last_question != "page-load" AND participant_id = "' + participantId + '" AND admin = "' + admin + '" ORDER BY created_at DESC'; 
+        //let queryInsert = "INSERT INTO `conversations` (participant_id, last_question, admin, last_modified_at) VALUES ('" + participantId + "', '" + last_question + "', '" + admin + "', NOW())";  
+        let queryInsert = "INSERT INTO `conversations` (id, last_question, last_modified_at) VALUES (?, ?, NOW())";   
+        
+        if (last_question === "start")
+            db.query(queryInsert, [id, last_question], (err, result) => {
+                if (err) {
+                    cb(`conversations queryInsert error: ${err}`);
+                    console.log(`conversations queryInsert error: ${err}`);
+                }  
+                else{
+                    cb(null);
+                } 
+            });  
+
+        else{  
+            //console.log(`conversations query done: ${query}`); 
+            //et queryUpdate = 'UPDATE `conversations` set `last_question` = "' + last_question + '", `last_modified_at` = now() WHERE `id` = "' + result[0].id + '"';
+            let queryUpdate = 'UPDATE `conversations` set `last_question` = ?, `last_modified_at` = now() WHERE `id` = ?'; 
+         
+            db.query(queryUpdate, [last_question, id], (err, result) => {
+                if (err) {
+                    cb(`conversations queryUpdate error: ${err}`);
+                    console.log(`conversations queryUpdate error: ${err}`);  
+                }  
+                else {
+                    cb(null);
+                }
+            });   
+        }  
+    }, 
     conversation_detailsPage: (req, res) => {
         let conversationId = shared.safeString(req.params.id);  
         //let query = "SELECT * FROM `conversations` WHERE `id` = '" + conversationId + "' ";
