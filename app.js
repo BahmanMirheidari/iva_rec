@@ -16,9 +16,8 @@ var express = require('express'),
     WebSocketServer = require('ws').Server,
     ffmpeg = require('ffmpeg'),
     Mp4Convert = require('mp4-convert'),
-    fluentffmpeg = require('fluent-ffmpeg'),
-    GoogleStrategy = require('./controllers/google_aouth2.js').Strategy //require( 'passport-google-oauth2' ).Strategy;
-    ,
+    //fluentffmpeg = require('fluent-ffmpeg'),
+    GoogleStrategy = require('./controllers/google_aouth2.js').Strategy, //require( 'passport-google-oauth2' ).Strategy; 
     config = require('./config/config.js'),
     common = require('./config/common.js');
 
@@ -363,10 +362,10 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-function handleWebmVideoAudio(data, videoaudio='video',max_webm_size=500000000){
+function process_webmvideoaudio(data, dirname, videoaudio='video',max_webm_size=500000000){
   var token = data.token; 
   var blob = data.data; 
-  var sub_folder = __dirname + "/uploads/" + token;
+  var sub_folder = dirname + "/uploads/" + token;
   var ext = data.ext;
   var dest = videoaudio + '-' + 'recording.' + ext;
   var file_name = sub_folder + '/' + dest;
@@ -393,12 +392,12 @@ function handleWebmVideoAudio(data, videoaudio='video',max_webm_size=500000000){
   } 
 }
 
-function handelSegment(data){  
+function process_segment(data, dirname){  
   var token = data.token;
   var q_no = data.q_no;
   var r_no = data.r_no;
   var time_diff = data.time_diff;
-  var sub_folder = __dirname + "/uploads/" + token;
+  var sub_folder = dirname + "/uploads/" + token;
   var dest = 'segments.txt';
   var file_name = sub_folder + '/' + dest;  
   var segment = q_no + ',' + r_no + ',' + time_diff + '\n';
@@ -412,7 +411,7 @@ function handelSegment(data){
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
 
-function handleChuncks(data, audio = true) {
+function process_chuncks(data, dirname, audio = true) {
   try{
     var token = data.token;
     var q_no = data.q_no;
@@ -420,7 +419,7 @@ function handleChuncks(data, audio = true) {
     var blob = data.data;
     var len = blob.length;
     var dest = 'Q' + q_no.toString() + '-R' + r_no.toString();
-    var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
+    var file_name = dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
     var ext = "-audio.webm";
     if (audio==false)
         ext = "-video.webm";
@@ -441,6 +440,120 @@ function handleChuncks(data, audio = true) {
   catch(e){
     logger.error('handleChuncks-Error: ' + e);
   } 
+}
+
+function process_mp3mp4(data, dirname){
+    var token = data.token;
+    var q_no = data.q_no;
+    var r_no = data.r_no;
+    var blob = data.data;
+    var len = blob.length;
+    var dest = 'Q' + q_no.toString() + '-R' + r_no.toString();
+    var file_name = dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
+    logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
+    /* changed 20/6/20 */
+    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
+
+    var max_file_size;
+    (msg == 'mp3') ? max_file_size = config.max_mp3_file: max_file_size = config.max_mp4_file;
+
+    if (len < max_file_size && len > 200) {
+        //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
+        var base64Data = blob.split(';base64,').pop();
+        var continue_processing = true;
+
+        if (msg == 'webm-audio') {
+            file_name = file_name + '-audio';
+            dest = dest + '-audio';
+            msg = 'webm';
+            continue_processing = false;
+        }
+
+        if (msg == 'webm-video') {
+            file_name = file_name + '-video';
+            dest = dest + '-video';
+            msg = 'webm';
+            continue_processing = false;
+        }
+
+        fs.writeFile(file_name + "." + msg, base64Data, 'base64', function(err) {
+            if (err) {
+                logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg + " - " + err);
+            } else {
+
+                logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
+                common.copy_to_mount(config.mount_dir, file_name + "." + msg, token, dest + "." + msg);
+
+                if (continue_processing && msg == 'webm') {
+
+                    try {
+                        var process = new ffmpeg(file_name + "." + msg);
+                        process.then(function(video) {
+                            //convert to mp3
+                            video.fnExtractSoundToMP3(file_name + ".mp3", function(error, file) {
+                                if (!error) {
+                                    logger.info('converted to mp3 as ' + file_name + ".mp3");
+                                    common.copy_to_mount(config.mount_dir, file_name + ".mp3", token, dest + ".mp3");
+
+                                    var convert = new Mp4Convert(file_name + '.webm', file_name + ".mp4");
+                                    convert.on('done', function() {
+                                        logger.info('converted to mp4 as ' + file_name + ".mp4");
+                                        common.copy_to_mount(config.mount_dir, file_name + ".mp4", token, dest + ".mp4");
+
+                                        if (q_no == config.last_q - 1)
+                                            common.merge_files(__dirname, token, config.mount_dir);
+
+                                        fs.unlink(file_name + ".webm", function(err) {
+                                            if (err) {
+                                                logger.error('Deleting ' + file_name + '.webm error: ' + err);
+                                            } else {
+                                                logger.info('Deleted ' + file_name + ".webm");
+                                            }
+                                        });
+
+                                    });
+                                    convert.start();
+                                } else
+                                    logger.error('Error in converting to mp3: ' + error);
+                            });
+
+                        }, function(err) {
+                            logger.error('FFMPEG MP3 error: ' + err);
+                        });
+                    } catch (e) {
+                        logger.error('FFMPEG (MP3) CONVERSION msg: ' + e.msg);
+                        logger.error('code: ' + e.code);
+                    }
+                }
+            }
+        });
+    } else {
+        logger.warn('<BIG/VERY SMALL FILE> Sorry we cannot save the file: ' + file_name + '!!!');
+    } 
+}
+
+function process_error(data, dirname){
+    logger.info('token: ' + data.error);    
+    var sub_folder = dirname + "/uploads/" + data.token;
+    var dest = 'error.txt';
+    var file_name = sub_folder + '/' + dest;  
+    common.mkdir(sub_folder); 
+    fs.appendFileSync(file_name, data.error); 
+    common.copy_to_mount(config.mount_dir, file_name, data.token, dest); 
+}
+
+function process_token(data, dirname, osBrStr){
+    logger.info('token: ' + data);  
+    if (osBrStr !== undefined){  
+        logger.info(data + ' - OS/BR INFO -' + osBrStr); 
+
+        var sub_folder = dirname + "/uploads/" + data;
+        var dest = 'browser_info.txt';
+        var file_name = sub_folder + '/' + dest;  
+        common.mkdir(sub_folder); 
+        fs.appendFileSync(file_name, osBrStr); 
+        common.copy_to_mount(config.mount_dir, file_name, data, dest); 
+    } 
 }
  
 var https = (config.ssl) ? require('https') : require('http');
@@ -482,130 +595,28 @@ wss.on('connection', function connection(ws) {
                     common.process_survey(data, __dirname, config.mount_dir);
                 }
                 else if (msg == 'segment'){
-                    handelSegment(data);
+                    process_segment(data, __dirname);
                 }
                 else if (msg == 'video'){
-                    handleWebmVideoAudio(data,'video',500000000); 
+                    process_webmvideoaudio(data, __dirname,'video',500000000); 
                 }
                 else if (msg == 'audio'){
-                    handleWebmVideoAudio(data,'audio',60000000); 
+                    process_webmvideoaudio(data, __dirname,'audio',60000000); 
                 }
                 else if (msg == 'token')  {
-                    logger.info('token: ' + data);  
-                    if (osBrStr !== undefined){  
-                        logger.info(data + ' - OS/BR INFO -' + osBrStr); 
-
-                        var sub_folder = __dirname + "/uploads/" + data;
-                        var dest = 'browser_info.txt';
-                        var file_name = sub_folder + '/' + dest;  
-                        common.mkdir(sub_folder); 
-                        fs.appendFileSync(file_name, osBrStr); 
-                        common.copy_to_mount(config.mount_dir, file_name, data, dest); 
-                    } 
+                    process_token(data, __dirname, osBrStr);
                 } 
                 else if (msg == 'error')  {
-                    logger.info('token: ' + data.error);    
-                    var sub_folder = __dirname + "/uploads/" + data.token;
-                    var dest = 'error.txt';
-                    var file_name = sub_folder + '/' + dest;  
-                    common.mkdir(sub_folder); 
-                    fs.appendFileSync(file_name, data.error); 
-                    common.copy_to_mount(config.mount_dir, file_name, data, dest);  
+                    process_error(data, __dirname);
                 } 
                 else if (msg == 'webm-audio-chunk')  {
-                    handleChuncks(data, audio = true);  
+                    process_chuncks(data, __dirname, audio = true);  
                 }
                 else if (msg == 'webm-video-chunk')  {
-                    handleChuncks(data, audio = false);  
+                    process_chuncks(data, __dirname, audio = false);  
                 }
                 else if (msg == 'mp3' || msg == 'webm' || msg == 'webm-audio' || msg == 'webm-video') { 
-                    var token = data.token;
-                    var q_no = data.q_no;
-                    var r_no = data.r_no;
-                    var blob = data.data;
-                    var len = blob.length;
-                    var dest = 'Q' + q_no.toString() + '-R' + r_no.toString();
-                    var file_name = __dirname + "/uploads/" + token + '/Q' + q_no.toString() + '-R' + r_no.toString();
-                    logger.info(msg + ' file: ' + file_name + "." + msg + ' - length: ' + len.toString());
-                    /* changed 20/6/20 */
-                    updateconversation(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString());
-
-                    var max_file_size;
-                    (msg == 'mp3') ? max_file_size = config.max_mp3_file: max_file_size = config.max_mp4_file;
-
-                    if (len < max_file_size && len > 200) {
-                        //var base64Data = blob.replace(/^data:audio\/mp3;base64,/, "").replace(/^data:video\/webm;base64,/, "");  
-                        var base64Data = blob.split(';base64,').pop();
-                        var continue_processing = true;
-
-                        if (msg == 'webm-audio') {
-                            file_name = file_name + '-audio';
-                            dest = dest + '-audio';
-                            msg = 'webm';
-                            continue_processing = false;
-                        }
-
-                        if (msg == 'webm-video') {
-                            file_name = file_name + '-video';
-                            dest = dest + '-video';
-                            msg = 'webm';
-                            continue_processing = false;
-                        }
-
-                        fs.writeFile(file_name + "." + msg, base64Data, 'base64', function(err) {
-                            if (err) {
-                                logger.error('error in saving ' + msg + ' file: ' + file_name + "." + msg + " - " + err);
-                            } else {
-
-                                logger.info('saved ' + msg + ' file: ' + file_name + "." + msg);
-                                common.copy_to_mount(config.mount_dir, file_name + "." + msg, token, dest + "." + msg);
-
-                                if (continue_processing && msg == 'webm') {
-
-                                    try {
-                                        var process = new ffmpeg(file_name + "." + msg);
-                                        process.then(function(video) {
-                                            //convert to mp3
-                                            video.fnExtractSoundToMP3(file_name + ".mp3", function(error, file) {
-                                                if (!error) {
-                                                    logger.info('converted to mp3 as ' + file_name + ".mp3");
-                                                    common.copy_to_mount(config.mount_dir, file_name + ".mp3", token, dest + ".mp3");
-
-                                                    var convert = new Mp4Convert(file_name + '.webm', file_name + ".mp4");
-                                                    convert.on('done', function() {
-                                                        logger.info('converted to mp4 as ' + file_name + ".mp4");
-                                                        common.copy_to_mount(config.mount_dir, file_name + ".mp4", token, dest + ".mp4");
-
-                                                        if (q_no == config.last_q - 1)
-                                                            common.merge_files(__dirname, token, config.mount_dir);
-
-                                                        fs.unlink(file_name + ".webm", function(err) {
-                                                            if (err) {
-                                                                logger.error('Deleting ' + file_name + '.webm error: ' + err);
-                                                            } else {
-                                                                logger.info('Deleted ' + file_name + ".webm");
-                                                            }
-                                                        });
-
-                                                    });
-                                                    convert.start();
-                                                } else
-                                                    logger.error('Error in converting to mp3: ' + error);
-                                            });
-
-                                        }, function(err) {
-                                            logger.error('FFMPEG MP3 error: ' + err);
-                                        });
-                                    } catch (e) {
-                                        logger.error('FFMPEG (MP3) CONVERSION msg: ' + e.msg);
-                                        logger.error('code: ' + e.code);
-                                    }
-                                }
-                            }
-                        });
-                    } else {
-                        logger.warn('<BIG/VERY SMALL FILE> Sorry we cannot save the file: ' + file_name + '!!!');
-                    }
+                    process_mp3mp4(data, __dirname); 
                 }
             }
 
