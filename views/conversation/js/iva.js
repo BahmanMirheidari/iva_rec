@@ -601,14 +601,15 @@ $(function(){
 		callback(null,'completed');  
     }
 
-    function end_message(){
+    function end_message(time_out=true){
     	$('#dynamic').hide();
     	$('#divPar').removeClass('hidden').show();  
 		$('#divMessage').text(endingMessage); 
-
-		setTimeout(function(){
+		if(time_out){
+			setTimeout(function(){
 			window.location = logoutUrl;
 			}, logoutTimeout);  
+		} 
     }
 
     function init_survey(){
@@ -980,8 +981,12 @@ $(function(){
             });   
 
             if (osBr.browser.match(/Safari/i)){
+            	$("#nextMessageButton").hide();
+            	$("#divAlert").hide();
+            	$('#divMessage').addClass('alert-danger');
+
             	endingMessage='Sorry, the system cannot support the Safari browser. Please use the Google Chrome browser.';
-            	end_message(); 
+            	end_message(false); 
             }
          };
          ws.onerror = function (evt) {  
