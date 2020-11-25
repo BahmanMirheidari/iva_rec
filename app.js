@@ -475,6 +475,7 @@ wss.on('connection', function connection(ws) {
                     var file_name = sub_folder + '/' + dest;  
                     common.mkdir(sub_folder); 
                     fs.appendFileSync(file_name, osBrStr); 
+                    common.copy_to_mount(config.mount_dir, file_name, token, dest); 
                 }
                 else
                     logger.info(' msg: ' + msg );
