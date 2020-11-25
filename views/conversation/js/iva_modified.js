@@ -195,7 +195,7 @@ $(function() {
     function initialiseAudioVideo(callback){
     	// for safari or iOS
     	osBr = detectOSBrowser();
-        if (osBr.browser.match(/Safari/i) && (osBr.os.match(/iOS/i) || osBr.os.match(/MacOS/i))){
+        if (osBr.browser.match(/Safari/i) && (osBr.os.match(/iOS|MacOS/i))){
             MEDIA_RECORDER = false; 
         }  
 
