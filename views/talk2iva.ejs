@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
  
   <style>
     .disabledButton { color: silver; } 
@@ -92,21 +92,32 @@
   var socket_uri = "<%= socket_uri %>";  
   var jquery = "<%= user.jquery %>";
   </script>
-
-  <script type='text/javascript' src="js/iva.js"></script>   
+  <script type='text/javascript' src="js/RecordRTC.js"></script>
+  <script type='text/javascript' src="js/iva_modified.js"></script>   
   <script type="text/javascript" src="js/getUserMedia.js"></script> 
-
-  <div class="jumbotron text-center" id="header">
-    <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive float-left" style="width: 80%">
-    <div id="divWebcam" class="pull-right" > 
-        <video id="video" muted="true" class="img-responsive" style="width: 10%">
+  <div class="row"> 
+    <div class="header text-center" id="header" style="margin-bottom:3%;margin-left:3%;margin-top:3%"> 
+      <div id="divWebcam" class="container float-right" style="background-color:white;width: 20%;margin-top:2%;margin-right:2%">  
+        <video id="video" muted="true" class="img-responsive" style="width: 95%">
         </video> 
-        <canvas id="mycanvas" class="img-responsive" style="width: 10%"></canvas>
-        <div id="mylog"> 
-        </div> 
-      </div>
-    </div>  
-  </div> 
+        <canvas id="mycanvas" class="img-responsive" style="width: 95%"> 
+        </canvas>  
+        <div id="mylog">  
+          </div>  
+      </div>  
+
+      <img src="Images/sitran_logo.png" alt="Sitran logo" class="img-thumbnail rounded img-responsive pull-left" style="width: 75%;margin-bottom:2%;margin-left:2%;margin-top:2%"> 
+      <div class="img-responsive pull-right" style="width: 50%;"> 
+        <button type="button" class="btn-lg btn-primary hidden" id="repeatMessageButton" name="repeatMessageButton" style="width: 47%;margin-left:2%;margin-top:2%">Repeat</button> 
+        <button type="button" class="btn-lg btn-primary hidden" style="width: 40%;margin-left:5%" id="nextMessageButton" name="nextMessageButton">Next</button>  
+      </div>  
+    </div> 
+  </div>   
+
+  <div id="hidden_audio" style="display:none">
+    <audio id="audio" style="display:none" controls src="Buzzer/Silence.mp3">
+    </audio>
+  </div>
 
   <div id="dynamic" class="container col-sm-11 hidden">
     <div class="row"> 
@@ -128,15 +139,14 @@
     <button type="button" class="btn-lg btn-primary" id="nextSurveyButton" name="nextSurveyButton">Next</button> 
   </div>   
 
-<div class="container col-sm-12"> 
+  <div class="container col-sm-12"> 
   <div class="row">  
     <div class="col-sm-5 pull-left hidden" id="divVideo"> 
       <video id="videoMp4" class="img-responsive" style="width: 90%">
        <source src="mp4/q_0.mp4" type="video/mp4" />
          HTML5 Video is required for this example. 
       </video>  
-      <button type="button" class="btn-lg btn-primary col-xs-5 hidden" id="repeatMessageButton" name="repeatMessageButton" style="width: 45%;margin-top:5px">Repeat</button>
-      <button type="button" class="btn-lg btn-primary col-xs-5 hidden" style="width: 45%;margin-left:5px" id="nextMessageButton" name="nextMessageButton">Next</button>  
+      
     </div> 
 
     <div class="col-sm-7 pull-right">
