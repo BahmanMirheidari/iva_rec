@@ -412,6 +412,9 @@ function process_segment(data, dirname){
     if (e){
         logger.error('Error updateconversation: ' + e);
     }
+    else{
+        logger.info(' updateconversation_cb: done');
+    }
   });
   common.copy_to_mount(config.mount_dir,file_name,token,dest); 
 }
@@ -434,6 +437,9 @@ function process_chuncks(data, dirname, audio = true) {
         updateconversation_cb(token, ext + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString()+'-'+osBrStr, function(e){
             if (e){
                 logger.error('Error updateconversation: ' + e);
+            }
+            else{
+                logger.info(' updateconversation_cb: done');
             }
           });
         logger.info(ext + ' file: ' + file_name + ext + ' - length: ' + len.toString());
@@ -464,6 +470,9 @@ function process_mp3mp4(data, dirname){
     updateconversation_cb(token, msg + '-Q' + q_no.toString() + '-R' + r_no.toString() + '-L' + len.toString(), function(e){
         if (e){
             logger.error('Error updateconversation: ' + e);
+        }
+        else{
+            logger.info(' updateconversation_cb: done');
         }
       });
 
