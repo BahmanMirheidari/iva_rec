@@ -43,7 +43,7 @@ $(function() {
     var startDate; 
     var audio;
     var browser;
-    var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Prefered browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+    var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
 
 
     function sendAudioVideo(audio = true, start=true) { 
