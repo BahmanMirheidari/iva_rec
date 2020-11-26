@@ -143,20 +143,20 @@ function process_survey(data,dirname,mnt){
     }  
 }  
 
-function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, videoaudio='video',max_webm_size=500000000, max_count=180){
+function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, videoaudio='video',max_webm_size=500000000, max_count=180, split=false){
   var token = data.token; 
   var blob = data.data; 
   var sub_folder = dirname + "/uploads/" + token;
   var ext = data.ext;
   ext = '.'+ext;
 
-  /*if (data.count !== undefined){
+  if (split && data.count !== undefined){
     // more than 1 hour ignore it
     if (data.count > max_count){
       return;
     }
     ext = '-' + data.count.toString()+'.'+ext;
-  } */
+  } 
   var dest = videoaudio + '-' + 'recording' + ext;
   var file_name = sub_folder + '/' + dest;  
   var base64Data = blob.split(';base64,').pop();
@@ -378,8 +378,8 @@ module.exports = {
     process_survey   : function (data,dirname,mnt){
     	process_survey(data, dirname, mnt);
     },
-    process_webmvideoaudio: function (mnt,logger,updateconversation, data, dirname, videoaudio, max_webm_size,max_count){
-      process_webmvideoaudio(mnt,logger,updateconversation, data, dirname, videoaudio, max_webm_size,max_count);
+    process_webmvideoaudio: function (mnt,logger,updateconversation, data, dirname, videoaudio, max_webm_size,max_count, split){
+      process_webmvideoaudio(mnt,logger,updateconversation, data, dirname, videoaudio, max_webm_size,max_count, split);
     },
     process_segment: function (mnt,logger,updateconversation, data, dirname){
       process_segment(mnt,logger,updateconversation, data, dirname);
