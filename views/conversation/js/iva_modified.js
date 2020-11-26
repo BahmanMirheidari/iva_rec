@@ -32,7 +32,7 @@ $(function() {
     var dynamic = 'pre_survey';
     var endingMessage = "Thank you. The END.";
     var logoutUrl = "/logout"
-    var logoutTimeout = 20000;
+    var logoutTimeout = 10000;
     var audioOnlyStream;
     var videoOnlyStream;
     var liveStream;
@@ -409,8 +409,7 @@ $(function() {
                 videoWebcam.pause();
                 videoWebcam.src = ""; 
 
-                if (MEDIA_RECORDER) {
-                    sendAudioVideo(audio = true, start=false);
+                if (MEDIA_RECORDER) { 
                 	videoOnlyStream.getTracks()[0].stop();
                 	videoOnlyStream.getTracks()[1].stop();
                 }
