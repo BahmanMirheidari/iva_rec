@@ -168,7 +168,7 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
         flags: 'a'
     });
 
-    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64')); 
+    fileStream.write(new Buffer(blob, 'base64')); 
     copy_to_mount(mnt, file_name, token, dest); 
   } 
 }
