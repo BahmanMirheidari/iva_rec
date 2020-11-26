@@ -52,7 +52,7 @@ $(function() {
     		mediaRecorder && mediaRecorder.stop();
 
     		if (start){
-    			mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/mp4'});  
+    			mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});  
 
                 function onMediaRecordingReady(e) { 
                     var reader = new FileReader();
