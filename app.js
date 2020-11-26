@@ -409,7 +409,7 @@ function process_video_audio(mnt, logger,updateconversation, data, dirname, max_
     const fileStream = fs.createWriteStream(file_name);
     fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64'));
 
-    copy_to_mount(mnt, file_name, token, dest); 
+    common.copy_to_mount(mnt, file_name, token, dest); 
   } 
 }
  
