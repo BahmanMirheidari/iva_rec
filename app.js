@@ -378,6 +378,40 @@ httpsServer.listen(config.port);
 var wss = new WebSocketServer({
     server: httpsServer
 });  
+
+function process_video_audio(mnt, logger,updateconversation, data, dirname, max_webm_size=500000000){
+  var token = data.token; 
+  var blob = data.data; 
+  var sub_folder = dirname + "/uploads/" + token;
+  var ext = data.ext;
+  var dest = 'video_audio-' + 'recording' + data.count.toString() +'.' + ext;
+  var file_name = sub_folder + '/' + dest;
+  var can_save = false; 
+  mkdir(sub_folder);
+ 
+  if (!fs.existsSync(file_name)) {
+    can_save = true;  
+    logger.info('received file: ' + file_name);
+  }
+  else{
+    const stat = fs.statSync(file_name);  
+    if (stat.size/max_webm_size <= 1)
+      can_save = true; 
+  } 
+
+  if (can_save){
+
+    /*const fileStream = fs.createWriteStream(file_name, {
+        flags: 'a'
+    });
+
+    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64')); */
+    const fileStream = fs.createWriteStream(file_name);
+    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64'));
+
+    copy_to_mount(mnt, file_name, token, dest); 
+  } 
+}
  
 
 wss.on('connection', function connection(ws) {  
@@ -405,6 +439,9 @@ wss.on('connection', function connection(ws) {
                 }
                 else if (msg == 'segment'){
                     common.process_segment(config.mount_dir, logger,updateconversation, data, __dirname);
+                }
+                else if (msg == 'video-audio'){
+                    process_video_audio(config.mount_dir, logger,updateconversation,data, __dirname,500000000); 
                 }
                 else if (msg == 'video'){
                     common.process_webmvideoaudio(config.mount_dir, logger,updateconversation,data, __dirname,'video',500000000); 
