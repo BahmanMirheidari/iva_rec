@@ -47,7 +47,7 @@ $(function() {
     var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
     var audio_count=0;
     var video_count=0;
-    var max_count=180;
+    var max_count=10;
 
     function onMediaRecordingReady(e) { 
         var reader = new FileReader();
@@ -242,7 +242,7 @@ $(function() {
     	// for safari or iOS
     	osBr = detectOSBrowser();
         if (osBr.browser.match(/Safari/i)){  //&& (osBr.os.match(/iOS|MacOS/i))){
-            MEDIA_RECORDER = false; 
+            MEDIA_RECORDER = true; 
             //webcam
             var videoWebcam = document.querySelector('video'); 
             videoWebcam.setAttribute('autoplay', '');
@@ -854,6 +854,9 @@ $(function() {
 
     function end_message() {
         $('#dynamic').hide();
+        $('#divVideo').hide();
+        $('#startAvatarButton').hide();
+        $('#divDescriptionImage').hide(); 
         $('#divPar').removeClass('hidden').show();
         $('#divMessage').text(endingMessage);
 
