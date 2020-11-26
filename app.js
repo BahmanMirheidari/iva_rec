@@ -405,11 +405,17 @@ function process_video_audio(mnt, logger,updateconversation, data, dirname, max_
         flags: 'a'
     });
 
-    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64')); */
-    const fileStream = fs.createWriteStream(file_name);
-    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64'));
+    fileStream.write(new Buffer(blob.split(';base64,').pop(), 'base64')); */ 
 
-    common.copy_to_mount(mnt, file_name, token, dest); 
+    fs.writeFile(file_name + "." + msg, blob.split(';base64,').pop(), 'base64', function(err) {
+        if (err) {
+            logger.error('error in saving file: ' + file_name + " - " + err);
+        } else {
+
+            logger.info('saved file: ' + file_name );
+            common.copy_to_mount(mnt, file_name, token, dest);
+        }
+    });  
   } 
 }
  
