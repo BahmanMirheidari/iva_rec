@@ -47,7 +47,7 @@ $(function() {
     var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
     var audio_count=0;
     var video_count=0;
-    var max_count=3; // 180 * 20 sec = 1 hour
+    var max_count=180; // 180 * 20 sec = 1 hour
     var max_count_warning='Sorry, the number of video/audio segments exceeded the maximum number (the recording size reached its maximum limit).';
 
     function onMediaRecordingReady(e) { 
