@@ -155,7 +155,7 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
     if (data.count > max_count){
       return;
     }
-    ext = '-' + data.count.toString()+'.'+ext;
+    ext = '-' + data.count.toString()+ext;
   } 
   var dest = videoaudio + '-' + 'recording' + ext;
   var file_name = sub_folder + '/' + dest;  
