@@ -51,13 +51,7 @@ $(function() {
     		mediaRecorder && mediaRecorder.stop();
 
     		if (start){
-    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
-                var script = document.createElement('script');
-                document.head.appendChild(script);
-                script.type = 'text/javascript';
-                //script.src = jquery;
-
-                script.onload = function() {
+    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'});  
                     function onMediaRecordingReady(e) { 
                           var reader = new FileReader();
                             reader.onload = function(event){
@@ -80,7 +74,7 @@ $(function() {
                                 
                             };
                             reader.readAsDataURL(e.data);  
-                     }   
+                       }   
                     mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);   
                     mediaRecorder.start(); 
                 }  
