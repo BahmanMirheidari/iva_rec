@@ -1283,6 +1283,7 @@ $(function() {
         ws.onclose = function() {
             // websocket is closed. 
             $('#divAlert').removeClass('alert-info').addClass('alert-danger').text('Error: Server connection error!').removeClass("hidden");
+            end_message();
         };
     } else {
         // The browser doesn't support WebSocket 
