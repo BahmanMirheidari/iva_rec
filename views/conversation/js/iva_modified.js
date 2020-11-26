@@ -32,12 +32,12 @@ $(function() {
     var dynamic = 'pre_survey';
     var endingMessage = "Thank you. The END.";
     var logoutUrl = "/logout"
-    var logoutTimeout = 3000;
+    var logoutTimeout = 10000;
     var audioOnlyStream;
     var videoOnlyStream;
     var myAudioRecorder; 
 
-    var MEDIA_RECORDER = false;
+    var MEDIA_RECORDER = true;
     var RECORDING_FLAG = false;
     var RECORDING_CHUNKS = 10 * 1000; //10 sec 
     var startDate; 
@@ -52,8 +52,38 @@ $(function() {
 
     		if (start){
     			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'}); 
-                mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);   
-			  	mediaRecorder.start(); 
+                var script = document.createElement('script');
+                document.head.appendChild(script);
+                script.type = 'text/javascript';
+                //script.src = jquery;
+
+                script.onload = function() {
+                    function onMediaRecordingReady(e) { 
+                          var reader = new FileReader();
+                            reader.onload = function(event){
+                                var data = event.target.result.toString('base64');
+
+                                if (data.length>1000){
+                                    var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+                                    // send data via the websocket  
+                                    //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
+                                    ws.send(JSON.stringify({
+                                        msg: 'video',
+                                        data: {
+                                            token: token,
+                                            time_diff:time_diff.toString(), 
+                                            data: data,
+                                            ext:"webm"
+                                        } 
+                                    }));
+                                }
+                                
+                            };
+                            reader.readAsDataURL(e.data);  
+                     }   
+                    mediaRecorder.addEventListener('dataavailable', onMediaRecordingReady);   
+                    mediaRecorder.start(); 
+                }  
 			} 
     	}
     	else{
@@ -1033,6 +1063,7 @@ $(function() {
         }
     } 
 
+/*
     function onMediaRecordingReady(e) { 
 		  var reader = new FileReader();
 			reader.onload = function(event){
@@ -1055,7 +1086,7 @@ $(function() {
 	            
 			};
 			reader.readAsDataURL(e.data);  
-	 }
+	 }*/
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) { 
