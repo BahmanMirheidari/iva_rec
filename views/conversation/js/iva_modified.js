@@ -35,6 +35,7 @@ $(function() {
     var logoutTimeout = 10000;
     var audioOnlyStream;
     var videoOnlyStream;
+    var liveStream;
     var myAudioRecorder; 
 
     var MEDIA_RECORDER = true;
@@ -51,7 +52,7 @@ $(function() {
     		mediaRecorder && mediaRecorder.stop();
 
     		if (start){
-    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/mp4'});  
+    			mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/mp4'});  
 
                 function onMediaRecordingReady(e) { 
                     var reader = new FileReader();
@@ -239,6 +240,7 @@ $(function() {
 	                audio: true, video: true
 	            })
 	            .then(function(stream) {
+                    liveStream = stream;
 	            	displayWaveForm(stream); 
 
 	                //webcam
