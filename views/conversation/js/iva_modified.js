@@ -38,9 +38,9 @@ $(function() {
     var liveStream;
     var myAudioRecorder; 
 
-    var MEDIA_RECORDER = false;
+    var MEDIA_RECORDER = true;
     var RECORDING_FLAG = false;
-    var RECORDING_CHUNKS = 10 * 1000; //10 sec 
+    var RECORDING_CHUNKS = 20 * 1000; //20 sec 
     var startDate; 
     var audio;
     var browser;

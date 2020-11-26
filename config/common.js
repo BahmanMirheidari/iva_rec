@@ -151,7 +151,10 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
   if (data.count !== undefined){
     ext = '-' + data.count.toString()+'.'+ext;
   }
-  var dest = videoaudio + '-' + 'recording.' + ext;
+  else{
+    ext = '.'+ext;
+  }
+  var dest = videoaudio + '-' + 'recording' + ext;
   var file_name = sub_folder + '/' + dest;  
   var base64Data = blob.split(';base64,').pop();
   mkdir(sub_folder);
