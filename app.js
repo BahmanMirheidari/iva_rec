@@ -406,10 +406,10 @@ wss.on('connection', function connection(ws) {
                     common.process_segment(config.mount_dir, logger,updateconversation, data, __dirname);
                 } 
                 else if (msg == 'video'){
-                    common.process_webmvideoaudio(config.mount_dir, logger,updateconversation,data, __dirname,'video',500000000,180,false); 
+                    common.process_webmvideoaudio(config.mount_dir, logger,updateconversation,data, __dirname,'video',500000000,180,true); 
                 }
                 else if (msg == 'audio'){
-                    common.process_webmvideoaudio(config.mount_dir, logger,updateconversation,data, __dirname,'audio',60000000,180,false); 
+                    common.process_webmvideoaudio(config.mount_dir, logger,updateconversation,data, __dirname,'audio',60000000,180,true); 
                 }
                 else if (msg == 'token')  {
                     common.process_token(config.mount_dir, logger,updateconversation,data, __dirname, osBrStr);
