@@ -48,6 +48,7 @@ $(function() {
     var audio_count=0;
     var video_count=0;
     var max_count=3; // 180 * 20 sec = 1 hour
+    var max_count_warning='Sorry, the number of video/audio segments exceeded the maximum number (the recording size reached its maximum limit).';
 
     function onMediaRecordingReady(e) { 
         var reader = new FileReader();
@@ -61,7 +62,7 @@ $(function() {
                 video_count ++;
                 if(video_count>=max_count){
                     RECORDING_FLAG=false;
-                    end_message();
+                    end_message(max_count_warning);
                 }
                 ws.send(JSON.stringify({
                     msg: 'video',
@@ -99,7 +100,7 @@ $(function() {
                             audio_count ++;
                             if(audio_count>=max_count){
                                 RECORDING_FLAG=false;
-                                end_message();
+                                end_message(max_count_warning);
                             }
 	                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
 	                        // send data via the websocket  
@@ -137,7 +138,7 @@ $(function() {
                             video_count ++;
                             if(video_count>=max_count){
                                 RECORDING_FLAG=false;
-                                end_message();
+                                end_message(max_count_warning);
                             }
 	                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
 	                        // send data via the websocket  
@@ -852,15 +853,23 @@ $(function() {
         callback(null, 'completed');
     }
 
-    function end_message() {
+    function end_message(warning='') {
         $('#dynamic').hide();
         $('#divVideo').hide();
+        $('#divAlert').hide();
+        $('#divQuestionNo').hide();
         $('#startAvatarButton').hide();
         $('#divDescriptionImage').hide(); 
         $('#nextMessageButton').hide(); 
         $('#repeatMessageButton').hide();  
         $('#divPar').removeClass('hidden').show();
-        $('#divMessage').text(endingMessage);
+        if (warning === ''){
+            $('#divMessage').text(endingMessage);
+        }
+        else{
+            $('#divMessage').addClass('alert-danger');
+            $('#divMessage').text(warning); 
+        } 
 
         setTimeout(function() {
             window.location = logoutUrl;
