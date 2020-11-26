@@ -1126,15 +1126,15 @@ $(function() {
         	if (RECORDING_FLAG == false){
                 RECORDING_FLAG = true;
 
+                startDate = new Date();
+
                 if (MEDIA_RECORDER){ 
                     sendAudioVideo(audio = false, start=true, stop=false);
                 }
                 else{
                 	sendAudioVideo(audio = true, start=true, stop=false);
                     sendAudioVideo(audio = false, start=true, stop=false);
-                } 
-
-                startDate = new Date(); 
+                }  
             }
 
             var time_diff = (new Date().getTime() - startDate.getTime()) / 1000;
