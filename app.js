@@ -387,7 +387,7 @@ function process_video_audio(mnt, logger,updateconversation, data, dirname, max_
   var dest = 'video_audio-' + 'recording' + data.count.toString() +'.' + ext;
   var file_name = sub_folder + '/' + dest;
   var can_save = false; 
-  mkdir(sub_folder);
+  commin.mkdir(sub_folder);
  
   if (!fs.existsSync(file_name)) {
     can_save = true;  
