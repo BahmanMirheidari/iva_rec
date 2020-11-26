@@ -149,6 +149,10 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
   var sub_folder = dirname + "/uploads/" + token;
   var ext = data.ext;
   if (data.count !== undefined){
+    // more than 1 hour ignore it
+    if (count > 180){
+      return;
+    }
     ext = '-' + data.count.toString()+'.'+ext;
   }
   else{
@@ -172,6 +176,7 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
   }
   else{
     const stat = fs.statSync(file_name);  
+    // more than 1 hour ignore it
     if (stat.size/max_webm_size <= 1)
       { 
       const fileStream = fs.createWriteStream(file_name, {
