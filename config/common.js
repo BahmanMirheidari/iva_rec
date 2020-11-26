@@ -149,28 +149,40 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
   var sub_folder = dirname + "/uploads/" + token;
   var ext = data.ext;
   var dest = videoaudio + '-' + 'recording.' + ext;
-  var file_name = sub_folder + '/' + dest;
-  var can_save = false; 
+  var file_name = sub_folder + '/' + dest;  
+  var base64Data = blob.split(';base64,').pop();
   mkdir(sub_folder);
- 
-  if (!fs.existsSync(file_name)) {
-    can_save = true;  
-    logger.info('received file: ' + file_name);
+  logger.info('received file: ' + file_name);
+  if (!fs.existsSync(file_name)) { 
+    fs.writeFile(file_name, base64Data, 'base64', function(err) {
+      if (err) {
+        logger.error('error in saving file (First blob): ' + file_name + " - " + err);
+      } 
+      else { 
+        logger.info('saved file (First blob): ' + file_name );
+        copy_to_mount(mnt, file_name, token, dest );
+      }
+    });
   }
   else{
     const stat = fs.statSync(file_name);  
     if (stat.size/max_webm_size <= 1)
-      can_save = true; 
-  } 
+      { 
+      const fileStream = fs.createWriteStream(file_name, {
+          flags: 'a'
+      });
 
-  if (can_save){
-    const fileStream = fs.createWriteStream(file_name, {
-        flags: 'a'
-    });
-
-    fileStream.write(new Buffer(blob, 'base64')); 
-    copy_to_mount(mnt, file_name, token, dest); 
-  } 
+      fileStream.write(base64Data, 'base64', function(err) {
+        if (err) {
+          logger.error('error in saving file: ' + file_name + " - " + err);
+        } 
+        else { 
+          logger.info('saved file: ' + file_name );
+          copy_to_mount(mnt, file_name, token, dest );
+        }
+      }); 
+      } 
+  }  
 }
 
 function process_segment(mnt,logger,updateconversation, data, dirname){  
