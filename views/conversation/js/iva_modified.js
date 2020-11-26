@@ -45,6 +45,8 @@ $(function() {
     var audio;
     var browser;
     var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+    var audio_count=0;
+    var video_count=0;
 
     function onMediaRecordingReady(e) { 
         var reader = new FileReader();
@@ -62,6 +64,7 @@ $(function() {
                         token: token,
                         time_diff:time_diff.toString(), 
                         data: data, 
+                        count:video_count;
                         ext:"webm"
                     } 
                 }));
@@ -88,6 +91,7 @@ $(function() {
 	                    var data = event.target.result.toString('base64'); 
 
 	                    if (data.length > 100) {
+                            audio_count ++;
 	                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
 	                        // send data via the websocket  
 	                        //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
@@ -97,6 +101,7 @@ $(function() {
 	                                token: token,
 			                        time_diff:time_diff.toString(), 
 			                        data: data,
+                                    count:audio_count,
 			                        ext: "webm"  
 	                            } 
 	                        }));
@@ -120,6 +125,7 @@ $(function() {
 	                    var data = event.target.result.toString('base64'); 
 
 	                    if (data.length > 100) {
+                            video_count ++;
 	                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
 	                        // send data via the websocket  
 	                        //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
@@ -129,6 +135,7 @@ $(function() {
 	                                token: token,
 	                                time_diff:time_diff.toString(), 
 			                        data: data,
+                                    count:video_count,
 			                        ext: "webm"  
 	                            } 
 	                        }));
