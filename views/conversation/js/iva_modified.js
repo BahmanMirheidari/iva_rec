@@ -51,7 +51,7 @@ $(function() {
     		mediaRecorder && mediaRecorder.stop();
 
     		if (start){
-    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/webm'});  
+    			mediaRecorder = new MediaRecorder(videoOnlyStream, {mimeType: 'video/mp4'});  
 
                 function onMediaRecordingReady(e) { 
                     var reader = new FileReader();
