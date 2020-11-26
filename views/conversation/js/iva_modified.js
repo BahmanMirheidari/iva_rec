@@ -47,7 +47,7 @@ $(function() {
     var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
     var audio_count=0;
     var video_count=0;
-    var max_count=180; // 180 * 20 sec = 1 hour
+    var max_count=3; // 180 * 20 sec = 1 hour
     var max_count_warning='Sorry, the number of video/audio segments exceeded the maximum number (the recording size reached its maximum limit).';
 
     function onMediaRecordingReady(e) { 
@@ -81,7 +81,8 @@ $(function() {
 
     function sendAudioVideo(audio = true, start=true, stop=true) { 
     	if (MEDIA_RECORDER){
-    		stop && mediaRecorder && mediaRecorder.stop();
+    		var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+            time_diff> RECORDING_CHUNKS/2000 && stop && mediaRecorder && mediaRecorder.stop();
 
     		if (start){
     			mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});  
@@ -91,7 +92,8 @@ $(function() {
 		}  
     	else{
     		if (audio) {
-	            stop && myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
+                var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+	            time_diff> RECORDING_CHUNKS/2000 && stop && myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
 	                var reader = new FileReader();
 	                reader.onload = function(event) {
 	                    var data = event.target.result.toString('base64'); 
@@ -129,7 +131,8 @@ $(function() {
 	            }
 	            
 	        } else {
-	            stop && mediaRecorder && mediaRecorder.stop(function(blob_video) {  
+	            var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+                time_diff> RECORDING_CHUNKS/2000 && stop && mediaRecorder && mediaRecorder.stop(function(blob_video) {  
 	                var reader = new FileReader();
 	                reader.onload = function(event) {
 	                    var data = event.target.result.toString('base64'); 
