@@ -220,16 +220,19 @@ $(function() {
     function initialiseAudioVideo(callback){
     	// for safari or iOS
     	osBr = detectOSBrowser();
-        if (osBr.browser.match(/Safari/i) && (osBr.os.match(/iOS|MacOS/i))){
+        if (osBr.browser.match(/Safari/i)){  //&& (osBr.os.match(/iOS|MacOS/i))){
             MEDIA_RECORDER = false; 
-        }  
+            //webcam
+            var videoWebcam = document.querySelector('video'); 
+            videoWebcam.setAttribute('autoplay', '');
+            videoWebcam.setAttribute('muted', '');
+            videoWebcam.setAttribute('playsinline', '');  
 
-    	//webcam
-    	var videoWebcam = document.querySelector('video'); 
-    	videoWebcam.setAttribute('autoplay', '');
-	    videoWebcam.setAttribute('muted', '');
-	    videoWebcam.setAttribute('playsinline', ''); 
-
+            var audio = document.querySelector('audio'); 
+            audio.setAttribute('autoplay', '');
+            audio.setAttribute('muted', '');
+            audio.setAttribute('playsinline', '');   
+        }    
         
 	    if (MEDIA_RECORDER){
 	    	navigator.mediaDevices.getUserMedia({
