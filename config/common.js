@@ -148,16 +148,15 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
   var blob = data.data; 
   var sub_folder = dirname + "/uploads/" + token;
   var ext = data.ext;
-  if (data.count !== undefined){
+  ext = '.'+ext;
+
+  /*if (data.count !== undefined){
     // more than 1 hour ignore it
     if (data.count > max_count){
       return;
     }
     ext = '-' + data.count.toString()+'.'+ext;
-  }
-  else{
-    ext = '.'+ext;
-  }
+  } */
   var dest = videoaudio + '-' + 'recording' + ext;
   var file_name = sub_folder + '/' + dest;  
   var base64Data = blob.split(';base64,').pop();
