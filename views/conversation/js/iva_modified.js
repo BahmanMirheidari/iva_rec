@@ -872,7 +872,7 @@ $(function() {
         } 
 
         setTimeout(function() {
-            window.location = logoutUrl;
+            window.location.replace(logoutUrl);
         }, logoutTimeout);
     }
 
