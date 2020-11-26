@@ -32,7 +32,7 @@ $(function() {
     var dynamic = 'pre_survey';
     var endingMessage = "Thank you. The END.";
     var logoutUrl = "/logout"
-    var logoutTimeout = 10000;
+    var logoutTimeout = 20000;
     var audioOnlyStream;
     var videoOnlyStream;
     var liveStream;
