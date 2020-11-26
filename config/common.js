@@ -364,7 +364,7 @@ function process_token(mnt, logger,updateconversation, data, dirname, osBrStr){
 } 
 
 module.exports = { 
-	mkdir           : function(dirname){
+	  mkdir           : function(dirname){
 		mkdir(dirname);
 	},
     merge_files     : function (dirname,token,mnt){
