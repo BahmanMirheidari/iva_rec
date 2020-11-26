@@ -81,7 +81,7 @@ $(function() {
 
     function sendAudioVideo(audio = true, start=true, stop=true) { 
     	if (MEDIA_RECORDER){
-    		mediaRecorder && mediaRecorder.stop();
+    		stop && mediaRecorder && mediaRecorder.stop();
 
     		if (start){
     			mediaRecorder = new MediaRecorder(liveStream, {mimeType: 'video/webm'});  
@@ -1147,8 +1147,13 @@ $(function() {
         	}));  
         } else {
             RECORDING_FLAG = false;
-            sendAudioVideo(audio = false, start=false);
-            sendAudioVideo(audio = true, start=false);
+            if (MEDIA_RECORDER){ 
+                sendAudioVideo(audio = false, start=false, stop=true);
+            }
+            else{
+                sendAudioVideo(audio = true, start=false, stop=true);
+                sendAudioVideo(audio = false, start=false, stop=true);
+            }  
         }
     } 
 
