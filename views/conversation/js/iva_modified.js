@@ -98,7 +98,7 @@ $(function() {
 
 	                    if (data.length > 100) {
                             audio_count ++;
-                            if(audio_count>=max_count){
+                            if(audio_count>=max_count && video_count>=max_count){
                                 RECORDING_FLAG=false;
                                 end_message(max_count_warning);
                             }
@@ -136,7 +136,7 @@ $(function() {
 
 	                    if (data.length > 100) {
                             video_count ++;
-                            if(video_count>=max_count){
+                            if(audio_count>=max_count && video_count>=max_count){
                                 RECORDING_FLAG=false;
                                 end_message(max_count_warning);
                             }
