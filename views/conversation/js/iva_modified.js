@@ -64,7 +64,7 @@ $(function() {
                         token: token,
                         time_diff:time_diff.toString(), 
                         data: data, 
-                        count:video_count;
+                        count:video_count,
                         ext:"webm"
                     } 
                 }));
