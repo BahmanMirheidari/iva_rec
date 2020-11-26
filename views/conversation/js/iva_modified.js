@@ -59,7 +59,7 @@ $(function() {
                 var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
                 // send data via the websocket  
                 //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-                
+                video_count ++;
                 if(video_count>=max_count){
                     RECORDING_FLAG=false;
                     end_message(max_count_warning);
@@ -73,8 +73,7 @@ $(function() {
                         count:video_count,
                         ext:"webm"
                     } 
-                }));
-                video_count ++;
+                })); 
             } 
         }
         reader.readAsDataURL(e.data);  
