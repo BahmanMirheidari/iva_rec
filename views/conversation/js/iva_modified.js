@@ -1275,7 +1275,7 @@ $(function() {
             $.getJSON('https://ipapi.co/json/', function(d) {
                 if(d){ 
                     //browser += ', ip:'+d.ip + ', country:' + d.country_name + ', region:' + d.region + ', postcode:' + d.postal + ', city:' + d.city + ', timezone:' + d.timezone + ', latitude:' + d.latitude+ ', longitude:' + d.longitude;
-                    browser += ', ip:'+d.ip + ', country:' + d.country_name + ', region:' + d.region + ', postcode:' + d.postal + ', city:' + d.city;
+                    browser += ', ip:'+d.ip + ', country:' + d.country_name + ', region:' + d.region + ', city:' + d.city;
 
                     //alert(JSON.stringify(d, null, 2));
                     ws.send(JSON.stringify({
