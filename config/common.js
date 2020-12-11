@@ -40,7 +40,7 @@ function merge_files(dirname,token,mnt){
 
 function merge2(file1,file2,file3,cb){  
     var cmd = merge2_command + " " + file1 + " " + file2 + " " + file3; 
-    logger.info('ran command' + cmd); 
+    logger.info('ran command:' + cmd); 
     const ls = exec(cmd, function (error, stdout, stderr) {
     if (error) {
       logger.error(error.stack);
@@ -224,7 +224,9 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
                     if (err) {
                       logger.error('Error in copying ' + tmp_mp4 + ":" + error);
                     }
-                    else{
+                    else{ 
+                      fs.unlinkSync(all_mp4);
+
                       merge2(tmp_mp4,mp4,all_mp4,function (err){
                         if (err){ 
                           logger.error('Error in merging ' + tmp_mp4 + ", " + mp4 + " - " +error);
