@@ -143,6 +143,16 @@ function process_survey(data,dirname,mnt){
     }  
 }  
 
+function unlink(file_name){
+  fs.unlink(file_name , function(err) {
+        if (err) {
+            logger.error('Deleting ' + file_name + ' error: ' + err);
+        } else {
+            logger.info('Deleted ' + file_name);
+        }
+    });
+}
+
 function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, videoaudio='video',max_webm_size=500000000, max_count=180, split=false){
   var token = data.token; 
   var blob = data.data; 
@@ -169,7 +179,64 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
       } 
       else { 
         logger.info('saved file (First blob): ' + file_name );
-        copy_to_mount(mnt, file_name, token, dest );
+        //copy_to_mount(mnt, file_name, token, dest );
+
+        if (videoaudio === 'video'){ 
+          var mp4 = sub_folder + '/' + dest + ".mp4";
+          var all_mp4 = sub_folder + '/all_video.mp4';
+          var convert = new Mp4Convert(file_name, mp4);
+          convert.on('done', function() {
+              logger.info('converted to mp4 as ' + mp4); 
+
+              unlink(file_name);
+              // open destination file for appending
+              var w = fs.createWriteStream(all_mp4, {flags: 'a'});
+              // open source file for reading
+              var r = fs.createReadStream(mp4);
+
+              w.on('close', function() {
+                  logger.info('saved file: ' + all_mp4 );
+                  copy_to_mount(mnt, all_mp4, token, 'all_video.mp4' );
+              });
+
+              r.pipe(w); 
+
+          });
+          convert.start(); 
+
+        }
+        else{ 
+          var mp3 = sub_folder + '/' + dest + ".mp3";
+          var all_mp3 = sub_folder + '/all_audio.mp3';
+
+          var process = new ffmpeg(file_name);
+          process.then(function(video) {
+              //convert to mp3
+              video.fnExtractSoundToMP3(mp3, function(error, file) {
+                  if (!error) {
+                      logger.info('converted to mp3 as ' + mp3);
+                      unlink(file_name);
+                      // open destination file for appending
+                      var w = fs.createWriteStream(all_mp3, {flags: 'a'});
+                      // open source file for reading
+                      var r = fs.createReadStream(mp3);
+
+                      w.on('close', function() {
+                          logger.info('saved file: ' + all_mp3 );
+                          copy_to_mount(mnt, all_mp3, token, 'all_audio.mp3' );
+                      });
+
+                      r.pipe(w);  
+
+                      } 
+                  else
+                      logger.error('Error in converting to mp3: ' + error);
+                  });
+
+              }, function(err) {
+              logger.error('FFMPEG MP3 error: ' + err);
+          });   
+        } 
       }
     });
   }
@@ -308,14 +375,7 @@ function process_mp3mp4(msg, mnt, logger,updateconversation, data, dirname,max_m
                                         if (q_no == last_q - 1)
                                             merge_files(__dirname, token, mnt);
 
-                                        fs.unlink(file_name + ".webm", function(err) {
-                                            if (err) {
-                                                logger.error('Deleting ' + file_name + '.webm error: ' + err);
-                                            } else {
-                                                logger.info('Deleted ' + file_name + ".webm");
-                                            }
-                                        });
-
+                                        unlink(file_name + ".webm");  
                                     });
                                     convert.start();
                                 } else
