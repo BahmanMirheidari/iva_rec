@@ -276,6 +276,8 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
                                 logger.error('Error in copying ' + tmp_mp3 + ":" + error);
                               }
                               else{
+                                fs.unlinkSync(all_mp3);
+
                                 merge2(tmp_mp3,mp3,all_mp3,function (err){
                                   if (!err){ 
                                     copy_to_mount(mnt, all_mp3, token, 'all_audio.mp3' ); 
