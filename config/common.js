@@ -204,8 +204,9 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
               logger.info('converted to mp4 as ' + mp4); 
 
               unlink(file_name);
+
               if (!fs.existsSync(all_mp4)){
-                fs.copyFile(file_name, all_mp4, function (err) {
+                fs.copyFile(mp4, all_mp4, function (err) {
                     if (err) {
                       logger.error('Error in copying ' + file_name + ":" + error);
                     }
