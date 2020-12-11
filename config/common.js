@@ -9,7 +9,7 @@ merge_command  = "/home/sa_ac1bm/upload_files/upload.sh";
 merge2_command  = "/home/sa_ac1bm/upload_files/merge_two_video.sh";
 
 function mkdir(dirname){
-	if (!fs.existsSync(dirname)) {
+    if (!fs.existsSync(dirname)) {
         fs.mkdirSync(dirname);
     } 
 } 
@@ -77,7 +77,7 @@ function copy_mount(mnt,file_name,token,dest){
       logger.info('copied ' + file_name + ' to ' + mnt + "/" + token); 
     }  
     else{
-    	logger.error('Error in copying '+ file_name + ' to ' + mnt + "/" + token + err)
+        logger.error('Error in copying '+ file_name + ' to ' + mnt + "/" + token + err)
     }
   });
 } 
@@ -91,14 +91,14 @@ function copy_to_mount(mnt,file_name,token,dest){
     });
   } 
   else{
-  	copy_mount(mnt,file_name,token,dest);
+    copy_mount(mnt,file_name,token,dest);
   } 
 } 
  
 function process_content(data,dirname,mnt){
-	length = data.agreements.length;
-	csv_file = "consent.csv";
-	sub_folder = dirname + "/uploads/" + data.token;
+    length = data.agreements.length;
+    csv_file = "consent.csv";
+    sub_folder = dirname + "/uploads/" + data.token;
     consent = ''; 
     for (i=0;i<length;i++){
       consent += data.agreements[i] + "\n"; 
@@ -112,14 +112,14 @@ function process_content(data,dirname,mnt){
           logger.error('error in saving consent file (' + sub_folder + "/" + csv_file + ')' +err); 
         } 
         else{
-        	logger.info('consent file (' + sub_folder + "/" + csv_file + ') was saved.'); 
-        	copy_to_mount(mnt,sub_folder + "/" + csv_file,data.token,csv_file);
+            logger.info('consent file (' + sub_folder + "/" + csv_file + ') was saved.'); 
+            copy_to_mount(mnt,sub_folder + "/" + csv_file,data.token,csv_file);
         } 
     });  
 }
 
 function process_survey(data,dirname,mnt){
-	length = data.questions.length;
+    length = data.questions.length;
     index =  data.id; 
     csv_file = "survey" + index.toString() + ".csv";
     sub_folder1 = dirname + "/uploads/" + data.token;
@@ -143,9 +143,9 @@ function process_survey(data,dirname,mnt){
       });  
     } 
     else{
-    	// else if .copied exists remove it
-	    if (fs.existsSync(sub_folder2 + '.copied')) {
-	       fs.unlinkSync(sub_folder2 + '.copied');}
+        // else if .copied exists remove it
+        if (fs.existsSync(sub_folder2 + '.copied')) {
+           fs.unlinkSync(sub_folder2 + '.copied');}
 
         fs.writeFile(sub_folder2 + "/" + csv_file, survey, function(err) {
           if(err) {
@@ -153,7 +153,7 @@ function process_survey(data,dirname,mnt){
           } 
           else{
             logger.info('survey' + index.toString() + ' (' + sub_folder2 + "/" + csv_file + ') - was saved.');
-			       copy_to_mount(mnt,sub_folder2 + "/" + csv_file,data.token,csv_file);
+                   copy_to_mount(mnt,sub_folder2 + "/" + csv_file,data.token,csv_file);
           } 
         }); 
     }  
@@ -168,6 +168,60 @@ function unlink(file_name){
         }
     });
 }
+
+
+function process_webmvideoaudio_OLD(mnt, logger,updateconversation, data, dirname, videoaudio='video',max_webm_size=500000000, max_count=180, split=false){
+  var token = data.token; 
+  var blob = data.data; 
+  var sub_folder = dirname + "/uploads/" + token;
+  var ext = data.ext;
+  ext = '.'+ext;
+
+  if (split && data.count !== undefined){
+    // more than 1 hour ignore it
+    if (data.count > max_count){
+      return;
+    }
+    ext = '-' + data.count.toString()+ext;
+  } 
+  var dest = videoaudio + '-' + 'recording' + ext;
+  var file_name = sub_folder + '/' + dest;  
+  var base64Data = blob.split(';base64,').pop();
+  mkdir(sub_folder);
+  logger.info('received file: ' + file_name);
+  if (!fs.existsSync(file_name)) { 
+    fs.writeFile(file_name, base64Data, 'base64', function(err) {
+      if (err) {
+        logger.error('error in saving file (First blob): ' + file_name + " - " + err);
+      } 
+      else { 
+        logger.info('saved file (First blob): ' + file_name );
+        copy_to_mount(mnt, file_name, token, dest );
+      }
+    });
+  }
+  else{
+    const stat = fs.statSync(file_name);  
+    // more than 1 hour ignore it
+    if (stat.size/max_webm_size <= 1)
+      { 
+      const fileStream = fs.createWriteStream(file_name, {
+          flags: 'a'
+      });
+
+      fileStream.write(base64Data, 'base64', function(err) {
+        if (err) {
+          logger.error('error in saving file: ' + file_name + " - " + err);
+        } 
+        else { 
+          logger.info('saved file: ' + file_name );
+          copy_to_mount(mnt, file_name, token, dest );
+        }
+      }); 
+      } 
+  }  
+}
+
 
 function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, videoaudio='video',max_webm_size=500000000, max_count=180, split=false){
   var token = data.token; 
@@ -484,20 +538,20 @@ function process_token(mnt, logger,updateconversation, data, dirname, osBrStr){
 } 
 
 module.exports = { 
-	  mkdir           : function(dirname){
-		mkdir(dirname);
-	},
+      mkdir           : function(dirname){
+        mkdir(dirname);
+    },
     merge_files     : function (dirname,token,mnt){
-    	merge_files(dirname, token, mnt);
+        merge_files(dirname, token, mnt);
     }, 
     copy_to_mount   : function (mnt,file_name,token,dest){
-    	copy_to_mount(mnt, file_name, token, dest);
+        copy_to_mount(mnt, file_name, token, dest);
     },
     process_content   : function (data,dirname,mnt){
-    	process_content(data, dirname, mnt);
+        process_content(data, dirname, mnt);
     },
     process_survey   : function (data,dirname,mnt){
-    	process_survey(data, dirname, mnt);
+        process_survey(data, dirname, mnt);
     },
     process_webmvideoaudio: function (mnt,logger,updateconversation, data, dirname, videoaudio, max_webm_size,max_count, split){
       process_webmvideoaudio(mnt,logger,updateconversation, data, dirname, videoaudio, max_webm_size,max_count, split);
