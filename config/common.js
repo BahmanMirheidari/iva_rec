@@ -226,11 +226,14 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
                     }
                     else{
                       merge2(tmp_mp4,mp4,all_mp4,function (err){
-                        if (!err){ 
+                        if (err){ 
+                          logger.error('Error in merging ' + tmp_mp4 + ", " + mp4 + " - " +error);
+                        }  
+                        else{
                           copy_to_mount(mnt, all_mp4, token, 'all_video.mp4' ); 
                           unlink(tmp_mp4);
                           unlink(mp4);
-                        }  
+                        }
                       });  
                     } 
                 }); 
