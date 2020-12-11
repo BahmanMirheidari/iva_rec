@@ -259,7 +259,7 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
                       unlink(file_name);
 
                       if (!fs.existsSync(all_mp3)){
-                          fs.copyFile(file_name, all_mp3, function (err) {
+                          fs.copyFile(mp3, all_mp3, function (err) {
                               if (err) {
                                 logger.error('Error in copying ' + file_name + ":" + error);
                               }
