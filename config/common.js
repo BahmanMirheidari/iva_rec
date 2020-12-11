@@ -6,6 +6,7 @@ pass           = require( '/home/sa_ac1bm/upload_files/config.js' );
 
 const { exec } = require('child_process');
 merge_command  = "/home/sa_ac1bm/upload_files/upload.sh";
+merge2_command  = "/home/sa_ac1bm/upload_files/merge_two_video.sh";
 
 function mkdir(dirname){
 	if (!fs.existsSync(dirname)) {
@@ -32,6 +33,19 @@ function merge_files(dirname,token,mnt){
           copy_to_mount(mnt,dst1 + "/Q1-12.mp4",token,"Q1-12.mp4"); 
         }
       });
+    } 
+    });  
+  }  
+
+
+function merge2(file1,file2,file3,cb){  
+    const ls = exec(merge2_command + " " + file1 + " " + file2 + " " + file3, function (error, stdout, stderr) {
+    if (error) {
+      logger.error(error.stack);
+      cb(error.stack);
+    }
+    else{  
+      cb(null);
     } 
     });  
   }  
@@ -184,22 +198,40 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
         if (videoaudio === 'video'){ 
           var mp4 = sub_folder + '/' + dest + ".mp4";
           var all_mp4 = sub_folder + '/all_video.mp4';
+          var tmp_mp4 = sub_folder + '/tmp_video.mp4';
           var convert = new Mp4Convert(file_name, mp4);
           convert.on('done', function() {
               logger.info('converted to mp4 as ' + mp4); 
 
               unlink(file_name);
-              // open destination file for appending
-              var w = fs.createWriteStream(all_mp4, {flags: 'a'});
-              // open source file for reading
-              var r = fs.createReadStream(mp4);
+              if (!fs.existsSync(all_mp4)){
+                fs.copyFile(file_name, all_mp4, function (err) {
+                    if (err) {
+                      logger.error('Error in copying ' + file_name + ":" + error);
+                    }
+                    else{
+                      logger.info('saved file: ' + all_mp4 );
+                      copy_to_mount(mnt, all_mp4, token, 'all_video.mp4' );
+                    } 
+                }); 
 
-              w.on('close', function() {
-                  logger.info('saved file: ' + all_mp4 );
-                  copy_to_mount(mnt, all_mp4, token, 'all_video.mp4' );
-              });
-
-              r.pipe(w); 
+              }
+              else{
+                fs.copyFile(all_mp4, tmp_mp4, function (err) {
+                    if (err) {
+                      logger.error('Error in copying ' + tmp_mp4 + ":" + error);
+                    }
+                    else{
+                      merge2(tmp_mp4,mp4,all_mp4,function (err){
+                        if (!err){ 
+                          copy_to_mount(mnt, all_mp4, token, 'all_video.mp4' ); 
+                          unlink(tmp_mp4);
+                          unlink(mp4);
+                        }  
+                      });  
+                    } 
+                }); 
+              }  
 
           });
           convert.start(); 
@@ -208,6 +240,7 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
         else{ 
           var mp3 = sub_folder + '/' + dest + ".mp3";
           var all_mp3 = sub_folder + '/all_audio.mp3';
+          var tmp_mp3 = sub_folder + '/tmp_audio.mp3';
 
           var process = new ffmpeg(file_name);
           process.then(function(video) {
@@ -216,17 +249,35 @@ function process_webmvideoaudio(mnt, logger,updateconversation, data, dirname, v
                   if (!error) {
                       logger.info('converted to mp3 as ' + mp3);
                       unlink(file_name);
-                      // open destination file for appending
-                      var w = fs.createWriteStream(all_mp3, {flags: 'a'});
-                      // open source file for reading
-                      var r = fs.createReadStream(mp3);
 
-                      w.on('close', function() {
-                          logger.info('saved file: ' + all_mp3 );
-                          copy_to_mount(mnt, all_mp3, token, 'all_audio.mp3' );
-                      });
+                      if (!fs.existsSync(all_mp3)){
+                          fs.copyFile(file_name, all_mp3, function (err) {
+                              if (err) {
+                                logger.error('Error in copying ' + file_name + ":" + error);
+                              }
+                              else{
+                                logger.info('saved file: ' + all_mp3 );
+                                copy_to_mount(mnt, all_mp3, token, 'all_audio.mp3' );
+                              } 
+                          }); 
 
-                      r.pipe(w);  
+                        }
+                        else{
+                          fs.copyFile(all_mp3, tmp_mp3, function (err) {
+                              if (err) {
+                                logger.error('Error in copying ' + tmp_mp3 + ":" + error);
+                              }
+                              else{
+                                merge2(tmp_mp3,mp3,all_mp3,function (err){
+                                  if (!err){ 
+                                    copy_to_mount(mnt, all_mp3, token, 'all_audio.mp3' ); 
+                                    unlink(tmp_mp3);
+                                    unlink(mp3);
+                                  }  
+                                });  
+                              } 
+                          }); 
+                        }   
 
                       } 
                   else
