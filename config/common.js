@@ -39,12 +39,14 @@ function merge_files(dirname,token,mnt){
 
 
 function merge2(file1,file2,file3,cb){  
-    const ls = exec(merge2_command + " " + file1 + " " + file2 + " " + file3, function (error, stdout, stderr) {
+    var cmd = merge2_command + " " + file1 + " " + file2 + " " + file3; 
+    const ls = exec(cmd, function (error, stdout, stderr) {
     if (error) {
       logger.error(error.stack);
       cb(error.stack);
     }
     else{  
+      logger.info('ran command' + cmd); 
       cb(null);
     } 
     });  
