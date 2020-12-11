@@ -40,13 +40,13 @@ function merge_files(dirname,token,mnt){
 
 function merge2(file1,file2,file3,cb){  
     var cmd = merge2_command + " " + file1 + " " + file2 + " " + file3; 
+    logger.info('ran command' + cmd); 
     const ls = exec(cmd, function (error, stdout, stderr) {
     if (error) {
       logger.error(error.stack);
       cb(error.stack);
     }
-    else{  
-      logger.info('ran command' + cmd); 
+    else{   
       cb(null);
     } 
     });  
