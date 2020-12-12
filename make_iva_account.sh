@@ -34,6 +34,6 @@ if [[ "$#" -ge 7 ]];then
 	 
 else
 	echo "builds a list of new accounts for the IVA website ..."
-	echo "usage $0 <n:50> <p_start:261> <u_start:284> <r_start:21> <r_prefix:S> <repeat:ivastroke1|.R1:ivastroke2|.R2:ivastroke1|.R3:ivastroke2> <r_len:4> <len:12>" 
-	echo "e.g. $0 50 261 284 21 S \":ivastroke1|.R1:ivastroke2|.R2:ivastroke1|.R3:ivastroke2"" 4 12" 
+	echo "usage $0 <n:50> <p_start:260> <u_start:283> <r_start:20> <r_prefix:S> <repeat:ivastroke1|.R1:ivastroke2|.R2:ivastroke1|.R3:ivastroke2> <r_len:4> <len:12>" 
+	echo "e.g. $0 50 260 283 20 S \":ivastroke1|.R1:ivastroke2|.R2:ivastroke1|.R3:ivastroke2"" 4 12" 
 fi
