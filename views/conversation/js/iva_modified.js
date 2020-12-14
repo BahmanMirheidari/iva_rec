@@ -596,8 +596,8 @@ $(function() {
             var extra_message = 'Please read the paragraph aloud.';
             if(questions[currentQuestionIndex].extra_message !== undefined) 
             	extra_message = questions[currentQuestionIndex].extra_message
-            $('#divExtraMessage').empty().append(html_header("H4", questions[currentQuestionIndex].extra_message, "125"));
-            $('#divMessage').empty().append(html_header("H4", questions[currentQuestionIndex].text, "125"));
+            $('#divExtraMessage').empty().append(html_header("H4", questions[currentQuestionIndex].extra_message, "150"));
+            $('#divMessage').empty().append(html_header("H4", questions[currentQuestionIndex].text, "150"));
         } else {
             $('#divPar').addClass('hidden');
         }
