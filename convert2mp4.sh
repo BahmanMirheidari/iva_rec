@@ -2,7 +2,7 @@
 function ffmpg(){
     vid="$1"
     mp="$2"
-    aud="$3"
+    aud="$3" 
     if [[ "$aud" ]];then
         echo ffmpeg -y -fflags +genpts  -i "${vid}" -i "${aud}" -c:v copy "$mp" >> $cmd
         ffmpeg -y -fflags +genpts  -i "${vid}" -i "${aud}" -c:v copy "$mp" 
@@ -40,6 +40,8 @@ function concat_mp4(){
     c="$1"
     vid_name="$2"
     dash="$3"
+    aud_name="$4"
+    sil="$5"
     
     for i in `seq ${c}`;do  
         if (( i == 1 ));then
@@ -50,14 +52,45 @@ function concat_mp4(){
             ffmpeg_c2 "tmp-${vid_name}.mp4" "${vid_name}${dash}${j}.mp4" "${vid_name}.mp4"
             cp "${vid_name}.mp4" "tmp-${vid_name}.mp4" 
         fi
-    done
-    rm -rf "tmp-${vid_name}.mp4"  
-}
+    done 
+    
+    if (( sil != 0));then
+        if (( sil > 0 ));then
+            ffmpeg -y -ss "$sil" -i "${aud_name}.mp3" "aud-${aud_name}.mp3"  
+            d=`ffprobe "aud-${aud_name}.mp3" -show_format 2>&1 | sed -n 's/duration=//p'`
 
+            echo avconv -y -i "${vid_name}.mp4" -vcodec copy -an "vid-${vid_name}.mp4" >> $cmd
+            avconv -y -i "${vid_name}.mp4" -vcodec copy -an "vid-${vid_name}.mp4"  
+
+            d2=`ffprobe "${vid_name}.mp4" -show_format 2>&1 | sed -n 's/duration=//p'`
+
+            diff=`echo ${d2} |awk  -v d="$d" '{print $1-d}'` 
+
+            echo ffmpeg -y -i "aud-${aud_name}.mp3" -ss "${diff}" -t "$d" -i "vid-${vid_name}.mp4" "${vid_name}.mp4" >> $cmd
+            ffmpeg -y -i "aud-${aud_name}.mp3" -ss "${diff}" -t "$d" -i "vid-${vid_name}.mp4" "${vid_name}.mp4" 
+        else  
+            sil="$(( -sil ))"
+            echo avconv -y -ss "$sil" -i "${vid_name}.mp4" -vcodec copy -an "vid-${vid_name}.mp4" >> $cmd
+            avconv -y -ss "$sil" -i "${vid_name}.mp4" -vcodec copy -an "vid-${vid_name}.mp4"   
+            
+            d=`ffprobe "vid-${vid_name}.mp4" -show_format 2>&1 | sed -n 's/duration=//p'` 
+
+            d2=`ffprobe "${aud_name}.mp3" -show_format 2>&1 | sed -n 's/duration=//p'`
+
+            diff=`echo ${d2} |awk  -v d="$d" '{print $1-d}'` 
+
+            echo ffmpeg -y -ss "${diff}" -t "$d" -i "aud-${aud_name}.mp3" -i "vid-${vid_name}.mp4" "${vid_name}.mp4" >> $cmd
+            ffmpeg -y -ss "${diff}" -t "$d" -i "aud-${aud_name}.mp3" -i "vid-${vid_name}.mp4" "${vid_name}.mp4" 
+        fi
+        
+        rm -rf "tmp-${vid_name}.mp4" "vid-${vid_name}.mp4" "aud-${aud_name}.mp3"
+    fi
+} 
 
 function av(){
     vid="$1"
     mp="$2"  
+    sil="$3" 
     echo avconv -y -i "${vid}" "$mp" >> $cmd 
     avconv -y -i "${vid}" "$mp" 
 }
@@ -81,15 +114,18 @@ if [[ -d "$1" && "$2" && -f "${3}.webm" ]];then
     > "${cmd}"
     
     video="${vid_name}.webm"
-    mp4="${vid_name}.mp4"
-    mp3="${vid_name}.mp3" 
+    mp4="${vid_name}.mp4" 
     mp4_list="${vid_name}.txt"
+    aud_sil_dur=2
     [[ "$1" != "." ]] && cd "$1"
     
     if [[ -f "${4}.webm" ]];then
         aud_name=`echo "${4}" | awk '{l=length($0);if(substr($0,l-1,1)== "-") print substr($0,1,l-2);else print substr($0,1,l-1);}'`
         audio="${aud_name}.webm" 
+        mp3="${aud_name}.mp3" 
     fi
+    
+    [[ "${5}" ]] && aud_sil_dur="${5}"
     
     #more than one video/audio
     if [[ "$max" -ge 2 ]];then
@@ -114,7 +150,7 @@ if [[ -d "$1" && "$2" && -f "${3}.webm" ]];then
             ffmpg_concat "${mp3_list}" "${mp3}" 
             
             #combine mp4s
-            concat_mp4 "${c}" "${vid_name}" "${dash}" 
+            concat_mp4 "${c}" "${vid_name}" "${dash}" "${aud_name}" "${aud_sil_dur}"
             for i in `seq ${c}`;do
                 rm -f "${aud_name}${dash}${i}.mp3" "${vid_name}${dash}${i}.mp4" 
             done
@@ -156,8 +192,8 @@ if [[ -d "$1" && "$2" && -f "${3}.webm" ]];then
     rm -f "${cmd}"
 else
     echo "converts webm files to mp4/mp3 files ..."
-    echo "usgae $0 <video_folder> <max_no_of_files> <video_file> [<audio_file>]"
+    echo "usgae $0 <video_folder> <max_no_of_files> <video_file> [<audio_file> <init_sil_dur>]"
     echo "e.g. $0 . 1 video-recording-10 audio-recording-10"
-    echo "e.g. $0 . 180 video-recording-1 audio-recording-1"
+    echo "e.g. $0 . 180 video-recording-1 audio-recording-1 0"
     echo "e.g. $0 . 180 video-recording-1"
 fi
