@@ -593,7 +593,11 @@ $(function() {
         }
         if (questions[currentQuestionIndex].show_text) {
             $('#divPar').removeClass('hidden').show();
-            $('#divMessage').empty().append(html_header("H3", questions[currentQuestionIndex].text, "150"));
+            var extra_message = 'Please read the paragraph aloud.';
+            if(questions[currentQuestionIndex].extra_message !== undefined) 
+            	extra_message = questions[currentQuestionIndex].extra_message
+            $('#divExtraMessage').empty().append(html_header("H4", questions[currentQuestionIndex].extra_message, "125"));
+            $('#divMessage').empty().append(html_header("H4", questions[currentQuestionIndex].text, "125"));
         } else {
             $('#divPar').addClass('hidden');
         }
@@ -865,6 +869,8 @@ $(function() {
         $('#nextMessageButton').hide(); 
         $('#repeatMessageButton').hide();  
         $('#divPar').removeClass('hidden').show();
+        $('#divExtraMessage').hide();  
+        
         if (warning === ''){
             $('#divMessage').text(endingMessage);
         }

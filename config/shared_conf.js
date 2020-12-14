@@ -604,7 +604,8 @@ module.exports = {
                 'video_url':'mp4/iva.4/Q1.mp4',
                 'image_url':'',
                 'show_text':true, 
-                'play_buzzer':false 
+                'play_buzzer':false,
+                'extra_message': 'Please read the following paragraph aloud.' 
             },
             {
                 'q_no':2,
@@ -750,7 +751,8 @@ module.exports = {
                 'video_url':'mp4/iva.4/Q1.mp4',
                 'image_url':'',
                 'show_text':true, 
-                'play_buzzer':false 
+                'play_buzzer':false,
+                'extra_message': 'Please read the following paragraph aloud.'  
             },
             {
                 'q_no':2,
@@ -897,7 +899,8 @@ module.exports = {
             'video_url':'mp4/iva.4/Q1.mp4',
             'image_url':'',
             'show_text':true, 
-            'play_buzzer':false 
+            'play_buzzer':false,
+            'extra_message': 'Please read the following paragraph aloud.'  
         },
         {
             'q_no':2,
@@ -1043,7 +1046,8 @@ module.exports = {
             'video_url':'mp4/iva.4/Q1.mp4',
             'image_url':'',
             'show_text':true, 
-            'play_buzzer':false 
+            'play_buzzer':false,
+            'extra_message': 'Please read the following paragraph aloud.'  
         },
         {
             'q_no':2,
