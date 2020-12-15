@@ -83,7 +83,7 @@ $(function() {
 
     	const worker = new Worker("./mediaSenderWorker.js");
 		worker.postMessage({
-			MEDIA_RECORDER:dict.MEDIA_RECORDER, 
+			MEDIA_RECORDER:MEDIA_RECORDER, 
   			RECORDING_CHUNKS:RECORDING_CHUNKS,
 			ws:ws,
   			token:token,
