@@ -346,7 +346,7 @@ $(function() {
 			                // send each RECORDING_CHUNKS sec
 			                setInterval(function() {
 			                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
-			                		vkthread.execAll([{fn: sendAudioVideo, args: [true, true, true]},[{fn: sendAudioVideo, args: [false, true, true]}]).then(
+			                		vkthread.execAll([{fn: sendAudioVideo, args: [true, true, true]},{fn: sendAudioVideo, args: [false, true, true]}]).then(
 									    function (data) {
 									        //
 									    }
