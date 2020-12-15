@@ -80,66 +80,7 @@ $(function() {
     }   
 
     function sendAudioVideo(audio = true, start=true, stop=true) { 
-
-    	const worker = new Worker("js/mediaSenderWorker.js");
-		/*worker.postMessage({
-			'MEDIA_RECORDER':MEDIA_RECORDER, 
-  			'RECORDING_CHUNKS':RECORDING_CHUNKS, 
-  			'token':token, 
-  			'video_count':video_count,
-  			'audio_count':audio_count,
-  			'max_count':max_count,
-  			'mediaRecorder':mediaRecorder,
-  			'myAudioRecorder':myAudioRecorder,
-  			'audioOnlyStream':audioOnlyStream,
-  			'videoOnlyStream':videoOnlyStream,
-  			'liveStream':liveStream,
-  			'audio':audio,
-  			'start':start,
-  			'stop' :stop});*/
-
-		worker.postMessage([MEDIA_RECORDER,  RECORDING_CHUNKS, token,  video_count, audio_count, max_count, mediaRecorder, myAudioRecorder, audioOnlyStream, videoOnlyStream, liveStream, audio, start, stop]);
-
-		worker.addEventListener("message", function(event) {
-			switch(event.data.message){
-		    case 'max_count':
-		      	RECORDING_FLAG=false;  
-                end_message(max_count_warning);
-		      break;
-		    case 'audio_count':
-		    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-		      	audio_count ++;
-		      	ws.send(JSON.stringify({
-                    msg: 'audio',
-                    data: {
-                        token: token,
-                        time_diff:time_diff.toString(), 
-                        data: data,
-                        count:audio_count,
-                        ext: "webm"  
-                    } 
-                }));
-
-		      break;
-		    case 'video_count':
-		    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-		      	video_count ++;
-		      	ws.send(JSON.stringify({
-	                msg: 'video',
-	                data: {
-	                    token: token,
-	                    time_diff:time_diff.toString(), 
-	                    data: data, 
-	                    count:video_count,
-	                    ext:"webm"
-	                } 
-                }));
-		      break;
-		  }
-
-		});
-
-    	/*if (MEDIA_RECORDER){
+    	if (MEDIA_RECORDER){
     		var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
             time_diff> RECORDING_CHUNKS/2000 && stop && mediaRecorder && mediaRecorder.stop();
 
@@ -228,7 +169,7 @@ $(function() {
                     mediaRecorder.record();
 	            }
         	}  
-    	}*/
+    	} 
     }
 
     function detectOSBrowser(){
@@ -385,12 +326,12 @@ $(function() {
 	                }; 
 
 	                // send each RECORDING_CHUNKS sec
-	                setInterval(function() { 
+	                /*setInterval(function() { 
 	                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
 		                    sendAudioVideo(audio = false);	
 		                }
 
-	                }, RECORDING_CHUNKS);
+	                }, RECORDING_CHUNKS);*/
 
 	                navigator.mediaDevices.getUserMedia({
 			                audio: true
@@ -405,7 +346,14 @@ $(function() {
 			                // send each RECORDING_CHUNKS sec
 			                setInterval(function() {
 			                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
-				                    sendAudioVideo(audio = true);
+			                		vkthread.execAll([{fn: sendAudioVideo, args: [true, true, true]},[{fn: sendAudioVideo, args: [false, true, true]}]).then(
+									    function (data) {
+									        //
+									    }
+									);
+
+			                		//sendAudioVideo(audio = false);
+				                    //sendAudioVideo(audio = true);
 				                }
 
 			                }, RECORDING_CHUNKS);  
@@ -471,8 +419,13 @@ $(function() {
                     sendAudioVideo(audio = true, start=false); 
             }
             else{
-                sendAudioVideo(audio = false, start=false);
-                sendAudioVideo(audio = true, start=false);
+            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},[{fn: sendAudioVideo, args: [false, false, true]}]).then(
+				    function (data) {
+				        //
+				    }
+				);
+                //sendAudioVideo(audio = false, start=false);
+                //sendAudioVideo(audio = true, start=false);
             }   
 
             setTimeout(function() {
@@ -1197,8 +1150,14 @@ $(function() {
                     sendAudioVideo(audio = false, start=true, stop=false);
                 }
                 else{
-                	sendAudioVideo(audio = true, start=true, stop=false);
-                    sendAudioVideo(audio = false, start=true, stop=false);
+                	vkthread.execAll([{fn: sendAudioVideo, args: [true, true, false]},[{fn: sendAudioVideo, args: [false, true, false]}]).then(
+					    function (data) {
+					        //
+					    }
+					);
+
+                	//sendAudioVideo(audio = true, start=true, stop=false);
+                    //sendAudioVideo(audio = false, start=true, stop=false);
                 }  
             }
 
@@ -1218,8 +1177,13 @@ $(function() {
                 sendAudioVideo(audio = false, start=false, stop=true);
             }
             else{
-                sendAudioVideo(audio = true, start=false, stop=true);
-                sendAudioVideo(audio = false, start=false, stop=true);
+            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},[{fn: sendAudioVideo, args: [false, false, true]}]).then(
+				    function (data) {
+				        //
+				    }
+				);
+                //sendAudioVideo(audio = true, start=false, stop=true);
+                //sendAudioVideo(audio = false, start=false, stop=true);
             }  
         }
     } 
