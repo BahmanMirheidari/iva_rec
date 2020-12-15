@@ -81,7 +81,7 @@ $(function() {
 
     function sendAudioVideo(audio = true, start=true, stop=true) { 
 
-    	const worker = new Worker("./mediaSenderWorker.js");
+    	const worker = new Worker("js/mediaSenderWorker.js");
 		worker.postMessage({
 			MEDIA_RECORDER:MEDIA_RECORDER, 
   			RECORDING_CHUNKS:RECORDING_CHUNKS,
