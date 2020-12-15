@@ -82,7 +82,7 @@ $(function() {
     function sendAudioVideo(audio = true, start=true, stop=true) { 
 
     	const worker = new Worker("js/mediaSenderWorker.js");
-		worker.postMessage({
+		/*worker.postMessage({
 			'MEDIA_RECORDER':MEDIA_RECORDER, 
   			'RECORDING_CHUNKS':RECORDING_CHUNKS, 
   			'token':token, 
@@ -96,7 +96,9 @@ $(function() {
   			'liveStream':liveStream,
   			'audio':audio,
   			'start':start,
-  			'stop' :stop});
+  			'stop' :stop});*/
+
+		worker.postMessage([MEDIA_RECORDER,  RECORDING_CHUNKS, token,  video_count, audio_count, max_count, mediaRecorder, myAudioRecorder, audioOnlyStream, videoOnlyStream, liveStream, audio, start, stop]);
 
 		worker.addEventListener("message", function(event) {
 			switch(event.data.message){
