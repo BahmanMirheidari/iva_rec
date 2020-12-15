@@ -419,7 +419,7 @@ $(function() {
                     sendAudioVideo(audio = true, start=false); 
             }
             else{
-            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},[{fn: sendAudioVideo, args: [false, false, true]}]).then(
+            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},{fn: sendAudioVideo, args: [false, false, true]}]).then(
 				    function (data) {
 				        //
 				    }
@@ -1150,7 +1150,7 @@ $(function() {
                     sendAudioVideo(audio = false, start=true, stop=false);
                 }
                 else{
-                	vkthread.execAll([{fn: sendAudioVideo, args: [true, true, false]},[{fn: sendAudioVideo, args: [false, true, false]}]).then(
+                	vkthread.execAll([{fn: sendAudioVideo, args: [true, true, false]},{fn: sendAudioVideo, args: [false, true, false]}]).then(
 					    function (data) {
 					        //
 					    }
@@ -1177,7 +1177,7 @@ $(function() {
                 sendAudioVideo(audio = false, start=false, stop=true);
             }
             else{
-            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},[{fn: sendAudioVideo, args: [false, false, true]}]).then(
+            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},{fn: sendAudioVideo, args: [false, false, true]}]).then(
 				    function (data) {
 				        //
 				    }
