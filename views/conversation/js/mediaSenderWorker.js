@@ -1,15 +1,13 @@
 // mediaSenderWorker.js
 
 var MEDIA_RECORDER, RECORDING_CHUNKS;
-var ws, startDate, video_count, audio_count, audio, start, stop, max_count, mediaRecorder, myAudioRecorder, audioOnlyStream, videoOnlyStream, liveStream;
+var video_count, audio_count, audio, start, stop, max_count, mediaRecorder, myAudioRecorder, audioOnlyStream, videoOnlyStream, liveStream;
 
 self.addEventListener('message', function(e) {
-  var dict = e.data;
-  ws = dict.ws;
+  var dict = e.data; 
   token = dict.token;
   MEDIA_RECORDER = dict.MEDIA_RECORDER; 
-  RECORDING_CHUNKS = dict.RECORDING_CHUNKS;
-  startDate = dict.startDate;
+  RECORDING_CHUNKS = dict.RECORDING_CHUNKS; 
   video_count = dict.video_count;
   audio_count = dict.audio_count;
   max_count = dict.max_count;
@@ -33,7 +31,7 @@ function onMediaRecordingReady(e) {
         var data = event.target.result.toString('base64');
 
         if (data.length>1000){
-            var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+            //var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
             // send data via the websocket  
             //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
             //video_count ++;
@@ -41,10 +39,10 @@ function onMediaRecordingReady(e) {
                 //RECORDING_FLAG=false; 
 
                 //end_message(max_count_warning);
-                self.postMessage('max_count');
+                self.postMessage({message:'max_count'});
 
             }
-            ws.send(JSON.stringify({
+            /*ws.send(JSON.stringify({
                 msg: 'video',
                 data: {
                     token: token,
@@ -53,9 +51,9 @@ function onMediaRecordingReady(e) {
                     count:video_count,
                     ext:"webm"
                 } 
-            })); 
+            })); */
 
-            self.postMessage('video_count');
+            self.postMessage({message:'video_count',data:data});
         } 
     }
     reader.readAsDataURL(e.data);  
@@ -85,12 +83,12 @@ function sendAudioVideo(audio = true, start=true, stop=true) {
                         if(audio_count>=max_count && video_count>=max_count){
                             //RECORDING_FLAG=false;
                             //end_message(max_count_warning);
-                            self.postMessage('max_count');
+                            self.postMessage({message:'max_count'});
                         }
-                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+                    	//var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
                         // send data via the websocket  
                         //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-                        ws.send(JSON.stringify({
+                        /*ws.send(JSON.stringify({
                             msg: 'audio',
                             data: {
                                 token: token,
@@ -99,9 +97,8 @@ function sendAudioVideo(audio = true, start=true, stop=true) {
                                 count:audio_count,
 		                        ext: "webm"  
                             } 
-                        }));
-
-                        self.postMessage('audio_count');
+                        }));*/
+                        self.postMessage({message:'audio_count',data:data}); 
                     }
                 }; 
                 reader.readAsDataURL(blob_audio);
@@ -127,12 +124,12 @@ function sendAudioVideo(audio = true, start=true, stop=true) {
                         if(audio_count>=max_count && video_count>=max_count){
                             //RECORDING_FLAG=false;
                             //end_message(max_count_warning);
-                            self.postMessage('max_count');
+                            self.postMessage({message:'max_count'});
                         }
-                    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+                    	//var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
                         // send data via the websocket  
                         //alert('webm-video-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-                        ws.send(JSON.stringify({
+                        /*ws.send(JSON.stringify({
                             msg: 'video',
                             data: {
                                 token: token,
@@ -141,9 +138,8 @@ function sendAudioVideo(audio = true, start=true, stop=true) {
                                 count:video_count,
 		                        ext: "webm"  
                             } 
-                        }));
-
-                        self.postMessage('video_count');
+                        }));*/
+                        self.postMessage({message:'video_count',data:data});  
                     }
                 };
                 reader.readAsDataURL(blob_video);

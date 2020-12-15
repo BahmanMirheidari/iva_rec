@@ -84,10 +84,8 @@ $(function() {
     	const worker = new Worker("js/mediaSenderWorker.js");
 		worker.postMessage({
 			'MEDIA_RECORDER':MEDIA_RECORDER, 
-  			'RECORDING_CHUNKS':RECORDING_CHUNKS,
-			'ws':ws,
-  			'token':token,
-  			'startDate':startDate,
+  			'RECORDING_CHUNKS':RECORDING_CHUNKS, 
+  			'token':token, 
   			'video_count':video_count,
   			'audio_count':audio_count,
   			'max_count':max_count,
@@ -101,16 +99,39 @@ $(function() {
   			'stop' :stop});
 
 		worker.addEventListener("message", function(event) {
-			switch(event.data){
+			switch(event.data.message){
 		    case 'max_count':
 		      	RECORDING_FLAG=false;  
                 end_message(max_count_warning);
 		      break;
 		    case 'audio_count':
-		      audio_count ++;
+		    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+		      	audio_count ++;
+		      	ws.send(JSON.stringify({
+                    msg: 'audio',
+                    data: {
+                        token: token,
+                        time_diff:time_diff.toString(), 
+                        data: data,
+                        count:audio_count,
+                        ext: "webm"  
+                    } 
+                }));
+
 		      break;
 		    case 'video_count':
-		      video_count ++;
+		    	var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
+		      	video_count ++;
+		      	ws.send(JSON.stringify({
+	                msg: 'video',
+	                data: {
+	                    token: token,
+	                    time_diff:time_diff.toString(), 
+	                    data: data, 
+	                    count:video_count,
+	                    ext:"webm"
+	                } 
+                }));
 		      break;
 		  }
 
