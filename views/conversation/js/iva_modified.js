@@ -345,15 +345,9 @@ $(function() {
 
 			                // send each RECORDING_CHUNKS sec
 			                setInterval(function() {
-			                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
-			                		vkthread.execAll([{fn: sendAudioVideo, args: [true, true, true]},{fn: sendAudioVideo, args: [false, true, true]}]).then(
-									    function (data) {
-									        //
-									    }
-									);
-
-			                		//sendAudioVideo(audio = false);
-				                    //sendAudioVideo(audio = true);
+			                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) { 
+			                		sendAudioVideo(audio = false);
+				                    sendAudioVideo(audio = true);
 				                }
 
 			                }, RECORDING_CHUNKS);  
@@ -418,14 +412,9 @@ $(function() {
             if (MEDIA_RECORDER) {
                     sendAudioVideo(audio = true, start=false); 
             }
-            else{
-            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},{fn: sendAudioVideo, args: [false, false, true]}]).then(
-				    function (data) {
-				        //
-				    }
-				);
-                //sendAudioVideo(audio = false, start=false);
-                //sendAudioVideo(audio = true, start=false);
+            else{ 
+            	sendAudioVideo(audio = false, start=false);
+                sendAudioVideo(audio = true, start=false);
             }   
 
             setTimeout(function() {
@@ -1113,31 +1102,7 @@ $(function() {
             //currentQuestionIndex=1;  
         }
     } 
-
-/*
-    function onMediaRecordingReady(e) { 
-		  var reader = new FileReader();
-			reader.onload = function(event){
-				var data = event.target.result.toString('base64');
-
-				if (data.length>1000){
-					var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-	                // send data via the websocket  
-	                //alert('webm-audio-chunk' + token + '-' + currentQuestionIndex.toString()+ '-' + repeatIndex.toString()+ '-' + data.length.toString()+ '-' + last.toString());
-	                ws.send(JSON.stringify({
-	                    msg: 'video',
-	                    data: {
-	                        token: token,
-	                        time_diff:time_diff.toString(), 
-	                        data: data,
-	                        ext:"webm"
-	                    } 
-	                }));
-				}
-	            
-			};
-			reader.readAsDataURL(e.data);  
-	 }*/
+ 
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) { 
@@ -1150,14 +1115,8 @@ $(function() {
                     sendAudioVideo(audio = false, start=true, stop=false);
                 }
                 else{
-                	vkthread.execAll([{fn: sendAudioVideo, args: [true, true, false]},{fn: sendAudioVideo, args: [false, true, false]}]).then(
-					    function (data) {
-					        //
-					    }
-					);
-
-                	//sendAudioVideo(audio = true, start=true, stop=false);
-                    //sendAudioVideo(audio = false, start=true, stop=false);
+                	sendAudioVideo(audio = false, start=true, stop=false);
+                	sendAudioVideo(audio = true, start=true, stop=false); 
                 }  
             }
 
@@ -1176,14 +1135,9 @@ $(function() {
             if (MEDIA_RECORDER){ 
                 sendAudioVideo(audio = false, start=false, stop=true);
             }
-            else{
-            	vkthread.execAll([{fn: sendAudioVideo, args: [true, false, true]},{fn: sendAudioVideo, args: [false, false, true]}]).then(
-				    function (data) {
-				        //
-				    }
-				);
-                //sendAudioVideo(audio = true, start=false, stop=true);
-                //sendAudioVideo(audio = false, start=false, stop=true);
+            else{ 
+            	sendAudioVideo(audio = false, start=false, stop=true);
+                sendAudioVideo(audio = true, start=false, stop=true); 
             }  
         }
     } 
