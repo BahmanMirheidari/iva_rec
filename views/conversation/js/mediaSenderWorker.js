@@ -23,7 +23,9 @@ self.addEventListener('message', function(e) {
   stop = dict.stop;
 
   sendAudioVideo(audio, start, stop);  
-}
+});
+
+
 
 function onMediaRecordingReady(e) { 
     var reader = new FileReader();
