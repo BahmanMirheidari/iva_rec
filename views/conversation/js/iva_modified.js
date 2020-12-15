@@ -80,7 +80,43 @@ $(function() {
     }   
 
     function sendAudioVideo(audio = true, start=true, stop=true) { 
-    	if (MEDIA_RECORDER){
+
+    	const worker = new Worker("./mediaSenderWorker.js");
+		worker.postMessage({
+			MEDIA_RECORDER:dict.MEDIA_RECORDER, 
+  			RECORDING_CHUNKS:RECORDING_CHUNKS,
+			ws:ws,
+  			token:token,
+  			startDate:startDate,
+  			video_count:video_count,
+  			audio_count:audio_count,
+  			max_count:max_count,
+  			mediaRecorder:mediaRecorder,
+  			myAudioRecorder:myAudioRecorder,
+  			audioOnlyStream:audioOnlyStream,
+  			videoOnlyStream:videoOnlyStream,
+  			liveStream:liveStream,
+  			audio:audio,
+  			start:start,
+  			stop :stop});
+
+		worker.addEventListener("message", function(event) {
+			switch(event.data){
+		    case 'max_count':
+		      	RECORDING_FLAG=false;  
+                end_message(max_count_warning);
+		      break;
+		    case 'audio_count':
+		      audio_count ++;
+		      break;
+		    case 'video_count':
+		      video_count ++;
+		      break;
+		  }
+
+		});
+
+    	/*if (MEDIA_RECORDER){
     		var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
             time_diff> RECORDING_CHUNKS/2000 && stop && mediaRecorder && mediaRecorder.stop();
 
@@ -169,7 +205,7 @@ $(function() {
                     mediaRecorder.record();
 	            }
         	}  
-    	} 
+    	}*/
     }
 
     function detectOSBrowser(){
