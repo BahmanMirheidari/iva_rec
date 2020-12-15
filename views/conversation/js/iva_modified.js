@@ -83,22 +83,22 @@ $(function() {
 
     	const worker = new Worker("js/mediaSenderWorker.js");
 		worker.postMessage({
-			MEDIA_RECORDER:MEDIA_RECORDER, 
-  			RECORDING_CHUNKS:RECORDING_CHUNKS,
-			ws:ws,
-  			token:token,
-  			startDate:startDate,
-  			video_count:video_count,
-  			audio_count:audio_count,
-  			max_count:max_count,
-  			mediaRecorder:mediaRecorder,
-  			myAudioRecorder:myAudioRecorder,
-  			audioOnlyStream:audioOnlyStream,
-  			videoOnlyStream:videoOnlyStream,
-  			liveStream:liveStream,
-  			audio:audio,
-  			start:start,
-  			stop :stop});
+			'MEDIA_RECORDER':MEDIA_RECORDER, 
+  			'RECORDING_CHUNKS':RECORDING_CHUNKS,
+			'ws':ws,
+  			'token':token,
+  			'startDate':startDate,
+  			'video_count':video_count,
+  			'audio_count':audio_count,
+  			'max_count':max_count,
+  			'mediaRecorder':mediaRecorder,
+  			'myAudioRecorder':myAudioRecorder,
+  			'audioOnlyStream':audioOnlyStream,
+  			'videoOnlyStream':videoOnlyStream,
+  			'liveStream':liveStream,
+  			'audio':audio,
+  			'start':start,
+  			'stop' :stop});
 
 		worker.addEventListener("message", function(event) {
 			switch(event.data){
