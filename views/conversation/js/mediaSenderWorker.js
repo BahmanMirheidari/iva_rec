@@ -4,8 +4,8 @@ var MEDIA_RECORDER, RECORDING_CHUNKS;
 var video_count, audio_count, audio, start, stop, max_count, mediaRecorder, myAudioRecorder, audioOnlyStream, videoOnlyStream, liveStream;
 
 self.addEventListener('message', function(e) {
-  var dict = e.data; 
-  token = dict.token;
+  [MEDIA_RECORDER,  RECORDING_CHUNKS, token,  video_count, audio_count, max_count, mediaRecorder, myAudioRecorder, audioOnlyStream, videoOnlyStream, liveStream, audio, start, stop] = e.data; 
+  /*token = dict.token;
   MEDIA_RECORDER = dict.MEDIA_RECORDER; 
   RECORDING_CHUNKS = dict.RECORDING_CHUNKS; 
   video_count = dict.video_count;
@@ -18,7 +18,7 @@ self.addEventListener('message', function(e) {
   liveStream = dict.liveStream; 
   audio = dict.audio;
   start = dict.start;
-  stop = dict.stop;
+  stop = dict.stop;*/
 
   sendAudioVideo(audio, start, stop);  
 });
