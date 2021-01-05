@@ -29,8 +29,7 @@ if [[ "$#" -ge 7 ]];then
         (( p_start-- ))
 
         for i in $(seq $n);do
-            pass "${len}" "${r_len}" |awk -v s="${i}" -v p="${p_start}" -v u="${u_start}" -v r="${r_start}" -v x="${r_prefix}" -v e="${repeat}" '{j++;n=split(e,a,"|");for(i=1;i<=n;i++){split(a[i],b,":");if(i==j) prin\
-tf("%s,%s,%s-"x"%03d,"x"%03d,%s\n","participant"s+p+i,$1,u+s""b[1],s+r,s+r,b[2])}}'
+            pass "${len}" "${r_len}" |awk -v s="${i}" -v p="${p_start}" -v u="${u_start}" -v r="${r_start}" -v x="${r_prefix}" -v e="${repeat}" '{j++;n=split(e,a,"|");for(i=1;i<=n;i++){split(a[i],b,":");if(i==j) printf("%s,%s,%s-"x"%03d,"x"%03d,%s\n","participant"s+p+i,$1,u+s""b[1],s+r,s+r,b[2])}}'
             (( p_start+=r_len-1 ))
         done
 
