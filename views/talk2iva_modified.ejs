@@ -178,7 +178,7 @@
         if (typeof fileref!="undefined")
             document.getElementsByTagName("head")[0].appendChild(fileref)
     }
-
+    var filesadded="" //list of files already added
     function checkloadjscssfile(filename, filetype){
         if (filesadded.indexOf("["+filename+"]")==-1){
             loadjscssfile(filename, filetype)
