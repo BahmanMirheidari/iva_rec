@@ -158,22 +158,22 @@
     if ((ix=fullVersion.indexOf(" "))!=-1)
        fullVersion=fullVersion.substring(0,ix); 
 
-    all_details ='os:'+OSName+ ', browser:' +browserName+', fullVersion:'+fullVersion+', appName:'+navigator.appName+', userAgent:'+navigator.userAgent  
+    all_details ='os:'+OSName+ ', browser:' +browserName+', fullVersion:'+fullVersion+', appName:'+navigator.appName+', userAgent:'+navigator.userAgent;  
 
     return {'all_details':all_details, 'os':OSName, 'browser':browserName, 'fullVersion':fullVersion, 'appName':navigator.appName, 'userAgent':navigator.userAgent}  
     }
 
     function loadjscssfile(filename, filetype){
         if (filetype=="js"){ //if filename is a external JavaScript file
-            var fileref=document.createElement('script')
-            fileref.setAttribute("type","text/javascript")
-            fileref.setAttribute("src", filename)
+            var fileref=document.createElement('script');
+            fileref.setAttribute("type","text/javascript");
+            fileref.setAttribute("src", filename);
         }
         else if (filetype=="css"){ //if filename is an external CSS file
-            var fileref=document.createElement("link")
-            fileref.setAttribute("rel", "stylesheet")
-            fileref.setAttribute("type", "text/css")
-            fileref.setAttribute("href", filename)
+            var fileref=document.createElement("link");
+            fileref.setAttribute("rel", "stylesheet");
+            fileref.setAttribute("type", "text/css");
+            fileref.setAttribute("href", filename);
         }
         if (typeof fileref!="undefined")
             document.getElementsByTagName("head")[0].appendChild(fileref)
@@ -181,8 +181,8 @@
     var filesadded="" //list of files already added
     function checkloadjscssfile(filename, filetype){
         if (filesadded.indexOf("["+filename+"]")==-1){
-            loadjscssfile(filename, filetype)
-            filesadded+="["+filename+"]" //List of files added in the form "[filename1],[filename2],etc"
+            loadjscssfile(filename, filetype);
+            filesadded+="["+filename+"]"; //List of files added in the form "[filename1],[filename2],etc"
         }
         //else
         //    alert("file already added!")
@@ -190,10 +190,17 @@
 
     osBr = detectOSBrowser();
     if (osBr.browser.match(/Safari/i)){
-      checkloadjscssfile("js/iva_safari.js", "js")
+      recorder = new MediaRecorder();
+
+      if(recorder === undefined || recorder === null){
+        $('#mediarecorder_modal').modal('show');
+      }
+      else{
+        checkloadjscssfile("js/iva_safari.js", "js");
+      } 
     }
     else {
-      checkloadjscssfile("js/iva.js", "js") 
+      checkloadjscssfile("js/iva.js", "js"); 
       }
 
   </script>
@@ -218,6 +225,25 @@
       </div>  
     </div> 
   </div>   
+
+  <div class="modal fade hidden" tabindex="-1" role="dialog" id="mediarecorder_modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">MediaRecorder is not enabled</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>MediaRecorder is not enabled in your Safari browser. Go to Safari Preferences, Advanced and first tick "Show Develop menu in menu bar". Then go to Develop, Experimental Features and enable MediaRecorder. For more information please refer to: https://www.educative.io/edpresso/how-to-enable-the-mediarecorder-api-for-safari</p>
+      </div>
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <div id="hidden_audio" style="display:none">
     <audio id="audio" style="display:none" controls src="Buzzer/Silence.mp3">
