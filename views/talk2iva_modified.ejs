@@ -191,15 +191,20 @@
     osBr = detectOSBrowser();
     if (osBr.browser.match(/Safari/i)){  
       if(typeof MediaRecorder  === undefined || typeof MediaRecorder === null){
-        $('#mediarecorder_modal').modal('show');
+        $('#mediarecorder_modal_safari').modal('show');
       }
       else{
         checkloadjscssfile("js/iva_safari.js", "js");
       } 
     }
     else {
-      checkloadjscssfile("js/iva.js", "js"); 
+      if(typeof MediaRecorder  === undefined || typeof MediaRecorder === null){
+        $('#mediarecorder_modal_others').modal('show');
       }
+      else{
+        checkloadjscssfile("js/iva.js", "js"); 
+      }
+    }
 
   </script>
   <script type='text/javascript' src="js/RecordRTC.js"></script>
@@ -224,7 +229,7 @@
     </div> 
   </div>   
 
-  <div class="modal fade hidden" tabindex="-1" role="dialog" id="mediarecorder_modal">
+<div class="modal fade hidden" tabindex="-1" role="dialog" id="mediarecorder_modal_safari">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -235,6 +240,25 @@
       </div>
       <div class="modal-body">
         <p>MediaRecorder is not enabled in your Safari browser. Go to Safari Preferences, Advanced and first tick "Show Develop menu in menu bar". Then go to Develop, Experimental Features and enable MediaRecorder. For more information please refer to: https://www.educative.io/edpresso/how-to-enable-the-mediarecorder-api-for-safari</p>
+      </div>
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade hidden" tabindex="-1" role="dialog" id="mediarecorder_modal_others">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">MediaRecorder is not supported</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>MediaRecorder is not enabled in your Browser. Please use the latest Google Chrome browser.</p>
       </div>
       <div class="modal-footer"> 
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
