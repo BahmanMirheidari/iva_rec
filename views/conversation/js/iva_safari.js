@@ -700,7 +700,12 @@ $(function() {
         disableKeysNext(questions[currentQuestionIndex].length);
     }
 
-    function html_header(h_no, text, font_size = "200", padding_left = "20") {
+    function html_header(h_no, text, font_size, padding_left) {
+    	if (font_size === undefined)
+    		font_size = "200";
+    	if (padding_left === undefined)
+    		padding_left = "20";
+
         return '<' + h_no + ' style="font-size: ' + font_size + '%;padding-left: ' + padding_left + 'px;">' + text + '</' + h_no + '>';
     }
 
@@ -717,11 +722,16 @@ $(function() {
         return html;
     }
 
-    function html_textbox(id, text, font_size = "200") {
+    function html_textbox(id, text, font_size) {
+    	if (font_size === undefined)
+    		font_size = "200";
         return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" style="font-size: ' + font_size + '%;" >';
     }
 
-    function html_radio(id, text, options, idx = -1) {
+    function html_radio(id, text, options, idx) {
+    	if (idx === undefined)
+    		idx = -1;
+
         html = html_header("H4", text);
         for (i = 0; i < options.length; i++) {
             indexed_id = id + '_' + (i + 1).toString();

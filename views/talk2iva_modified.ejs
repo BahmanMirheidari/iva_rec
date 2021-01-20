@@ -190,6 +190,8 @@
 
     osBr = detectOSBrowser();
     if (osBr.browser.match(/Safari/i)){  
+      alert(typeof MediaRecorder);
+      
       if(typeof MediaRecorder  === undefined || typeof MediaRecorder === null){
         $('#mediarecorder_modal_safari').modal('show');
       }
