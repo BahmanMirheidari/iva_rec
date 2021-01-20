@@ -195,7 +195,7 @@
     version = osBr.fullVersion.split(".");
 
     if (osBr.browser.match(/Safari/i)){    
-      if(typeof MediaRecorder !== 'function' || version[1] < 14){ 
+      if(typeof MediaRecorder !== 'function' || version[0] < 14){ 
         alert(browser_error);
       }
       else{
