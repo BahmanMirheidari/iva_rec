@@ -79,7 +79,14 @@ $(function() {
         reader.readAsDataURL(e.data);  
     }   
 
-    function sendAudioVideo(audio = true, start=true, stop=true) { 
+    function sendAudioVideo(audio, start, stop) { 
+    	if (audio === undefined)
+    		audio = true;
+    	if (start === undefined)
+    		start = true;
+    	if (stop === undefined)
+    		stop = true;
+
     	if (MEDIA_RECORDER){
     		var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
             time_diff> RECORDING_CHUNKS/2000 && stop && mediaRecorder && mediaRecorder.stop();
@@ -289,7 +296,7 @@ $(function() {
 	                // send each RECORDING_CHUNKS sec
 	                setInterval(function() { 
 	                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) {
-		                    sendAudioVideo(audio = false);	
+		                    sendAudioVideo(false, true, true);	
 		                } 
 	                }, RECORDING_CHUNKS);
 
@@ -346,8 +353,8 @@ $(function() {
 			                // send each RECORDING_CHUNKS sec
 			                setInterval(function() {
 			                	if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions && RECORDING_FLAG) { 
-			                		sendAudioVideo(audio = false);
-				                    sendAudioVideo(audio = true);
+			                		sendAudioVideo(false,true,true);
+				                    sendAudioVideo(true,true,true);
 				                }
 
 			                }, RECORDING_CHUNKS);  
@@ -410,11 +417,11 @@ $(function() {
 
             playQuestion();
             if (MEDIA_RECORDER) {
-                    sendAudioVideo(audio = true, start=false); 
+                    sendAudioVideo(true, false,true); 
             }
             else{ 
-            	sendAudioVideo(audio = false, start=false);
-                sendAudioVideo(audio = true, start=false);
+            	sendAudioVideo(false, false, true);
+                sendAudioVideo(true, false, true);
             }   
 
             setTimeout(function() {
@@ -1112,11 +1119,11 @@ $(function() {
                 startDate = new Date();
 
                 if (MEDIA_RECORDER){ 
-                    sendAudioVideo(audio = false, start=true, stop=false);
+                    sendAudioVideo(false, true, false);
                 }
                 else{
-                	sendAudioVideo(audio = false, start=true, stop=false);
-                	sendAudioVideo(audio = true, start=true, stop=false); 
+                	sendAudioVideo(false, true, false);
+                	sendAudioVideo(true, true, false); 
                 }  
             }
 
@@ -1133,11 +1140,11 @@ $(function() {
         } else {
             RECORDING_FLAG = false;
             if (MEDIA_RECORDER){ 
-                sendAudioVideo(audio = false, start=false, stop=true);
+                sendAudioVideo(false, false, true);
             }
             else{ 
-            	sendAudioVideo(audio = false, start=false, stop=true);
-                sendAudioVideo(audio = true, start=false, stop=true); 
+            	sendAudioVideo(false, false, true);
+                sendAudioVideo(true, false, true); 
             }  
         }
     } 
