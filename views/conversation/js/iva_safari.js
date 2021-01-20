@@ -612,7 +612,8 @@ $(function() {
 
         $("#divDescriptionImage").addClass('hidden');
         if (questions[currentQuestionIndex].image_url !== '') {
-            $("#imgDescription").attr("src", questions[currentQuestionIndex].image_url + `?v=${new Date().getTime()}`);
+        	d = new Date().getTime();
+            $("#imgDescription").attr("src", questions[currentQuestionIndex].image_url + '?v=' + d);
             $("#divDescriptionImage").removeClass('hidden');
         }
     }
