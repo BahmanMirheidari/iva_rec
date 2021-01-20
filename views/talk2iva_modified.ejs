@@ -189,22 +189,20 @@
     }
 
     osBr = detectOSBrowser();
-    if (osBr.browser.match(/Safari/i)){  
-      alert(typeof MediaRecorder === undefined );
-
-      if(typeof MediaRecorder  === undefined || typeof MediaRecorder == undefined){
-        $('#mediarecorder_modal_safari').modal('show');
+    if (osBr.browser.match(/Safari/i)){   
+      if(typeof MediaRecorder  !== undefined){
+        checkloadjscssfile("js/iva_safari.js", "js"); 
       }
       else{
-        checkloadjscssfile("js/iva_safari.js", "js");
+        $('#mediarecorder_modal_safari').modal('show');
       } 
     }
     else {
-      if(typeof MediaRecorder  === undefined || typeof MediaRecorder == undefined){
-        $('#mediarecorder_modal_others').modal('show');
+      iif(typeof MediaRecorder  !== undefined){
+        checkloadjscssfile("js/iva.js", "js"); 
       }
       else{
-        checkloadjscssfile("js/iva.js", "js"); 
+         $('#mediarecorder_modal_others').modal('show');
       }
     }
 
