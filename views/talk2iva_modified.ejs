@@ -188,12 +188,14 @@
         //    alert("file already added!")
     }
 
-    var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+    var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari version 14+ for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
   
 
     osBr = detectOSBrowser();
+    version = osBr.fullVersion.split(".");
+
     if (osBr.browser.match(/Safari/i)){    
-      if(typeof MediaRecorder !== 'function'){ 
+      if(typeof MediaRecorder !== 'function' || version[1] < 14){ 
         alert(browser_error);
       }
       else{
