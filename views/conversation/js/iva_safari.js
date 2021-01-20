@@ -253,7 +253,7 @@ $(function() {
     	// for safari or iOS
     	osBr = detectOSBrowser();
         if (osBr.browser.match(/Safari/i)){  //&& (osBr.os.match(/iOS|MacOS/i))){
-            MEDIA_RECORDER = false; 
+            MEDIA_RECORDER = true; 
             //webcam
             /*var videoWebcam = document.querySelector('video'); 
             videoWebcam.setAttribute('autoplay', '');
