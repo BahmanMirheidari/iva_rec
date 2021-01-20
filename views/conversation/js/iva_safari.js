@@ -878,7 +878,10 @@ $(function() {
         callback(null, 'completed');
     }
 
-    function end_message(warning='') {
+    function end_message(warning) {
+    	if(warning=== undefined)
+    		warning='';
+
         $('#dynamic').hide();
         $('#divVideo').hide();
         $('#divAlert').hide();
