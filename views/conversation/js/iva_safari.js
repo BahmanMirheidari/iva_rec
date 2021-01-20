@@ -255,7 +255,7 @@ $(function() {
         if (osBr.browser.match(/Safari/i)){  //&& (osBr.os.match(/iOS|MacOS/i))){
             MEDIA_RECORDER = false; 
             //webcam
-            var videoWebcam = document.querySelector('video'); 
+            /*var videoWebcam = document.querySelector('video'); 
             videoWebcam.setAttribute('autoplay', '');
             videoWebcam.setAttribute('muted', '');
             videoWebcam.setAttribute('playsinline', '');  
@@ -263,7 +263,7 @@ $(function() {
             var audio = document.querySelector('audio'); 
             audio.setAttribute('autoplay', '');
             audio.setAttribute('muted', '');
-            audio.setAttribute('playsinline', '');   
+            audio.setAttribute('playsinline', '');   */
         }    
         
 	    if (MEDIA_RECORDER){
@@ -1099,33 +1099,36 @@ $(function() {
     function init_questions() {
         if (Object.keys(configuration.questions).length == 0) {
             init_survey();
-        } else {  
-            initialiseAudioVideo(function(e){
-            	if (e){
-                    ws.send(JSON.stringify({
-                        msg: 'error',
-                        data: {
-                            token: token,
-                            error:e
-                        } 
-                    }));
-
-            		$('#divAlert').removeClass('alert-info').addClass('alert-danger').text("Error in initialising Audio/Video recording! - "+e).removeClass("hidden");  
-            	}
-            	else{
-            		 $('#divAlert').removeClass('hidden');
-		            $('#divAlert').text('Press "Start" button to start recording ');
-
-		            $('#divQuestionNo').addClass('hidden');
-		            $('#divQuestionNo').text('');
-
-		            $('#startAvatarButton').removeClass('hidden').show(); 
-            	}  
-            });
-            //currentQuestionIndex=1;  
+        } else { 
+        	init_media();  
         }
     } 
- 
+
+    function init_media(){
+    	initialiseAudioVideo(function(e){
+	    	if (e){
+	            ws.send(JSON.stringify({
+	                msg: 'error',
+	                data: {
+	                    token: token,
+	                    error:e
+	                } 
+	            }));
+
+	    		$('#divAlert').removeClass('alert-info').addClass('alert-danger').text("Error in initialising Audio/Video recording! - "+e).removeClass("hidden");  
+	    	}
+	    	else{
+	    		 $('#divAlert').removeClass('hidden');
+	            $('#divAlert').text('Press "Start" button to start recording ');
+
+	            $('#divQuestionNo').addClass('hidden');
+	            $('#divQuestionNo').text('');
+
+	            $('#startAvatarButton').removeClass('hidden').show(); 
+	    	}  
+	    });
+	    //currentQuestionIndex=1;   
+    } 
 
     function startRecording() {
         if (currentQuestionIndex > 0 && currentQuestionIndex <= maxQuestions) { 
