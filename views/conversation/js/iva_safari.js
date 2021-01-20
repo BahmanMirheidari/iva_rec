@@ -254,10 +254,10 @@ $(function() {
         if (osBr.browser.match(/Safari/i)){  //&& (osBr.os.match(/iOS|MacOS/i))){
             MEDIA_RECORDER = false; 
             //webcam
-            /*var videoWebcam = document.querySelector('video'); 
+            var videoWebcam = document.querySelector('video'); 
             videoWebcam.setAttribute('autoplay', '');
             videoWebcam.setAttribute('muted', '');
-            videoWebcam.setAttribute('playsinline', ''); */ 
+            videoWebcam.setAttribute('playsinline', '');  
 
             var audio = document.querySelector('audio'); 
             audio.setAttribute('autoplay', '');
