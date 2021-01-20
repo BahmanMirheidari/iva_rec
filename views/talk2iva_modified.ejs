@@ -191,8 +191,8 @@
     osBr = detectOSBrowser();
     if (osBr.browser.match(/Safari/i)){  
       alert(typeof MediaRecorder);
-      
-      if(typeof MediaRecorder  === undefined || typeof MediaRecorder === null){
+
+      if(typeof MediaRecorder  === undefined || typeof MediaRecorder == undefined){
         $('#mediarecorder_modal_safari').modal('show');
       }
       else{
@@ -200,7 +200,7 @@
       } 
     }
     else {
-      if(typeof MediaRecorder  === undefined || typeof MediaRecorder === null){
+      if(typeof MediaRecorder  === undefined || typeof MediaRecorder == undefined){
         $('#mediarecorder_modal_others').modal('show');
       }
       else{
