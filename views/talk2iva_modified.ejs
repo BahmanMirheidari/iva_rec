@@ -188,13 +188,26 @@
         //    alert("file already added!")
     }
 
+    var browser_error = 'Sorry, there is an issue in initialising video/audio in your browser. Preferred browsers are the Google Chrome for Windows/Linux, and Safari for Apple devices (make sure to enable MediaRecorder --On iOS Go to Settings → Safari → Advanced → Experimental Features Enable MediaRecorder; Safari → Preferences → Advanced -- Show Develop menu in menu bar -- Develop → Experimental Features -- Enable MediaRecorder). ';
+  
+
     osBr = detectOSBrowser();
     if (osBr.browser.match(/Safari/i)){    
-        checkloadjscssfile("js/iva_safari.js", "js"); 
+      if(typeof MediaRecorder !== 'function'){ 
+        alert(browser_error);
+      }
+      else{
+        checkloadjscssfile("js/iva_safari.js", "js");  
+        }
       }
     else{ 
+      if(typeof MediaRecorder !== 'function'){ 
+        alert("MediaRecorder is not supported in your browser. Please use the latest version of Google Chrome.");
+      }
+      else{
       checkloadjscssfile("js/iva.js", "js"); 
     }  
+  }
 
   </script>
   <script type='text/javascript' src="js/RecordRTC.js"></script>
