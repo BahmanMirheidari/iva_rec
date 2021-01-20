@@ -195,7 +195,7 @@
       }
       else{
         alert("mediarecorder_modal_safari")
-        $('#mediarecorder_modal_safari').removeClass('hidden').show(); 
+        $('#mediarecorder_modal_safari').modal('show');
       } 
     }
     else {
@@ -204,7 +204,7 @@
       }
       else{
         alert("mediarecorder_modal_others")
-        $('#mediarecorder_modal_others').removeClass('hidden').show(); 
+         $('#mediarecorder_modal_others').modal('show');
       }
     }
 
@@ -231,7 +231,7 @@
     </div> 
   </div>   
 
-<div class="modal fade hidden" tabindex="-1" role="dialog" id="mediarecorder_modal_safari">
+<div class="modal fade" tabindex="-1" role="dialog" id="mediarecorder_modal_safari">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -250,7 +250,7 @@
   </div>
 </div>
 
-<div class="modal fade hidden" tabindex="-1" role="dialog" id="mediarecorder_modal_others">
+<div class="modal fade" tabindex="-1" role="dialog" id="mediarecorder_modal_others">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
