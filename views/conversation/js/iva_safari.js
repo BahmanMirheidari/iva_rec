@@ -258,12 +258,12 @@ $(function() {
             /*var videoWebcam = document.querySelector('video'); 
             videoWebcam.setAttribute('autoplay', '');
             videoWebcam.setAttribute('muted', '');
-            videoWebcam.setAttribute('playsinline', '');  
+            videoWebcam.setAttribute('playsinline', ''); */ 
 
             var audio = document.querySelector('audio'); 
             audio.setAttribute('autoplay', '');
             audio.setAttribute('muted', '');
-            audio.setAttribute('playsinline', '');   */
+            audio.setAttribute('playsinline', '');   
         }    
         
 	    if (MEDIA_RECORDER){
