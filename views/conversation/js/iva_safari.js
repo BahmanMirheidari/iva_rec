@@ -98,9 +98,8 @@ $(function() {
             } 
 		}  
     	else{
-    		if (audio) {
-                var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-	            time_diff> RECORDING_CHUNKS/2000 && stop && myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
+    		if (audio) { 
+	            stop && myAudioRecorder && myAudioRecorder.stop(function(blob_audio) {
 	                var reader = new FileReader();
 	                reader.onload = function(event) {
 	                    var data = event.target.result.toString('base64'); 
@@ -139,7 +138,7 @@ $(function() {
 	            
 	        } else {
 	            var time_diff = (new Date().getTime() - startDate.getTime()) / 1000; 
-                time_diff> RECORDING_CHUNKS/2000 && stop && mediaRecorder && mediaRecorder.stop(function(blob_video) {  
+                stop && mediaRecorder && mediaRecorder.stop(function(blob_video) {  
 	                var reader = new FileReader();
 	                reader.onload = function(event) {
 	                    var data = event.target.result.toString('base64'); 
@@ -253,7 +252,7 @@ $(function() {
     	// for safari or iOS
     	osBr = detectOSBrowser();
         if (osBr.browser.match(/Safari/i)){  //&& (osBr.os.match(/iOS|MacOS/i))){
-            MEDIA_RECORDER = true; 
+            MEDIA_RECORDER = false; 
             //webcam
             /*var videoWebcam = document.querySelector('video'); 
             videoWebcam.setAttribute('autoplay', '');
