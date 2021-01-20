@@ -229,48 +229,34 @@
         <button type="button" class="btn-lg btn-primary hidden" style="width: 40%;margin-left:5%" id="nextMessageButton" name="nextMessageButton">Next</button>  
       </div>  
     </div> 
-  </div>    
+  </div>   
 
   <!-- Modal -->
-  <div class="modal fade" id="mediarecorder_modal_safari" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">MediaRecorder is not supported</h4>
-        </div>
-        <div class="modal-body">
-          <p>MediaRecorder is not enabled in your Safari browser. Go to Safari Preferences, Advanced and first tick "Show Develop menu in menu bar". Then go to Develop, Experimental Features and enable MediaRecorder. For more information see https://www.educative.io/edpresso/how-to-enable-the-mediarecorder-api-for-safari</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="mediarecorder_modal_safari" aria-hidden="true">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">MediaRecorder is not supported</h3>
       </div>
-      
-    </div>
+      <div class="modal-body">
+          <p>MediaRecorder is not enabled in your Safari browser. Go to Safari Preferences, Advanced and first tick "Show Develop menu in menu bar". Then go to Develop, Experimental Features and enable MediaRecorder. For more information see https://www.educative.io/edpresso/how-to-enable-the-mediarecorder-api-for-safari.</p>
+      </div>
+      <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button> 
+      </div>
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="mediarecorder_modal_others" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">MediaRecorder is not supported</h4>
-        </div>
-        <div class="modal-body">
-          <p>MediaRecorder is not enabled in your Browser. Please use the latest Google Chrome browser.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="mediarecorder_modal_others" aria-hidden="true">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">MediaRecorder is not supported</h3>
       </div>
-      
-    </div>
+      <div class="modal-body">
+          <p>MediaRecorder is not enabled in your Browser. Please use the latest Google Chrome browser.</p>
+      </div>
+      <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button> 
+      </div>
   </div> 
 
   <div id="hidden_audio" style="display:none">
