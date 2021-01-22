@@ -292,57 +292,7 @@ app.get('/conversation', ensureAuthenticated, (req, res) => {
             user: req.user
         });
 });
-
-/*
-app.get('/conversation_modified', ensureAuthenticated, (req, res) => {
-    if (req.user === undefined)
-        res.redirect('/login');
-    else
-        res.render('talk2iva_modified.ejs', {
-            title: config.welcome_message + ' | Conversation',
-            message: '',
-            user: req.user
-        });
-});
-
-app.get('/getvideo/:id', ensureIsClinician, (req, res) => {
-    let movieFile = __dirname + "/uploads/" + req.params.id;
-    logger.info('/getvideo/ ' + movieFile);
-    const stat = fs.statSync(movieFile)
-    const fileSize = stat.size
-    const range = req.headers.range
-
-    if (range) {
-        const parts = range.replace(/bytes=/, "").split("-")
-        const start = parseInt(parts[0], 10)
-        const end = parts[1] ?
-            parseInt(parts[1], 10) :
-            fileSize - 1
-
-        const chunksize = (end - start) + 1
-        const file = fs.createReadStream(movieFile, {
-            start,
-            end
-        })
-        const head = {
-            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-            'Accept-Ranges': 'bytes',
-            'Content-Length': chunksize,
-            'Content-Type': 'video/mp4',
-        }
-
-        res.writeHead(206, head)
-        file.pipe(res)
-    } else {
-        const head = {
-            'Content-Length': fileSize,
-            'Content-Type': 'video/mp4',
-        }
-        res.writeHead(200, head)
-        fs.createReadStream(movieFile).pipe(res)
-    }
-});*/
-
+ 
 function ensureIsAdmin(req, res, next) {
     if (req.isAuthenticated() && req.session.authorised && req.session.role === 'admin') {
         return next();
