@@ -924,10 +924,10 @@ $(function() {
             }
 
             set_survey(function(err, msg) {
-                $("#dynamic_header").empty().append(html_header('H1', 'Questionnaire ' + questionnaire.toString(), '400'));
-                $("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title, '300'));
-                $("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment, '300'));
-                $("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q, '300'));
+                $("#dynamic_header").empty().append(html_header('H1', 'Questionnaire ' + questionnaire.toString(), '300'));
+                $("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].title, '200'));
+                $("#dynamic_header").append(html_header('H2', configuration.surveys[surveyIndex].comment, '200'));
+                $("#dynamic_header").append(html_header('H3', configuration.surveys[surveyIndex].main_q, '200'));
                 $('#dynamic_header').addClass('bg-info text-white');
                 $('#dynamic').removeClass('hidden').show();
                 $('#backSurveyButton').removeClass('hidden').show();
