@@ -867,7 +867,7 @@ $(function() {
             idx = cur_question.answers.values.indexOf(answer);
         }
         var id = "answer_survey_" + (surveyIndex).toString() + '-' + cur_question.q_no.toString();
-        $("#dynamic_body").empty().append(html_radio(id, cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") " + cur_question.text, cur_question.answers.values, idx));
+        $("#dynamic_body").empty().append(html_radio(id, cur_question.q_no.toString() + "/" + response.surveys[surveyIndex].questions_length.toString() + ") " + cur_question.text, cur_question.answers.values, 200, idx));
 
         var script = document.createElement('script');
         document.head.appendChild(script);
