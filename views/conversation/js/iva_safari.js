@@ -731,7 +731,7 @@ $(function() {
 
     function html_radio(id, text, options, font_size, idx) {
     	if (font_size === undefined)
-    		font_size = "200";
+    		font_size = "300";
 
     	if (idx === undefined)
     		idx = -1;
