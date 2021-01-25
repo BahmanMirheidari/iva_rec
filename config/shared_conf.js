@@ -1169,7 +1169,7 @@ module.exports = {
         {
             'q_no':15,
             'text':'THANK YOU FOR TAKING PART THE TRIAL IS NOW OVER',
-            'length':4000,
+            'length':300,
             'video_url':'mp4/iva.4/Q14.mp4',
             'image_url':'',
             'show_text':false, 

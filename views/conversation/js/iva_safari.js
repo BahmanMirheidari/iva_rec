@@ -898,11 +898,11 @@ $(function() {
         $('#divExtraMessage').hide();  
         
         if (warning === ''){
-            $('#divMessage').text(endingMessage);
+        	$("#divMessage").empty().append(html_header('H2', endingMessage, '300'));   
         }
         else{
             $('#divMessage').addClass('alert-danger');
-            $('#divMessage').text(warning); 
+            $("#divMessage").empty().append(html_header('H2', warning, '300'));  
         } 
 
         setTimeout(function() {

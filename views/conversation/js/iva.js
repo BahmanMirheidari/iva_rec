@@ -604,7 +604,8 @@ $(function(){
     function end_message(time_out=true){
     	$('#dynamic').hide();
     	$('#divPar').removeClass('hidden').show();  
-		$('#divMessage').text(endingMessage); 
+		$("#divMessage").empty().append(html_header('H2', endingMessage, '300')); 
+
 		if(time_out){
 			setTimeout(function(){
 			window.location = logoutUrl;
