@@ -30,7 +30,7 @@ $(function(){
 	var pre_surveyIndex=0;
 	var questionnaire=1;
 	var dynamic='pre_survey';
-	var endingMessage="Thank you. The END."; 
+	var endingMessage="This is the end of the study. Many thanks for taking part."; 
 	var logoutUrl="/logout"
 	var logoutTimeout=5000;
 	var browser;
