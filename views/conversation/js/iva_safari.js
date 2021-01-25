@@ -729,11 +729,14 @@ $(function() {
         return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" style="font-size: ' + font_size + '%;" >';
     }
 
-    function html_radio(id, text, options, idx) {
+    function html_radio(id, text, options, font_size, idx) {
+    	if (font_size === undefined)
+    		font_size = "200";
+
     	if (idx === undefined)
     		idx = -1;
 
-        html = html_header("H4", text);
+        html = html_header("H4", text, font_size);
         for (i = 0; i < options.length; i++) {
             indexed_id = id + '_' + (i + 1).toString();
             var checked = '';

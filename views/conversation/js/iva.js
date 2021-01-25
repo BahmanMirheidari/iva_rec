@@ -466,8 +466,8 @@ $(function(){
     	return html_header("H4", text) + '<input type="textbox" id="txt_' + id + '" style="font-size: ' + font_size + '%;" >';  
     }
 
-    function html_radio(id,text,options,idx=-1){
-    	html = html_header("H4", text);  
+    function html_radio(id,text,options,font_size="200",idx=-1){
+    	html = html_header("H4", text,font_size);  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
     		var checked = '';
