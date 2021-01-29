@@ -241,8 +241,8 @@ app.get('/login', function(req, res) {
     res.render('login2.ejs', {
         title: config.welcome_message + ' | Conversation',
         message: '',
-        username: req.query.uname,
-        password: req.query.pass; 
+        username: req.query.uname !== undefined ? req.query.uname: '',
+        password: req.query.pass !== undefined ? req.query.pass: '' 
     });
 });
 
