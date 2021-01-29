@@ -152,8 +152,9 @@ app.use( fileUpload()); // configure fileupload
 app.use( cookieParser()); 
 app.use( bodyParser.json());
 app.use( bodyParser.urlencoded({
-  extended: true
+  extended: false
 }));
+
 
 // global variables
 app.use(function (req, res, next) {
@@ -201,8 +202,10 @@ app.get('/verifyrole', getrole);
 app.post('/auth', auth);
 app.get('/login', function(req, res){ 
   res.render('login.ejs', {
-        title: config.welcome_message + ' | Conversation'
-        ,message: ''
+        title: config.welcome_message + ' | Conversation',
+        message: '',
+        username: req.query.uname !== undefined ? req.query.uname: '',
+        password: req.query.pass !== undefined ? req.query.pass: '' 
     }); 
 }); 
 
