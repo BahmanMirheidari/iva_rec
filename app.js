@@ -187,8 +187,9 @@ app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }));
+app.use(bodyParser.json());
 
 // global variables
 app.use(function(req, res, next) {
@@ -239,7 +240,9 @@ app.post('/auth', auth2);
 app.get('/login', function(req, res) {
     res.render('login2.ejs', {
         title: config.welcome_message + ' | Conversation',
-        message: ''
+        message: '',
+        username: req.query.uname,
+        password: req.query.pass; 
     });
 });
 
