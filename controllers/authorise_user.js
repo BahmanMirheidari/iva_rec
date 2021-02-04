@@ -35,12 +35,12 @@ module.exports = {
               } 
               else{
                 //res.redirect('/logout');
-                res.render('login', { message: 'Invalid username/password!' });
+                res.render('login', { message: 'Invalid username/password!', username:req.body.username, password:req.body.password });
               }
           } 
           catch(err){
             //res.redirect('/logout');
-            res.render('login', { message: 'Invalid username/password!' });
+            res.render('login', { message: 'Invalid username/password!', username:req.body.username, password:req.body.password });
           }  
         }); 
       }
@@ -76,18 +76,18 @@ module.exports = {
               } 
               else{
                 //res.redirect('/logout');
-                res.render('login', { message: 'Invalid username/password!' });
+                res.render('login', { message: 'Invalid username/password!', username:req.body.username, password:req.body.password });
               }
           } 
           catch(err){
             //res.redirect('/logout');
-            res.render('login', { message: 'Invalid username/password!' });
+            res.render('login', { message: 'Invalid username/password!', username:req.body.username, password:req.body.password });
           }  
         }); 
       }
       catch(err){
         //res.redirect('/logout');
-        res.render('error', { message: err });
+        res.render('error', { message: err, username:req.body.username, password:req.body.password  });
       }  
     },
     getrole: (req, res) => {
@@ -141,7 +141,7 @@ module.exports = {
                         res.redirect('/conversation'); 
                     }
                     catch(err){ 
-                        res.render('login', { message: 'Cannot perform oAUTH using email:' + shared.safeString(req.user.email) });
+                        res.render('login', { message: 'Cannot perform oAUTH using email:' + shared.safeString(req.user.email), username:'', password:''});
 
                     }
                 }); 
@@ -150,7 +150,7 @@ module.exports = {
       }
       catch(err){
         //res.redirect('/logout');
-        res.render('error', { message: err });
+        res.render('error', { message: err, username:'', password:''});
       }  
     } 
 };
