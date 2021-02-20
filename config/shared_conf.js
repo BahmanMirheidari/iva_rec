@@ -1572,7 +1572,7 @@ module.exports = {
     'survey_phq8':{
         'id':3,
         'comment':'Could you complete the questionnaire related to your mental wellbeing.',
-        'title':'Patient Health Questionnaire (PHQ-8)',
+        'title':'Patient Health Questionnaire (PHQ-9)',
         'main_q':'Over the last two weeks, how often have you been bothered by any of the following problems?',
         'questions': [
             {
@@ -1634,6 +1634,14 @@ module.exports = {
             { 
                 'q_no':8,
                 'text':'Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?',
+                'answers':{
+                    'type':'options',
+                    'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
+                }
+            },
+            { 
+                'q_no':9,
+                'text':'Thoughts that you would be better off dead or of hurting yourself in some way',
                 'answers':{
                     'type':'options',
                     'values':['Not at all','Several days', 'More than half the days', 'Nearly every day']
