@@ -981,7 +981,7 @@ $(function(){
                     }));   
                 } 
             });   
-
+            /*
             if (osBr.browser.match(/Safari/i)){
             	$("#startAvatarButton").hide();
             	$("#divAlert").hide();
@@ -989,7 +989,7 @@ $(function(){
 
             	endingMessage='Sorry, the system cannot support the Safari browser. Please use the Google Chrome browser.';
             	end_message(false); 
-            }
+            }*/
          };
          ws.onerror = function (evt) {  
             $('#divAlert').removeClass('alert-danger').addClass('alert-info').text("WebSocket error:" + evt.data).removeClass("hidden");
