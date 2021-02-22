@@ -25,7 +25,7 @@ $(function() {
     var response = {};
     var questions = configuration.questions;
     var maxQuestions = questions.length - 1;
-    var startQuestionIndex = 0; // ****** CHANGE THIS TO 0
+    var startQuestionIndex = 12; // ****** CHANGE THIS TO 0
     var surveyIndex = 0;
     var pre_surveyIndex = 0;
     var questionnaire = 1;
@@ -714,7 +714,7 @@ $(function() {
     }
 
     function html_radio(id, text, options, font_size = "300", idx = -1) {
-        html = html_header("H4", text, font_size);
+        html = html_header("H4", text, "200");
         for (i = 0; i < options.length; i++) {
             indexed_id = id + '_' + (i + 1).toString();
             var checked = '';

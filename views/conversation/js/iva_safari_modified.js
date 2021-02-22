@@ -467,7 +467,7 @@ $(function(){
     }
 
     function html_radio(id,text,options,font_size="300",idx=-1){
-    	html = html_header("H4", text,font_size);  
+    	html = html_header("H4", text,"200");  
     	for (i=0;i<options.length;i++){ 
     		indexed_id = id + '_' + (i+1).toString(); 
     		var checked = '';
