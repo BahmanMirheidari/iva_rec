@@ -54,6 +54,7 @@ module.exports = {
     'paths': { 
         'cert_file_path'   : '/etc/pki/tls/certs/digital-doctor_shef_ac_uk.crt', 
         'key_file_path'    : '/etc/pki/tls/private/digital-doctor.key',
+        'ca_file_path'    : '/etc/pki/tls/certs/QuoVadisOVIntermediateCertificate.crt',
 	    'ffmpeg_path'      : '/usr/bin/ffmpeg'   //'/usr/bin/ffmpeg'    '/Applications/ffmpeg/bin/ffmpeg'
     },
     'jquery': 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', 
