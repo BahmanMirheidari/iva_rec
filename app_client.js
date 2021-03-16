@@ -238,8 +238,13 @@ function ensureAuthenticated(req, res, next) {
 }
   
 var https = ( config.ssl ) ? require('https') : require('http'); 
-var httpsServer = ( config.ssl ) ? https.createServer({key: fs.readFileSync(config.paths.key_file_path, 'utf8'), cert: fs.readFileSync(config.paths.cert_file_path, 'utf8')}, app) : httpsServer = https.createServer(app);
- 
+var httpsServer = (config.ssl) ? https.createServer({
+    key: fs.readFileSync(config.paths.key_file_path, 'utf8'),
+    cert: fs.readFileSync(config.paths.cert_file_path, 'utf8'),
+    requestCert: true,
+    ca: fs.readFileSync(config.paths.ca_file_path, 'utf8'),
+    rejectUnauthorized: false 
+}, app) : httpsServer = https.createServer(app); 
 //*********** listen to port ************** //
 httpsServer.listen(config.port2);
 
